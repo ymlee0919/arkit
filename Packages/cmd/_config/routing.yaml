@@ -1,0 +1,34 @@
+cmd.dashboard:
+  url: '/cmd/dashboard'
+  callback: 'dashboard.controller.dashboard/DashBoard::Show'
+  method: 'GET'
+
+cmd.model:
+  url: '/cmd/model'
+  callback: 'model.controller.model/ModelController::ShowCreationPage'
+  method: 'GET'
+
+cmd.create-model:
+  url: '/cmd/model/create-model'
+  callback: 'model.controller.model/ModelController::CreateModel'
+  method: 'POST'
+
+cmd.create-module:
+  url: '/cmd/model/create-module'
+  callback: 'model.controller.model/ModelController::CreateModule'
+  method: 'POST'
+
+cmd.create-entity:
+  url: '/cmd/model/create-entity'
+  callback: 'model.controller.model/ModelController::CreateEntity'
+  method: 'POST'
+
+cmd.routing:
+  url: '/cmd/routing'
+  callback: 'routing.controller.routing/CmdRouting::ShowRoutingPage'
+  method: 'GET'
+
+cmd.routing.structure:
+  url: '/cmd/routing/create-structure'
+  callback: 'routing.controller.routing/CmdRouting::CreateStructure'
+  method: 'POST'

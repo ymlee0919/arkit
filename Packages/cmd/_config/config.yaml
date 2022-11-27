@@ -1,0 +1,13 @@
+# URL ---------------------------------------
+url:
+  max_post_params: 64
+  max_post_size: 2048
+  max_post_param_name: 32
+
+# Model to load -----------------------------
+#model:
+##autoload: SutPrint
+
+# Firewall -----------------------------
+firewall: _base.controller.Firewall
+
