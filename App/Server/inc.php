@@ -3,25 +3,32 @@ define('DEBUG_MODE', 'DEBUG');
 define('TESTING_MODE', 'TESTING');
 define('RELEASE_MODE', 'RELEASE');
 
-//define('RUN_MODE', DEBUG_MODE);
-define('RUN_MODE', TESTING_MODE);
+define('RUN_MODE', DEBUG_MODE);
+//define('RUN_MODE', TESTING_MODE);
+//define('RUN_MODE', RELEASE_MODE);
 
 switch(RUN_MODE)
 {
 	case RELEASE_MODE:
+		ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 		ini_set('display_errors', 'Off');
+		ini_set('log_errors', true);
 		ini_set('output_buffering', '4096');
 		ini_set('implicit_flush', 'Off');
 		break;
 
 	case TESTING_MODE:
+        ini_set('error_reporting', E_ALL & ~E_STRICT);
+        ini_set('log_errors', true);
 		ini_set('display_errors', 'On');
 		ini_set('output_buffering', '4096');
 		ini_set('implicit_flush', 'Off');
 		break;
 
 	case DEBUG_MODE:
-		ini_set('display_errors', 'On');
+        ini_set('error_reporting', E_ALL & ~E_STRICT);
+        ini_set('display_errors', 'On');
+        ini_set('log_errors', false);
 		ini_set('output_buffering', 'Off');
 		ini_set('implicit_flush', 'On');
 		break;
@@ -32,78 +39,37 @@ switch(RUN_MODE)
 //          IMPORT
 //---------------------------------------------------------------------------------------------------
 
-
 /**
+ * @param ?string $className
  * @param string $lib
  * @param bool $include
  * @return bool
- * @throws Exception
  */
-function import(string $lib, bool $include = false) : bool
+function import(?string $className, string $lib, bool $include = false) : bool
 {
-    if(!str_contains($lib, '.'))
-        throw new Exception('Invalid library <' . $lib .'>');
+    if(!is_null($className))
+        if(class_exists($className))
+            return true;
 
-    //$_folder = dirname(dirname(dirname(__FILE__)));
-    $_folder = getcwd();
+    // Go to root folder
+    $folder = dirname(__FILE__, 3);
 
+    // Explode by dot
 	$tokens = explode('.', $lib);
-	
-	$_file = array_pop($tokens);
-	$_folder = $_folder . '/' . implode('/', $tokens);
+    // The last token is the file
+	$file = array_pop($tokens);
+    // Build the folder
+	$folder = $folder . '/' . implode('/', $tokens);
+    // Check the folder exists
+    if(!is_dir($folder)) return false;
+    // Build full file path
+    $file = $folder.'/'.$file.'.php';
+    if(false === is_file($file)) return false;
 
-    if($_file == '*')
-    {
-        if(false === is_dir($_folder))
-			return false;
-        if ($hDir = opendir($_folder))
-		{
-            while (false !== ($entry = readdir($hDir)))
-			{
-                if ($entry != '.' && $entry != '..' && strtolower(substr($entry, -4)) == ".php" )
-				{
-					$file = $_folder.'/'.$entry;
-                    if(is_file($file))
-                    {
-                        if(!$include) require $file;
-						else include $file;
-                    }
-                }
-            }
-            closedir($hDir);
-        }
-    }
-    else
-    {
-		$file = $_folder.'/'.$_file.'.php';
-        if(false === is_file($file))
-			return false;
-        else
-		{
-			if(!$include) require $file;
-			else include $file;
-		}
-    }
+    if(!$include) require $file;
+    else include $file;
 
     return true;
-}
-
-/**
- * @param string $filePath
- * @return string
- */
-function file_type(string $filePath) : string
-{
-    return substr($filePath, strrpos($filePath, '.') + 1);
-}
-
-/**
- * @param string $seed
- * @return string
- */
-function generate_random_filename(string $seed) : string
-{
-    return substr(md5( $seed . date("Y-m-d:H.i.s") . session_id() ), 0, 5) . date("YmdHis");
 }
 
 /**

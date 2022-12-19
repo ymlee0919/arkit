@@ -1,5 +1,0 @@
-### - Router for the 'Pk' package
-rulerId:
-  url: '/url'
-  callback: 'model.controller.file/Class::Function'
-  method: 'GET or POST'

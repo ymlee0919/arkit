@@ -56,10 +56,16 @@ class Session
 	* Set a session var
 	* @param string $key Key
 	* @param mixed $value Value to store
+	* @param bool $isFlash Is a flash session field.
+	 * Set a var session like flash, they will persist until the next call, then
+	 * they will be deleted
 	*/
-	public static function set(string $key, mixed $value) : void
+	public static function set(string $key, mixed $value, bool $isFlash = false) : void
 	{
 		$_SESSION[$key] = $value;
+
+		if($isFlash)
+			$_SESSION['__VARS'][$key] = '_NEW';
 	}
 	
 	/**
@@ -71,18 +77,6 @@ class Session
 		if(isset($_SESSION[$key])) unset($_SESSION[$key]);
 		if(isset($_SESSION['__VARS'][$key])) unset($_SESSION['__VARS'][$key]);
 	}
-
-	/**
-	* Set a var session like flash, they will persist until the next call, then
-	* they will be deleted
-	* @param string $key Key
-	* @param mixed $value Value to store
-	*/
-    public static function set_flash(string $key, mixed $value) : void
-    {
-        $_SESSION[$key] = $value;
-        $_SESSION['__VARS'][$key] = '_NEW';
-    }
     
     /**
 	* Make a stored var as flash
@@ -112,7 +106,6 @@ class Session
 		}
 		return null;
 	}
-
 
     /**
      * @param bool $removeOld

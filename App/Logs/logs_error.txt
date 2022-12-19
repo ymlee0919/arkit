@@ -1,1 +1,110 @@
 ## Logs Error file
+[15-12-2022 12:49:08] GET :: / FROM: 127.0.0.1
+0: Too few arguments to function handleServerError(), 4 passed and exactly 5 expected on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Error\ErrorHandler.php, line 278
+----------------------------------------------------------------------
+[15-12-2022 12:52:22] GET :: / FROM: 127.0.0.1
+0: ErrorHandler::buildErrorPage(): Argument #1 ($type) must be of type int, string given, called in D:\Development\Web\PHP8\Arkit1.2\App\Server\Error\ErrorHandler.php on line 116 on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Error\ErrorHandler.php, line 188
+----------------------------------------------------------------------
+[15-12-2022 12:53:26] GET :: / FROM: 127.0.0.1
+Warning: fopen(D:\Development\Web\PHP8\Arkit1.2/resources/cache/_cache.e1403d57675f26ca2f2e126df6c4f848.cache): Failed to open stream: No such file or directory on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Cache\FileCache.php, line 21
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Cache\FileCache.php, line 21 :: fopen
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 268 :: FileCache->set
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 147 :: App::getRouter
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 12:55:28] GET :: / FROM: 127.0.0.1
+Warning: fopen(D:\Development\Web\PHP8\Arkit1.2/resources/cache/_cache.e1403d57675f26ca2f2e126df6c4f848.cache): Failed to open stream: No such file or directory on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Cache\FileCache.php, line 21
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Cache\FileCache.php, line 21 :: fopen
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 268 :: FileCache->set
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 147 :: App::getRouter
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:02:11] GET :: / FROM: 127.0.0.1
+Warning: Undefined array key "rules" on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 144
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 225 :: RoutingTree->getRoutingRules
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 148 :: Router->route
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:06:43] GET :: / FROM: 127.0.0.1
+Warning: Undefined array key "rules" on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 144
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 225 :: RoutingTree->getRoutingRules
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 148 :: Router->route
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:09:34] GET :: / FROM: 127.0.0.1
+Warning: Undefined array key "rules" on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 144
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 225 :: RoutingTree->getRoutingRules
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 148 :: Router->route
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:30:17] GET :: /models FROM: 127.0.0.1
+Warning: dir(D:\Development\Web\PHP8\Arkit1.2/Model): The system cannot find the file specifi (code: 2) on file D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 11
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 11 :: dir
+# (NO FILE), line (NO LINE) :: Models->ShowModels
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:34:43] GET :: /models FROM: 127.0.0.1
+Warning: dir(D:\Development\Web\PHP8\Arkit1.2/Model): The system cannot find the file specifi (code: 2) on file D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 11
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 11 :: dir
+# (NO FILE), line (NO LINE) :: Models->ShowModels
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:36:12] GET :: /models/new FROM: 127.0.0.1
+0: Cannot assign array to property Crypt::$table of type string on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Security\Crypt.php, line 72
+----------------------------------------------------------------------
+[15-12-2022 13:36:54] GET :: /models/new FROM: 127.0.0.1
+Warning: Undefined array key "date" on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Form\FormValidator.php, line 133
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 322 :: FormValidator->__construct
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 34 :: App::loadFormValidator
+# (NO FILE), line (NO LINE) :: Models->NewModel
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:41:12] POST :: /models/add FROM: 127.0.0.1
+0: Call to undefined method Request::PostAll() on file D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 45
+----------------------------------------------------------------------
+[15-12-2022 13:48:20] POST :: /models/add FROM: 127.0.0.1
+Warning: mkdir(): No such file or directory on file D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 75
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 75 :: mkdir
+# (NO FILE), line (NO LINE) :: Models->Add
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:52:33] POST :: /models/add FROM: 127.0.0.1
+Warning: Undefined array key "/models" on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 328
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Output.php, line 314 :: Router->buildUrl
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 141 :: Output->redirectTo
+# (NO FILE), line (NO LINE) :: Models->Add
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 13:54:36] POST :: /models/add FROM: 127.0.0.1
+Warning: mkdir(): File exists on file D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 84
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\models\controller\models.php, line 84 :: mkdir
+# (NO FILE), line (NO LINE) :: Models->Add
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[15-12-2022 14:13:32] POST :: /app-systems/add FROM: 127.0.0.1
+Warning: Undefined array key "/app-systems" on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Router.php, line 328
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Output.php, line 314 :: Router->buildUrl
+# D:\Development\Web\PHP8\Arkit1.2\Systems\cmd\systems\controller\systems.php, line 70 :: Output->redirectTo
+# (NO FILE), line (NO LINE) :: Systems->Add
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 237 :: ReflectionMethod->invoke
+# D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 157 :: App->invoke
+# D:\Development\Web\PHP8\Arkit1.2\index.php, line 13 :: App->dispatch
+----------------------------------------------------------------------
+[17-12-2022 00:01:53] GET :: / FROM: 127.0.0.1
+0: Class "DomainRouter" not found on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 127
+----------------------------------------------------------------------
+[17-12-2022 00:02:24] GET :: / FROM: 127.0.0.1
+0: App::getRouter(): Argument #1 ($path) must be of type string, null given, called in D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php on line 139 on file D:\Development\Web\PHP8\Arkit1.2\App\Server\Core\Application.php, line 242
+----------------------------------------------------------------------

@@ -226,7 +226,7 @@ class InstalledVersions
 
     /**
      * @param  string      $packageName
-     * @return string|null If the package is being replaced or provided but is not really installed, null will be returned as install path. Packages of type metapackages also have a null install path.
+     * @return string|null If the package is being replaced or provided but is not really installed, null will be returned as install path. Systems of type metapackages also have a null install path.
      */
     public static function getInstallPath($packageName)
     {

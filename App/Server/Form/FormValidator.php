@@ -1,7 +1,7 @@
 <?php
 
-require 'FieldValidator.php';
-import('App.Server.Security.Crypt');
+import('FieldValidator','App.Server.Form.FieldValidator');
+import('Crypt','App.Server.Security.Crypt');
 
 /**
  * Class FormValidator
@@ -19,9 +19,9 @@ class FormValidator {
     private ?array $errors_hash = null;
 
     /**
-     * @var ?array
+     * @var ?Request
      */
-    private ?array $values = null;
+    private ?Request $request = null;
 
     /**
      * @var ?array
@@ -130,8 +130,8 @@ class FormValidator {
         $this->errors_hash = require $lang_file;
 
         // Load the default date format
-        $this->date_format = App::$config['date']['default_date_format'];
-        $this->datetime_format = App::$config['date']['default_datetime_format'];
+        $this->date_format = App::$config['validation']['default_date_format'];
+        $this->datetime_format = App::$config['validation']['default_datetime_format'];
 
         $this->formId = 'FROM';
     }
@@ -175,7 +175,7 @@ class FormValidator {
     {
         $this->validate($postField);
 
-        $token = App::$Request->Post($postField);
+        $token = App::$Request->getPostParam($postField);
         if(is_null($token))
             return $this->registerError('invalid_form_token');
         
@@ -206,11 +206,11 @@ class FormValidator {
     }
 
     /**
-     * @param array $values
+     * @param Request &$request
      */
-    public function checkValues(array &$values) : void
+    public function checkValues(Request &$request) : void
 	{
-		$this->values = $values;
+		$this->request = $request;
 		
 		$this->errors = array();
 		
@@ -299,8 +299,25 @@ class FormValidator {
 		$this->current['allowEmpty'] = true;
 		$this->current['emptyMessage'] = null;
 
-		if(is_null($value) && isset($this->values[$field]))
-			$this->current['value'] = &$this->values[$field];
+		if(is_null($value) && !is_null($this->request->getPostParam($field)))
+			$this->current['value'] = $this->request->getPostParam($field);
+
+        return $this;
+    }
+
+    /**
+     * @param string $fileIndex
+     * @return $this
+     */
+    public function validateFile(string $fileIndex) : self
+    {
+		$this->current['field'] = $fileIndex;
+		$this->current['alias'] = $fileIndex;
+		$this->current['value'] = $this->request->getFileParam($fileIndex);
+		$this->current['error'] = null;
+		$this->current['required'] = null;
+		$this->current['allowEmpty'] = true;
+		$this->current['emptyMessage'] = null;
 
         return $this;
     }
@@ -393,15 +410,17 @@ class FormValidator {
 
     /**
      * @param string $language
+     * @return  $this
      * @throws Exception
      */
-    public function setLanguage(string $language) : void
+    public function setLanguage(string $language) : self
     {
         $lang_file = dirname(__FILE__) . '/lang/' . $language . '.php';
         if(!is_file($lang_file))
             throw new Exception('Invalid language for from validator', 501);
 
         $this->errors_hash = require $lang_file;
+        return $this;
     }
 
     /**
@@ -434,7 +453,7 @@ class FormValidator {
     {
         if(is_null($this->intValidator))
         {
-            import('App.Server.Form.Validators.IntValidator');
+            import('IntValidator','App.Server.Form.Validators.IntValidator');
             $this->intValidator = new IntValidator($this);
         }
 
@@ -450,7 +469,7 @@ class FormValidator {
     {
         if(is_null($this->numericValidator))
         {
-            import('App.Server.Form.Validators.NumericValidator');
+            import('NumericValidator','App.Server.Form.Validators.NumericValidator');
             $this->numericValidator = new NumericValidator($this);
         }
 
@@ -466,7 +485,7 @@ class FormValidator {
     {
         if(is_null($this->booleanValidator))
         {
-            import('App.Server.Form.Validators.BoolValidator');
+            import('BoolValidator','App.Server.Form.Validators.BoolValidator');
             $this->booleanValidator = new BoolValidator($this);
         }
 
@@ -482,7 +501,7 @@ class FormValidator {
     {
         if(is_null($this->internetAddressValidator))
         {
-            import('App.Server.Form.Validators.InternetAddressValidator');
+            import('InternetAddressValidator', 'App.Server.Form.Validators.InternetAddressValidator');
             $this->internetAddressValidator = new InternetAddressValidator($this);
         }
 
@@ -498,7 +517,7 @@ class FormValidator {
     {
         if(is_null($this->personalDataValidator))
         {
-            import('App.Server.Form.Validators.PersonalDataValidator');
+            import('PersonalDataValidator', 'App.Server.Form.Validators.PersonalDataValidator');
             $this->personalDataValidator = new PersonalDataValidator($this);
         }
 
@@ -514,7 +533,7 @@ class FormValidator {
     {
         if(is_null($this->creditCardValidator))
         {
-            import('App.Server.Form.Validators.CreditCardValidator');
+            import('CreditCardValidator', 'App.Server.Form.Validators.CreditCardValidator');
             $this->creditCardValidator = new CreditCardValidator($this);
         }
 
@@ -531,7 +550,7 @@ class FormValidator {
     {
         if(is_null($this->stringValidator))
         {
-            import('App.Server.Form.Validators.StringValidator');
+            import('StringValidator', 'App.Server.Form.Validators.StringValidator');
             $this->stringValidator = new StringValidator($this);
         }
 
@@ -548,7 +567,7 @@ class FormValidator {
     {
         if(is_null($this->stringValidator))
         {
-            import('App.Server.Form.Validators.StrNumberValidator');
+            import('StrNumberValidator', 'App.Server.Form.Validators.StrNumberValidator');
             $this->strNumberValidator = new StrNumberValidator($this);
         }
 
@@ -564,7 +583,7 @@ class FormValidator {
     {
         if(is_null($this->dateTimeValidator))
         {
-            import('App.Server.Form.Validators.DateTimeValidator');
+            import('DateTimeValidator', 'App.Server.Form.Validators.DateTimeValidator');
             $this->dateTimeValidator = new DateTimeValidator($this);
         }
 
@@ -582,7 +601,7 @@ class FormValidator {
     {
         if(is_null($this->dateValidator))
         {
-            import('App.Server.Form.Validators.DateValidator');
+            import('DateValidator', 'App.Server.Form.Validators.DateValidator');
             $this->dateValidator = new DateValidator($this);
         }
 
@@ -600,7 +619,7 @@ class FormValidator {
     {
         if(is_null($this->fileValidator))
         {
-            import('App.Server.Form.Validators.FileValidator');
+            import('FileValidator', 'App.Server.Form.Validators.FileValidator');
             $this->fileValidator = new FileValidator($this, $this->current['field']);
         }
 
@@ -637,7 +656,7 @@ class FormValidator {
     {
         if(is_null($this->purifier))
         {
-            import('Libs.HtmlPurifier.autoload');
+            import('HtmlPurifier','Libs.HtmlPurifier.autoload');
             $this->purifier = new HTMLPurifier();
         }
 

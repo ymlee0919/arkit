@@ -1,16 +1,14 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 /**
  * Class Output
  */
 final class Output
 {
     /**
-     * @var ?PageTemplate
+     * @var ?Template
      */
-    private ?PageTemplate $template;
+    private ?Template $template;
 
     /**
      * @var ?string
@@ -44,7 +42,7 @@ final class Output
      */
     public function setWorkingDir(string $module) : void
 	{
-		$this->default_dir = App::fullPath( 'Packages/' . App::$store['PACKAGE'] . '/' . $module);
+		$this->default_dir = App::fullPath( 'Systems/' . App::$store['SYSTEM'] . '/' . $module);
 	}
 
     /**
@@ -63,14 +61,14 @@ final class Output
      * Throw the 404 page
      * @throws Exception
      */
-    #[NoReturn] public function throwWrongPage() : void
+    public function throwWrongPage() : void
     {
         if(!empty(App::$Model))
             App::$Model->release();
 
         // Set the package
-        if(!isset(App::$store['PACKAGE']))
-            App::$store['PACKAGE'] = 'GardenCruz';
+        if(!isset(App::$store['SYSTEM']))
+            App::$store['SYSTEM'] = 'GardenCruz';
 
         // Set the working directory
         $this->setWorkingDir('_base');
@@ -99,7 +97,7 @@ final class Output
      * @param bool $encode
      * @returns void
      */
-    public function ToHtmlEntities(string|array &$param, bool $encode = true) : void
+    public function toHtmlEntities(string|array &$param, bool $encode = true) : void
     {
         if(is_array($param))
         {
@@ -108,7 +106,7 @@ final class Output
                 if(strcmp($key, 'literal') == 0) continue;
 
                 $value = $param[$key];
-                $this->ToHtmlEntities($value, $encode);
+                $this->toHtmlEntities($value, $encode);
                 $param[$key] = $value;
             }
         }
@@ -130,14 +128,14 @@ final class Output
      */
     public function loadTemplate(string $filename, string $directory = null) : void
 	{
-		import('App.Server.View.Template');
+        import('Template','App.Server.View.Template');
 
-		$this->template = new PageTemplate((is_null($directory)) ? $this->default_dir . "/view" : $directory);
+		$this->template = new Template((is_null($directory)) ? $this->default_dir . "/view" : $directory);
 		$this->tpl_name = $filename;
 		
 		// Set the current working directory
 		$this->template->assign('CWD', App::$ROOT_DIR);
-		
+
 		$this->template->assign('URL', App::$Request->getRequestUrl());
 	}
 
@@ -170,7 +168,7 @@ final class Output
 	{
 		$value = App::readConfig($filePath);
 		if($encodeFirst)
-			$this->ToHtmlEntities($value, $toUtf8);
+			$this->toHtmlEntities($value, $toUtf8);
 
 		if(!!$this->template)
 			$this->template->assign($field, $value);
@@ -187,7 +185,9 @@ final class Output
 	{
 		if(!!$this->template)
         {
-            if($encodeFirst) $this->ToHtmlEntities($value);
+            if(!is_object($value))
+                if($encodeFirst) $this->toHtmlEntities($value, $toUtf8);
+
             $this->template->assign($field, $value);
         }
 	}
@@ -221,9 +221,9 @@ final class Output
         preg_match_all("/^([A-Za-z._-]+)\/([A-Za-z._-]+)::([A-Za-z._-]+)$/", $this->onBeforeDisplay, $items);
 
         // Items[1] : Include
-        $include = sprintf("Packages.%s.%s", App::$store['PACKAGE'], $items[1][0]);
+        $include = sprintf("Systems.%s.%s", App::$store['SYSTEM'], $items[1][0]);
         // Import the file
-        import($include);
+        import($items[1][0], $include);
 
         // Items[2] : Class
         $class = $items[2][0];
@@ -239,9 +239,9 @@ final class Output
 
 	/**
 	* Read session vars and assign them to current template
-	* @param array $list Comma separated list of session vars
+	* @param string ...$list Comma separated list of session vars
 	*/
-    public function setSessionVars(array $list) : void
+    public function setSessionVars(string ...$list) : void
     {
         $vars = func_get_args();
 
@@ -250,7 +250,7 @@ final class Output
             if(Session::is_set($var))
             {
             	$value = Session::get($var);
-            	$this->ToHtmlEntities($value, false);
+            	$this->toHtmlEntities($value, false);
                 $this->template->assign($var, $value);
 			}
 		}
@@ -296,9 +296,9 @@ final class Output
 	
 	/**
 	* Get the current template
-	* @return PageTemplate
+	* @return Template
 	*/
-	public function getTemplate() : PageTemplate
+	public function getTemplate() : Template
 	{
 		return $this->template;
 	}
@@ -308,7 +308,7 @@ final class Output
      * @param string $urlId
      * @param array|null $params
      */
-    #[NoReturn] public function redirectTo(string $urlId, ?array $params = null) : void
+    public function redirectTo(string $urlId, ?array $params = null) : void
 	{
         if(!empty(App::$Model))
             App::$Model->release();
@@ -322,7 +322,7 @@ final class Output
      * Redirect to a given URL
      * @param string $url
      */
-    #[NoReturn] public function redirectToUrl(string $url) : void
+    public function redirectToUrl(string $url) : void
 	{
         if(!empty(App::$Model))
             App::$Model->release();
@@ -344,7 +344,7 @@ final class Output
                 App::$Model->release();
 
         if($encode_first)
-            $this->ToHtmlEntities($content);
+            $this->toHtmlEntities($content);
 
         if(is_array($content))
             echo json_encode($content);

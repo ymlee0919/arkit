@@ -2,10 +2,15 @@
 
 $dir = dirname(__FILE__);
 
-require $dir . '/ConfigReader.php';
+require dirname($dir). '/Config/ConfigReader.php';
+
 require $dir . '/Output.php';
 require $dir . '/Request.php';
-require $dir . '/Router.php';
+
+require dirname($dir) . '/Routing/DomainRouter.php';
+require dirname($dir) . '/Routing/RouterInterface.php';
+require dirname($dir) . '/Routing/Router.php';
+
 require dirname($dir) . '/Error/ErrorHandler.php';
 require dirname($dir) . '/Error/LogsManager.php';
 require dirname($dir) . '/Session/SessionManager.php';
@@ -44,9 +49,9 @@ final class App {
     public static ?Output $Output = null;
 
     /**
-     * @var ?CacheEngine
+     * @var ?CacheInterface
      */
-    public static ?CacheEngine $Cache = null;
+    public static ?CacheInterface $Cache = null;
 
     /**
      * @var ?FormValidator
@@ -76,6 +81,8 @@ final class App {
         self::$config = ConfigReader::ReadFile( $app_path . '/App/Config/config.yaml' );
 
         self::$store = [];
+
+        unset($app_path);
 	}
 
     /**
@@ -95,10 +102,18 @@ final class App {
     {
         ErrorHandler::init();
 
+        // Set time zone
+        date_default_timezone_set(self::$config['env']['time_zone']);
+
+        // Load cache
         $cacheClass = self::$config['cache']['class'];
-        import('App.Server.Cache.' . $cacheClass);
-        self::$Cache = new $cacheClass();
+        import($cacheClass,'App.Server.Cache.' . $cacheClass);
+        self::$Cache = new $cacheClass(self::$config['cache']);
+
+        // Load output
         self::$Output = new Output();
+
+        unset($cacheClass);
     }
 
     /**
@@ -110,56 +125,45 @@ final class App {
     {
         self::$Request = $request;
 
-        $valid = $request->process();
+        // Process the request
+        $request->preProcess();
 
-        if(!$valid) self::$Output->throwWrongPage();
-
-        // Find the router by the domain
-        $domain = $request->getRequestedDomain();
-
-        if(!isset(self::$config['routing'][$domain]))
+        // If not valid after a primary processing, throw a wrong page
+        if(!$request->isValid())
             self::$Output->throwWrongPage();
 
-        $router = self::$config['routing'][$domain];
-        if(is_array($router))
-        {
-            if(!$request->isEmptyUrl())
-            {
-                $item = $request->getUrlLevel(1);
-                if(!isset($router[$item])) self::$Output->throwWrongPage();
-                $router = $router[$item];
-            }
-            else
-                $router = $router['_empty'];
-        }
+        $domainConfig = self::readConfig(self::fullPath('App/Config/routing.yaml'));
+        $domainRouter = new DomainRouter($domainConfig);
 
-        // Get the package
-        $tokens = explode('/', $router);
-        self::$store['PACKAGE'] = $tokens[0];
+        $routerPath = $domainRouter->route($request);
+        if(!$routerPath)
+            self::$Output->throwWrongPage();
+
+        // Get the system
+        self::$store['SYSTEM'] = explode('/', $routerPath)[0];
 
         // Get the router
-        self::$Router = self::getRouter($router);
-        $result = self::$Router->route($request->getRequestUrl(), $request->getRequestMethod());
+        self::$Router = self::getRouter($routerPath);
+        $routing = self::$Router->route($request->getRequestUrl(), $request->getRequestMethod());
 
-        if(!$result)
+        if(is_null($routing))
             self::$Output->throwWrongPage();
 
         // Store the routing result
-        self::$store['ROUTING'] = $result;
+        self::$store['ROUTING'] = $routing;
 
         // Execute the callback of the routing action
-        $this->invoke($result['callback'], $result['parameters']);
+        $this->invoke($routing);
     }
 
     /**
-     * @param string $callback
-     * @param array $parameters
+     * @param RoutingCallback $routingCallback
      * @throws Exception
      */
-    private function invoke(string &$callback, array &$parameters) : void
+    private function invoke(RoutingCallback &$routingCallback) : void
 	{
         // Load the config for the package
-        $configFile = self::$ROOT_DIR . '/Packages/' . self::$store['PACKAGE'] . '/_config/config.yaml';
+        $configFile = self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . '/_config/config.yaml';
         if(is_file($configFile))
         {
             $pkConfig = self::readConfig($configFile);
@@ -167,18 +171,24 @@ final class App {
             unset($pkConfig);
         }
 
+        // Validate the request given the new configuration
+        $valid = self::$Request->validate(self::$config['url']);
+        if(!$valid)
+            self::$Output->throwWrongPage();
+
         // Execute firewall first, if it is set
         if(isset(self::$config['firewall']))
         {
-            import(sprintf("Packages.%s.%s", self::$store['PACKAGE'], self::$config['firewall']));
+            import('Firewall', sprintf("Systems.%s.%s", self::$store['SYSTEM'], self::$config['firewall']));
             if(!Firewall::Process())
                 die('<h1>Forbidden Access !!!!</h1>');
         }
 
-        if(isset(self::$config['model']))
+        // Load the model
+        if(isset(self::$config['model']) && isset(self::$config['model']['autoload']))
         {
             $model = self::$config['model']['autoload'];
-            import('Model.' . $model . '.' . $model);
+            import($model, 'Model.' . $model . '.' . $model);
 
             $model = $model . '\\' . $model;
             self::$Model = $model::getInstance();
@@ -190,19 +200,19 @@ final class App {
         // Load the form validator if the request is not GET
         if( 'GET' != strtoupper(self::$Request->getRequestMethod())  )
         {
-            import('App.Server.Form.FormValidator');
+            import('FormValidator','App.Server.Form.FormValidator');
             self::$Form = new FormValidator();
-            self::$Request->processPost();
+            self::$Request->processPost(self::$config['url']);
         }
 
         // Load the controller class
         $items = array();
-        preg_match_all("/^([A-Za-z._-]+)\/([A-Za-z._-]+)::([A-Za-z._-]+)$/", $callback, $items);
+        preg_match_all("/^([A-Za-z._-]+)\/([A-Za-z._-]+)::([A-Za-z._-]+)$/", $routingCallback->getCallback(), $items);
 
         // Items[1] : Include
-        $include = sprintf("Packages.%s.%s", self::$store['PACKAGE'], $items[1][0]);
+        $include = sprintf("Systems.%s.%s", self::$store['SYSTEM'], $items[1][0]);
         // Import the file
-        import($include);
+        import($items[1][0], $include);
 
         // Items[2] : Class
         $class = $items[2][0];
@@ -225,8 +235,8 @@ final class App {
 
         // Call the methods
         $ref_method = new ReflectionMethod($class, $method);
-        if(count($parameters) > 0)
-            $ref_method->invokeArgs($controller, array_values($parameters));
+        if($routingCallback->haveParameters())
+            $ref_method->invokeArgs($controller, array_values($routingCallback->getParameters()));
         else
             $ref_method->invoke($controller);
 	}
@@ -239,7 +249,7 @@ final class App {
     public static function getRouter(string &$path) : ?Router
 	{
 		$router = null;
-        $full_path = self::$ROOT_DIR . '/Packages/' . $path;
+        $full_path = self::$ROOT_DIR . '/Systems/' . $path;
         $md5 = md5_file($full_path);
 
         if(self::$Cache->isEnable())
@@ -261,6 +271,8 @@ final class App {
 
                 self::$Cache->set($key, $router);
             }
+
+            unset($key);
         }
         else
         {
@@ -288,9 +300,9 @@ final class App {
      * @param string $relPath
      * @return string
      */
-    public static function fullPathFromPackage(string $relPath) : string
+    public static function fullPathFromSystem(string $relPath) : string
     {
-        return self::$ROOT_DIR . '/Packages/' . self::$store['PACKAGE'] . (('/' == $relPath[0]) ? '' : '/') . $relPath;
+        return self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . (('/' == $relPath[0]) ? '' : '/') . $relPath;
     }
 
     /**
@@ -309,8 +321,8 @@ final class App {
      */
     public static function loadFormValidator() : void
 	{
-		if(null == self::$Form){
-			import('App.Server.Form.FormValidator');
+		if(is_null(self::$Form)){
+			import('FormValidator', 'App.Server.Form.FormValidator');
 			self::$Form = new FormValidator();
 		}
 	}

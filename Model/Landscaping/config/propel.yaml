@@ -1,0 +1,34 @@
+propel:
+  paths:
+      # The directory where Propel should output classes, sql, config, etc.
+      # Default value is current path #
+      outputDir: '../../'
+
+      # The directory where Propel should output generated object model classes.
+      phpDir: '../../'
+
+      # The directory where Propel should output the compiled runtime configuration.
+      phpConfDir: '../config'
+
+      # The directory where Propel should output the generated migrations.
+      migrationDir: '../Migration'
+
+      # The directory where Propel should output the generated DDL (or data insert statements, etc.)
+      sqlDir: '../sql'
+
+  database:
+      connections:
+          landscaping:
+              adapter: mysql
+              classname: Propel\Runtime\Connection\DebugPDO
+              dsn: mysql:host=localhost;dbname=landscaping
+              user: root
+              password: password
+  runtime:
+      defaultConnection: landscaping
+      connections:
+          - landscaping
+  generator:
+      defaultConnection: landscaping
+      connections:
+          - landscaping

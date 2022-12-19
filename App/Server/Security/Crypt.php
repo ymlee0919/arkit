@@ -2,7 +2,7 @@
 
 class Crypt
 {
-	public static string $table = 'h410jW56Plkdm79TZ3SfgiQ2bNRec8UOVaXY-';
+	public static string|array $table = 'h410jW56Plkdm79TZ3SfgiQ2bNRec8UOVaXY-';
     public static string $key = '12AB34CD56EF7890';
     //protected static $cipher = MCRYPT_RIJNDAEL_128;
     //protected static $mode = MCRYPT_MODE_CBC;

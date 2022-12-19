@@ -1,7 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
 /**
  * Class Router
  */
@@ -95,7 +93,7 @@ final class ErrorHandler {
      * @param int $line
      * @param mixed $context
      */
-    #[NoReturn] public static function handleServerError(int $type, string $message, string $file, int $line, mixed $context) : void
+    public static function handleServerError(int $type, string $message, string $file, int $line, mixed $context) : void
 	{
 		$trace = debug_backtrace();
 		array_shift($trace);
@@ -139,7 +137,7 @@ final class ErrorHandler {
      * @param Exception|Error $exception
      * @throws Exception
      */
-    #[NoReturn] public static function handleException(Exception|Error $exception) : void
+    public static function handleException(Exception|Error $exception) : void
     {
         $trace = debug_backtrace();
         array_shift($trace);
@@ -179,7 +177,7 @@ final class ErrorHandler {
     }
 
     /**
-     * @param int $type
+     * @param string $type
      * @param string $message
      * @param string $file
      * @param int $line
@@ -187,7 +185,7 @@ final class ErrorHandler {
      * @param mixed $backtrace
      * @return string
      */
-    private static function buildErrorPage(int $type, string $message, string $file, int $line, mixed $context, mixed &$backtrace) : string
+    private static function buildErrorPage(string $type, string $message, string $file, int $line, mixed $context, mixed &$backtrace) : string
 	{
 		$stack = '';
 		foreach($backtrace as $inv)
@@ -232,7 +230,7 @@ final class ErrorHandler {
     /**
      *
      */
-    #[NoReturn] public static function showInternalServerError() : void
+    public static function showInternalServerError() : void
     {
         ob_end_clean();
         header("Status: 500 Server Error");
@@ -277,8 +275,13 @@ final class ErrorHandler {
  * @param mixed $context
  * @returns void
  */
-#[NoReturn] function handleServerError(int $type, string $message, string $file, int $line, mixed $context) : void
+function handleServerError(int $type, string $message, string $file, int $line, mixed $context = null) : void
 {
+    if(is_null($context))
+    {
+        $context = debug_backtrace();
+        array_pop($context);
+    }
 	ErrorHandler::handleServerError($type, $message, $file, $line, $context);
 }
 
@@ -286,7 +289,7 @@ final class ErrorHandler {
  * @param Exception|Error|array $exception
  * @throws Exception
  */
-#[NoReturn] function handleException(Exception|Error|array $exception) : void
+function handleException(Exception|Error|array $exception) : void
 {
     if(is_a($exception, 'Exception') || is_a($exception, 'Error'))
 	    ErrorHandler::handleException($exception);

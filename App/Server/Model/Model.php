@@ -13,7 +13,7 @@ abstract class Model
 
     public abstract function rollback() : void;
 
-    public abstract function loadClass($className) : void;
+    public abstract function loadClass($className) : bool;
 
     public abstract function release() : void;
 }

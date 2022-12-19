@@ -1,14 +1,14 @@
 <?PHP
-import('Libs.Smarty.vendor.autoload');
+import('Smarty', 'Libs.Smarty.vendor.autoload');
 
-class PageTemplate extends Smarty
+class Template extends Smarty
 {
-	public function __construct($template_folder)
+	public function __construct(string $templateFolder)
 	{
 		parent::__construct();
 
 		$RESOURCES_FOLDER = App::fullPath('/resources/smarty');
-		$TEMPLATES_FOLDER = $template_folder;
+		$TEMPLATES_FOLDER = $templateFolder;
 		
         $this->setTemplateDir($TEMPLATES_FOLDER);
         $this->setCompileDir($RESOURCES_FOLDER . '/templates_c/');
@@ -19,7 +19,7 @@ class PageTemplate extends Smarty
         $this->right_delimiter = '}}';
 		
         if(RUN_MODE != DEBUG_MODE)
-		$this->autoload_filters = array('output' => array('trimwhitespace'));
+		    $this->autoload_filters = array('output' => array('trimwhitespace'));
     }
 }
 ?>

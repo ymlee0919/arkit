@@ -27,7 +27,7 @@ use League\OAuth2\Client\Token\AccessToken;
 
 /**
  * OAuth - OAuth2 authentication wrapper class.
- * Uses the oauth2-client package from the League of Extraordinary Packages.
+ * Uses the oauth2-client package from the League of Extraordinary Systems.
  *
  * @see     http://oauth2-client.thephpleague.com
  *

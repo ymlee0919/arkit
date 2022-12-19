@@ -1,0 +1,15 @@
+# URL ---------------------------------------
+url:
+  max_post_params: 64
+  max_post_size: 2048
+
+# Model to load -----------------------------
+#model:
+##autoload: ModelName
+
+# Firewall -----------------------------
+#firewall: _base.controller.Firewall
+
+# Output -----------------------------
+#onBeforeDisplay: _base.controller.{PageLoader}/{PageLoader}::onBeforeDisplay
+

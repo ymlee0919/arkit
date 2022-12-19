@@ -1,10 +1,5 @@
 <?php
 
-/*
- * Class for manage the request
- * URL format: site.com/router[/page][/options]
- * */
-
 /**
  * Class Request
  */
@@ -14,37 +9,31 @@ final class Request {
      * Requested URL
      * @var ?string
      */
-    private ?string $request = null;
+    private ?string $_url = null;
 
     /**
      * URL parameters of the request
      * @var array
      */
-    private array $options;
+    private array $_get;
+
+    /**
+     * Parameters passed by post
+     * @var array
+     */
+    private array $_post;
 	
     /**
      * Levels of the page
      * @var array
      */
     private array $levels;
-    
-    /**
-     * Parameters passed by post
-     * @var array
-     */
-    private array $params;
-    
-    /**
-     * Array to store shared values
-     * @var array
-     */
-    private array $values;
-	
+
     /**
      * Flag to indicate if the request is valid, given the configuration parameters
      * @var bool
      */
-    private bool $isValid = true;
+    private bool $isValid;
 
     /**
      *
@@ -52,115 +41,124 @@ final class Request {
     public function __construct()
 	{
         // Initialize fields
-        $this->isValid      = true;
-        $this->request      = null;
+        $this->isValid = true;
+        $this->_url    = null;
 
-        $this->options      = [];
-        $this->params       = [];
-        $this->values       = [];
-        $this->levels       = [];
-        $this->url_params   = [];
+        $this->_get    = [];
+        $this->_post   = [];
+        $this->levels  = [];
 	}
 
     /**
      * Process the request
-     * @return bool
+     * @return void
      */
-    public function process() : bool
+    public function preProcess() : void
 	{
         mb_internal_encoding('UTF-8');
         mb_detect_order(array('UTF-8', 'ASCII'));
-		
-        $url = trim(urldecode($_SERVER['REQUEST_URI']));
+
+        $this->_url = trim(urldecode($_SERVER['REQUEST_URI']));
 
         $this->write();
 
 		// Check the length of the url
-        if(!!strpos($url, 'aclk'))
-            $url = explode('aclk', $url)[0];
+        if(!!strpos($this->_url, 'aclk'))
+            $this->_url = explode('aclk', $this->_url)[0];
 
-        if(isset($url[App::$config['url']['max_length']])) return false;
+        // Replace '/?' by '?' eg: /search/?q=query by /search?q=query
+        $this->_url = str_replace('/?', '?', $this->_url);
 
-        $url = $this->request = str_replace('/?', '?', $url);
-
-        if(strlen($url) == 1) return true;
-        if(strlen($url) < 1) return false;
-
+        if(strlen($this->_url) == 1)
+            return;
+        if(strlen($this->_url) < 1)
+        {
+            $this->isValid = false;
+            return;
+        }
 
 		// Validate the pattern of the url
-        if(strlen($url) > 1 && !preg_match_all("/^(\/[0-9a-zA-Z-]+(\/)?){1,}(\?([A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)(&[A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)*)?$/", $url)) return false;
-
-		// Split the url  by the ?
-		$parts = explode('?', $url);
-
-        // Treat the / and the end of the url
-        if(substr($parts[0], -1) == '/')
+        if(strlen($this->_url) > 1 && !preg_match_all("/^(\/[0-9a-zA-Z-]+(\/)?)+(\?([A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)(&[A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)*)?$/", $this->_url))
         {
-            $parts[0] = substr($parts[0], 0, -1);
-            $url = $this->request = implode('?', $parts);
+            $this->isValid = false;
+            return;
         }
+
+        $this->_url = str_replace('/?', '?', $this->_url);
+
+        // Separate url from get parameters
+        $urlParts = explode('?', $this->_url);
 		
-		//// Trear the first part of the url
+		//// Treat the first part of the url
         // Split by slash
-        $levels = explode('/', $parts[0]);
-		array_shift($levels);
-
-
-        // Validate the count of levels
-        if(isset($levels[App::$config['url']['max_levels']])) return false;
-
-        // Process each token and check syntax
-		reset($levels);
-        foreach($levels as $item)
-        {
-			$length = strlen($item);
-            if($length >= App::$config['url']['min_level_length'] && $length <= App::$config['url']['max_level_length'])
-				array_push($this->levels, $item);
-			else
-				return false;
-        }
-		unset($levels);
+        $this->levels = explode('/', $urlParts[0]);
+        // Remove the first item, is always null
+		array_shift($this->levels);
 
 		// Treat the parameters by get
-		if(isset($parts[1]))
+		if(isset($urlParts[1]))
 		{
 			// Split the url options by the &
-	        $opts = explode("&", $parts[1]);
-			if(isset($opts[App::$config['url']['max_get_params']])) return false;
-			
-			reset($opts);
+	        $opts = explode("&", $urlParts[1]);
+
 	        foreach($opts as $item)
 			{
 				$tokens = explode('=', $item);
-				if(isset($tokens[0][App::$config['url']['max_get_param_name']])) return false;
-				
-				if(isset($tokens[1][App::$config['url']['max_get_size']])) return false;
-				
-				$this->options[$tokens[0]] = $tokens[1];
+				$this->_get[$tokens[0]] = $tokens[1];
 			}
 			unset($opts);
 		}
 
-		unset($parts);
-		
-		return true;
+		unset($urlParts);
 	}
 
     /**
-     * Process values sent by post
+     * Validate the request given some rules
+     * @param array $rules Validation rules
+     * @return bool
      */
-    public function processPost() : void
+    public function validate(array &$rules) : bool
+    {
+        // Validate max length url
+        if(isset($rules['max_length']) && isset($this->_url[$rules['max_length']]))
+            return $this->isValid = false;
+
+        // Validate the number of parameters sent by url
+        if(isset($rules['max_get_params']) && count($this->_get) > $rules['max_get_params'])
+            return $this->isValid = false;
+
+        // Validate the name and the value of each get parameter
+        foreach ($this->_get as $name => $value)
+        {
+            if(isset($rules['max_get_name_size']) && isset($name[$rules['max_get_name_size']]))
+                return $this->isValid = false;
+
+            if(isset($rules['max_get_value_size']) && isset($value[$rules['max_get_value_size']]))
+                return $this->isValid = false;
+        }
+
+        return true;
+    }
+
+
+    public function processPost(array &$config) : void
     {
         // If the url is steel valid and the page is not null, take the parameters set by post
-        $i = 0; $max = App::$config['url']['max_post_size'];
+        $i = 0;
+        $max = (isset($config['max_post_value_size'])) ? $config['max_post_value_size'] : 1024000000;
+        $pattern = (isset($config['post_param_name_format'])) ? '/^'. $config['post_param_name_format'] .'$/' : null;
+
         foreach($_POST as $key => $value)
         {
-            if($i >= App::$config['url']['max_post_params']) break;
+            // If exceed the number of available parameters
+            if(isset($config['max_post_params']) && $i >= $config['max_post_params']) break;
+            // Validate name length
+            if(isset($config['max_post_name_size']) && isset($key[$config['max_post_name_size']])) continue;
+            // Validate name
+            if(!is_null($pattern) && !preg_match($pattern, $key)) continue;
 
             if(!is_array($value))
             {
-                if(isset($key[App::$config['url']['max_post_param_name']])) continue;
-
                 if(!mb_check_encoding($key, 'UTF-8'))
                     continue;
                 if(mb_detect_encoding($value) == 'UTF-8')
@@ -170,11 +168,11 @@ final class Request {
                 else
                     continue;
 
-                $this->params[$key] = $value;
+                $this->_post[$key] = $value;
             }
             else
             {
-                if(isset($value[App::$config['url']['max_post_array_size']])) continue;
+                if( isset($config['max_post_array_size']) && isset($value[$config['max_post_array_size']])) continue;
                 $list = [];
                 foreach($value as $val)
                 {
@@ -186,12 +184,11 @@ final class Request {
                         continue;
                 }
 
-                $this->params[$key] = $list;
+                $this->_post[$key] = $list;
             }
 
             unset($_POST[$key]);
             $i++;
-
         }
     }
 
@@ -200,10 +197,9 @@ final class Request {
      */
     public function toString() : void
     {
-        echo "Request: " . $this->request . "<br>\n";
+        echo "Request: " . $this->_url . "<br>\n";
         echo "Levels: " . print_r($this->levels, true) . "<br>\n";
-        echo "Options: " . print_r($this->options, true) . "<br>\n";
-        echo "URL Parameters: " . print_r($this->url_params, true) . "<br>\n";
+        echo "Options: " . print_r($this->_get, true) . "<br>\n";
         echo "Request Method: " . $_SERVER['REQUEST_METHOD'] . "<br>\n";
 		echo "IsValid: " . (($this->isValid) ? "Yes" : "No");
     }
@@ -227,73 +223,75 @@ final class Request {
 	}
 
     /**
-     * Get all parameters passed by url
-     * @return array
-     */
-    public function GetAll() : array
-	{
-		return $this->options;
-	}
-
-    /**
      * Get the level of url given an 1-based index
-     * @param $level
+     * @param int $level
      * @return string|null
      */
-    public function getUrlLevel($level) : ?string
+    public function getUrlLevel(int $level) : ?string
 	{
 		if($level <= 0 || $level > count($this->levels)) return null;
 		return $this->levels[$level - 1];
 	}
 
     /**
-     * Get an array of the url leves
+     * Get an array of the url levels
      * @return array
      */
-    public function getUrlLeves() : array
+    public function getUrlLevels() : array
     {
         return $this->levels;
     }
 
+    /**
+     * Get all parameters passed by url
+     * @return array
+     */
+    public function getAllGetParams() : array
+    {
+        return $this->_get;
+    }
 
     /**
      * Get the value of a parameter passed by url
      * @param $option
      * @return string|null
      */
-    public function Get(string $option) : ?string
+    public function getGetParam(string $option) : ?string
 	{
-		if(isset($this->options[$option]))
-		return $this->options[$option];
+		if(isset($this->_get[$option]))
+		return $this->_get[$option];
 		return null;
 	}
-
-    /**
-     * Get the name of parameters passed by url
-     * @return array
-     */
-    public function namesGet() : array
-    {
-        return array_keys($this->options);
-    }
-    
-    /** 
-     * Unset parameters in the url
-     * @param string $name
-     */
-    public function unsetGet(string $name) : void
-    {
-    	if(isset($this->options[$name]))
-    		unset($this->options[$name]);
-    }
 
     /**
      * Get all fields sent by post
      * @return array
      */
-    public function PostAll() : array
+    public function getAllPostParams() : array
 	{
-		return $this->params;
+		return $this->_post;
+	}
+
+    /**
+     * Get a post value given the name
+     * @param string $param
+     * @returns mixed
+     */
+    public function getPostParam(string $param) : mixed
+	{
+		if(isset($this->_post[$param]))
+		    return $this->_post[$param];
+		return null;
+	}
+
+    /**
+     * Check if a post value was sent
+     * @param string $paramName
+     * @returns bool
+     */
+    public function isSetPostParam(string $paramName) : bool
+	{
+		return isset($this->_post[$paramName]);
 	}
 
     /**
@@ -301,52 +299,21 @@ final class Request {
      * @param $param
      * @returns mixed
      */
-    public function Post($param) : mixed
+    public function getFileParam(string $param) : mixed
 	{
-		if(isset($this->params[$param]))
-		    return $this->params[$param];
+		if(isset($_FILES[$param]))
+            return $_FILES[$param];
 		return null;
 	}
 
     /**
      * Check if a post value was sent
-     * @param string $param
+     * @param string $paramName
      * @returns bool
      */
-    public function isSetPost($param) : bool
+    public function isSetFileParam(string $paramName) : bool
 	{
-		return in_array($param, array_keys($this->params));
-	}
-
-    /**
-     * Store a value
-     * @param string $key
-     * @param mixed $value
-     */
-    public function setValue(string $key, mixed $value) : void
-	{
-		$this->values[$key] = $value;
-	}
-
-    /**
-     * Get an stored value
-     * @param string $key
-     * @return mixed
-     */
-    public function getValue(string $key) : mixed
-	{
-		if(isset($this->values[$key]))
-		    return $this->values[$key];
-		return null;
-	}
-
-    /**
-     * Get all stored values
-     * @return array
-     */
-    public function getValues() : array
-	{
-		return $this->values;
+		return isset($_FILES[$paramName]);
 	}
 
     /**
@@ -364,21 +331,8 @@ final class Request {
      */
     public function getRequestUrl() : ?string
 	{
-		return $this->request;
+		return $this->_url;
 	}
-
-    /**
-     * @param string $url
-     */
-    public function setRequestUrl(string $url) : void
-    {
-        $this->request = $url;
-
-        $levels = explode('/', $url);
-        array_shift($levels);
-
-        $this->levels = $levels;
-    }
 
     public function write() : void
     {

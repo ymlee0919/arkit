@@ -1,20 +1,52 @@
 # GENERAL -----------------------------------
-domain: "gardencruz.com"
+domain: "arkit.com"
 logs_error: "App/Logs/logs_error.txt"
 
 # URL ---------------------------------------
 url:
+  # Maximum number of characters of the url
   max_length: 256
-  max_levels: 5
-  min_level_length: 1
-  max_level_length: 32
+  # Maximum numbers of get parameters
   max_get_params: 8
-  max_get_param_name: 32
-  max_get_size: 256
+  # Maximum get parameter name size
+  max_get_name_size: 16
+  # Maximum get parameter value size
+  max_get_value_size: 64
+  # Maximum number of parameters sent by post
   max_post_params: 64
-  max_post_size: 2048
+  # Maximum size for a post parameter
+  max_post_value_size: 2048
+  # Maximum number of characters for post parameter name
+  max_post_name_size: 32
+  # Regular expression for post parameters name
+  post_param_name_format: [a-zA-Z0-9_.-]
+  # Maximum elements count for array sent by post
   max_post_array_size: 10
-  max_post_param_name: 32
+
+# CACHE ---------------------------------------
+cache:
+  # Cache file class
+  # Enabled classes: ApcCacheEngine, FileCacheEngine, MemcacheCacheEngine, MemcachedCacheEngine
+  class: FileCacheEngine
+  # Key for cache
+  master_key: master_global
+  # Expire time for cache in seconds (default 86400 = 24H)
+  expire_time: 86400
+  # Prefix
+  prefix: _cache
+
+# VALIDATION ----------------------------------
+validation:
+  # Default language for error messages
+  default_language: 'en'
+  # Default date format
+  default_date_format: 'Y-m-d'
+  # Default date time format
+  default_datetime_format: 'Y-m-d H:i:s'
+
+# ENVIRONMENT ---------------------------------
+env:
+  time_zone: America/Havana
 
 email:
   imap:
@@ -30,44 +62,5 @@ email:
     server: smtp.1and1.com
     port: 465
 
-cache:
-  class: FileCache
-  master_key: master_global
-  expire_time: 86400
-  prefix: _cache
-
-validation:
-  default_language: 'en'
-
-date:
-  default_date_format: 'Y-m-d'
-  default_datetime_format: 'Y-m-d H:i:s'
-
 security:
   csrf_expire: 7200
-
-# ROUTING ------------------------------------
-routing:
-  cmd.gardencruzcompany.com: 'cmd/_config/router.yaml'
-
-  gardencruz.com: 'GardenCruz/_config/router.yaml'
-  gardencruzcompany.com: 'GardenCruz/_config/router.yaml'
-
-  admin.gardencruz.com: 'Admin/_config/router.yaml'
-  admin.gardencruzcompany.com: 'Admin/_config/router.yaml'
-
-  workers.gardencruz.com: 'Worker/_config/router.yaml'
-  workers.gardencruzcompany.com: 'Worker/_config/router.yaml'
-
-  clients.gardencruz.com: 'Client/_config/router.yaml'
-  clients.gardencruzcompany.com: 'Client/_config/router.yaml'
-
-# LANGUAGES -----------------------------------
-languages:
-  list: [en, es]
-  en:
-    name: "English"
-  es:
-    name: "Español"
-
-default_language: en
