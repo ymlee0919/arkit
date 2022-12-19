@@ -250,7 +250,7 @@ final class ErrorHandler {
         if(RUN_MODE == DEBUG_MODE)
 		    set_error_handler('handleServerError', E_STRICT|~E_DEPRECATED);
         else
-            set_error_handler('handleServerError', E_STRICT|~E_DEPRECATED|~E_WARNING);
+            set_error_handler('handleServerError', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
 		set_exception_handler('handleException');
 	}

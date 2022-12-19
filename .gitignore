@@ -132,3 +132,6 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm+all,linux,windows
 /Systems/Master/
+/App/Logs/
+structure.txt
+Tasks.txt

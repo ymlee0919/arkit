@@ -12,7 +12,8 @@ require dirname($dir) . '/Routing/RouterInterface.php';
 require dirname($dir) . '/Routing/Router.php';
 
 require dirname($dir) . '/Error/ErrorHandler.php';
-require dirname($dir) . '/Error/LogsManager.php';
+require dirname($dir) . '/Logs/LogsManager.php';
+
 require dirname($dir) . '/Session/SessionManager.php';
 require dirname($dir) . '/Model/Model.php';
 
@@ -29,45 +30,59 @@ final class App {
 	public static ?array $store = null;
 
 	/**
+     * Application configuration
      * @var ?array
      */
 	public static ?array $config = null;
 	
 	/**
+     * Application root directory
      * @var ?string
      */
 	public static ?string $ROOT_DIR = null;
 
     /**
+     * Request
      * @var ?Request
      */
     public static ?Request $Request = null;
 
     /**
+     * Output
      * @var ?Output
      */
     public static ?Output $Output = null;
 
     /**
+     * Cache manager
      * @var ?CacheInterface
      */
     public static ?CacheInterface $Cache = null;
 
     /**
+     * Form validator
      * @var ?FormValidator
      * @static var
      */
     public static ?FormValidator $Form = null;
 
 	/**
+     * Model
      * @var ?Model
      */
     public static ?Model $Model = null;
 
     /**
+     * Router
      * @var ?Router
      */
     public static ?Router $Router = null;
+
+    /**
+     * Logs manager
+     * @var ?LogsManager
+     */
+    public static ?LogsManager $Logs = null;
 
     /**
      * Constructor of the class
@@ -106,7 +121,7 @@ final class App {
         date_default_timezone_set(self::$config['env']['time_zone']);
 
         // Load cache
-        $cacheClass = self::$config['cache']['class'];
+        $cacheClass = self::$config['cache']['class'] . 'CacheHandler';
         import($cacheClass,'App.Server.Cache.' . $cacheClass);
         self::$Cache = new $cacheClass(self::$config['cache']);
 

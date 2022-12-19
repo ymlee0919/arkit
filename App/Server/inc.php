@@ -10,24 +10,24 @@ define('RUN_MODE', DEBUG_MODE);
 switch(RUN_MODE)
 {
 	case RELEASE_MODE:
-		ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
-		ini_set('display_errors', 'Off');
+        error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+		ini_set('display_errors', '0');
 		ini_set('log_errors', true);
 		ini_set('output_buffering', '4096');
 		ini_set('implicit_flush', 'Off');
 		break;
 
 	case TESTING_MODE:
-        ini_set('error_reporting', E_ALL & ~E_STRICT);
+        error_reporting(-1);
         ini_set('log_errors', true);
-		ini_set('display_errors', 'On');
+		ini_set('display_errors', '1');
 		ini_set('output_buffering', '4096');
 		ini_set('implicit_flush', 'Off');
 		break;
 
 	case DEBUG_MODE:
-        ini_set('error_reporting', E_ALL & ~E_STRICT);
-        ini_set('display_errors', 'On');
+        error_reporting(-1);
+        ini_set('display_errors', '1');
         ini_set('log_errors', false);
 		ini_set('output_buffering', 'Off');
 		ini_set('implicit_flush', 'On');

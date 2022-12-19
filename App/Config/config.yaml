@@ -23,11 +23,21 @@ url:
   # Maximum elements count for array sent by post
   max_post_array_size: 10
 
+# LOGS ---------------------------------------
+logs:
+  # Logs handler
+  # Enabled classes: File
+  handler: File
+  # Destination for logs, according the handler
+  logs_destination: App/logs/
+  # Destination for logs, according the handler
+  errors_destination: App/logs/errors.log
+
 # CACHE ---------------------------------------
 cache:
   # Cache file class
-  # Enabled classes: ApcCacheEngine, FileCacheEngine, MemcacheCacheEngine, MemcachedCacheEngine
-  class: FileCacheEngine
+  # Enabled classes: Apc, File, Memcache, Memcached
+  handler: File
   # Key for cache
   master_key: master_global
   # Expire time for cache in seconds (default 86400 = 24H)
