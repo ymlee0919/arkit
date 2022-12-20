@@ -13,12 +13,19 @@ final class LogsManager
     private LogsHandlerInterface $handler;
 
     /**
+     * @var ?string
+     */
+    private ?string $responsibleEmail;
+
+    /**
      * @param string $handler Name of the handler
      * @param array $config Configuration
      * @throws Exception
      */
     public function __construct(string $handler, array &$config)
     {
+        $this->responsibleEmail = $config['responsible_email'] ?? null;
+
         switch (strtolower($handler))
         {
             case 'file':
@@ -28,6 +35,15 @@ final class LogsManager
             default:
                 throw new Exception("Logs handler '$handler' not found");
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function logRequest(Request &$request) : void
+    {
+        $this->handler->registerRequest($request);
     }
 
     /**
@@ -65,7 +81,7 @@ final class LogsManager
      */
     public function debug(string $message, array $context = null) : void
     {
-        $this->log('Debug', $message);
+        $this->log('Debug', $message, $context);
     }
 
     /**
@@ -77,7 +93,7 @@ final class LogsManager
      */
     public function notice(string $notice, array $context = null) : void
     {
-        $this->log('Notice', $notice);
+        $this->log('Notice', $notice, $context);
     }
 
     /**
@@ -89,7 +105,7 @@ final class LogsManager
      */
     public function warning(string $warning, array $context = null) : void
     {
-        $this->log('Warning', $warning);
+        $this->log('Warning', $warning, $context);
     }
 
     /**
@@ -101,7 +117,7 @@ final class LogsManager
      */
     public function alert(string $alert, array $context = null) : void
     {
-        $this->log('Alert', $alert);
+        $this->log('Alert', $alert, $context);
     }
 
     /**
@@ -116,6 +132,51 @@ final class LogsManager
      */
     public function error(string $errorType, string $message, string $file, int $line, mixed &$backtrace) : bool
     {
-        return $this->handler->registerError($errorType, $message, $file, $line, $backtrace);
+        // Register the error
+        $success = $this->handler->registerError($errorType, $message, $file, $line, $backtrace);
+
+        // Send email to administrator
+        if(import('EmailDispatcher', 'Services.Email.EmailDispatcher') && !is_null($this->responsibleEmail))
+        {
+            $stack = '';
+            foreach($backtrace as $inv)
+            {
+                $stack .= sprintf('&nbsp; &nbsp; # %s, line %s :: ', ((isset($inv['file'])) ? $inv['file'] : '(NO FILE)'), ((isset($inv['line'])) ? $inv['line'] : '(NO LINE)'));
+                $stack .= (isset($inv['class'])) ?  $inv['class'] . $inv['type'] . $inv['function'] : $inv['function'];
+                $stack .= '<br><br>';
+            }
+
+            // Send email
+            $content = <<<CONTENT
+            Report of internal server error.<br><br>
+        Time: {moment}<br>
+        Request: [{method}] {domain}{url}<br>
+        From: {from}<br>
+        {errorType}: {message}<br> 
+        File: {file}, line {line}<br>
+        CallStack: <br>{callStack}
+CONTENT;
+            $content = strtr($content, [
+                '{moment}'    => date('d/m/Y H:i:s', $_SERVER['REQUEST_TIME']),
+                '{method}'    => strtoupper($_SERVER['REQUEST_METHOD']),
+                '{domain}'    => $_SERVER['SERVER_NAME'],
+                '{url}'       => urldecode($_SERVER['REQUEST_URI']),
+                '{from}'      => $_SERVER['SERVER_ADDR'],
+                '{errorType}' => $errorType,
+                '{message}'   => $message,
+                '{file}'      => $file,
+                '{line}'      => $line,
+                '{callStack}' => $stack
+            ]);
+
+            $dispatcher = new EmailDispatcher();
+            $dispatcher->connect();
+            $dispatcher->send($this->responsibleEmail, 'Internal Server Error - ' . $_SERVER['SERVER_NAME'], $content);
+            $dispatcher->release();
+        }
+
+
+        return $success;
+
     }
 }

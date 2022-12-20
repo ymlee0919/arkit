@@ -32,6 +32,8 @@ logs:
   logs_destination: App/logs/
   # Destination for logs, according the handler
   errors_destination: App/logs/errors.log
+  # Responsible to send the email
+  responsible_email: ymlee0919@gmail.com;flpmireles@gmail.com
 
 # CACHE ---------------------------------------
 cache:
@@ -50,9 +52,9 @@ validation:
   # Default language for error messages
   default_language: 'en'
   # Default date format
-  default_date_format: 'Y-m-d'
+  default_date_format: 'd-m-Y'
   # Default date time format
-  default_datetime_format: 'Y-m-d H:i:s'
+  default_datetime_format: 'd-m-Y H:i:s'
 
 # ENVIRONMENT ---------------------------------
 env:

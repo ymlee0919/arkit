@@ -8,22 +8,27 @@ class EmailDispatcher
 
     }
 
-    public function connect()
+    public function connect() : bool
     {
 
     }
 
-    public function send()
+    public function setSender(string $senderEmail)
     {
 
     }
 
-    public function getError()
+    public function send(string $destination, string $subject, string $message, mixed $attachment = null) : bool
     {
 
     }
 
     public function release()
+    {
+
+    }
+
+    public function getError() : string
     {
 
     }

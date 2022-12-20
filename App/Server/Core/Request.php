@@ -60,8 +60,6 @@ final class Request {
 
         $this->_url = trim(urldecode($_SERVER['REQUEST_URI']));
 
-        $this->write();
-
 		// Check the length of the url
         if(!!strpos($this->_url, 'aclk'))
             $this->_url = explode('aclk', $this->_url)[0];
@@ -333,22 +331,6 @@ final class Request {
 	{
 		return $this->_url;
 	}
-
-    public function write() : void
-    {
-        // Open file
-        $filename = dirname(dirname(dirname(__FILE__))) . "/Logs/" . date("Y.m.d") . ".txt";
-        $hfile = fopen($filename,"a+t");
-
-        // Write session
-        $text = "IP:" . $_SERVER["REMOTE_ADDR"] . "\n";
-        $text .= "URL: " . urldecode($_SERVER['REQUEST_URI']) . "\n";
-        $text .= "TIME: " . date("Y-m-d H:i:s") . "\n";
-        $text .= "-------------------------------------------------\n";
-        fwrite($hfile, $text);
-        fflush($hfile);
-        fclose($hfile);
-    }
 
     /**
      * @return string

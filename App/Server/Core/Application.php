@@ -90,14 +90,9 @@ final class App {
     public function __construct()
 	{	
 		// Load the configuration
-		$app_path = getcwd();
-
-        self::$ROOT_DIR = $app_path;
-        self::$config = ConfigReader::ReadFile( $app_path . '/App/Config/config.yaml' );
-
+        self::$ROOT_DIR = getcwd();
+        self::$config = [];
         self::$store = [];
-
-        unset($app_path);
 	}
 
     /**
@@ -105,9 +100,9 @@ final class App {
      */
     public function __destruct()
 	{
-		self::$config = null;
-		self::$store = null;
-		self::$ROOT_DIR = null;
+        self::$ROOT_DIR = null;
+        self::$config = null;
+        self::$store = null;
 	}
 
     /**
@@ -117,6 +112,9 @@ final class App {
     {
         ErrorHandler::init();
 
+        // Init configuration
+        self::$config = ConfigReader::ReadFile( self::$ROOT_DIR . '/App/Config/config.yaml' );
+
         // Set time zone
         date_default_timezone_set(self::$config['env']['time_zone']);
 
@@ -124,6 +122,9 @@ final class App {
         $cacheClass = self::$config['cache']['class'] . 'CacheHandler';
         import($cacheClass,'App.Server.Cache.' . $cacheClass);
         self::$Cache = new $cacheClass(self::$config['cache']);
+
+        // Load the logs manager
+        self::$Logs = new LogsManager(self::$config['logs']['handler'], self::$config['logs']);
 
         // Load output
         self::$Output = new Output();
@@ -139,6 +140,8 @@ final class App {
     public function dispatch(Request &$request) : void
     {
         self::$Request = $request;
+
+        self::$Logs->logRequest($request);
 
         // Process the request
         $request->preProcess();

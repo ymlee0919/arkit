@@ -70,6 +70,20 @@ class FileLogsHandler implements LogsHandlerInterface
     {
         $this->request = $request;
 
+        $content  = "----------------------------------------------------\n";
+        $content .= strtr("[{moment}] {method} {domain}{url} FROM: {from}\nCookies: {cookies}",[
+            '{moment}'    => date('d-m-Y H:i:s', $_SERVER['REQUEST_TIME']),
+            '{method}'    => strtoupper($_SERVER['REQUEST_METHOD']),
+            '{domain}'    => $_SERVER['SERVER_NAME'],
+            '{url}'       => urldecode($_SERVER['REQUEST_URI']),
+            '{from}'      => $_SERVER['SERVER_ADDR'],
+            '{cookies}'   => json_encode($_COOKIE)
+        ]);
+
+        // Build fileName
+        $filePath = $this->outputDirectory . 'log-' . date('Y-m-d') . '.log';
+
+        return $this->write($content, $filePath);
     }
 
     /**
@@ -103,12 +117,8 @@ class FileLogsHandler implements LogsHandlerInterface
         foreach($backtrace as $inv)
         {
             $stack .= sprintf('# %s, line %s :: ', ((isset($inv['file'])) ? $inv['file'] : '(NO FILE)'), ((isset($inv['line'])) ? $inv['line'] : '(NO LINE)'));
-
-            if(isset($inv['class']))
-                $stack .= sprintf('%s%s%s',
-                        $inv['class'], $inv['type'], $inv['function']) . "\n";
-            else
-                $stack .= $inv['function']  . "\n";
+            $stack .= (isset($inv['class'])) ?  $inv['class'] . $inv['type'] . $inv['function'] : $inv['function'];
+            $stack .= "\n";
         }
 
         // Build the logs message

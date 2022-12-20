@@ -3,13 +3,8 @@
 /**
  * Class Router
  */
-final class ErrorHandler {
-
-    /**
-     * @var array
-     */
-    private static array $error_list = [];
-
+final class ErrorHandler
+{
     /**
      * @var ?string
      */
@@ -21,7 +16,7 @@ final class ErrorHandler {
     private static array $errors = [
 		E_ERROR              => 'Error',
 		E_WARNING            => 'Warning',
-		E_PARSE              => 'Parcer error',
+		E_PARSE              => 'Parser error',
 		E_NOTICE             => 'Notice',
 		E_CORE_ERROR         => 'Core error',
 		E_CORE_WARNING       => 'Core warning',
@@ -36,54 +31,29 @@ final class ErrorHandler {
 	];
 
     /**
-     * @param int $type
-     * @param string $message
+     *
      */
-    public static function throwFatalError(int $type, string $message) : void
-	{}
-
-    /**
-     * @param int $type
-     * @param string $message
-     */
-    public static function throwInternalServerError(int $type, string $message) : void
-	{}
-
-    /**
-     * @param int $type
-     * @param string $message
-     */
-    public static function throwInvalidAction(int $type, string $message) : void
-	{}
-
-    /**
-     * @param int $type
-     * @param string $message
-     */
-    public static function throwInvalidInputError(int $type, string $message) : void
-	{}
-
-    /**
-     * @param int $type
-     * @param string $message
-     */
-    public static function registerWarning(int $type, string $message) : void
-	{}
-
-    /**
-     * @return array
-     */
-    public static function getErrorList() : array
+    public static function init() : void
     {
-        return ErrorHandler::$error_list;
+        self::$prev_error_reporting = ini_get('error_reporting');
+
+        if(RUN_MODE == DEBUG_MODE)
+            set_error_handler('handleServerError', E_STRICT|~E_DEPRECATED);
+        else
+            set_error_handler('handleServerError', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+
+        set_exception_handler('handleException');
     }
 
     /**
-     * @return bool
+     *
      */
-    public static function existsErrors() : bool
+    public static function stop() : void
     {
-        return (count(ErrorHandler::$error_list) > 0);
+        restore_exception_handler();
+        restore_error_handler();
+
+        ini_set('error_reporting', self::$prev_error_reporting);
     }
 
     /**
@@ -91,44 +61,28 @@ final class ErrorHandler {
      * @param string $message
      * @param string $file
      * @param int $line
-     * @param mixed $context
+     * @param mixed $trace
      */
-    public static function handleServerError(int $type, string $message, string $file, int $line, mixed $context) : void
+    public static function handleServerError(int $type, string $message, string $file, int $line, mixed $trace) : void
 	{
-		$trace = debug_backtrace();
-		array_shift($trace);
-		array_shift($trace);
-		
 		switch(RUN_MODE)
 		{
 			case RELEASE_MODE:
-				$error = self::buildErrorPage(self::$errors[$type], $message, $file, $line, $context, $trace);
-				LogsManager::logError(self::$errors[$type], $message, $file, $line, $context, $trace);
-				self::reportError($error);
-				
-				//if(in_array($type, [E_WARNING, E_NOTICE, E_DEPRECATED])) return null;
-
+				App::$Logs->error(self::$errors[$type], $message, $file, $line,$trace);
 				self::stop();
 				self::showInternalServerError();
 				exit;
 			
 			case TESTING_MODE:
-				$error = self::buildErrorPage(self::$errors[$type], $message, $file, $line, $context, $trace);
-				LogsManager::logError(self::$errors[$type], $message, $file, $line, $context, $trace);
+            case DEBUG_MODE:
+				$error = self::buildErrorPage(self::$errors[$type], $message, $file, $line, $trace);
+                App::$Logs->error(self::$errors[$type], $message, $file, $line,$trace);
 				self::stop();
 				
 				header("Status: 500 Server Error");
 				echo $error;
 				exit;
-			
-			case DEBUG_MODE:
-				$error = self::buildErrorPage(self::$errors[$type], $message, $file, $line, $context, $trace);
-				self::stop();
-				
-				header("Status: 500 Server Error");
-				echo $error;
-				exit;
-				
+
 			default: exit;
 		}
 	}
@@ -139,35 +93,21 @@ final class ErrorHandler {
      */
     public static function handleException(Exception|Error $exception) : void
     {
-        $trace = debug_backtrace();
-        array_shift($trace);
-        array_shift($trace);
-
-        $context = $exception->getTrace();
+        $trace = $exception->getTrace();
 
         switch(RUN_MODE)
         {
             case RELEASE_MODE:
-                $error = self::buildErrorPage($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $context, $trace);
-                LogsManager::logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $context, $trace);
-                self::reportError($error);
-
+                App::$Logs->error($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
                 self::stop();
                 self::showInternalServerError();
-
-            case TESTING_MODE:
-                $error = self::buildErrorPage($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $context, $trace);
-                LogsManager::logError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $context, $trace);
-                self::stop();
-
-                header("Status: 500 Server Error");
-                echo $error;
                 exit;
 
+            case TESTING_MODE:
             case DEBUG_MODE:
-                $error = self::buildErrorPage($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $context, $trace);
+                $error = self::buildErrorPage($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(),$trace);
+                App::$Logs->error($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
                 self::stop();
-
                 header("Status: 500 Server Error");
                 echo $error;
                 exit;
@@ -181,50 +121,32 @@ final class ErrorHandler {
      * @param string $message
      * @param string $file
      * @param int $line
-     * @param mixed $context
      * @param mixed $backtrace
      * @return string
      */
-    private static function buildErrorPage(string $type, string $message, string $file, int $line, mixed $context, mixed &$backtrace) : string
+    private static function buildErrorPage(string $type, string $message, string $file, int $line, mixed &$backtrace) : string
 	{
 		$stack = '';
 		foreach($backtrace as $inv)
 		{
-			$stack .= sprintf('# %s (<b>%s</b>)<br> &nbsp; &nbsp; => ', (isset($inv['file']) ? $inv['file'] : ''), (isset($inv['line']) ? $inv['line'] : ''));
+			$stack .= sprintf(' # %s (<b>%s</b>)<br> &nbsp; &nbsp; => ', ($inv['file'] ?? ''), ($inv['line'] ?? ''));
 			if(isset($inv['class']))
 				$stack .= sprintf('%s%s%s', 
 					$inv['class'], $inv['type'], $inv['function']);
 			else
 				$stack .= $inv['function'];
-			
-			$args = json_encode($inv['args']);
-			$stack .= '(' . substr($args, 1, -1) . ')<br><br>';
+
+			$stack .= '<br><br>';
 		}
 		
 		$html = '<html><head><title>Internal Server Error</title></head><body>'.
 		'<h2 style="color:red">Internal Server Error</h2><p>'.
-			sprintf('<b>Error</b>: %s<br><b>Message</b>: %s<br><b>File</b>: %s<br><b>Line</b>:%s<br><b>Context</b>:<pre>%s</pre><br></p>', 
-					$type, $message, $file, $line, @var_export($context, true)).
+			sprintf('<b>Error</b>: %s<br><b>Message</b>: %s<br><b>File</b>: %s<br><b>Line</b>:%s<br></p>',
+					$type, $message, $file, $line).
 		'<b>Call stack</b><br>'. $stack .
 		'</body></html>';
 		
 		return $html;
-	}
-
-    /**
-     * @param string $message
-     * @throws Exception
-     */
-    private static function reportError(string $message) : void
-	{
-        if(!class_exists('EmailSender', false))
-            import('Libs.Email.EmailSender');
-
-        $sender = new EmailSender();
-
-        $sender->Connect();
-        $sender->SendMail('flpmireles@gmail.com;ymlee0919@gmail.com', 'info@cubarentalcompare.com', 'Error in CubaRentalCompare', $message);
-        $sender->Close();
 	}
 
     /**
@@ -239,32 +161,6 @@ final class ErrorHandler {
     }
 
 
-
-    /**
-     *
-     */
-    public static function init() : void
-	{
-		self::$prev_error_reporting = ini_get('error_reporting');
-
-        if(RUN_MODE == DEBUG_MODE)
-		    set_error_handler('handleServerError', E_STRICT|~E_DEPRECATED);
-        else
-            set_error_handler('handleServerError', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
-
-		set_exception_handler('handleException');
-	}
-
-    /**
-     *
-     */
-    public static function stop() : void
-	{
-		restore_exception_handler();
-		restore_error_handler();
-		
-		ini_set('error_reporting', self::$prev_error_reporting);
-	}
 }
 
 /**
