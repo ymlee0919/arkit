@@ -16,7 +16,7 @@ interface LogsHandlerInterface
      * @param array|null $context
      * @return bool
      */
-    public function register(string $logType, string $message, ?array $context = null) : bool;
+    public function registerLog(string $logType, string $message, ?array $context = null) : bool;
 
     /**
      * Register a critical error into the application

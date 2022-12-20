@@ -89,7 +89,7 @@ class FileLogsHandler implements LogsHandlerInterface
     /**
      * {@inheritDoc}
      */
-    public function register(string $logType, string $message, ?array $context = null) : bool
+    public function registerLog(string $logType, string $message, ?array $context = null) : bool
     {
         // Build the content
         $content = strtr("[{moment}] {logType}: {message}\n",[
