@@ -11,7 +11,7 @@ class Firewall {
     public static function Process() : bool
     {
         // Start the session
-        //Session::start();
+        //App::$Session->start();
 
         // Check process....
 

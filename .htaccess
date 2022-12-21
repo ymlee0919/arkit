@@ -82,6 +82,7 @@ DirectoryIndex index.php
 
 <ifModule mod_headers.c>
   Header set X-Frame-Options "DENY"
+  Header set X-Powered-By "SOLID Programing"
   <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
     Header set Cache-Control "public"
   </filesMatch>

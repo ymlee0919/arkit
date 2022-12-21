@@ -146,7 +146,7 @@ class FormValidator {
     {
         if(is_null($expire)) $expire = APP::$config['security']['csrf_expire'];
 
-        if(!Session::is_set('CSRF'))
+        if(!App::$Session->is_set('CSRF'))
             $_SESSION['CSRF'] = str_shuffle(md5(session_id()) . session_id() . sha1(session_id()));
 
         $code = $_SESSION['CSRF'];
@@ -156,7 +156,7 @@ class FormValidator {
         else
             $code .= '|' . strval( $_SERVER['REQUEST_TIME'] + intval($expire) ) . '|' . trim(md5( self::$csrf_key . $formId));
 
-        $code = Crypt::encrypt($code, Session::getCryptKey());
+        $code = Crypt::encrypt($code, App::$Session->getCryptKey());
 
         if(!$formId)
             App::$store['CSRF'] = [
@@ -180,7 +180,7 @@ class FormValidator {
             return $this->registerError('invalid_form_token');
         
         //$token = @Crypt::cryptare($token, self::$csrf_key, 'rijndael-128', false);
-        $token = @Crypt::decrypt($token, Session::getCryptKey());
+        $token = @Crypt::decrypt($token, App::$Session->getCryptKey());
         if(!$token)
             return $this->registerError('invalid_form_token');
 
@@ -403,9 +403,9 @@ class FormValidator {
     public function storeErrorsInSession(string $sessionKey = 'FROM_ERRORS', bool $asFlash = true) : void
     {
     	if($asFlash)
-			Session::set_flash($sessionKey, $this->errors);
+			App::$Session->set_flash($sessionKey, $this->errors);
 		else
-			Session::set($sessionKey, $this->errors);
+			App::$Session->set($sessionKey, $this->errors);
 	}
 
     /**

@@ -10,7 +10,8 @@ class DashBoard
 
     public function GetFonts() : void
     {
-        header('ContentType: application/octet-stream');
+        header('Content-Type: application/octet-stream');
+        header('Cache-Control: private, must-revalidate, max-age=7200');
         readfile(App::fullPath('Systems/cmd/_base/view/fonts/icons.woff2'));
     }
 } 

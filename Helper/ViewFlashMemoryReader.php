@@ -26,7 +26,7 @@ class ViewFlashMemoryReader
      */
     public function storeInputError(string $fieldName, string $error) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
@@ -35,7 +35,7 @@ class ViewFlashMemoryReader
 
         $hash['INPUT_ERRORS'][$fieldName] = $error;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
     /**
@@ -45,7 +45,7 @@ class ViewFlashMemoryReader
      */
     public function storeInputErrors(array $errorList) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
@@ -55,7 +55,7 @@ class ViewFlashMemoryReader
         foreach ($errorList as $fieldName => $error)
             $hash['INPUT_ERRORS'][$fieldName] = $error;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
     /**
@@ -65,13 +65,13 @@ class ViewFlashMemoryReader
      */
     public function storeActionError(string $error) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
         $hash['ACTION_ERROR'] = $error;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
     /**
@@ -81,13 +81,13 @@ class ViewFlashMemoryReader
      */
     public function storeSuccessMessage(string $message) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
         $hash['SUCCESS_MESSAGE'] = $message;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
     /**
@@ -97,13 +97,13 @@ class ViewFlashMemoryReader
      */
     public function storeWarning(string $warning) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
         $hash['WARNING'] = $warning;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
     /**
@@ -114,7 +114,7 @@ class ViewFlashMemoryReader
      */
     public function storeCustomError(string $errorType, string $error) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
@@ -123,7 +123,7 @@ class ViewFlashMemoryReader
 
         $hash['CUSTOM_ERRORS'][$errorType] = $error;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
     /**
@@ -134,7 +134,7 @@ class ViewFlashMemoryReader
      */
     public function storeCustomValue(string $indexName, mixed $value) : void
     {
-        $hash = Session::get($this->viewName);
+        $hash = App::$Session->get($this->viewName);
         if(is_null($hash))
             $hash = array();
 
@@ -143,7 +143,7 @@ class ViewFlashMemoryReader
 
         $hash['VALUES'][$indexName] = $value;
 
-        Session::set($this->viewName, $hash, true);
+        App::$Session->set($this->viewName, $hash, true);
     }
 
 }

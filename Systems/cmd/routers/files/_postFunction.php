@@ -29,7 +29,7 @@ public function functionName($params) : void
         App::$Model->connect('root');
 
         // End of request, send the response
-        Session::set_flash('ACTION_SUCCESS', 'SUCCESS MESSAGE');
+        App::$Session->set_flash('ACTION_SUCCESS', 'SUCCESS MESSAGE');
         $output->redirectTo('RULE-ID');
     }
 

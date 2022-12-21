@@ -84,7 +84,7 @@ class Systems
         $success = mkdir($systemDir);
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the System');
+            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the System');
             $output->redirectTo('cmd.systems');
         }
 
@@ -95,7 +95,7 @@ class Systems
             $success = mkdir($systemDir . '/_base');
             if(!$success)
             {
-                Session::set_flash('ACTION_ERROR', 'Unable to create the _base directory');
+                App::$Session->set_flash('ACTION_ERROR', 'Unable to create the _base directory');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -106,7 +106,7 @@ class Systems
                 $success &= copy($sourceDir . '_base.tpl', $systemDir . '/_base/view/base.tpl');
                 if(!$success)
                 {
-                    Session::set_flash('ACTION_ERROR', 'Unable to create the base template.');
+                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the base template.');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -117,7 +117,7 @@ class Systems
                 $success = mkdir($systemDir . '/_base/controller');
                 if(!$success)
                 {
-                    Session::set_flash('ACTION_ERROR', 'Unable to create the controller(s)');
+                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the controller(s)');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -128,7 +128,7 @@ class Systems
                 $success = copy($sourceDir . '_firewall.php', $systemDir . '/_base/controller/Firewall.php');
                 if(!$success)
                 {
-                    Session::set_flash('ACTION_ERROR', 'Unable to create the firewall');
+                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the firewall');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -145,7 +145,7 @@ class Systems
                 $success = $this->write($systemDir . '/_base/controller/' .$loaderClassName . '.php', $class);
                 if(!$success)
                 {
-                    Session::set_flash('ACTION_ERROR', 'Unable to create the pre-loader');
+                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the pre-loader');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -155,7 +155,7 @@ class Systems
         $success = mkdir($systemDir . '/_config');
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the configuration folder');
+            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the configuration folder');
             $output->redirectTo('cmd.systems');
         }
 
@@ -166,7 +166,7 @@ class Systems
 
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the router');
+            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the router');
             $output->redirectTo('cmd.systems');
         }
 
@@ -195,11 +195,11 @@ class Systems
         $success = $this->write($systemDir . '/_config/config.yaml', $content);
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create config file');
+            App::$Session->set_flash('ACTION_ERROR', 'Unable to create config file');
             $output->redirectTo('cmd.systems');
         }
 
-        Session::set_flash('ACTION_SUCCESS', 'System successfully created');
+        App::$Session->set_flash('ACTION_SUCCESS', 'System successfully created');
         $output->redirectTo('cmd.systems');
     }
 

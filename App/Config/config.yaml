@@ -1,4 +1,5 @@
 # GENERAL -----------------------------------
+# Important to update it with the current domain.
 domain: "arkit.com"
 
 # URL ---------------------------------------
@@ -52,6 +53,17 @@ cache:
   expire_time: 86400
   # Prefix
   prefix: _cache
+
+# VALIDATION ----------------------------------
+session:
+  # The session cookie name, must contain only [0-9a-z_-] characters
+  name: account
+  # The number of SECONDS you want the session to last.
+  # Setting it to 0 (zero) means expire when the browser is closed.
+  life_time: 0
+  # Seconds between to regenerating the session ID
+  time_to_update: 300
+
 
 # VALIDATION ----------------------------------
 validation:

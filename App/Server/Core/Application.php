@@ -14,7 +14,7 @@ require dirname($dir) . '/Routing/Router.php';
 require dirname($dir) . '/Error/ErrorHandler.php';
 require dirname($dir) . '/Logs/LogsManager.php';
 
-require dirname($dir) . '/Session/SessionManager.php';
+require dirname($dir) . '/Session/Session.php';
 require dirname($dir) . '/Model/Model.php';
 
 /**
@@ -85,6 +85,12 @@ final class App {
     public static ?LogsManager $Logs = null;
 
     /**
+     * Session manager
+     * @var ?Session
+     */
+    public static ?Session $Session = null;
+
+    /**
      * Constructor of the class
      */
     public function __construct()
@@ -119,6 +125,10 @@ final class App {
 
         // Init the errors handler
         ErrorHandler::init();
+        
+        // Init session manager
+        self::$Session = Session::getInstance();
+        self::$Session->init(self::$config['session']);
 
         // Set time zone
         date_default_timezone_set(self::$config['env']['time_zone']);

@@ -247,9 +247,9 @@ final class Output
 
         foreach($vars as $var)
         {
-            if(Session::is_set($var))
+            if(App::$Session->is_set($var))
             {
-            	$value = Session::get($var);
+            	$value = App::$Session->get($var);
             	$this->toHtmlEntities($value, false);
                 $this->template->assign($var, $value);
 			}

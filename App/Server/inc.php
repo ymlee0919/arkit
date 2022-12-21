@@ -3,15 +3,19 @@ define('DEBUG_MODE', 'DEBUG');
 define('TESTING_MODE', 'TESTING');
 define('RELEASE_MODE', 'RELEASE');
 
-define('RUN_MODE', DEBUG_MODE);
+//define('RUN_MODE', DEBUG_MODE);
 //define('RUN_MODE', TESTING_MODE);
-//define('RUN_MODE', RELEASE_MODE);
+define('RUN_MODE', RELEASE_MODE);
+
+ini_set('request_order', 'PG');
 
 switch(RUN_MODE)
 {
 	case RELEASE_MODE:
         error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+		ini_set('expose_php', 0);
 		ini_set('display_errors', '0');
+		ini_set('display_startup_errors', '0');
 		ini_set('log_errors', true);
 		ini_set('output_buffering', '4096');
 		ini_set('implicit_flush', 'Off');
@@ -21,6 +25,7 @@ switch(RUN_MODE)
         error_reporting(-1);
         ini_set('log_errors', true);
 		ini_set('display_errors', '1');
+        ini_set('display_startup_errors', '1');
 		ini_set('output_buffering', '4096');
 		ini_set('implicit_flush', 'Off');
 		break;
