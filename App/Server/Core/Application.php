@@ -117,6 +117,7 @@ final class App {
         self::$Logs = new LogsManager( self::$config['logs']);
         self::$Logs->init();
 
+        // Init the errors handler
         ErrorHandler::init();
 
         // Set time zone

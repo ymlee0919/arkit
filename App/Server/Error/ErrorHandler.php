@@ -57,26 +57,29 @@ final class ErrorHandler
     }
 
     /**
-     * @param int $type
+     * @param int|string $type
      * @param string $message
      * @param string $file
      * @param int $line
      * @param mixed $trace
      */
-    public static function handleServerError(int $type, string $message, string $file, int $line, mixed $trace) : void
+    public static function handleServerError(int|string $type, string $message, string $file, int $line, mixed $trace) : void
 	{
+        if(filter_var($type, FILTER_VALIDATE_INT) !== false)
+            $type = self::$errors[$type] ?? 'Internal Server Error';
+
 		switch(RUN_MODE)
 		{
 			case RELEASE_MODE:
-				App::$Logs->error(self::$errors[$type], $message, $file, $line,$trace);
+				App::$Logs->error($type, $message, $file, $line,$trace);
 				self::stop();
 				self::showInternalServerError();
 				exit;
 			
 			case TESTING_MODE:
             case DEBUG_MODE:
-				$error = self::buildErrorPage(self::$errors[$type], $message, $file, $line, $trace);
-                App::$Logs->error(self::$errors[$type], $message, $file, $line,$trace);
+				$error = self::buildErrorPage($type, $message, $file, $line, $trace);
+                App::$Logs->error($type, $message, $file, $line,$trace);
 				self::stop();
 				
 				header("Status: 500 Server Error");

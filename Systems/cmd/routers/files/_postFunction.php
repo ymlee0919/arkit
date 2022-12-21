@@ -26,6 +26,7 @@ public function functionName($params) : void
         }
 
         // Process the request ...
+        App::$Model->connect('root');
 
         // End of request, send the response
         Session::set_flash('ACTION_SUCCESS', 'SUCCESS MESSAGE');

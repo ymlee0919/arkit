@@ -3,17 +3,42 @@
 /**
  * Class Model
  */
-abstract class Model
+interface Model
 {
-    public abstract function beginTransaction() : void;
+    /**
+     * @return void
+     */
+    public function load() : void;
 
-    public abstract function commit() : void;
+    /**
+     * @param $className
+     * @return bool
+     */
+    public function loadClass($className) : bool;
 
-    public abstract function load() : void;
+    /**
+     * @param string $account
+     * @return void
+     */
+    public function connect(string $account) : void;
 
-    public abstract function rollback() : void;
+    /**
+     * @return void
+     */
+    public function beginTransaction() : void;
 
-    public abstract function loadClass($className) : bool;
+    /**
+     * @return void
+     */
+    public function commit() : void;
 
-    public abstract function release() : void;
+    /**
+     * @return void
+     */
+    public function rollback() : void;
+
+    /**
+     * @return void
+     */
+    public function release() : void;
 }

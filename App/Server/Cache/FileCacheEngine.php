@@ -13,10 +13,8 @@ class FileCacheEngine implements CacheInterface
 	public function __construct(array &$config)
 	{
         $this->cacheDirectory = App::fullPath('/resources/cache');
-        $this->prefix = $config['prefix'] ?? '_cache';
-        $this->expireTime = $config['expiry'] ?? 86400;
-
-
+        $this->prefix         = $config['prefix'] ?? '_cache';
+        $this->expireTime     = $config['expiry'] ?? 86400;
 	}
 
     public function init() : bool

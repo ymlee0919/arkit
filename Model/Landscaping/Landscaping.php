@@ -6,7 +6,7 @@ namespace Landscaping;
  * Class Landscaping
  * @package Landscaping
  */
-class Landscaping extends \Model
+class Landscaping implements \Model
 {
 
     /**
@@ -78,9 +78,11 @@ class Landscaping extends \Model
     public function load() : void
     {
 		import(null, 'Libs.Propel.vendor.autoload');
-		import(null, 'Model.Landscaping.config.config');
         spl_autoload_register(array($this, 'loadClass'), true);
+    }
 
+    public function connect(string $account): void
+    {
         $config = include dirname(__FILE__) . '/config/config.php';
 
         $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
@@ -88,12 +90,11 @@ class Landscaping extends \Model
         $serviceContainer->setAdapterClass('landscaping', 'mysql');
 
         $this->connectionManager = new \Propel\Runtime\Connection\ConnectionManagerSingle('landscaping');
-        $this->connectionManager->setConfiguration($config);
+        $this->connectionManager->setConfiguration($config[$account]);
 
         $this->connectionManager->setName('landscaping');
         $serviceContainer->setConnectionManager($this->connectionManager);
         $serviceContainer->setDefaultDatasource('landscaping');
-
     }
 
     /**
@@ -119,4 +120,5 @@ class Landscaping extends \Model
     {
         $this->connectionManager->closeConnections();
     }
+
 }

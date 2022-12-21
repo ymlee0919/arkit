@@ -6,7 +6,7 @@ namespace ModelName;
  * Class ModelName
  * @package ModelName
  */
-class ModelName extends \Model
+class ModelName implements \Model
 {
 
     /**
@@ -80,7 +80,10 @@ class ModelName extends \Model
 		import(null, 'Libs.Propel.vendor.autoload');
 		import(null, 'Model.ModelName.config.config');
         spl_autoload_register(array($this, 'loadClass'), true);
+    }
 
+    public function connect(string $account): void
+    {
         $config = include dirname(__FILE__) . '/config/config.php';
 
         $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
@@ -88,12 +91,11 @@ class ModelName extends \Model
         $serviceContainer->setAdapterClass('dataBase', 'mysql');
 
         $this->connectionManager = new \Propel\Runtime\Connection\ConnectionManagerSingle('dataBase');
-        $this->connectionManager->setConfiguration($config);
+        $this->connectionManager->setConfiguration($config[$account]);
 
         $this->connectionManager->setName('dataBase');
         $serviceContainer->setConnectionManager($this->connectionManager);
         $serviceContainer->setDefaultDatasource('dataBase');
-
     }
 
     /**
