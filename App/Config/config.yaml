@@ -1,6 +1,5 @@
 # GENERAL -----------------------------------
 domain: "arkit.com"
-logs_error: "App/Logs/logs_error.txt"
 
 # URL ---------------------------------------
 url:
@@ -19,21 +18,28 @@ url:
   # Maximum number of characters for post parameter name
   max_post_name_size: 32
   # Regular expression for post parameters name
-  post_param_name_format: [a-zA-Z0-9_.-]
+  post_param_name_format: '[a-zA-Z0-9_.-]+'
   # Maximum elements count for array sent by post
   max_post_array_size: 10
 
 # LOGS ---------------------------------------
+# Define handlers for internal system logs, each one need:
+# - the handler name (available File, Email)
+# - configuration (according the handler)
+# - array of levels that manage (Request, Info, Notice, Warning, Alert, Debug, Error)
 logs:
-  # Logs handler
-  # Enabled classes: File
-  handler: File
-  # Destination for logs, according the handler
-  logs_destination: App/logs/
-  # Destination for logs, according the handler
-  errors_destination: App/logs/errors.log
-  # Responsible to send the email
-  responsible_email: ymlee0919@gmail.com;flpmireles@gmail.com
+  handlers:
+    1:
+      name: File
+      config:
+        output_directory: App/Logs/
+      levels: [Request, Info, Notice, Warning, Alert, Debug, Error]
+    2:
+      name: Email
+      config:
+        destination_email: ymlee0919@gmail.com;flpmireles@gmail.com
+        sender_account: no-reply@gardencruz.com
+      levels: [Error]
 
 # CACHE ---------------------------------------
 cache:

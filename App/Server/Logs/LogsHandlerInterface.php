@@ -2,6 +2,13 @@
 
 interface LogsHandlerInterface
 {
+
+    /**
+     * Initialize the handler
+     * @return void
+     */
+    public function init() : void;
+
     /**
      * Register a request made to the application
      * @param Request $request

@@ -1,30 +1,61 @@
 <?php
 
+/**
+ *
+ */
 class EmailLogsHandler implements LogsHandlerInterface
 {
-    private string $senderInbox;
+    /**
+     * @var string|mixed
+     */
+    private string $senderAccount;
 
+    /**
+     * @var string|mixed
+     */
     private string $destinationEmail;
 
+    /**
+     * @var EmailDispatcher|null
+     */
     private ?EmailDispatcher $dispatcher;
 
+    /**
+     * @param array $config
+     */
     public function __construct(array &$config)
     {
-        $this->senderInbox      = $config['sender'];
-        $this->destinationEmail = $config['responsible_email'];
+        $this->senderAccount    = $config['sender_account'];
+        $this->destinationEmail = $config['destination_email'];
+    }
 
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
+    {
         if(import('EmailDispatcher', 'Services.Email.EmailDispatcher'))
         {
             $this->dispatcher = new EmailDispatcher();
-            $this->dispatcher->setSender($this->senderInbox);
+            $this->dispatcher->setSender($this->senderAccount);
         }
     }
 
-    private function send(string $message)
+    /**
+     * @param string $message
+     * @return bool
+     */
+    private function send(string $message) : bool
     {
-        $this->dispatcher->connect();
-        $this->dispatcher->send($this->destinationEmail, 'Internal Server Error - ' . $_SERVER['SERVER_NAME'], $message);
-        $this->dispatcher->release();
+        if($this->dispatcher->connect())
+        {
+            $success = $this->dispatcher->send($this->destinationEmail, 'Internal Server Error - ' . $_SERVER['SERVER_NAME'], $message);
+            $this->dispatcher->release();
+        }
+        else
+            $success = false;
+
+        return $success;
     }
 
     /**
@@ -41,7 +72,7 @@ class EmailLogsHandler implements LogsHandlerInterface
             '{cookies}'   => json_encode($_COOKIE)
         ]);
 
-        $this->send($content);
+        return $this->send($content);
     }
 
     /**
@@ -59,7 +90,7 @@ class EmailLogsHandler implements LogsHandlerInterface
             foreach ($context as $key => $value)
                 $content .= '  ' . strval($key) . ': ' . (is_array($value)) ? json_encode($value) : strval($value) . "<br>";
 
-        $this->send($content);
+        return $this->send($content);
     }
 
     /**
@@ -99,6 +130,6 @@ CONTENT;
             '{callStack}' => $stack
         ]);
 
-        $this->send($content);
+        return $this->send($content);
     }
 }

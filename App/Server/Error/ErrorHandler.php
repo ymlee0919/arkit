@@ -98,15 +98,15 @@ final class ErrorHandler
         switch(RUN_MODE)
         {
             case RELEASE_MODE:
-                App::$Logs->error($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
+                App::$Logs->error($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
                 self::stop();
                 self::showInternalServerError();
                 exit;
 
             case TESTING_MODE:
             case DEBUG_MODE:
-                $error = self::buildErrorPage($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(),$trace);
-                App::$Logs->error($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
+                $error = self::buildErrorPage($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(),$trace);
+                App::$Logs->error($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
                 self::stop();
                 header("Status: 500 Server Error");
                 echo $error;

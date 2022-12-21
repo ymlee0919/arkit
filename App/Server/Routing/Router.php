@@ -182,6 +182,9 @@ final class Router implements RouterInterface {
      */
     public function buildUrl(string $id, ?array $params = null) : string
     {
+        if(!isset($this->hash[$id]))
+            throw new InvalidArgumentException('The routing id "' . $id .'" do not exists into the current router');
+
         if($params == null)
             return $this->hash[$id]['url'];
 

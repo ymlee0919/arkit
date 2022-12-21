@@ -26,7 +26,7 @@ class PersonalDataValidator extends FieldValidator {
         if(!$this->validField)
             return $this;
             
-        if(!filter_var($this->value, FILTER_VALIDATE_EMAIL))
+        if(false === filter_var($this->value, FILTER_VALIDATE_EMAIL))
             $this->form->registerError('invalid_email');
         else
             $this->realValue = $this->value;
@@ -46,7 +46,7 @@ class PersonalDataValidator extends FieldValidator {
         $values = explode($separator, $this->value);
         foreach($values as $value)
         {
-            if(!filter_var(trim($value), FILTER_VALIDATE_EMAIL))
+            if(false === filter_var(trim($value), FILTER_VALIDATE_EMAIL))
             {
                 $this->form->registerError('invalid_email');
                 break;

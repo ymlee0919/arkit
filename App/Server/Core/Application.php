@@ -110,21 +110,22 @@ final class App {
      */
     public function init() : void
     {
-        ErrorHandler::init();
-
         // Init configuration
         self::$config = ConfigReader::ReadFile( self::$ROOT_DIR . '/App/Config/config.yaml' );
+
+        // Load the logs manager
+        self::$Logs = new LogsManager( self::$config['logs']);
+        self::$Logs->init();
+
+        ErrorHandler::init();
 
         // Set time zone
         date_default_timezone_set(self::$config['env']['time_zone']);
 
         // Load cache
-        $cacheClass = self::$config['cache']['class'] . 'CacheHandler';
+        $cacheClass = self::$config['cache']['handler'] . 'CacheEngine';
         import($cacheClass,'App.Server.Cache.' . $cacheClass);
         self::$Cache = new $cacheClass(self::$config['cache']);
-
-        // Load the logs manager
-        self::$Logs = new LogsManager(self::$config['logs']['handler'], self::$config['logs']);
 
         // Load output
         self::$Output = new Output();

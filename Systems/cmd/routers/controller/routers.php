@@ -101,8 +101,8 @@ class Routers
 
         $form->setId('ROUTER-MANAGER');
         $form->checkValues(App::$Request);
-        $form->validate('system')->isRequired()->isString()->matchWith('/^[a-zA-Z]+$/');
-        $form->validate('id')->isString()->matchWith('/^[a-z\.]+$/');
+        $validSystem = $form->validate('system')->isRequired()->isString()->matchWith('/^[a-zA-Z]+$/')->isValid();
+        $form->validate('id')->isRequired('The rule id is required')->isString()->matchWith('/^[a-z]+$/');
         $form->validate('template')->isString()->matchWith('/^[A-Za-z0-9_\.-]+$/');
 
         $form->validateCsrfCode();
@@ -110,7 +110,10 @@ class Routers
         if(!$form->isValid())
         {
             $form->storeErrorsInSession('INPUT_ERROR', true);
-            $output->redirectTo(App::$Router->buildUrl('cmd.systems'));
+            if(!$validSystem)
+                $output->redirectTo('cmd.systems');
+            else
+                $output->redirectTo('cmd.router', ['system' => $post['system']]);
         }
 
         $system = $post['system'];

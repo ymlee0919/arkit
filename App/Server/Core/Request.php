@@ -149,20 +149,42 @@ final class Request {
         foreach($_POST as $key => $value)
         {
             // If exceed the number of available parameters
-            if(isset($config['max_post_params']) && $i >= $config['max_post_params']) break;
+            if(isset($config['max_post_params']) && $i >= $config['max_post_params']) {
+                App::$Logs->notice("Parameter '$key' skipped. Maximum allowed.");
+                break;
+            }
             // Validate name length
-            if(isset($config['max_post_name_size']) && isset($key[$config['max_post_name_size']])) continue;
+            if(isset($config['max_post_name_size']) && isset($key[$config['max_post_name_size']]))
+            {
+                App::$Logs->notice("Parameter name '$key' have invalid size.");
+                continue;
+            }
             // Validate name
-            if(!is_null($pattern) && !preg_match($pattern, $key)) continue;
+            if(!is_null($pattern) && !preg_match($pattern, $key))
+            {
+                App::$Logs->notice("Parameter name '$key' mismatch $pattern pattern.");
+                continue;
+            }
 
             if(!is_array($value))
             {
                 if(!mb_check_encoding($key, 'UTF-8'))
+                {
+                    App::$Logs->notice("Parameter name '$key' have not UTF-8 encoding.");
                     continue;
+                }
                 if(mb_detect_encoding($value) == 'UTF-8')
+                {
+                    if(mb_strlen($value, 'UTF-8') > $max)
+                        App::$Logs->notice("Parameter '$key' truncate to $max characters.");
                     $value = mb_substr($value, 0, $max);
+                }
                 elseif(mb_detect_encoding($value, 'ASCII'))
+                {
+                    if(mb_strlen($value, 'ASCII') > $max)
+                        App::$Logs->notice("Parameter '$key' truncate to $max characters.");
                     $value = utf8_encode( mb_substr($value, 0, $max) );
+                }
                 else
                     continue;
 
@@ -170,14 +192,27 @@ final class Request {
             }
             else
             {
-                if( isset($config['max_post_array_size']) && isset($value[$config['max_post_array_size']])) continue;
-                $list = [];
+                if( isset($config['max_post_array_size']) && isset($value[$config['max_post_array_size']]))
+                {
+                    App::$Logs->notice("Parameter name '$key' exceed the {$config['max_post_array_size']} elements.");
+                    continue;
+                }
+                $list = []; $i = -1;
                 foreach($value as $val)
                 {
+                    $i++;
                     if(mb_detect_encoding($val) == 'UTF-8')
+                    {
+                        if(mb_strlen($val, 'UTF-8') > $max)
+                            App::$Logs->notice("Parameter '$key [$i]' truncate to $max characters.");
                         $list[] = mb_substr($val, 0, $max);
+                    }
                     elseif(mb_detect_encoding($val, 'ASCII'))
+                    {
+                        if(mb_strlen($val, 'ASCII') > $max)
+                            App::$Logs->notice("Parameter '$key [$i]' truncate to $max characters.");
                         $list[] = utf8_encode( mb_substr($val, 0, $max) );
+                    }
                     else
                         continue;
                 }
@@ -188,18 +223,6 @@ final class Request {
             unset($_POST[$key]);
             $i++;
         }
-    }
-
-    /**
-     * Get a string representation of the request
-     */
-    public function toString() : void
-    {
-        echo "Request: " . $this->_url . "<br>\n";
-        echo "Levels: " . print_r($this->levels, true) . "<br>\n";
-        echo "Options: " . print_r($this->_get, true) . "<br>\n";
-        echo "Request Method: " . $_SERVER['REQUEST_METHOD'] . "<br>\n";
-		echo "IsValid: " . (($this->isValid) ? "Yes" : "No");
     }
 
     /**

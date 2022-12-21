@@ -177,7 +177,7 @@ class StringValidator extends FieldValidator {
         if(!$this->validField)
             return $this;
 
-        if(false === preg_match($pattern, $this->value))
+        if(!preg_match($pattern, $this->value))
         	return $this->registerError('invalid_expression');
         	
 		return $this;

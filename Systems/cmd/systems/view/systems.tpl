@@ -10,8 +10,8 @@
             <i class="close material-icons yellow-text">close</i>
         </div>
     {{/if}}
-    {{if isset($INPUT_ERRORS)}}
-        {{foreach $INPUT_ERRORS as $field => $error}}
+    {{if isset($INPUT_ERROR)}}
+        {{foreach $INPUT_ERROR as $field => $error}}
             <div class="chip red white-text">
             {{$error}}
             <i class="close material-icons yellow-text">close</i>

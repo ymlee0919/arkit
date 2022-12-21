@@ -9,12 +9,6 @@ class FileLogsHandler implements LogsHandlerInterface
     protected string $outputDirectory = 'App/Logs/';
 
     /**
-     * File to write errors
-     * @var string
-     */
-    protected string $outputFileErrors = 'App/logs/errors.log';
-
-    /**
      * Request made
      * @var Request
      */
@@ -25,14 +19,29 @@ class FileLogsHandler implements LogsHandlerInterface
      */
     public function __construct($config)
     {
-        if(isset($config['logs_destination']))
-            $this->outputDirectory = $config['logs_destination'];
+        if(isset($config['output_directory']))
+            $this->outputDirectory = $config['output_directory'];
+    }
 
-        if(isset($config['errors_destination']))
-            $this->outputDirectory = $config['errors_destination'];
+    public function init() : void
+    {
+        // Return if directory is created
+        if(is_dir(App::fullPath($this->outputDirectory)))
+            return;
+
+        // Create directories if not exists
+        $parts = explode('/', $this->outputDirectory);
+        $current = App::$ROOT_DIR;
+
+        foreach ($parts as $directory)
+        {
+            if(empty($directory)) continue;
+            $current .= '/' . $directory;
+            if(!is_dir($current))
+                mkdir($current);
+        }
 
         $this->outputDirectory = App::fullPath($this->outputDirectory);
-        $this->outputFileErrors = App::fullPath($this->outputFileErrors);
     }
 
     /**
@@ -70,18 +79,18 @@ class FileLogsHandler implements LogsHandlerInterface
     {
         $this->request = $request;
 
-        $content  = "----------------------------------------------------\n";
-        $content .= strtr("[{moment}] {method} {domain}{url} FROM: {from}\nCookies: {cookies}",[
+        $content = strtr("\n[{moment}] {method} {domain}{url} FROM: {from}\nCookies: {cookies}\nParameters: {parameters}\n",[
             '{moment}'    => date('d-m-Y H:i:s', $_SERVER['REQUEST_TIME']),
             '{method}'    => strtoupper($_SERVER['REQUEST_METHOD']),
             '{domain}'    => $_SERVER['SERVER_NAME'],
             '{url}'       => urldecode($_SERVER['REQUEST_URI']),
             '{from}'      => $_SERVER['SERVER_ADDR'],
-            '{cookies}'   => json_encode($_COOKIE)
+            '{cookies}'   => json_encode($_COOKIE),
+            '{parameters}'   => json_encode($_REQUEST),
         ]);
 
         // Build fileName
-        $filePath = $this->outputDirectory . 'log-' . date('Y-m-d') . '.log';
+        $filePath = $this->outputDirectory  . date('Y.m.d') . '-trace.log';
 
         return $this->write($content, $filePath);
     }
@@ -92,17 +101,20 @@ class FileLogsHandler implements LogsHandlerInterface
     public function registerLog(string $logType, string $message, ?array $context = null) : bool
     {
         // Build the content
-        $content = strtr("[{moment}] {logType}: {message}\n",[
+        $content = strtr("\n[{moment}] {logType}: {message}\n",[
             '{moment}'  =>  date('d-m-Y H:i:s'),
             '{logType}' => $logType,
             '{message}' => $message
         ]);
         if(!is_null($context))
             foreach ($context as $key => $value)
-                $content .= '  ' . strval($key) . ': ' . (is_array($value)) ? json_encode($value) : strval($value) . "\n";
+                $content .= strtr(" {key}: {value}\n",[
+                    '{key}' => $key,
+                    '{value}' => is_array($value) ? json_encode($value) : $value
+                ]);
 
         // Build fileName
-        $filePath = $this->outputDirectory . 'log-' . date('Y-m-d') . '.log';
+        $filePath = $this->outputDirectory . date('Y.m.d') . '-logs.log';
 
         return $this->write($content, $filePath);
     }
@@ -116,13 +128,13 @@ class FileLogsHandler implements LogsHandlerInterface
         $stack = '';
         foreach($backtrace as $inv)
         {
-            $stack .= sprintf('# %s, line %s :: ', ((isset($inv['file'])) ? $inv['file'] : '(NO FILE)'), ((isset($inv['line'])) ? $inv['line'] : '(NO LINE)'));
+            $stack .= sprintf(' # %s, line %s :: ', ((isset($inv['file'])) ? $inv['file'] : '(NO FILE)'), ((isset($inv['line'])) ? $inv['line'] : '(NO LINE)'));
             $stack .= (isset($inv['class'])) ?  $inv['class'] . $inv['type'] . $inv['function'] : $inv['function'];
             $stack .= "\n";
         }
 
         // Build the logs message
-        $content = strtr("[{moment}] {method} {domain}{url} FROM: {from}\n{errorType}: {message} reported on file {file}, line {line}\n{callStack}",[
+        $content = strtr("[{moment}] {errorType}: {message}\nRequest: {method}::{domain}{url} FROM: {from}\nFile: {file}, line {line}\n{callStack}",[
             '{moment}'    => date('d-m-Y H:i:s', $_SERVER['REQUEST_TIME']),
             '{method}'    => strtoupper($_SERVER['REQUEST_METHOD']),
             '{domain}'    => $_SERVER['SERVER_NAME'],
@@ -136,6 +148,7 @@ class FileLogsHandler implements LogsHandlerInterface
         ]);
         $content .= "----------------------------------------------------------------------\n";
 
-        return $this->write($content, $this->outputFileErrors);
+        $filePath = $this->outputDirectory . date('Y.m.d') . '-errors.log';
+        return $this->write($content, $filePath);
     }
 }

@@ -43,34 +43,26 @@ final class LogsManager
         $this->config = $config;
     }
 
-    public function init()
+    public function init(): void
     {
-        $this->setHandler('file', $this->config,
-            LOG_LEVEL_REQUEST, LOG_LEVEL_INFO, LOG_LEVEL_NOTICE, LOG_LEVEL_WARNING, LOG_LEVEL_ALERT, LOG_LEVEL_DEBUG, LOG_LEVEL_ERROR);
+        foreach ($this->config['handlers'] as $handler)
+        {
+            $handlerClass = $handler['name'] . 'LogsHandler';
+            if(import($handlerClass, 'App.Server.Logs.' . $handlerClass))
+            {
+                $logHandler = new $handlerClass($handler['config']);
+                $this->setHandler($logHandler, $handler['levels']);
+            }
+        }
     }
 
-    public function setHandler(string $handler, array &$config, string ...$logTypes)
+    public function setHandler(LogsHandlerInterface $handler, array $logTypes): void
     {
-        $logHandler = null;
-        switch (strtolower($handler))
-        {
-            case 'file':
-                import('FileLogsHandler', 'App.Server.Logs.FileLogsHandler');
-                $logHandler = new FileLogsHandler($config);
-                break;
-
-            case 'email':
-                import('EmailLogsHandler', 'App.Server.Logs.EmailLogsHandler');
-                $logHandler = new EmailLogsHandler($config);
-                break;
-
-            default:
-                throw new Exception("Logs handler '$handler' not found");
-        }
+        $handler->init();
 
         foreach ($logTypes as $type)
             if(isset($this->handlers[$type]))
-                $this->handlers[$type][] = $logHandler;
+                $this->handlers[$type][] = $handler;
     }
 
     /**
@@ -96,12 +88,11 @@ final class LogsManager
             // Get class and function that register the log
             $backTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             do
-                $trace = array_pop($backTrace);
-            while($trace['class'] === __CLASS__);
+                $trace = array_shift($backTrace);
+            while($trace['file'] === __FILE__);
 
             $context = [
-                'Request' => $_SERVER['SERVER_NAME'] . urldecode($_SERVER['REQUEST_URI']),
-                'Function' => (isset($inv['class'])) ? sprintf('%s%s%s', $trace['class'], $trace['type'], $trace['function']) : $trace['function'],
+                'Request' => '[' . strtoupper($_SERVER['REQUEST_METHOD']) . ']'.$_SERVER['SERVER_NAME'] . urldecode($_SERVER['REQUEST_URI']),
                 'File' => $trace['file'] . ' on line ' . $trace['line']
             ];
         }

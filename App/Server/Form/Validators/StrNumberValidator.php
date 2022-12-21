@@ -31,7 +31,7 @@ class StrNumberValidator extends FieldValidator
         if(!$this->validField)
             return $this;
             
-    	if(false === preg_match('/^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/', $this->value))
+    	if(!preg_match('/^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/', $this->value))
     		return $this->registerError('invalid_roman_number');
 
     	return $this;
@@ -73,7 +73,7 @@ class StrNumberValidator extends FieldValidator
         if(!$this->validField)
             return $this;
             
-    	if(false === preg_match('/^[0-1]$/', $this->value))
+    	if(!preg_match('/^[0-1]$/', $this->value))
     		return $this->registerError('invalid_binary_number');
     	
     	return $this;
@@ -87,7 +87,7 @@ class StrNumberValidator extends FieldValidator
         if(!$this->validField)
             return $this;
             
-        if(false === preg_match('/^#?[0-9A-F]{6,6}$/', strtoupper($this->value)))
+        if(!preg_match('/^#?[0-9A-F]{6,6}$/', strtoupper($this->value)))
         	return $this->registerError('invalid_rgb_color');
         
         return $this;

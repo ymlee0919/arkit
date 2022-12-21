@@ -87,7 +87,7 @@ class Models
             $success = true;
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the Model');
+            Session::set('ACTION_ERROR', 'Unable to create the Model', true);
             $output->redirectTo(App::$Router->buildUrl('cmd.models'));
         }
 
@@ -98,7 +98,7 @@ class Models
             $success = true;
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the configuration');
+            Session::set('ACTION_ERROR', 'Unable to create the configuration', true);
             $output->redirectTo(App::$Router->buildUrl('cmd.models'));
         }
 
@@ -109,7 +109,7 @@ class Models
         $success = $this->write($modelDir . '/' . $model . '.php', $class);
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the Model Class');
+            Session::set('ACTION_ERROR', 'Unable to create the Model Class', true);
             $output->redirectTo(App::$Router->buildUrl('cmd.models'));
         }
 
@@ -124,7 +124,7 @@ class Models
         $success = $this->write($modelDir . '/config/config.php', $class);
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the Config file');
+            Session::set('ACTION_ERROR', 'Unable to create the Config file', true);
             $output->redirectTo(App::$Router->buildUrl('cmd.models'));
         }
 
@@ -139,11 +139,11 @@ class Models
         $success = $this->write($modelDir . '/config/propel.yaml', $config);
         if(!$success)
         {
-            Session::set_flash('ACTION_ERROR', 'Unable to create the Propel config file');
+            Session::set('ACTION_ERROR', 'Unable to create the Propel config file', true);
             $output->redirectTo(App::$Router->buildUrl('cmd.models'));
         }
 
-        Session::set_flash('ACTION_SUCCESS', 'Model successfully created');
+        Session::set('ACTION_SUCCESS', 'Model successfully created', true);
         $output->redirectTo('cmd.models');
     }
 
