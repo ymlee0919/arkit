@@ -74,9 +74,9 @@ final class App {
 
     /**
      * Router
-     * @var ?Router
+     * @var ?RouterInterface
      */
-    public static ?Router $Router = null;
+    public static ?RouterInterface $Router = null;
 
     /**
      * Logs manager
@@ -96,7 +96,6 @@ final class App {
     public function __construct()
 	{	
 		// Load the configuration
-        self::$ROOT_DIR = getcwd();
         self::$config = [];
         self::$store = [];
 	}
@@ -116,6 +115,8 @@ final class App {
      */
     public function init() : void
     {
+        self::$ROOT_DIR = getcwd();
+
         // Init configuration
         self::$config = ConfigReader::ReadFile( self::$ROOT_DIR . '/App/Config/config.yaml' );
 
@@ -273,10 +274,10 @@ final class App {
 
     /**
      * @param string $path
-     * @return ?Router
+     * @return ?RouterInterface
      * @throws Exception
      */
-    public static function getRouter(string &$path) : ?Router
+    public static function getRouter(string &$path) : ?RouterInterface
 	{
 		$router = null;
         $full_path = self::$ROOT_DIR . '/Systems/' . $path;

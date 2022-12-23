@@ -1,8 +1,7 @@
 <?PHP
-ini_set('display_errors', 'on');
-
 //$time = microtime(true);
 
+require 'App/Server/conf.php';
 require 'App/Server/inc.php';
 require 'App/Server/Core/Application.php';
 

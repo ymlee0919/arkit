@@ -61,8 +61,8 @@ class Session
 	public function init(array &$config) : void
 	{
 		$this->sessionCookieName = $config['name'] ?? 'account';
-		$this->sessionExpiration = $config['life_time'] ?? 7200;
-		$this->sessionTimeToUpdate = $config['time_to_update'] ?? 600;
+		$this->sessionExpiration = $config['life_time'] ?? 1440;
+		$this->sessionTimeToUpdate = $config['time_to_update'] ?? 300;
 		$this->sessionCookieDomain = '.' . ($config['domain'] ?? App::$config['domain'] ?? $_SERVER['SERVER_NAME']);
 
 		// Get or set the cookie session name
@@ -78,7 +78,7 @@ class Session
 		ini_set('session.use_cookies', '1');
 		ini_set('session.use_only_cookies', '1');
 		ini_set('session.cookie_httponly', '1');
-		//ini_set('session.cache_limiter', 'nocache');
+		ini_set('session.cache_limiter', 'nocache');
 		ini_set('session.cookie_samesite', 'Lax');
 		if(!empty($_SERVER['HTTPS']))
 			ini_set('session.cookie_secure', '1');
@@ -110,11 +110,11 @@ class Session
     {
         $bitsPerCharacter = (int) (ini_get('session.sid_bits_per_character') !== false
             ? ini_get('session.sid_bits_per_character')
-            : 4);
+            : 5);
 
         $sidLength = (int) (ini_get('session.sid_length') !== false
             ? ini_get('session.sid_length')
-            : 40);
+            : 64);
 
         if (($sidLength * $bitsPerCharacter) < 160) {
             $bits = ($sidLength * $bitsPerCharacter);
@@ -123,7 +123,7 @@ class Session
             ini_set('session.sid_length', (string) $sidLength);
         }
 
-		// Yes, 4,5,6 are the only known possible values as of 2016-10-27
+		// Yes, 4,5,6 are the only known possible values
 		switch ($bitsPerCharacter) {
 			case 4:
 				$this->sidRegexp = '[0-9a-f]';
@@ -151,7 +151,6 @@ class Session
 			App::$Logs->warning('Session: Sessions is enabled, and one exists.Please don\'t App::$Session->start();');
 			return;
 		}
-
 
 		// Sanitize the cookie, because apparently PHP doesn't do that for userspace handlers
 		if (isset($_COOKIE[$this->sessionCookieName])
@@ -191,9 +190,22 @@ class Session
 
 		// Init vars
 		if(!isset($_SESSION['__VARS']))
+		{
 			$_SESSION['__VARS'] = array();
+			$_SESSION['FingerPrint'] = hash('snefru256', $_SERVER['HTTP_USER_AGENT']);
+		}
 		else
 		{
+			// If not set the fingerprint, destroy the current session
+			if(!isset($_SESSION['FingerPrint']) || $_SESSION['FingerPrint'] != hash('snefru256', $_SERVER['HTTP_USER_AGENT']))
+			{
+				$sId = session_id();
+				$this->destroy();
+				App::$Logs->warning('FingerPrint session mismatch, deleted session: ' . $sId);
+				
+				session_start();
+				return;
+			}
 			$keys = array_keys($_SESSION);
 			foreach($keys as $key)
 			{
@@ -306,6 +318,23 @@ class Session
 		$_SESSION['__LAST_REGENERATE'] = time();
 		session_regenerate_id($removeOld);
 	}
+	
+	public function destroy() : void
+	{
+		// Destroy the session
+		session_destroy();
+		// Remove the cookie
+		setcookie($this->sessionCookieName, $sId, [
+			'expires'  	=> time() - 7200,
+			'path'     	=> '/',
+			'domain' 	=> $this->sessionCookieDomain,
+			'secure' 	=> empty($_SERVER['HTTPS']),
+			'httponly' 	=> true, // for security
+			'samesite' 	=> 'Lax',
+			'raw'      	=> false,
+		]);
+	}
+
 
     /**
      * @param array $options
