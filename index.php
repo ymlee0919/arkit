@@ -3,7 +3,7 @@
 
 require 'App/Server/conf.php';
 require 'App/Server/inc.php';
-require 'App/Server/Core/Application.php';
+require 'App/Server/Application.php';
 
 $clientRequest = new Request();
 

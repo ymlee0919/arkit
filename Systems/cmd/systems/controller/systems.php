@@ -3,7 +3,7 @@ class Systems
 {
     public function ShowSystems()
     {
-        $output = App::$Output;
+        $output = App::$Response;
         $output->loadTemplate('systems.tpl');
 
         // Load the name of the systems
@@ -23,7 +23,7 @@ class Systems
 
     public function NewSystem()
     {
-        $output = App::$Output;
+        $output = App::$Response;
         $output->loadTemplate('new.tpl');
 
         // Set form ID
@@ -49,7 +49,7 @@ class Systems
 
     public function Add()
     {
-        $output = &App::$Output;
+        $output = &App::$Response;
 
         // Validate entry
         $post = App::$Request->getAllPostParams();

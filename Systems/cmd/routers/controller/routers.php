@@ -3,7 +3,7 @@ class Routers
 {
     public function ManageRouter($system)
     {
-        $output = App::$Output;
+        $output = App::$Response;
         $output->loadTemplate('router.tpl');
 
         // Set form ID
@@ -20,7 +20,7 @@ class Routers
 
     public function GenerateAll()
     {
-        $output = &App::$Output;
+        $output = &App::$Response;
 
         // Validate entry
         $post = App::$Request->getAllPostParams();
@@ -92,7 +92,7 @@ class Routers
 
     public function GenerateRule()
     {
-        $output = &App::$Output;
+        $output = &App::$Response;
 
         // Validate entry
         $post = App::$Request->getAllPostParams();

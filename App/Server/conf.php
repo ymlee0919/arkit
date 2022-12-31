@@ -44,7 +44,6 @@ ini_set('register_globals', 'Off');
 ini_set('cgi.force_redirect', 'On');
 ini_set('open_basedir', getcwd());
 
-
 switch(RUN_MODE)
 {
     case RELEASE_MODE:

@@ -2,20 +2,22 @@
 
 $dir = dirname(__FILE__);
 
-require dirname($dir). '/Config/ConfigReader.php';
+require $dir. '/Config/ConfigReader.php';
 
-require $dir . '/Output.php';
-require $dir . '/Request.php';
+require $dir . '/Request/Request.php';
+require $dir . '/Response/Response.php';
 
-require dirname($dir) . '/Routing/DomainRouter.php';
-require dirname($dir) . '/Routing/RouterInterface.php';
-require dirname($dir) . '/Routing/Router.php';
+require $dir . '/Routing/DomainRouter.php';
+require $dir . '/Routing/RouterInterface.php';
+require $dir . '/Routing/Router.php';
 
-require dirname($dir) . '/Error/ErrorHandler.php';
-require dirname($dir) . '/Logs/LogsManager.php';
+require $dir . '/Error/ErrorHandler.php';
+require $dir . '/Logs/LogsManager.php';
 
-require dirname($dir) . '/Session/Session.php';
-require dirname($dir) . '/Model/Model.php';
+require $dir . '/Session/Session.php';
+require $dir . '/Cookie/CookieStore.php';
+
+require $dir . '/Model/Model.php';
 
 /**
  * Class Application
@@ -49,9 +51,9 @@ final class App {
 
     /**
      * Output
-     * @var ?Output
+     * @var ?Response
      */
-    public static ?Output $Output = null;
+    public static ?Response $Response = null;
 
     /**
      * Cache manager
@@ -89,6 +91,12 @@ final class App {
      * @var ?Session
      */
     public static ?Session $Session = null;
+
+    /**
+     * Cookies manager
+     * @var ?CookieStore
+     */
+    public static ?CookieStore $Cookies = null;
 
     /**
      * Constructor of the class
@@ -131,6 +139,9 @@ final class App {
         self::$Session = Session::getInstance();
         self::$Session->init(self::$config['session']);
 
+        // Init cookies manager with cookies sent from client and skip the name of session
+        self::$Cookies = CookieStore::fromServerRequest(self::$config['session']['name']);
+
         // Set time zone
         date_default_timezone_set(self::$config['env']['time_zone']);
 
@@ -140,7 +151,7 @@ final class App {
         self::$Cache = new $cacheClass(self::$config['cache']);
 
         // Load output
-        self::$Output = new Output();
+        self::$Response = new Response();
 
         unset($cacheClass);
     }
@@ -161,14 +172,14 @@ final class App {
 
         // If not valid after a primary processing, throw a wrong page
         if(!$request->isValid())
-            self::$Output->throwWrongPage();
+            self::$Response->throwWrongPage();
 
         $domainConfig = self::readConfig(self::fullPath('App/Config/routing.yaml'));
         $domainRouter = new DomainRouter($domainConfig);
 
         $routerPath = $domainRouter->route($request);
         if(!$routerPath)
-            self::$Output->throwWrongPage();
+            self::$Response->throwWrongPage();
 
         // Get the system
         self::$store['SYSTEM'] = explode('/', $routerPath)[0];
@@ -178,7 +189,7 @@ final class App {
         $routing = self::$Router->route($request->getRequestUrl(), $request->getRequestMethod());
 
         if(is_null($routing))
-            self::$Output->throwWrongPage();
+            self::$Response->throwWrongPage();
 
         // Store the routing result
         self::$store['ROUTING'] = $routing;
@@ -205,7 +216,7 @@ final class App {
         // Validate the request given the new configuration
         $valid = self::$Request->validate(self::$config['url']);
         if(!$valid)
-            self::$Output->throwWrongPage();
+            self::$Response->throwWrongPage();
 
         // Execute firewall first, if it is set
         if(isset(self::$config['firewall']))
@@ -256,7 +267,7 @@ final class App {
         // Set the default directory to the output
         $tokens = explode('.', $items[1][0]);
         array_pop($tokens);array_pop($tokens);
-        self::$Output->setWorkingDir(implode('/', $tokens));
+        self::$Response->setWorkingDir(implode('/', $tokens));
 
         // Clean the memory before call the method
         unset($items);

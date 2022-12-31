@@ -3,7 +3,7 @@ class Samples
 {
     public function Show()
     {
-        $output = App::$Output;
+        $output = App::$Response;
         $output->loadTemplate('samples.tpl');
 
         $output->displayTemplate();

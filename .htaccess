@@ -43,6 +43,8 @@ DirectoryIndex index.php
 
     # Rewrite all other queries to the front controller.
     RewriteRule .? %{ENV:BASE}/index.php [L]
+
+
 </IfModule>
 
 <IfModule !mod_rewrite.c>
@@ -95,11 +97,13 @@ DirectoryIndex index.php
   <filesMatch "\.(x?html?|php)$">
     Header set Cache-Control "private, must-revalidate, max-age=7200"
   </filesMatch>
+
 </ifModule>
 
 <IfModule mod_php5.c>
-  php_value session.cookie_lifetime 7200
-  php_value session.gc_maxlifetime 7200
+  php_value session.cookie_lifetime 1440
+  php_value session.gc_maxlifetime 1440
+  php_value expose_php Off
 </IfModule>
 
 <IfModule mod_headers.c>

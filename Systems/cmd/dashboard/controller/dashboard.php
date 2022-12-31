@@ -3,7 +3,7 @@ class DashBoard
 {
     public function Show() : void
     {
-        $output = App::$Output;
+        $output = App::$Response;
         $output->loadTemplate('main.tpl');
         $output->displayTemplate();
     }

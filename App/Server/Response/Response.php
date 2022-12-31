@@ -3,7 +3,7 @@
 /**
  * Class Output
  */
-final class Output
+final class Response
 {
     /**
      * @var ?Template

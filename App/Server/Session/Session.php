@@ -192,7 +192,7 @@ class Session
 		if(!isset($_SESSION['__VARS']))
 		{
 			$_SESSION['__VARS'] = array();
-			$_SESSION['FingerPrint'] = hash('snefru256', $_SERVER['HTTP_USER_AGENT']);
+			$_SESSION['FingerPrint'] = hash('snefru256', isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : md5('My secret key'));
 		}
 		else
 		{
