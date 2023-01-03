@@ -46,6 +46,21 @@ class Crypt
 
         return $oldstr;
     }
+	
+	public static function getRandomString(int $length)
+	{
+        try {
+            $randomBytes = random_bytes($length);
+        }
+        catch (Exception $ex) {
+            $randomBytes = openssl_random_pseudo_bytes($length);
+            if(!$randomBytes)
+                $randomBytes = str_shuffle (sha1(uniqid()) . md5(date('c')) );
+        }
+
+		return substr(bin2hex($randomBytes), $length);
+	}
+	
 
     public static function encrypt($data, $key)
     {

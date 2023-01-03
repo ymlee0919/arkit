@@ -93,12 +93,6 @@ final class App {
     public static ?Session $Session = null;
 
     /**
-     * Cookies manager
-     * @var ?CookieStore
-     */
-    public static ?CookieStore $Cookies = null;
-
-    /**
      * Constructor of the class
      */
     public function __construct()
@@ -134,13 +128,14 @@ final class App {
 
         // Init the errors handler
         ErrorHandler::init();
-        
-        // Init session manager
-        self::$Session = Session::getInstance();
-        self::$Session->init(self::$config['session']);
 
-        // Init cookies manager with cookies sent from client and skip the name of session
-        self::$Cookies = CookieStore::fromServerRequest(self::$config['session']['name']);
+        // Set cookies defaults
+        Cookie::setDefaults([
+            // Set the default domain
+            'domain' => $_SERVER['SERVER_NAME'],
+            // Set secure according the request
+            'secure' => !empty($_SERVER['HTTPS'])
+        ]);
 
         // Set time zone
         date_default_timezone_set(self::$config['env']['time_zone']);
@@ -218,6 +213,11 @@ final class App {
         if(!$valid)
             self::$Response->throwWrongPage();
 
+        // Init session and start it
+        self::$Session = Session::getInstance();
+        self::$Session->init(self::$config['session']);
+        self::$Session->start();
+
         // Execute firewall first, if it is set
         if(isset(self::$config['firewall']))
         {
@@ -242,8 +242,7 @@ final class App {
         // Load the form validator if the request is not GET
         if( 'GET' != strtoupper(self::$Request->getRequestMethod())  )
         {
-            import('FormValidator','App.Server.Form.FormValidator');
-            self::$Form = new FormValidator();
+            self::loadFormValidator();
             self::$Request->processPost(self::$config['url']);
         }
 
@@ -366,6 +365,7 @@ final class App {
 		if(is_null(self::$Form)){
 			import('FormValidator', 'App.Server.Form.FormValidator');
 			self::$Form = new FormValidator();
+            self::$Form->init(self::$config['form']);
 		}
 	}
 

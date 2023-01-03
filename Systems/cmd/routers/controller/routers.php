@@ -41,6 +41,8 @@ class Routers
             $output->redirectTo(App::$Router->buildUrl('cmd.systems'));
         }
 
+        $form->releaseCsrfCookie();
+
         $system = $post['system'];
 
         // Load the router
@@ -87,6 +89,7 @@ class Routers
         }
 
         App::$Session->set_flash('ACTION_SUCCESS', 'Request success');
+
         $output->redirectTo('cmd.router', ['system' => $system]);
     }
 

@@ -61,7 +61,7 @@ class Cookie implements CookieInterface
         'domain'   => '',
         'secure'   => false,
         'httponly' => true,
-        'samesite' => self::SAMESITE_STRICT
+        'samesite' => self::SAMESITE_LAX
     ];
 
     /**
@@ -175,6 +175,52 @@ class Cookie implements CookieInterface
     }
 
     /**
+     * Constructor
+     *
+     * The constructors args are similar to the native PHP `setcookie()` method.
+     * The only difference is the 3rd argument which excepts null or an
+     * DateTime or DateTimeImmutable object instead an integer.
+     *
+     * @link https://php.net/manual/en/function.setcookie.php
+     * @param string $name Cookie name
+     * @param string $value Value of the cookie
+     * @param ?int $expiresAt Expiration time and date
+     * @param string|null $path Path
+     * @param string|null $domain Domain
+     * @param bool|null $secure Is secure
+     * @param bool|null $httpOnly HTTP Only
+     * @param string|null $sameSite Samesite
+     */
+    public static function build(
+        string $name,
+        string $value = '',
+        ?int $expiresAt = null,
+        ?string $path = null,
+        ?string $domain = null,
+        ?bool $secure = null,
+        ?bool $httpOnly = null,
+        ?string $sameSite = null
+    ) : ?Cookie
+    {
+        if(!self::isValidName($name))
+            return null;
+
+        $cookie = new Cookie($name, $value);
+
+        $cookie->expires = (!!$expiresAt) ? self::convertExpiresTimestamp($expiresAt) : static::$defaults['expires'];
+        $cookie->domain = $domain ?? static::$defaults['domain'];
+        $cookie->httponly = $httpOnly ?? static::$defaults['httponly'];
+        $cookie->path = $path ?? static::$defaults['path'];
+        $cookie->secure = $secure ?? static::$defaults['secure'];
+        $cookie->samesite = $sameSite ?? static::$defaults['samesite'];
+
+        if(!self::isValidSameSite($cookie->samesite, $cookie->secure))
+            return null;
+
+        return $cookie;
+    }
+
+    /**
      * Validates the cookie name per RFC 2616.
      */
     public static function isValidName(string $name) : bool
@@ -182,7 +228,7 @@ class Cookie implements CookieInterface
         if(empty($name))
             return false;
 
-        return (strpbrk($name, self::$reservedCharsList) !== false);
+        return (strpbrk($name, self::$reservedCharsList) === false);
     }
 
     /**
@@ -211,6 +257,7 @@ class Cookie implements CookieInterface
      * Converts expires time to Unix format.
      *
      * @param DateTimeInterface|int|string $expires
+     * @return int|null
      */
     protected static function convertExpiresTimestamp(DateTimeInterface|int|string $expires = 0): int|null
     {
@@ -481,5 +528,13 @@ class Cookie implements CookieInterface
                 'name'   => $this->name,
                 'value'  => $this->value
             ] + $this->getOptions();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function dispatch() : void
+    {
+        setcookie($this->name, $this->value, $this->getOptions());
     }
 }

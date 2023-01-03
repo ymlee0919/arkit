@@ -59,18 +59,19 @@ class CookieStore
     /**
      * @param Cookie[] $cookies
      */
-    final public function __construct(array $cookies)
+    public function __construct(?array $cookies = null)
     {
         // Validate each cookie
-        foreach ($cookies as $index => $cookie)
-        {
-            $type = is_object($cookie) ? get_class($cookie) : gettype($cookie);
+        if(is_array($cookies))
+            foreach ($cookies as $index => $cookie)
+            {
+                $type = is_object($cookie) ? get_class($cookie) : gettype($cookie);
 
-            if (! $cookie instanceof Cookie)
-                App::$Logs->alert("Invalid Cookie set at [$index]. Expected Cookie object, $type set");
-            else
-                $this->cookies[$cookie->getId()] = $cookie;
-        }
+                if (! $cookie instanceof Cookie)
+                    App::$Logs->alert("Invalid Cookie set at [$index]. Expected Cookie object, $type set");
+                else
+                    $this->cookies[$cookie->getId()] = $cookie;
+            }
     }
 
     /**
@@ -119,15 +120,12 @@ class CookieStore
      * is left unchanged.
      *
      * @param Cookie $cookie
-     * @return static
+     * @return self
      */
-    public function put(Cookie $cookie) : static
+    public function put(Cookie $cookie) : self
     {
-        $store = clone $this;
-
-        $store->cookies[$cookie->getId()] = $cookie;
-
-        return $store;
+        $this->cookies[$cookie->getId()] = $cookie;
+        return $this;
     }
 
     /**
@@ -139,45 +137,65 @@ class CookieStore
      * value cookie with the same name to the store.
      *
      * @param string $name
-     * @return static
+     * @return self
      */
-    public function remove(string $name) : static
+    public function remove(string $name) : self
     {
         $default = Cookie::setDefaults();
 
         $id = implode(';', [$name, $default['path'], $default['domain']]);
 
-        $store = clone $this;
-
-        foreach (array_keys($store->cookies) as $index) {
+        foreach (array_keys($this->cookies) as $index) {
             if ($index === $id) {
-                unset($store->cookies[$index]);
+                unset($this->cookies[$index]);
             }
         }
 
-        return $store;
+        return $this;
     }
 
     /**
      * Set the value to empty and the expiration in the pass for deleting
      *
      * @param string $name
-     * @return static
+     * @return self
      */
-    public function removeFromBrowser(string $name) : static
+    public function removeFromBrowser(string $name) : self
     {
         $default = Cookie::setDefaults();
 
         $id = implode(';', [$name, $default['path'], $default['domain']]);
 
-        $store = clone $this;
-
-        foreach (array_keys($store->cookies) as $index) {
+        foreach (array_keys($this->cookies) as $index) {
             if ($index === $id) {
-                $store->cookies[$index]->setValue('')->setExpired();
+                $this->cookies[$index]->setValue('')->setExpired();
             }
         }
 
-        return $store;
+        return $this;
+    }
+
+    /**
+     * Dispatches all cookies in store.
+     */
+    public function dispatch(): void
+    {
+        foreach ($this->cookies as $id => $cookie)
+            $cookie->dispatch();
+
+        $this->clear();
+    }
+
+    /**
+     * Clears the cookie collection.
+     */
+    public function clear(): void
+    {
+        $keys = array_keys($this->cookies);
+        foreach ($keys as $key)
+            unset($this->cookies[$key]);
+
+        unset($keys);
+        $this->cookies = [];
     }
 }

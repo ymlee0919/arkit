@@ -1,6 +1,6 @@
 public function functionName($params) : void
     {
-        $output = &App::$Output;
+        $response = &App::$Response;
 
         // Validate parameters ...
 
@@ -30,7 +30,7 @@ public function functionName($params) : void
 
         // End of request, send the response
         App::$Session->set_flash('ACTION_SUCCESS', 'SUCCESS MESSAGE');
-        $output->redirectTo('RULE-ID');
+        $response->redirectTo('RULE-ID');
     }
 
     /// End of class

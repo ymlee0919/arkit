@@ -166,4 +166,11 @@ interface CookieInterface
      * @return array<string, mixed>
      */
     public function toArray(): array;
+
+
+    /**
+     * Dispatch the cookie
+     * @return void
+     */
+    public function dispatch() : void;
 }

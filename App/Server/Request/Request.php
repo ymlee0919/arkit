@@ -36,6 +36,12 @@ final class Request {
     private bool $isValid;
 
     /**
+     *  Cookies sent by the browser
+     * @var ?CookieStore
+     */
+    private ?CookieStore $cookies;
+
+    /**
      *
      */
     public function __construct()
@@ -43,6 +49,7 @@ final class Request {
         // Initialize fields
         $this->isValid = true;
         $this->_url    = null;
+        $this->cookies = null;
 
         $this->_get    = [];
         $this->_post   = [];
@@ -139,6 +146,10 @@ final class Request {
     }
 
 
+    /**
+     * @param array $config
+     * @return void
+     */
     public function processPost(array &$config) : void
     {
         // If the url is steel valid and the page is not null, take the parameters set by post
@@ -274,7 +285,7 @@ final class Request {
 
     /**
      * Get the value of a parameter passed by url
-     * @param $option
+     * @param string $option
      * @return string|null
      */
     public function getGetParam(string $option) : ?string
@@ -296,7 +307,7 @@ final class Request {
     /**
      * Get a post value given the name
      * @param string $param
-     * @returns mixed
+     * @return mixed
      */
     public function getPostParam(string $param) : mixed
 	{
@@ -308,7 +319,7 @@ final class Request {
     /**
      * Check if a post value was sent
      * @param string $paramName
-     * @returns bool
+     * @return bool
      */
     public function isSetPostParam(string $paramName) : bool
 	{
@@ -317,8 +328,8 @@ final class Request {
 
     /**
      * Get a post value given the name
-     * @param $param
-     * @returns mixed
+     * @param string $param
+     * @return mixed
      */
     public function getFileParam(string $param) : mixed
 	{
@@ -330,12 +341,23 @@ final class Request {
     /**
      * Check if a post value was sent
      * @param string $paramName
-     * @returns bool
+     * @return bool
      */
     public function isSetFileParam(string $paramName) : bool
 	{
 		return isset($_FILES[$paramName]);
 	}
+
+    /**
+     * @return CookieStore
+     */
+    public function getCookies() : CookieStore
+    {
+        if(is_null($this->cookies))
+            $this->cookies = CookieStore::fromServerRequest();
+
+        return  $this->cookies;
+    }
 
     /**
      * Get the requested method

@@ -26,6 +26,12 @@ final class Response
 	private ?string $onBeforeDisplay;
 
     /**
+     *  Cookies sent by the browser
+     * @var ?CookieStore
+     */
+    private ?CookieStore $cookies;
+
+    /**
      * Constructor of the class
      */
     public function __construct()
@@ -34,6 +40,7 @@ final class Response
 		$this->tpl_name = null;
 		$this->default_dir = null;
 		$this->onBeforeDisplay = null;
+        $this->cookies = null;
 	}
 
     /**
@@ -268,6 +275,8 @@ final class Response
 	{
 		if(!!$this->template)
 		{
+            if(!is_null($this->cookies))
+                $this->cookies->dispatch();
             if(isset(App::$store['CSRF']))
             {
                 $this->template->assign('CSRF_INPUT', App::$store['CSRF']['HTML']);
@@ -302,6 +311,14 @@ final class Response
 	{
 		return $this->template;
 	}
+
+    public function getCookies() : CookieStore
+    {
+        if(is_null($this->cookies))
+            $this->cookies = new CookieStore();
+
+        return $this->cookies;
+    }
 
     /**
      * Redirect to the url build by router

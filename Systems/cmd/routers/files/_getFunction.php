@@ -1,10 +1,10 @@
 public function functionName($params) : void
     {
-        $output = App::$Output;
+        $response = App::$Response;
 
         // Validate parameters ...
 
-        $output->loadTemplate('template.tpl');
+        $response->loadTemplate('template.tpl');
 
         // Set form ID
         App::loadFormValidator();
@@ -13,9 +13,9 @@ public function functionName($params) : void
         // Process the request ...
         App::$Model->connect('root');
 
-        $output->assign('FieldName', $FieldValue);
-        //$output->setSessionVars('INPUT_ERROR', 'ACTION_ERROR', 'ACTION_SUCCESS');
-        $output->displayTemplate();
+        $response->assign('FieldName', $FieldValue);
+        //$response->setSessionVars('INPUT_ERROR', 'ACTION_ERROR', 'ACTION_SUCCESS');
+        $response->displayTemplate();
     }
 
     /// End of class

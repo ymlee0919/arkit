@@ -2,12 +2,13 @@
 
 import('FieldValidator','App.Server.Form.FieldValidator');
 import('Crypt','App.Server.Security.Crypt');
+import('CSRFHandler','App.Server.Form.CSRFHandler');
 
 /**
  * Class FormValidator
  */
-class FormValidator {
-
+class FormValidator
+{
     /**
      * @var ?array
      */
@@ -27,6 +28,16 @@ class FormValidator {
      * @var ?array
      */
     private ?array $current = null;
+
+    /**
+     * @var ?string
+     */
+    private ?string $defaultCsrfFieldName = null;
+
+    /**
+     * @var CSRFHandler
+     */
+    private CSRFHandler $csrfHandler;
 
     /**
      * @var ?IntValidator
@@ -93,11 +104,6 @@ class FormValidator {
      */
     private ?string $datetime_format = null;
 
-	/**
-	 * @var string
-	 */
-    private static string $csrf_key = '?0=CbEd#tk3109$';
-
     /**
      * @var ?string
      */
@@ -110,89 +116,122 @@ class FormValidator {
 
 
     /**
-     * @param ?string $language
-     * @throws Exception
+     * Constructor of the class
      */
-    public function __construct(?string $language = null)
+    public function __construct()
     {
         $this->errors = array();
-
-        // Load the hash errors
-        if(!is_null($language))
-        {
-            $lang_file = dirname(__FILE__) . '/lang/' . $language . '.php';
-            if(!is_file($lang_file))
-                throw new Exception('Invalid language for from validator', 501);
-        }
-        else
-            $lang_file = dirname(__FILE__) . '/lang/' . App::$config['validation']['default_language'] . '.php';
-
-        $this->errors_hash = require $lang_file;
-
-        // Load the default date format
-        $this->date_format = App::$config['validation']['default_date_format'];
-        $this->datetime_format = App::$config['validation']['default_datetime_format'];
-
         $this->formId = 'FROM';
     }
 
     /**
-     * @param ?int $expire - Time in seconds of form expiration
-     * @param string $fieldName
-     * @param ?string $formId - If formId is set, return the code. Otherwise, save into App::$store
-     * @returns string
+     * @param array $config
+     * @return void
+     * @throws Exception
      */
-    public function generateCsrfCode(?int $expire = null, string $fieldName = '_token_', ?string $formId = null) : string
+    public function init(array &$config): void
     {
-        if(is_null($expire)) $expire = APP::$config['security']['csrf_expire'];
+        $language = $config['language'] ?? 'en';
 
-        if(!App::$Session->is_set('CSRF'))
-            $_SESSION['CSRF'] = str_shuffle(md5(session_id()) . session_id() . sha1(session_id()));
+        // Load the hash errors
+        $lang_file = dirname(__FILE__) . '/lang/' . $language . '.php';
+        if(!is_file($lang_file))
+            throw new Exception('Invalid language for from validator');
 
-        $code = $_SESSION['CSRF'];
+        $this->errors_hash = require $lang_file;
 
-        if(is_null($formId))
-            $code .= '|' . strval( $_SERVER['REQUEST_TIME'] + intval($expire) ) . '|' . trim(md5( self::$csrf_key . $this->formId));
-        else
-            $code .= '|' . strval( $_SERVER['REQUEST_TIME'] + intval($expire) ) . '|' . trim(md5( self::$csrf_key . $formId));
+        // Load the default date format
+        $this->date_format = $config['default_date_format'] ?? 'd-m-Y';
+        $this->datetime_format = $config['default_datetime_format'] ?? 'd-m-Y H:i:s';
+        $this->defaultCsrfFieldName = $config['CSRF']['field_name'] ?? '_token_';
 
-        $code = Crypt::encrypt($code, App::$Session->getCryptKey());
-
-        if(!$formId)
-            App::$store['CSRF'] = [
-                'CODE' => $code,
-                'HTML' => '<input type="hidden" name="' . $fieldName . '" value="' . $code. '">'
-            ];
-
-        return $code;
+        $this->csrfHandler = new CSRFHandler();
+        $this->csrfHandler->init($config['CSRF']);
     }
 
     /**
-     * @param string $postField
+     * @param ?string $formId - If formId is set, return the code. Otherwise, set into App::$store
+     * @param ?string $fieldName - Field name to generate the hidden html field. If not set, get the default csrf field name
+     * @param ?int $expire - Time in seconds of form expiration
+     * @param bool $setCookie - Indicate if set cookies into the output as other token validation
+     * @return string
+     */
+    public function generateCsrfCode(?string $formId = null, ?string $fieldName = null, ?int $expire = null, bool $setCookie = true) : string
+    {
+        $fieldName = $fieldName ?? $this->defaultCsrfFieldName;
+        $formId = $formId ?? $this->formId;
+
+        $csrfCode = $this->csrfHandler->generateCode($formId, $expire);
+        if($setCookie)
+            $this->csrfHandler->generateCookie($formId);
+
+        if($formId == $this->formId)
+            App::$store['CSRF'] = [
+                'CODE' => $csrfCode,
+                'HTML' => '<input type="hidden" name="' . $fieldName . '" value="' . $csrfCode. '">'
+            ];
+
+        return $csrfCode;
+    }
+
+
+    /**
+     * @param string|null $formId
+     * @param string|null $fieldName
+     * @param bool $validateCookie
      * @return bool
      */
-    public function validateCsrfCode(string $postField = '_token_') : bool
+    public function validateCsrfCode(?string $formId = null, ?string $fieldName = null, bool $validateCookie = true) : bool
     {
-        $this->validate($postField);
+        $formId = $formId ?? $this->formId;
+        $fieldName = $fieldName ?? $this->defaultCsrfFieldName;
 
-        $token = App::$Request->getPostParam($postField);
+        $this->validate($fieldName);
+
+        $token = App::$Request->getPostParam($fieldName);
         if(is_null($token))
+        {
+            App::$Logs->warning('CSRF token not send');
             return $this->registerError('invalid_form_token');
-        
-        //$token = @Crypt::cryptare($token, self::$csrf_key, 'rijndael-128', false);
-        $token = @Crypt::decrypt($token, App::$Session->getCryptKey());
-        if(!$token)
-            return $this->registerError('invalid_form_token');
+        }
 
-        $parts = explode('|', $token);
-        if(count($parts) != 3)
-            return $this->registerError('invalid_form_token');
+        $result = $this->csrfHandler->validateCode($formId, $token);
+        if($result != CSRFHandler::CSRF_VALIDATION_SUCCESS)
+        {
+            switch ($result)
+            {
+                case CSRFHandler::CSRF_VALIDATION_INVALID:
+                    App::$Logs->warning('Invalid CSRF token');
+                    return $this->registerError('invalid_form_token');
 
-        if(trim($parts[0]) != $_SESSION['CSRF']) return $this->registerError('invalid_form_token');
-        if(trim($parts[2]) != md5( self::$csrf_key . $this->formId) ) return $this->registerError('invalid_form_token');
-        if($_SERVER['REQUEST_TIME'] > intval($parts[1])) return $this->registerError('token_expired');
+                case CSRFHandler::CSRF_VALIDATION_EXPIRED:
+                    App::$Logs->warning('Expired CSRF token');
+                    return $this->registerError('expired_form_token');
+            }
+        }
+
+        if($validateCookie)
+        {
+            $result = $this->csrfHandler->validateCookie($formId);
+            if(!$result)
+            {
+                App::$Logs->warning('Invalid CSRF cookie');
+                return $this->registerError('invalid_form_token');
+            }
+        }
 
         return true;
+    }
+
+    /**
+     * Release the cookie sent with the form
+     * @param string|null $formId
+     * @return void
+     */
+    public function releaseCsrfCookie(?string $formId = null) : void
+    {
+        $form = $formId ?? $this->formId;
+        $this->csrfHandler->releaseCookie($form);
     }
 
     /**

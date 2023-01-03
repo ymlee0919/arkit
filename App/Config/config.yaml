@@ -65,14 +65,24 @@ session:
   time_to_update: 300
 
 
-# VALIDATION ----------------------------------
-validation:
+# FORM VALIDATION ------------------------------
+form:
   # Default language for error messages
   default_language: 'en'
   # Default date format
   default_date_format: 'd-m-Y'
   # Default date time format
   default_datetime_format: 'd-m-Y H:i:s'
+  ## Values for Cross Site Request Forgery
+  CSRF:
+    # Time to expire CSRF code (seconds)
+    expire: 7200
+    # Length for private csrf code
+    private_key_length: 32
+    # Default hidden field name for the token
+    field_name: _token_
+    # Prefix for cookie implementing the CSRF
+    cookie_prefix: field_
 
 # ENVIRONMENT ---------------------------------
 env:
@@ -91,6 +101,3 @@ email:
   smtp:
     server: smtp.1and1.com
     port: 465
-
-security:
-  csrf_expire: 7200
