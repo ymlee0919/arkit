@@ -55,11 +55,11 @@ class CSRFHandler
         $this->defaultExpire    = $config['expire'] ?? 7200;
         $this->cookie_prefix    = $config['cookie_prefix'] ?? 'field_';
 
-        if(!App::$Session->is_set('CSRF'))
-            App::$Session->set('CSRF', Crypt::getRandomString($config['private_key_length'] ?? 32));
+        if(!isset(App::$Session['CSRF']))
+            App::$Session['CSRF'] = Crypt::getRandomString($config['private_key_length'] ?? 32);
 
-        if(!App::$Session->is_set('PRIVATE_KEY'))
-            App::$Session->set('PRIVATE_KEY',  str_shuffle(Crypt::getRandomString(64)) );
+        if(!isset(App::$Session['PRIVATE_KEY']))
+            App::$Session['PRIVATE_KEY'] =  str_shuffle(Crypt::getRandomString(64));
     }
 
     /**
@@ -70,8 +70,8 @@ class CSRFHandler
     public function generateCode(string $formId, ?int $expire = null) : string
     {
         $expiry = $_SERVER['REQUEST_TIME'] + ($expire ?? $this->defaultExpire);
-        $code = App::$Session->get('CSRF'). '|' . strval( $expiry ) . '|' . trim(md5( $this->csrf_key .'['. $formId.']'));
-        return Crypt::encrypt($code, App::$Session->get('PRIVATE_KEY'));
+        $code = App::$Session['CSRF']. '|' . strval( $expiry ) . '|' . trim(md5( $this->csrf_key .'['. $formId.']'));
+        return Crypt::encrypt($code, App::$Session['PRIVATE_KEY']);
     }
 
     public function generateCookie(string $formId, ?int $expire = null, string $path = '/') : void
@@ -94,7 +94,7 @@ class CSRFHandler
      */
     public function validateCode(string $formId, string $code) : string
     {
-        $token = @Crypt::decrypt($code, App::$Session->get('PRIVATE_KEY'));
+        $token = @Crypt::decrypt($code, App::$Session['PRIVATE_KEY']);
         if(!$token)
             return self::CSRF_VALIDATION_INVALID;
 
@@ -102,7 +102,7 @@ class CSRFHandler
         if(count($parts) != 3)
             return self::CSRF_VALIDATION_INVALID;
 
-        if(trim($parts[0]) != App::$Session->get('CSRF')) return self::CSRF_VALIDATION_INVALID;
+        if(trim($parts[0]) != App::$Session['CSRF']) return self::CSRF_VALIDATION_INVALID;
         if(intval($parts[1]) < $_SERVER['REQUEST_TIME'] ) return self::CSRF_VALIDATION_EXPIRED;
         if(trim($parts[2]) != md5( $this->csrf_key .'['. $formId.']')) return self::CSRF_VALIDATION_INVALID;
 

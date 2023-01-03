@@ -37,25 +37,25 @@ class EmailLogsHandler implements LogsHandlerInterface
         if(import('EmailDispatcher', 'Services.Email.EmailDispatcher'))
         {
             $this->dispatcher = new EmailDispatcher();
-            $this->dispatcher->setSender($this->senderAccount);
+            $this->dispatcher->connect(App::$config['email']);
         }
     }
 
     /**
      * @param string $message
      * @return bool
+     * @throws \PHPMailer\PHPMailer\Exception
      */
     private function send(string $message) : bool
     {
-        if($this->dispatcher->connect())
-        {
-            $success = $this->dispatcher->send($this->destinationEmail, 'Internal Server Error - ' . $_SERVER['SERVER_NAME'], $message);
-            $this->dispatcher->release();
-        }
-        else
-            $success = false;
+        $destinations = explode(';', $this->destinationEmail);
+        foreach ($destinations as $destinationEmail)
+            $this->dispatcher->addDestination($destinationEmail);
 
-        return $success;
+        $this->dispatcher->setFrom($this->senderAccount)
+            ->setMessage('Internal Server Error - ' . $_SERVER['SERVER_NAME'], $message);
+
+        return $this->dispatcher->dispatch();
     }
 
     /**

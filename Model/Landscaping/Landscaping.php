@@ -92,7 +92,6 @@ class Landscaping implements \Model
         $this->connectionManager = new \Propel\Runtime\Connection\ConnectionManagerSingle('landscaping');
         $this->connectionManager->setConfiguration($config[$account]);
 
-        $this->connectionManager->setName('landscaping');
         $serviceContainer->setConnectionManager($this->connectionManager);
         $serviceContainer->setDefaultDatasource('landscaping');
     }
@@ -104,7 +103,7 @@ class Landscaping implements \Model
      */
     public function loadClass($className) : bool
     {
-        if (strpos($className, 'Landscaping\\') === 0)
+        if (str_starts_with($className, 'Landscaping\\'))
         {
             import($className,'Model.' . str_replace('\\', '.', $className));
             return true;

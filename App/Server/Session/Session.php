@@ -3,7 +3,7 @@
 /**
  * Class Session
  */
-class Session
+class Session implements ArrayAccess
 {
 	/**
 	 * @var Session|null
@@ -321,6 +321,8 @@ class Session
 	
 	public function destroy() : void
 	{
+		$sId = session_id();
+
 		// Destroy the session
 		session_destroy();
 		// Remove the cookie
@@ -330,8 +332,7 @@ class Session
 			'domain' 	=> $this->sessionCookieDomain,
 			'secure' 	=> empty($_SERVER['HTTPS']),
 			'httponly' 	=> true, // for security
-			'samesite' 	=> 'Lax',
-			'raw'      	=> false,
+			'samesite' 	=> 'Lax'
 		]);
 	}
 
@@ -362,45 +363,44 @@ class Session
 	}
 
 	/**
-	 * @param string $key
-	 * @return mixed
+	 * @inheritDoc
 	 */
-	public function __get(string $key) : mixed
+	public function offsetExists(mixed $offset): bool
 	{
-		if(strtoupper($key) == 'ID')
-			return session_id();
-
-		if(isset($_SESSION[$key]))
-			return $_SESSION[$key];
-	}
-
-	/**
-	 * @param string $key Key to search for. The key ID is not allowed
-	 * @param mixed $value Associated value
-	 * @return void
-	 */
-	public function __set(string $key, mixed $value) : void
-	{
-		$_SESSION[$key] = $value;
-	}
-
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function __isset(string $key) : bool
-	{
+		$key = strval($offset);
 		return isset($_SESSION[$key]);
 	}
 
 	/**
-	 * @param string $key
-	 * @return void
+	 * @inheritDoc
 	 */
-	public function __unset(string $key) : void
+	public function offsetGet(mixed $offset): mixed
 	{
-		if(isset($_SESSION[$key])) unset($_SESSION[$key]);
-		if(isset($_SESSION['__VARS'][$key])) unset($_SESSION['__VARS'][$key]);
+		$key = strval($offset);
+
+		if(strtoupper($key) == 'ID')
+			return session_id();
+
+		return $_SESSION[$key] ?? null;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function offsetSet(mixed $offset, mixed $value): void
+	{
+		$key = strval($offset);
+		$_SESSION[$key] = $value;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function offsetUnset(mixed $offset): void
+	{
+		$key = strval($offset);
+		if (isset($_SESSION[$key]))
+			unset($_SESSION[$key]);
 	}
 }
 

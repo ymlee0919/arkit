@@ -1,8 +1,8 @@
 <?php
 
-import('FieldValidator','App.Server.Form.FieldValidator');
+require 'CSRFHandler.php';
+require 'FieldValidator.php';
 import('Crypt','App.Server.Security.Crypt');
-import('CSRFHandler','App.Server.Form.CSRFHandler');
 
 /**
  * Class FormValidator
