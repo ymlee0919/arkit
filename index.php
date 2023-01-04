@@ -1,9 +1,9 @@
 <?PHP
 //$time = microtime(true);
 
-require 'App/Server/conf.php';
-require 'App/Server/inc.php';
-require 'App/Server/Application.php';
+require 'App/conf.php';
+require 'App/inc.php';
+require 'App/Application.php';
 
 $clientRequest = new Request();
 

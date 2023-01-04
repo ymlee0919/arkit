@@ -33,7 +33,7 @@ logs:
     1:
       name: File
       config:
-        output_directory: App/Logs/
+        output_directory: resources/logs
       levels: [Request, Info, Notice, Warning, Alert, Debug, Error]
     2:
       name: Email

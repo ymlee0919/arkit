@@ -120,7 +120,7 @@ final class App {
         self::$ROOT_DIR = getcwd();
 
         // Init configuration
-        self::$config = ConfigReader::ReadFile( self::$ROOT_DIR . '/App/Config/config.yaml' );
+        self::$config = YamlReader::ReadFile( self::$ROOT_DIR . '/App/Config/config.yaml' );
 
         // Load the logs manager
         self::$Logs = new LogsManager( self::$config['logs']);
@@ -306,7 +306,7 @@ final class App {
                 }
 
                 $router = new Router();
-                $rules = ConfigReader::ReadFile($full_path);
+                $rules = YamlReader::ReadFile($full_path);
                 $router->setRules($rules);
                 $router->setSign($md5);
 
@@ -318,7 +318,7 @@ final class App {
         else
         {
             $router = new Router();
-            $rules = ConfigReader::ReadFile($full_path);
+            $rules = YamlReader::ReadFile($full_path);
             $router->setRules($rules);
         }
 
@@ -352,7 +352,7 @@ final class App {
      */
     public static function readConfig(string $path) : array
 	{
-		return ConfigReader::ReadFile($path);
+		return YamlReader::ReadFile($path);
 	}
 
 

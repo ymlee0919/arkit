@@ -3,7 +3,7 @@
 require 'YAMLNode.php';
 require 'YAMLParser.php';
 
-class ConfigReader {
+class YamlReader {
 
     public static function ReadFile(string $file) : array
     {
