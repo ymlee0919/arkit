@@ -48,7 +48,7 @@ final class LogsManager
         foreach ($this->config['handlers'] as $handler)
         {
             $handlerClass = $handler['name'] . 'LogsHandler';
-            if(import($handlerClass, 'App.Server.Logs.' . $handlerClass))
+            if(import($handlerClass, 'App.Logs.' . $handlerClass))
             {
                 $logHandler = new $handlerClass($handler['config']);
                 $this->setHandler($logHandler, $handler['levels']);

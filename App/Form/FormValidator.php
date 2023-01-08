@@ -2,7 +2,7 @@
 
 require 'CSRFHandler.php';
 require 'FieldValidator.php';
-import('Crypt','App.Server.Security.Crypt');
+import('Crypt','App.Security.Crypt');
 
 /**
  * Class FormValidator
@@ -492,7 +492,7 @@ class FormValidator
     {
         if(is_null($this->intValidator))
         {
-            import('IntValidator','App.Server.Form.Validators.IntValidator');
+            import('IntValidator','App.Form.Validators.IntValidator');
             $this->intValidator = new IntValidator($this);
         }
 
@@ -508,7 +508,7 @@ class FormValidator
     {
         if(is_null($this->numericValidator))
         {
-            import('NumericValidator','App.Server.Form.Validators.NumericValidator');
+            import('NumericValidator','App.Form.Validators.NumericValidator');
             $this->numericValidator = new NumericValidator($this);
         }
 
@@ -524,7 +524,7 @@ class FormValidator
     {
         if(is_null($this->booleanValidator))
         {
-            import('BoolValidator','App.Server.Form.Validators.BoolValidator');
+            import('BoolValidator','App.Form.Validators.BoolValidator');
             $this->booleanValidator = new BoolValidator($this);
         }
 
@@ -540,7 +540,7 @@ class FormValidator
     {
         if(is_null($this->internetAddressValidator))
         {
-            import('InternetAddressValidator', 'App.Server.Form.Validators.InternetAddressValidator');
+            import('InternetAddressValidator', 'App.Form.Validators.InternetAddressValidator');
             $this->internetAddressValidator = new InternetAddressValidator($this);
         }
 
@@ -556,7 +556,7 @@ class FormValidator
     {
         if(is_null($this->personalDataValidator))
         {
-            import('PersonalDataValidator', 'App.Server.Form.Validators.PersonalDataValidator');
+            import('PersonalDataValidator', 'App.Form.Validators.PersonalDataValidator');
             $this->personalDataValidator = new PersonalDataValidator($this);
         }
 
@@ -572,7 +572,7 @@ class FormValidator
     {
         if(is_null($this->creditCardValidator))
         {
-            import('CreditCardValidator', 'App.Server.Form.Validators.CreditCardValidator');
+            import('CreditCardValidator', 'App.Form.Validators.CreditCardValidator');
             $this->creditCardValidator = new CreditCardValidator($this);
         }
 
@@ -589,7 +589,7 @@ class FormValidator
     {
         if(is_null($this->stringValidator))
         {
-            import('StringValidator', 'App.Server.Form.Validators.StringValidator');
+            import('StringValidator', 'App.Form.Validators.StringValidator');
             $this->stringValidator = new StringValidator($this);
         }
 
@@ -606,7 +606,7 @@ class FormValidator
     {
         if(is_null($this->stringValidator))
         {
-            import('StrNumberValidator', 'App.Server.Form.Validators.StrNumberValidator');
+            import('StrNumberValidator', 'App.Form.Validators.StrNumberValidator');
             $this->strNumberValidator = new StrNumberValidator($this);
         }
 
@@ -622,7 +622,7 @@ class FormValidator
     {
         if(is_null($this->dateTimeValidator))
         {
-            import('DateTimeValidator', 'App.Server.Form.Validators.DateTimeValidator');
+            import('DateTimeValidator', 'App.Form.Validators.DateTimeValidator');
             $this->dateTimeValidator = new DateTimeValidator($this);
         }
 
@@ -640,7 +640,7 @@ class FormValidator
     {
         if(is_null($this->dateValidator))
         {
-            import('DateValidator', 'App.Server.Form.Validators.DateValidator');
+            import('DateValidator', 'App.Form.Validators.DateValidator');
             $this->dateValidator = new DateValidator($this);
         }
 
@@ -658,7 +658,7 @@ class FormValidator
     {
         if(is_null($this->fileValidator))
         {
-            import('FileValidator', 'App.Server.Form.Validators.FileValidator');
+            import('FileValidator', 'App.Form.Validators.FileValidator');
             $this->fileValidator = new FileValidator($this, $this->current['field']);
         }
 

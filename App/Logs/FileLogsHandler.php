@@ -17,7 +17,7 @@ class FileLogsHandler implements LogsHandlerInterface
     /**
      * @param $config
      */
-    public function __construct($config)
+    public function __construct(&$config)
     {
         if(isset($config['output_directory']))
             $this->outputDirectory = $config['output_directory'];

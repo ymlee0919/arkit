@@ -3,16 +3,11 @@
 /**
  * Class Firewall
  */
-class Firewall {
+class Firewall implements AccessControllerInterface
+{
 
-    /**
-     * @return bool
-     */
-    public static function Process()
+    public function checkAccess(RoutingCallback $callback): string
     {
-        // Start the session
-        //App::$Session->start();
-
-        return true;
+        return self::ACCESS_GRANTED;
     }
 }

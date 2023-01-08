@@ -1,0 +1,6 @@
+guest:
+  - main
+  - logging
+user:
+  - dashboard
+  - logout

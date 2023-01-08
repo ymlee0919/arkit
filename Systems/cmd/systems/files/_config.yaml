@@ -1,15 +1,18 @@
 # URL ---------------------------------------
-url:
+request:
   max_post_params: 64
   max_post_size: 2048
 
 # Model to load -----------------------------
-#model:
-##autoload: ModelName
+model:
+  name: ModelName
 
-# Firewall -----------------------------
-#firewall: _base.controller.Firewall
+# AccessControl -----------------------------
+access:
+  controller: _base.controller.{System}AccessController/{System}AccessController
 
-# Output -----------------------------
-#onBeforeDisplay: _base.controller.{PageLoader}/{PageLoader}::onBeforeDisplay
-
+# Response -----------------------------------
+response:
+  404: '/_base/404.tpl'
+  forbidden: '/_base/forbidden.tpl'
+  onBeforeDisplay: _base.controller.{PageLoader}/{PageLoader}::onBeforeDisplay

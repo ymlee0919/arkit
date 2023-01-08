@@ -115,14 +115,14 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase
     /**
      * Callbacks called before rendering template
      *
-     * @var callback[]
+     * @var FunctionAddress[]
      */
     public $startRenderCallbacks = array();
 
     /**
      * Callbacks called after rendering template
      *
-     * @var callback[]
+     * @var FunctionAddress[]
      */
     public $endRenderCallbacks = array();
 

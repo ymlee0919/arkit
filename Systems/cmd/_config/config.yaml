@@ -1,5 +1,5 @@
 # URL ---------------------------------------
-url:
+request:
   max_post_params: 64
   max_post_size: 2048
   max_post_param_name: 32
@@ -9,5 +9,6 @@ url:
 ##autoload: SutPrint
 
 # Firewall -----------------------------
-firewall: _base.controller.Firewall
+access:
+  controller: _base.controller.Firewall/Firewall
 

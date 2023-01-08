@@ -2,7 +2,7 @@
 
 $dir = dirname(__FILE__);
 
-require $dir. '/Config/ConfigReader.php';
+require $dir. '/YAML/YamlReader.php';
 
 require $dir . '/Request/Request.php';
 require $dir . '/Response/Response.php';
@@ -18,6 +18,8 @@ require $dir . '/Session/Session.php';
 require $dir . '/Cookie/CookieStore.php';
 
 require $dir . '/Model/Model.php';
+require $dir . '/Base/FunctionAddress.php';
+require $dir . '/Control/AccessControllerInterface.php';
 
 /**
  * Class Application
@@ -142,7 +144,7 @@ final class App {
 
         // Load cache
         $cacheClass = self::$config['cache']['handler'] . 'CacheEngine';
-        import($cacheClass,'App.Server.Cache.' . $cacheClass);
+        import($cacheClass,'App.Cache.' . $cacheClass);
         self::$Cache = new $cacheClass(self::$config['cache']);
 
         // Load output
@@ -209,7 +211,7 @@ final class App {
         }
 
         // Validate the request given the new configuration
-        $valid = self::$Request->validate(self::$config['url']);
+        $valid = self::$Request->validate(self::$config['request']);
         if(!$valid)
             self::$Response->throwWrongPage();
 
@@ -219,21 +221,51 @@ final class App {
         self::$Session->start();
 
         // Execute firewall first, if it is set
-        if(isset(self::$config['firewall']))
+        if(isset(self::$config['access']))
         {
-            import('Firewall', sprintf("Systems.%s.%s", self::$store['SYSTEM'], self::$config['firewall']));
-            if(!Firewall::Process())
-                die('<h1>Forbidden Access !!!!</h1>');
+            $controllerAddress = FunctionAddress::fromString(self::$config['access']['controller']);
+            if(is_null($controllerAddress))
+                throw new Exception('Invalid access controller path provided');
+
+            // Import the file
+            $controllerAddress->importFrom('Systems', self::$store['SYSTEM']);
+
+            // Create the class
+            $controllerClass = $controllerAddress->getClassName();
+            $accessController = new $controllerClass();
+
+            // Check the class implements the AccessControllerInterface
+            if(!$accessController instanceof AccessControllerInterface)
+                throw new Exception('Invalid Access Controller Class');
+
+            $result = $accessController->checkAccess($routingCallback);
+
+            unset($controllerAddress);
+            unset($controllerClass);
+
+            switch ($result)
+            {
+                case AccessControllerInterface::ACCESS_DENIED:
+                    self::$Response->throwWrongPage();
+                    break;
+
+                case AccessControllerInterface::ACCESS_FORBIDDEN:
+                    self::$Response->throwForbiddenPage();
+                    break;
+            }
         }
 
         // Load the model
-        if(isset(self::$config['model']) && isset(self::$config['model']['autoload']))
+        if(isset(self::$config['model']) && isset(self::$config['model']['name']))
         {
-            $model = self::$config['model']['autoload'];
+            $model = self::$config['model']['name'];
             import($model, 'Model.' . $model . '.' . $model);
 
             $model = $model . '\\' . $model;
             self::$Model = $model::getInstance();
+            if(! self::$Model instanceof Model)
+                throw new Exception('Invalid model class provided');
+
             self::$Model->load();
 
             unset($model);
@@ -243,39 +275,51 @@ final class App {
         if( 'GET' != strtoupper(self::$Request->getRequestMethod())  )
         {
             self::loadFormValidator();
-            self::$Request->processPost(self::$config['url']);
+            self::$Request->processPost(self::$config['request']);
         }
 
         // Load the controller class
-        $items = array();
-        preg_match_all("/^([A-Za-z._-]+)\/([A-Za-z._-]+)::([A-Za-z._-]+)$/", $routingCallback->getCallback(), $items);
+        $fnAddress = FunctionAddress::fromString($routingCallback->getCallback());
 
-        // Items[1] : Include
-        $include = sprintf("Systems.%s.%s", self::$store['SYSTEM'], $items[1][0]);
-        // Import the file
-        import($items[1][0], $include);
+        // Build the inclusion string address
+        $fnAddress->importFrom('Systems', self::$store['SYSTEM']);
 
-        // Items[2] : Class
-        $class = $items[2][0];
-        // Create the class
-        $controller = new $class();
+        // Create the class object
+        $className = $fnAddress->getClassName();
+        $controller = new $className();
 
-        // Items[3] : Method
-        $method = $items[3][0];
+        // Get the method
+        $method = $fnAddress->getFunctionName();
+
+//        $items = array();
+//        preg_match_all("/^([A-Za-z._-]+)\/([A-Za-z._-]+)::([A-Za-z._-]+)$/", $routingCallback->getCallback(), $items);
+//
+//        // Items[1] : Include
+//        $include = sprintf("Systems.%s.%s", self::$store['SYSTEM'], $items[1][0]);
+//        // Import the file
+//        import($items[1][0], $include);
+//
+//        // Items[2] : Class
+//        $class = $items[2][0];
+//        // Create the class
+//        $controller = new $class();
+//
+//        // Items[3] : Method
+//        $method = $items[3][0];
 
         // Set the default directory to the output
-        $tokens = explode('.', $items[1][0]);
+        $tokens = explode('.', $fnAddress->getFilePart());
         array_pop($tokens);array_pop($tokens);
         self::$Response->setWorkingDir(implode('/', $tokens));
 
         // Clean the memory before call the method
-        unset($items);
+//        unset($items);
         unset($include);
         unset($router);
         unset($tokens);
 
         // Call the methods
-        $ref_method = new ReflectionMethod($class, $method);
+        $ref_method = new ReflectionMethod($className, $method);
         if($routingCallback->haveParameters())
             $ref_method->invokeArgs($controller, array_values($routingCallback->getParameters()));
         else
@@ -363,7 +407,7 @@ final class App {
     public static function loadFormValidator() : void
 	{
 		if(is_null(self::$Form)){
-			import('FormValidator', 'App.Server.Form.FormValidator');
+			import('FormValidator', 'App.Form.FormValidator');
 			self::$Form = new FormValidator();
             self::$Form->init(self::$config['form']);
 		}

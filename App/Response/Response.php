@@ -135,7 +135,7 @@ final class Response
      */
     public function loadTemplate(string $filename, string $directory = null) : void
 	{
-        import('Template','App.Server.View.Template');
+        import('Template','App.View.Template');
 
 		$this->template = new Template((is_null($directory)) ? $this->default_dir . "/view" : $directory);
 		$this->tpl_name = $filename;

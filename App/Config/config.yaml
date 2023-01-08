@@ -3,7 +3,7 @@
 domain: "arkit.com"
 
 # URL ---------------------------------------
-url:
+request:
   # Maximum number of characters of the url
   max_length: 256
   # Maximum numbers of get parameters
@@ -33,7 +33,7 @@ logs:
     1:
       name: File
       config:
-        output_directory: resources/logs
+        output_directory: resources/logs/
       levels: [Request, Info, Notice, Warning, Alert, Debug, Error]
     2:
       name: Email

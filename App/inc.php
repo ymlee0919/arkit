@@ -12,7 +12,7 @@ function import(?string $className, string $lib, bool $include = false) : bool
             return true;
 
     // Go to root folder
-    $folder = dirname(__FILE__, 3);
+    $folder = dirname(__FILE__, 2);
 
     // Explode by dot
 	$tokens = explode('.', $lib);

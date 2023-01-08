@@ -242,7 +242,7 @@ class StringValidator extends FieldValidator {
             return $this;
 
         if(!class_exists('Crypt', false))
-            import('App.Server.Security.Crypt');
+            import('App.Security.Crypt');
 
         // Decode
         $str = @Crypt::decodeUrl($this->value);

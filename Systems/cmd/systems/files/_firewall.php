@@ -1,20 +1,38 @@
 <?php
 
+import('AccessControlHelper', 'Helper.Access.AccessControlHelper');
+
 /**
- * Class Firewall
+ * Class for control the access to the system
  */
-class Firewall {
+class _System_AccessControl implements AccessControllerInterface
+{
+
+    private AccessControlHelper $controller;
+
+    public function __construct()
+    {
+        $this->controller = new AccessControlHelper();
+
+        // Build configuration
+        $config = [
+            'path' => App::fullPathFromSystem('/_config/access.yaml')
+        ];
+
+        $this->controller->init($config);
+
+        unset($config);
+    }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
-    public static function Process() : bool
+    public function checkAccess(RoutingCallback $callback): string
     {
-        // Start the session
-        //App::$Session->start();
+        // Check the rol: Guest
+        if(!$this->controller->validateAccess($callback->getRuleId(), 'guest'))
+            return self::ACCESS_FORBIDDEN;
 
-        // Check process....
-
-        return true;
+        return self::ACCESS_GRANTED;
     }
 }

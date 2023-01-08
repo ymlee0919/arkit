@@ -81,7 +81,11 @@ class Systems
         $sourceDir = App::fullPathFromSystem('/systems/files/');
 
         // Make system directory
-        $success = mkdir($systemDir);
+        if(!is_dir($systemDir))
+            $success = mkdir($systemDir);
+        else
+            $success = true;
+
         if(!$success)
         {
             App::$Session->set_flash('ACTION_ERROR', 'Unable to create the System');
@@ -92,7 +96,9 @@ class Systems
         if($baseTpl || $firewall || $preLoader)
         {
             // Create the base folder
-            $success = mkdir($systemDir . '/_base');
+            if(!is_dir($systemDir . '/_base'))
+                $success = mkdir($systemDir . '/_base');
+
             if(!$success)
             {
                 App::$Session->set_flash('ACTION_ERROR', 'Unable to create the _base directory');
@@ -102,7 +108,8 @@ class Systems
             if($baseTpl)
             {
                 // Check require base template
-                $success = mkdir($systemDir . '/_base/view');
+                if(!is_dir($systemDir . '/_base/view'))
+                    $success = mkdir($systemDir . '/_base/view');
                 $success &= copy($sourceDir . '_base.tpl', $systemDir . '/_base/view/base.tpl');
                 if(!$success)
                 {
@@ -114,7 +121,8 @@ class Systems
             // Create the controller folder if is required
             if($firewall || $preLoader)
             {
-                $success = mkdir($systemDir . '/_base/controller');
+                if(!is_dir($systemDir . '/_base/controller'))
+                    $success = mkdir($systemDir . '/_base/controller');
                 if(!$success)
                 {
                     App::$Session->set_flash('ACTION_ERROR', 'Unable to create the controller(s)');
@@ -125,7 +133,9 @@ class Systems
             // Write firewall if need
             if($firewall)
             {
-                $success = copy($sourceDir . '_firewall.php', $systemDir . '/_base/controller/Firewall.php');
+                $class = file_get_contents($sourceDir . '_firewall.php');
+                $class = str_replace('_System_', $system, $class);
+                $success = $this->write($systemDir . '/_base/controller/' . $system. 'AccessControl.php', $class);
                 if(!$success)
                 {
                     App::$Session->set_flash('ACTION_ERROR', 'Unable to create the firewall');
@@ -136,10 +146,10 @@ class Systems
             $loaderClassName = 'PageLoader';
             if($preLoader)
             {
-                // Change the firewall class name
+                // Change the preloader class name
                 $loaderClassName = strtoupper($system[0]) . substr($system,1) . 'PageLoader';
 
-                // Update firewall class name and write the file
+                // Update preloader class name and write the file
                 $class = file_get_contents($sourceDir . '_preloader.php');
                 $class = str_replace('PageLoader', $loaderClassName, $class);
                 $success = $this->write($systemDir . '/_base/controller/' .$loaderClassName . '.php', $class);
@@ -176,21 +186,34 @@ class Systems
         // Treat the model
         if(isset($post['model']) && !!$post['model'])
             $content = strtr($content,[
-                '#model:' => 'model:',
-                '##autoload:' => '  autoload:',
                 'ModelName' => $post['model']
             ]);
 
         // Treat the firewall
         if($firewall)
-            $content = str_replace('#firewall:', 'firewall:', $content);
+        {
+            $content = str_replace('{System}', $system, $content);
+
+            $success = @copy($sourceDir . '_access.yaml', $systemDir . '/_config/access.yaml');
+            if(!$success)
+            {
+                App::$Session->set_flash('ACTION_ERROR', 'Unable to create access configuration file');
+                $output->redirectTo('cmd.systems');
+            }
+        }
+        else
+        {
+            $content = strtr($content, [
+                'access:' => '#access:',
+                '  controller:' => '##controller:'
+            ]);
+        }
 
         // Treat the page loader
         if($preLoader)
-        {
-            $content = str_replace('#onBeforeDisplay:', 'onBeforeDisplay:', $content);
             $content = str_replace('{PageLoader}', $loaderClassName, $content);
-        }
+        else
+            $content = str_replace('onBeforeDisplay:', '#onBeforeDisplay:', $content);
 
         $success = $this->write($systemDir . '/_config/config.yaml', $content);
         if(!$success)
