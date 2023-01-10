@@ -442,7 +442,7 @@ class FormValidator
     public function storeErrorsInSession(string $sessionKey = 'FROM_ERRORS', bool $asFlash = true) : void
     {
     	if($asFlash)
-			App::$Session->set_flash($sessionKey, $this->errors);
+			App::$Session->setFlash($sessionKey, $this->errors);
 		else
 			App::$Session->set($sessionKey, $this->errors);
 	}

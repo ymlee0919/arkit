@@ -275,7 +275,7 @@ class Session implements ArrayAccess
 	 * @param string $key Key
 	 * @param mixed $value Value to store
 	 */
-	public function set_flash(string $key, mixed $value) : void
+	public function setFlash(string $key, mixed $value) : void
 	{
 		$_SESSION[$key] = $value;
 		$_SESSION['__VARS'][$key] = '_NEW';
@@ -285,7 +285,7 @@ class Session implements ArrayAccess
 	 * Make a stored var as flash
 	 * @param string $key
 	 */
-	public function make_flash(string $key) : void
+	public function makeFlash(string $key) : void
 	{
 		if(isset($_SESSION[$key]))
 			$_SESSION['__VARS'][$key] = '_NEW';

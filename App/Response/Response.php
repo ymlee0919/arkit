@@ -101,10 +101,10 @@ final class Response
     /**
      * Encode to html entities
      * @param string|array $param
-     * @param bool $encode
+     * @param bool $utf8Encode
      * @returns void
      */
-    public function toHtmlEntities(string|array &$param, bool $encode = true) : void
+    public function toHtmlEntities(string|array &$param, bool $utf8Encode = true) : void
     {
         if(is_array($param))
         {
@@ -113,13 +113,13 @@ final class Response
                 if(strcmp($key, 'literal') == 0) continue;
 
                 $value = $param[$key];
-                $this->toHtmlEntities($value, $encode);
+                $this->toHtmlEntities($value, $utf8Encode);
                 $param[$key] = $value;
             }
         }
         else
         {
-            if($encode)
+            if($utf8Encode)
                 $param = htmlentities(utf8_encode($param),ENT_QUOTES,'UTF-8');
             else
                 $param = htmlentities($param,ENT_QUOTES,'UTF-8');

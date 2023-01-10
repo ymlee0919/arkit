@@ -1,6 +1,7 @@
 public function functionName($params) : void
     {
         $response = &App::$Response;
+        $flashMemory = new ViewFlashMemory($this->formId);
 
         // Validate parameters ...
 
@@ -21,7 +22,7 @@ public function functionName($params) : void
 
         if(!$form->isValid())
         {
-            $form->storeErrorsInSession('INPUT_ERROR', true);
+            $flashMemory->storeInputErrors($form->getErrors());
             $output->redirectTo('RULE-ID');
         }
 
@@ -29,7 +30,7 @@ public function functionName($params) : void
         App::$Model->connect('root');
 
         // End of request, send the response
-        App::$Session->set_flash('ACTION_SUCCESS', 'SUCCESS MESSAGE');
+        $flashMemory->storeSuccessMessage('Request successfully processed');
         $response->redirectTo('RULE-ID');
     }
 

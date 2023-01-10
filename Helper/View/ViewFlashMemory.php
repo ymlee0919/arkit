@@ -3,7 +3,7 @@
 /**
  * Class to store flash values in session
  */
-class ViewFlashMemoryWriter
+class ViewFlashMemory
 {
     /**
      * @var string Internal view name
@@ -26,7 +26,7 @@ class ViewFlashMemoryWriter
      */
     public function storeInputError(string $fieldName, string $error) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
@@ -35,7 +35,7 @@ class ViewFlashMemoryWriter
 
         $hash['INPUT_ERRORS'][$fieldName] = $error;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
     }
 
     /**
@@ -45,7 +45,7 @@ class ViewFlashMemoryWriter
      */
     public function storeInputErrors(array $errorList) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
@@ -55,7 +55,7 @@ class ViewFlashMemoryWriter
         foreach ($errorList as $fieldName => $error)
             $hash['INPUT_ERRORS'][$fieldName] = $error;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
     }
 
     /**
@@ -65,13 +65,13 @@ class ViewFlashMemoryWriter
      */
     public function storeActionError(string $error) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
         $hash['ACTION_ERROR'] = $error;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
     }
 
     /**
@@ -81,13 +81,13 @@ class ViewFlashMemoryWriter
      */
     public function storeSuccessMessage(string $message) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
         $hash['SUCCESS_MESSAGE'] = $message;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
     }
 
     /**
@@ -97,13 +97,13 @@ class ViewFlashMemoryWriter
      */
     public function storeWarning(string $warning) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
         $hash['WARNING'] = $warning;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
     }
 
     /**
@@ -114,7 +114,7 @@ class ViewFlashMemoryWriter
      */
     public function storeCustomError(string $errorType, string $error) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
@@ -123,7 +123,7 @@ class ViewFlashMemoryWriter
 
         $hash['CUSTOM_ERRORS'][$errorType] = $error;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
     }
 
     /**
@@ -134,7 +134,7 @@ class ViewFlashMemoryWriter
      */
     public function storeCustomValue(string $indexName, mixed $value) : void
     {
-        $hash = App::$Session->get($this->viewName);
+        $hash = App::$Session[$this->viewName];
         if(is_null($hash))
             $hash = array();
 
@@ -143,7 +143,22 @@ class ViewFlashMemoryWriter
 
         $hash['VALUES'][$indexName] = $value;
 
-        App::$Session->set($this->viewName, $hash, true);
+        App::$Session->setFlash($this->viewName, $hash);
+    }
+
+    public function sendToResponse(Response &$response, string $prefix = '') : void
+    {
+        $hash = App::$Session[$this->viewName];
+        if(is_null($hash))
+            return;
+
+        foreach ($hash as $index => $value)
+            if($index != 'VALUES')
+                $response->assign($prefix . $index, $value);
+
+        if(isset($hash['VALUES']))
+            foreach ($hash['VALUES'] as $index => $value)
+                $response->assign($index, $value);
     }
 
 }

@@ -67,7 +67,7 @@ class Routers
             $filePath = $this->buildClass($system, $parts[1], $parts[2]);
             if(!$filePath)
             {
-                App::$Session->set_flash('ACTION_ERROR', 'Unable to create the class for the rule: ' . $ruleId);
+                App::$Session->setFlash('ACTION_ERROR', 'Unable to create the class for the rule: ' . $ruleId);
                 $output->redirectTo('cmd.router', ['system' => $system]);
             }
 
@@ -88,7 +88,7 @@ class Routers
             $this->addFunction($filePath, $functionName, $params, $rule['method']);
         }
 
-        App::$Session->set_flash('ACTION_SUCCESS', 'Request success');
+        App::$Session->setFlash('ACTION_SUCCESS', 'Request success');
 
         $output->redirectTo('cmd.router', ['system' => $system]);
     }
@@ -126,7 +126,7 @@ class Routers
 
         if(!isset($router[$post['id']]))
         {
-            App::$Session->set_flash('ACTION_ERROR', 'The rule Id do not exists');
+            App::$Session->setFlash('ACTION_ERROR', 'The rule Id do not exists');
             $output->redirectTo('cmd.router', ['system' => $system]);
         }
 
@@ -144,7 +144,7 @@ class Routers
         $filePath = $this->buildClass($system, $parts[0][1], $parts[0][2]);
         if(!$filePath)
         {
-            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the class for the rule: ' . $post['id']);
+            App::$Session->setFlash('ACTION_ERROR', 'Unable to create the class for the rule: ' . $post['id']);
             $output->redirectTo('cmd.router', ['system' => $system]);
         }
 
@@ -214,7 +214,7 @@ class Routers
 
         $this->addFunction($filePath, $functionName, $params, $rule['method'], $options);
 
-        App::$Session->set_flash('ACTION_SUCCESS', 'Request success');
+        App::$Session->setFlash('ACTION_SUCCESS', 'Request success');
         $output->redirectTo('cmd.router', ['system' => $system]);
     }
 

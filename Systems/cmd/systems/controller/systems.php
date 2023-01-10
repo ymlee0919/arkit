@@ -88,7 +88,7 @@ class Systems
 
         if(!$success)
         {
-            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the System');
+            App::$Session->setFlash('ACTION_ERROR', 'Unable to create the System');
             $output->redirectTo('cmd.systems');
         }
 
@@ -101,7 +101,7 @@ class Systems
 
             if(!$success)
             {
-                App::$Session->set_flash('ACTION_ERROR', 'Unable to create the _base directory');
+                App::$Session->setFlash('ACTION_ERROR', 'Unable to create the _base directory');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -113,7 +113,7 @@ class Systems
                 $success &= copy($sourceDir . '_base.tpl', $systemDir . '/_base/view/base.tpl');
                 if(!$success)
                 {
-                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the base template.');
+                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the base template.');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -125,7 +125,7 @@ class Systems
                     $success = mkdir($systemDir . '/_base/controller');
                 if(!$success)
                 {
-                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the controller(s)');
+                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the controller(s)');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -138,7 +138,7 @@ class Systems
                 $success = $this->write($systemDir . '/_base/controller/' . $system. 'AccessControl.php', $class);
                 if(!$success)
                 {
-                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the firewall');
+                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the firewall');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -155,7 +155,7 @@ class Systems
                 $success = $this->write($systemDir . '/_base/controller/' .$loaderClassName . '.php', $class);
                 if(!$success)
                 {
-                    App::$Session->set_flash('ACTION_ERROR', 'Unable to create the pre-loader');
+                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the pre-loader');
                     $output->redirectTo('cmd.systems');
                 }
             }
@@ -165,7 +165,7 @@ class Systems
         $success = mkdir($systemDir . '/_config');
         if(!$success)
         {
-            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the configuration folder');
+            App::$Session->setFlash('ACTION_ERROR', 'Unable to create the configuration folder');
             $output->redirectTo('cmd.systems');
         }
 
@@ -176,7 +176,7 @@ class Systems
 
         if(!$success)
         {
-            App::$Session->set_flash('ACTION_ERROR', 'Unable to create the router');
+            App::$Session->setFlash('ACTION_ERROR', 'Unable to create the router');
             $output->redirectTo('cmd.systems');
         }
 
@@ -197,7 +197,7 @@ class Systems
             $success = @copy($sourceDir . '_access.yaml', $systemDir . '/_config/access.yaml');
             if(!$success)
             {
-                App::$Session->set_flash('ACTION_ERROR', 'Unable to create access configuration file');
+                App::$Session->setFlash('ACTION_ERROR', 'Unable to create access configuration file');
                 $output->redirectTo('cmd.systems');
             }
         }
@@ -218,11 +218,11 @@ class Systems
         $success = $this->write($systemDir . '/_config/config.yaml', $content);
         if(!$success)
         {
-            App::$Session->set_flash('ACTION_ERROR', 'Unable to create config file');
+            App::$Session->setFlash('ACTION_ERROR', 'Unable to create config file');
             $output->redirectTo('cmd.systems');
         }
 
-        App::$Session->set_flash('ACTION_SUCCESS', 'System successfully created');
+        App::$Session->setFlash('ACTION_SUCCESS', 'System successfully created');
         $output->redirectTo('cmd.systems');
     }
 
