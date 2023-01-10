@@ -170,6 +170,13 @@ class Routers
                 if(!is_file($fileName))
                     @copy(App::fullPathFromSystem('/routers/files/_pdfHelper.php'), $fileName);
             }
+
+            if(isset($post['email']) && $post['pdf'] === 'email')
+            {
+                $fileName = $rootDir . '/controller/helper/emailHelper';
+                if(!is_file($fileName))
+                    @copy(App::fullPathFromSystem('/routers/files/_emailHelper.php'), $fileName);
+            }
         }
         // Email
         if(isset($post['email']) && $post['email'] === 'yes')
