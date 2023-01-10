@@ -163,6 +163,13 @@ class Routers
             $helperFolder = $rootDir . '/controller/helper';
             if(!is_dir($helperFolder))
                 mkdir($helperFolder);
+
+            if(isset($post['pdf']) && $post['pdf'] === 'yes')
+            {
+                $fileName = $rootDir . '/controller/helper/pdfHelper';
+                if(!is_file($fileName))
+                    @copy(App::fullPathFromSystem('/routers/files/_pdfHelper.php'), $fileName);
+            }
         }
         // Email
         if(isset($post['email']) && $post['email'] === 'yes')
