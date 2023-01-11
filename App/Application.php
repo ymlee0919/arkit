@@ -162,31 +162,48 @@ final class App {
     {
         self::$Request = $request;
 
+        // Log the request
         self::$Logs->logRequest($request);
 
-        // Process the request
-        $request->preProcess();
-
-        // If not valid after a primary processing, throw a wrong page
-        if(!$request->isValid())
-            self::$Response->throwWrongPage();
-
+        // Route by domain
         $domainConfig = self::readConfig(self::fullPath('App/Config/routing.yaml'));
         $domainRouter = new DomainRouter($domainConfig);
-
         $routerPath = $domainRouter->route($request);
         if(!$routerPath)
-            self::$Response->throwWrongPage();
+            self::$Response->throwInvalidRequest();
 
         // Get the system
         self::$store['SYSTEM'] = explode('/', $routerPath)[0];
+
+        // Load the system configuration
+        $configFile = self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . '/_config/config.yaml';
+        if(is_file($configFile))
+        {
+            $pkConfig = self::readConfig($configFile);
+            self::$config = array_replace_recursive($pkConfig, self::$config);
+            unset($pkConfig);
+        }
+        unset($configFile);
+
+        // Init the response
+        if(isset(self::$config['response']))
+            self::$Response->init(self::$config['response']);
+
+        // Init the request
+        if(isset(self::$config['request']))
+            self::$Request->init(self::$config['request']);
+
+        // Validate the request
+        $valid = self::$Request->validate();
+        if(!$valid)
+            self::$Response->throwPageNotFound();
 
         // Get the router
         self::$Router = self::getRouter($routerPath);
         $routing = self::$Router->route($request->getRequestUrl(), $request->getRequestMethod());
 
         if(is_null($routing))
-            self::$Response->throwWrongPage();
+            self::$Response->throwPageNotFound();
 
         // Store the routing result
         self::$store['ROUTING'] = $routing;
@@ -201,26 +218,12 @@ final class App {
      */
     private function invoke(RoutingCallback &$routingCallback) : void
 	{
-        // Load the config for the package
-        $configFile = self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . '/_config/config.yaml';
-        if(is_file($configFile))
-        {
-            $pkConfig = self::readConfig($configFile);
-            self::$config = array_replace_recursive($pkConfig, self::$config);
-            unset($pkConfig);
-        }
-
-        // Validate the request given the new configuration
-        $valid = self::$Request->validate(self::$config['request']);
-        if(!$valid)
-            self::$Response->throwWrongPage();
-
         // Init session and start it
         self::$Session = Session::getInstance();
         self::$Session->init(self::$config['session']);
         self::$Session->start();
 
-        // Execute firewall first, if it is set
+        // Check access
         if(isset(self::$config['access']))
         {
             $controllerAddress = FunctionAddress::fromString(self::$config['access']['controller']);
@@ -246,11 +249,11 @@ final class App {
             switch ($result)
             {
                 case AccessControllerInterface::ACCESS_DENIED:
-                    self::$Response->throwWrongPage();
+                    self::$Response->throwAccessDenied();
                     break;
 
                 case AccessControllerInterface::ACCESS_FORBIDDEN:
-                    self::$Response->throwForbiddenPage();
+                    self::$Response->throwForbiddenAccess();
                     break;
             }
         }
@@ -275,7 +278,7 @@ final class App {
         if( 'GET' != strtoupper(self::$Request->getRequestMethod())  )
         {
             self::loadFormValidator();
-            self::$Request->processPost(self::$config['request']);
+            self::$Request->processPost();
         }
 
         // Load the controller class

@@ -30,16 +30,16 @@
                     <div class="col s6 m3">
                         <p>
                             <label>
-                                <input type="checkbox" name="firewall" value="yes" />
-                                <span>Require Firewall</span>
+                                <input type="checkbox" name="access" value="yes" />
+                                <span>Require access control</span>
                             </label>
                         </p>
                     </div>
                     <div class="col s6 m3">
                         <p>
                             <label>
-                                <input type="checkbox" name="preloader" value="yes" />
-                                <span>Require Page pre-loader</span>
+                                <input type="checkbox" name="output" value="yes" />
+                                <span>Require custom output</span>
                             </label>
                         </p>
                     </div>

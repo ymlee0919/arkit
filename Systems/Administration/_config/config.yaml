@@ -1,0 +1,19 @@
+# URL ---------------------------------------
+request:
+  max_post_params: 64
+  max_post_size: 2048
+
+# Model to load -----------------------------
+model:
+  name: Landscaping
+
+# AccessControl -----------------------------
+access:
+  controller: _base.controller.AdministrationAccessController/AdministrationAccessController
+
+# Response ----------------------------------
+response:
+  onBeforeDisplay: _base.controller.AdministrationResponse/AdministrationResponse::onBeforeDisplay
+  onPageNotFound: _base.controller.AdministrationResponse/AdministrationResponse::onPageNotFound
+  onAccessDenied: _base.controller.AdministrationResponse/AdministrationResponse::onAccessDenied
+  onForbiddenAccess: _base.controller.AdministrationResponse/AdministrationResponse::onForbiddenAccess

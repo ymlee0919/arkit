@@ -22,6 +22,12 @@ final class Request {
      * @var array
      */
     private array $_post;
+
+    /**
+     * Internal configuration
+     * @var array
+     */
+    private array $config;
 	
     /**
      * Levels of the page
@@ -54,13 +60,19 @@ final class Request {
         $this->_get    = [];
         $this->_post   = [];
         $this->levels  = [];
+        $this->config  = [];
 	}
+
+    public function init(array &$config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * Process the request
      * @return void
      */
-    public function preProcess() : void
+    private function preProcess() : void
 	{
         mb_internal_encoding('UTF-8');
         mb_detect_order(array('UTF-8', 'ASCII'));
@@ -119,26 +131,30 @@ final class Request {
 
     /**
      * Validate the request given some rules
-     * @param array $rules Validation rules
      * @return bool
      */
-    public function validate(array &$rules) : bool
+    public function validate() : bool
     {
+        $this->preProcess();
+        
+        if(!$this->isValid)
+            return false;
+        
         // Validate max length url
-        if(isset($rules['max_length']) && isset($this->_url[$rules['max_length']]))
+        if(isset($this->config['max_length']) && isset($this->_url[$this->config['max_length']]))
             return $this->isValid = false;
 
         // Validate the number of parameters sent by url
-        if(isset($rules['max_get_params']) && count($this->_get) > $rules['max_get_params'])
+        if(isset($this->config['max_get_params']) && count($this->_get) > $this->config['max_get_params'])
             return $this->isValid = false;
 
         // Validate the name and the value of each get parameter
         foreach ($this->_get as $name => $value)
         {
-            if(isset($rules['max_get_name_size']) && isset($name[$rules['max_get_name_size']]))
+            if(isset($this->config['max_get_name_size']) && isset($name[$this->config['max_get_name_size']]))
                 return $this->isValid = false;
 
-            if(isset($rules['max_get_value_size']) && isset($value[$rules['max_get_value_size']]))
+            if(isset($this->config['max_get_value_size']) && isset($value[$this->config['max_get_value_size']]))
                 return $this->isValid = false;
         }
 
@@ -147,25 +163,24 @@ final class Request {
 
 
     /**
-     * @param array $config
      * @return void
      */
-    public function processPost(array &$config) : void
+    public function processPost() : void
     {
         // If the url is steel valid and the page is not null, take the parameters set by post
         $i = 0;
-        $max = (isset($config['max_post_value_size'])) ? $config['max_post_value_size'] : 1024000000;
-        $pattern = (isset($config['post_param_name_format'])) ? '/^'. $config['post_param_name_format'] .'$/' : null;
+        $max = (isset($this->config['max_post_value_size'])) ? $this->config['max_post_value_size'] : 1024000000;
+        $pattern = (isset($this->config['post_param_name_format'])) ? '/^'. $this->config['post_param_name_format'] .'$/' : null;
 
         foreach($_POST as $key => $value)
         {
             // If exceed the number of available parameters
-            if(isset($config['max_post_params']) && $i >= $config['max_post_params']) {
+            if(isset($this->config['max_post_params']) && $i >= $this->config['max_post_params']) {
                 App::$Logs->notice("Parameter '$key' skipped. Maximum allowed.");
                 break;
             }
             // Validate name length
-            if(isset($config['max_post_name_size']) && isset($key[$config['max_post_name_size']]))
+            if(isset($this->config['max_post_name_size']) && isset($key[$this->config['max_post_name_size']]))
             {
                 App::$Logs->notice("Parameter name '$key' have invalid size.");
                 continue;
@@ -203,9 +218,9 @@ final class Request {
             }
             else
             {
-                if( isset($config['max_post_array_size']) && isset($value[$config['max_post_array_size']]))
+                if( isset($this->config['max_post_array_size']) && isset($value[$this->config['max_post_array_size']]))
                 {
-                    App::$Logs->notice("Parameter name '$key' exceed the {$config['max_post_array_size']} elements.");
+                    App::$Logs->notice("Parameter name '$key' exceed the {$this->config['max_post_array_size']} elements.");
                     continue;
                 }
                 $list = []; $i = -1;

@@ -11,8 +11,9 @@ model:
 access:
   controller: _base.controller.{System}AccessController/{System}AccessController
 
-# Response -----------------------------------
+# Response ----------------------------------
 response:
-  404: '/_base/404.tpl'
-  forbidden: '/_base/forbidden.tpl'
-  onBeforeDisplay: _base.controller.{PageLoader}/{PageLoader}::onBeforeDisplay
+  onBeforeDisplay: _base.controller.{System}Response/{System}Response::onBeforeDisplay
+  onPageNotFound: _base.controller.{System}Response/{System}Response::onPageNotFound
+  onAccessDenied: _base.controller.{System}Response/{System}Response::onAccessDenied
+  onForbiddenAccess: _base.controller.{System}Response/{System}Response::onForbiddenAccess

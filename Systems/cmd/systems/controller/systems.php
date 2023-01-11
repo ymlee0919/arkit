@@ -71,8 +71,8 @@ class Systems
 
         // Get configuration
         $baseTpl  = (isset($post['base']) && $post['base'] == 'yes');
-        $firewall = (isset($post['firewall']) && $post['firewall'] == 'yes');
-        $preLoader = (isset($post['preloader']) && $post['preloader'] == 'yes');
+        $accessControl = (isset($post['access']) && $post['access'] == 'yes');
+        $customOutput = (isset($post['output']) && $post['output'] == 'yes');
 
         $system = $post['system'];
 
@@ -93,7 +93,7 @@ class Systems
         }
 
         // Check if require _base directory
-        if($baseTpl || $firewall || $preLoader)
+        if($baseTpl || $accessControl || $customOutput)
         {
             // Create the base folder
             if(!is_dir($systemDir . '/_base'))
@@ -119,7 +119,7 @@ class Systems
             }
 
             // Create the controller folder if is required
-            if($firewall || $preLoader)
+            if($accessControl || $customOutput)
             {
                 if(!is_dir($systemDir . '/_base/controller'))
                     $success = mkdir($systemDir . '/_base/controller');
@@ -131,33 +131,41 @@ class Systems
             }
 
             // Write firewall if need
-            if($firewall)
+            if($accessControl)
             {
-                $class = file_get_contents($sourceDir . '_firewall.php');
+                $class = file_get_contents($sourceDir . '_access.php');
                 $class = str_replace('_System_', $system, $class);
                 $success = $this->write($systemDir . '/_base/controller/' . $system. 'AccessControl.php', $class);
                 if(!$success)
                 {
-                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the firewall');
+                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the access control class');
                     $output->redirectTo('cmd.systems');
                 }
             }
 
-            $loaderClassName = 'PageLoader';
-            if($preLoader)
+            if($customOutput)
             {
                 // Change the preloader class name
-                $loaderClassName = strtoupper($system[0]) . substr($system,1) . 'PageLoader';
+                $outputClassName = strtoupper($system[0]) . substr($system,1) . 'Response';
 
-                // Update preloader class name and write the file
-                $class = file_get_contents($sourceDir . '_preloader.php');
-                $class = str_replace('PageLoader', $loaderClassName, $class);
-                $success = $this->write($systemDir . '/_base/controller/' .$loaderClassName . '.php', $class);
+                // Update output class name and write the file
+                $class = file_get_contents($sourceDir . '_response.php');
+                $class = str_replace('Response', $outputClassName, $class);
+                $success = $this->write($systemDir . '/_base/controller/' .$outputClassName . '.php', $class);
                 if(!$success)
                 {
-                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the pre-loader');
+                    App::$Session->setFlash('ACTION_ERROR', 'Unable to create the output class');
                     $output->redirectTo('cmd.systems');
                 }
+
+                // Copy custom error pages
+                // 401 - Access denied
+                @copy($sourceDir . '_401.html', $systemDir . '/_base/view/401.html');
+                // 403 - Forbidden access
+                @copy($sourceDir . '_403.html', $systemDir . '/_base/view/403.html');
+                // 404 - Page not found
+                @copy($sourceDir . '_404.html', $systemDir . '/_base/view/404.html');
+
             }
         }
 
@@ -189,11 +197,11 @@ class Systems
                 'ModelName' => $post['model']
             ]);
 
-        // Treat the firewall
-        if($firewall)
-        {
-            $content = str_replace('{System}', $system, $content);
+        $content = str_replace('{System}', $system, $content);
 
+        // Treat the firewall
+        if($accessControl)
+        {
             $success = @copy($sourceDir . '_access.yaml', $systemDir . '/_config/access.yaml');
             if(!$success)
             {
@@ -205,15 +213,18 @@ class Systems
         {
             $content = strtr($content, [
                 'access:' => '#access:',
-                '  controller:' => '##controller:'
+                'controller:' => '#controller:'
             ]);
         }
 
         // Treat the page loader
-        if($preLoader)
-            $content = str_replace('{PageLoader}', $loaderClassName, $content);
-        else
+        if(!$customOutput)
+        {
+            $content = str_replace('response:', '#response:', $content);
+            $content = str_replace('onBeforeDisplay:', '#onAccessDenied:', $content);
+            $content = str_replace('onPageNotFound:', '#onPageNotFound:', $content);
             $content = str_replace('onBeforeDisplay:', '#onBeforeDisplay:', $content);
+        }
 
         $success = $this->write($systemDir . '/_config/config.yaml', $content);
         if(!$success)

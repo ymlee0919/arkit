@@ -1,0 +1,5 @@
+### - Router for the 'Administration' system
+rulerId:
+  url: '/url'
+  callback: 'model.controller.file/Class::Function'
+  method: 'GET or POST'

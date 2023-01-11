@@ -21,9 +21,28 @@ final class Response
     private ?string $default_dir;
 	
 	/**
-     * @var ?string function to execute before display the template
+     * Function to execute before display the template
+     * @var ?FunctionAddress
      */
-	private ?string $onBeforeDisplay;
+	private ?FunctionAddress $onBeforeDisplay;
+
+	/**
+     * Function to execute when page not found
+     * @var ?FunctionAddress
+     */
+	private ?FunctionAddress $onPageNotFound;
+
+	/**
+     * Function to execute before when access denied
+     * @var ?FunctionAddress
+     */
+	private ?FunctionAddress $onAccessDenied;
+
+	/**
+     * Function to execute before when access denied
+     * @var ?FunctionAddress
+     */
+	private ?FunctionAddress $onForbiddenAccess;
 
     /**
      *  Cookies sent by the browser
@@ -40,8 +59,25 @@ final class Response
 		$this->tpl_name = null;
 		$this->default_dir = null;
 		$this->onBeforeDisplay = null;
+		$this->onPageNotFound = null;
+		$this->onAccessDenied = null;
         $this->cookies = null;
 	}
+
+    public function init(array &$config) : void
+    {
+        if(isset($config['onBeforeDisplay']))
+            $this->onBeforeDisplay = FunctionAddress::fromString($config['onBeforeDisplay']);
+
+        if(isset($config['onPageNotFound']))
+            $this->onPageNotFound = FunctionAddress::fromString($config['onPageNotFound']);
+
+        if(isset($config['onAccessDenied']))
+            $this->onAccessDenied = FunctionAddress::fromString($config['onAccessDenied']);
+
+        if(isset($config['onForbiddenAccess']))
+            $this->onForbiddenAccess = FunctionAddress::fromString($config['onForbiddenAccess']);
+    }
 
     /**
      * @param string $module
@@ -68,34 +104,85 @@ final class Response
      * Throw the 404 page
      * @throws Exception
      */
-    public function throwWrongPage() : void
+    public function throwPageNotFound() : void
     {
         if(!empty(App::$Model))
             App::$Model->release();
 
-        // Set the package
-        if(!isset(App::$store['SYSTEM']))
-            App::$store['SYSTEM'] = 'GardenCruz';
+        if(!is_null($this->onPageNotFound))
+        {
+            $this->onPageNotFound->importFrom('System', App::$store['SYSTEM']);
+            $className = $this->onPageNotFound->getClassName();
+            $functionName = $this->onPageNotFound->getFunctionName();
+            $output = new $className();
+            $output->$functionName();
+        }
+        else
+        {
+            header('Status: 404');
+            readfile(dirname(__FILE__) . '404.html');
+        }
 
-        // Set the working directory
-        $this->setWorkingDir('_base');
-
-		header('Status: 404');
-        $this->loadTemplate('404.tpl');
-
-        // Set CDN
-        $this->assign('CDN', '');
-
-        $this->displayTemplate();
         exit;
     }
 
     /**
      *
      */
-    public function throwForbiddenPage() : void
+    public function throwAccessDenied() : void
     {
+        if(!empty(App::$Model))
+            App::$Model->release();
 
+        if(!is_null($this->onAccessDenied))
+        {
+            $this->onAccessDenied->importFrom('System', App::$store['SYSTEM']);
+            $className = $this->onAccessDenied->getClassName();
+            $functionName = $this->onAccessDenied->getFunctionName();
+            $output = new $className();
+            $output->$functionName();
+        }
+        else
+        {
+            header('Status: 401');
+            readfile(dirname(__FILE__) . '401.html');
+        }
+
+        exit;
+    }
+
+    /**
+     *
+     */
+    public function throwForbiddenAccess() : void
+    {
+        if(!empty(App::$Model))
+            App::$Model->release();
+
+        if(!is_null($this->onForbiddenAccess))
+        {
+            $this->onForbiddenAccess->importFrom('System', App::$store['SYSTEM']);
+            $className = $this->onForbiddenAccess->getClassName();
+            $functionName = $this->onForbiddenAccess->getFunctionName();
+            $output = new $className();
+            $output->$functionName();
+        }
+        else
+        {
+            header('Status: 403');
+            readfile(dirname(__FILE__) . '403.html');
+        }
+
+        exit;
+    }
+
+    /**
+     * Throw internal 400 error because invalid domain
+     */
+    public function throwInvalidRequest() : void
+    {
+        header('Status: 400');
+        readfile(dirname(__FILE__) . '400.html');
     }
 
     /**
