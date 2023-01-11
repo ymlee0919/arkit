@@ -2,12 +2,27 @@
 
 import('EmailDispatcher', 'Services.Email.EmailDispatcher');
 
+/**
+ * Helper class for sending email.
+ * Allow to separate the request processing for email creating and dispatching
+ */
 class emailHelper
 {
+    /**
+     * Custom message
+     * @var string
+     */
     private string $message;
 
+    /**
+     * Email dispatcher
+     * @var EmailDispatcher
+     */
     private EmailDispatcher $dispatcher;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->dispatcher = new EmailDispatcher();
@@ -15,11 +30,20 @@ class emailHelper
         $this->message = '';
     }
 
+    /**
+     * Build the custom message
+     * @return void
+     */
     public function buildMessage()
     {
         // TODO: Build the message
     }
 
+    /**
+     * Send the email
+     * @return bool
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public function sendEmail() : bool
     {
         $config = App::$config['email'];
@@ -31,6 +55,15 @@ class emailHelper
             ->dispatch();
 
         return $success;
+    }
+
+    /**
+     * Retrieve the internal dispatcher
+     * @return EmailDispatcher
+     */
+    public function getDispatcher() : EmailDispatcher
+    {
+        return $this->dispatcher;
     }
 
 }

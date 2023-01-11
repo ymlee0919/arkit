@@ -150,6 +150,8 @@ class Routers
 
         //// Build folders if sent
         $rootDir = dirname($filePath,2);
+        // Extract the name of the module
+        $moduleName = strtolower(basename($rootDir));
         // I18n
         if(isset($post['i18n']) && $post['i18n'] === 'yes')
         {
@@ -166,16 +168,28 @@ class Routers
 
             if(isset($post['pdf']) && $post['pdf'] === 'yes')
             {
-                $fileName = $rootDir . '/controller/helper/pdfHelper';
+                $className = $moduleName . 'PdfHelper';
+
+                $fileName = $rootDir . '/controller/helper/'. $className . '.php';
                 if(!is_file($fileName))
-                    @copy(App::fullPathFromSystem('/routers/files/_pdfHelper.php'), $fileName);
+                {
+                    $classFile = file_get_contents(App::fullPathFromSystem('/routers/files/_pdfHelper.php'));
+                    $classFile = str_replace('pdfHelper', $className, $classFile);
+                    $this->write($fileName, $classFile);
+                }
             }
 
-            if(isset($post['email']) && $post['pdf'] === 'email')
+            if(isset($post['email']) && $post['email'] === 'yes')
             {
-                $fileName = $rootDir . '/controller/helper/emailHelper';
+                $className = $moduleName . 'EmailHelper';
+
+                $fileName = $rootDir . '/controller/helper/'. $className . '.php';
                 if(!is_file($fileName))
-                    @copy(App::fullPathFromSystem('/routers/files/_emailHelper.php'), $fileName);
+                {
+                    $classFile = file_get_contents(App::fullPathFromSystem('/routers/files/_emailHelper.php'));
+                    $classFile = str_replace('emailHelper', $className, $classFile);
+                    $this->write($fileName, $classFile);
+                }
             }
         }
         // Email
