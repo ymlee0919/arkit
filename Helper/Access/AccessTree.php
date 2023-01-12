@@ -23,11 +23,9 @@ class AccessTree
 
     /**
      * Add a rule access to a given role. The rule access must have the fallowing structure:
-     *
-     *  - '*': For all rules
+     *  - task
      *  - part.part...part: For a specific routing rule
-     *  - part.part...*: For a group of rules starting with parts
-     *  - part.part...[subpart.subpart;subpart;subpart....;subpart]: For a group of rules starting with a part
+     *  - part.part...[lastPart;lastPart;...;lastPart]: For a group of rules starting with a part
      * and end with a set of parts
      *
      * @param string $role Role
@@ -50,38 +48,6 @@ class AccessTree
         $this->addRulePart($this->tree[$role], $rule);
     }
 
-    public function haveAccess(string $role, string $routingId) : bool
-    {
-        if(!isset($this->tree[$role]))
-            throw new InvalidArgumentException('The rol "' . $role . '" do not exists.');
-
-        if('*' === $this->tree[$role])
-            return true;
-
-        $ptr = &$this->tree[$role];
-        $steps = explode('.', $routingId);
-        $c = count($steps);
-        for($i = 0; $i < $c; $i++)
-        {
-            if($ptr === '*')
-                return true;
-
-            $step = $steps[$i];
-
-            if (in_array($step, $ptr) && $i + 1 == $c)
-                return true;
-            elseif(isset($ptr[$step]))
-                $ptr = &$ptr[$step];
-            else
-                return false;
-        }
-
-        if($ptr === '*')
-            return true;
-
-        return false;
-    }
-
     /**
      * Recursive method for add rule by part
      *
@@ -91,17 +57,11 @@ class AccessTree
      */
     private function addRulePart(array &$ptr, string $rulePart) : void
     {
-        if('*' === $rulePart)
-        {
-            $ptr = '*';
-            return;
-        }
-
         if('[' === $rulePart[0])
         {
             $parts = explode(';',substr($rulePart, 1, -1));
             foreach ($parts as $part)
-                $this->addRulePart($ptr, $part);
+                $ptr[] = $part;
         }
         else
         {
@@ -118,6 +78,34 @@ class AccessTree
             }
         }
     }
+
+    public function haveAccess(string $role, string $task) : bool
+    {
+        if(!isset($this->tree[$role]))
+            throw new InvalidArgumentException('The rol "' . $role . '" do not exists.');
+
+        if('*' === $this->tree[$role])
+            return true;
+
+        $ptr = &$this->tree[$role];
+        $steps = explode('.', $task);
+        $c = count($steps);
+        for($i = 0; $i < $c; $i++)
+        {
+            $step = $steps[$i];
+
+            if (in_array($step, $ptr) && $i + 1 == $c)
+                return true;
+            elseif(isset($ptr[$step]))
+                $ptr = &$ptr[$step];
+            else
+                return false;
+        }
+
+        return false;
+    }
+
+
 
     /**
      * @return string

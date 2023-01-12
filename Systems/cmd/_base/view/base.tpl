@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#EE6E73">
 
 	<style type="text/css">
-        {{include file=$smarty.current_dir|cat:'/css/materialize.css'}}
+        {{include file=$smarty.current_dir|cat:'/css/materialize.min.css'}}
         {{include file=$smarty.current_dir|cat:'/css/material-icons.css'}}
 
         main{padding-left:230px;padding-right:30px;margin-top: 25px}
@@ -20,6 +20,19 @@
         input.error{margin-bottom: 3px !important;} div.file-field > div > label.error{position: absolute !important;top: 25px;text-transform: initial; left: 35px;}
         label.error{position: relative !important; margin-bottom: 10px; font-size: 12px; color: red;}
         .menu-dropdown-content{top:-64px}
+        .sidenav li>a{color: #FFFFFF}
+        .sidenav li>a>i{color: #f4ede9 !important;}
+        .sidenav li.active{background-color: #343131}
+        .breadcrumb {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            list-style: none;
+            background-color: #212121;
+            border-radius: 0}
+        .breadcrumb>.active {color: #bdb7b7}
+        .card {background-color: #212121;}
+        .tabs{background-color: transparent}
+        .tabs .tab a.active{background-color:#383636}
     </style>
     <script>
         {{include file=$smarty.current_dir|cat:'/js/jquery-3.js'}}
@@ -27,11 +40,11 @@
         {{include file=$smarty.current_dir|cat:'/js/jquery.validate.min.js'}}
     </script>
     {{block name=includes}}{{/block}}
-<body style="background-color: #f7fcfe">
+<body style="background-color: #494b4b">
 <header>
     {{*  -------------------- NAV VAR -------------------- *}}
     <div class="navbar-fixed">
-        <nav class="indigo" style="left:0">
+        <nav class="black white-text" style="left:0">
             <div class="nav-wrapper">
                 <div class="container">
                     <a href="#!" class="brand-logo">Arkit Dashboard</a>
@@ -65,24 +78,24 @@
             <i class="material-icons">menu</i>
         </a>
     </div>
-    <ul style="transform: translateX(0px);" id="nav-mobile" class="sidenav sidenav-fixed">
-        <li class="bold{{if $session == 'dashboard'}} active blue lighten-4{{/if}}" style="margin-top:20px">
+    <ul style="transform: translateX(0px);" id="nav-mobile" class="sidenav sidenav-fixed grey darken-4">
+        <li class="bold{{if $session == 'dashboard'}} active{{/if}}" style="margin-top:20px">
             <a href="{{url id='cmd.dashboard'}}" class="waves-effect waves-green">Home<i class="material-icons left">apps</i></a>
         </li>
-        <li class="bold{{if $session == 'models'}} active blue lighten-4{{/if}}" style="margin-top:20px">
+        <li class="bold{{if $session == 'models'}} active{{/if}}" style="margin-top:20px">
             <a href="{{url id='cmd.models'}}" class="waves-effect waves-green">Models<i class="material-icons left">cloud_circle</i></a>
         </li>
-        <li class="bold{{if $session == 'systems'}} active blue lighten-4{{/if}}" style="margin-top:20px">
+        <li class="bold{{if $session == 'systems'}} active{{/if}}" style="margin-top:20px">
             <a href="{{url id='cmd.systems'}}" class="waves-effect waves-green">Systems<i class="material-icons left">collections_bookmark</i></a>
         </li>
-        <li class="bold{{if $session == 'samples'}} active blue lighten-4{{/if}}" style="margin-top:20px">
+        <li class="bold{{if $session == 'samples'}} active{{/if}}" style="margin-top:20px">
             <a href="{{url id='cmd.samples'}}" class="waves-effect waves-green">Samples<i class="material-icons left">library_books</i></a>
         </li>
         <li class="bold"><a href="#" class="waves-effect waves-red">Reports</a></li>
     </ul>
 </header>
 <main>
-    <div class="">
+    <div class="grey-text text-lighten-4">
         {{block name=body}}
         {{/block}}
     </div>
@@ -102,7 +115,6 @@
                     setTimeout(hideChip, 1000)
                 });
         }
-
         setTimeout(hideChip, 1500);
     });
 </script>

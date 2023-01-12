@@ -41,8 +41,8 @@
             <tr>
                 <td>{{$System}}</td>
                 <td>
-                    <a class="btn btn-flat waves-effect waves-yellow right" href="{{url id='cmd.router' system=$System}}">
-                        <i class="large material-icons">call_split</i>
+                    <a class="btn btn-flat waves-effect waves-red right" href="{{url id='cmd.router' system=$System}}">
+                        <i class="large material-icons yellow-text">call_split</i>
                     </a>
                 </td>
             </tr>

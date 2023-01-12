@@ -30,7 +30,7 @@ class _System_AccessControl implements AccessControllerInterface
     public function checkAccess(RoutingCallback $callback): string
     {
         // Check the rol: Guest
-        if(!$this->controller->validateAccess($callback->getRuleId(), 'guest'))
+        if(!$this->controller->validateAccess($callback->getTask() ?? $callback->getRuleId(), 'guest'))
             return self::ACCESS_FORBIDDEN;
 
         return self::ACCESS_GRANTED;

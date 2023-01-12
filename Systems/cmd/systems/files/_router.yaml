@@ -1,5 +1,7 @@
 ### - Router for the 'Pk' system
 rulerId:
-  url: '/url'
-  callback: 'model.controller.file/Class::Function'
-  method: 'GET or POST'
+  url: /url
+  callback: model.controller.file/Class::Function
+  method: GET or POST
+  # For control access purpose
+  task: Task

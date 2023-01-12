@@ -64,15 +64,15 @@ class AccessControlHelper
     }
 
     /**
-     * @param string $routingId
+     * @param string $task
      * @param string ...$roles
      * @return bool
      */
-    public function validateAccess(string $routingId, string ...$roles) : bool
+    public function validateAccess(string $task, string ...$roles) : bool
     {
         foreach ($roles as $role)
         {
-            if($this->tree->haveAccess($role, $routingId))
+            if($this->tree->haveAccess($role, $task))
                 return true;
         }
 

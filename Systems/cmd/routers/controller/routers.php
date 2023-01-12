@@ -290,8 +290,6 @@ class Routers
             '$params' => $parameters
         ];
 
-        $functionCode = null;
-
         // Get the function code according to calling method
         if($method == 'GET')
         {
