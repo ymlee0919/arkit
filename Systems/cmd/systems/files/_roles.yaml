@@ -1,0 +1,19 @@
+# Define the roles of the system
+# Structure:
+# [roleName]
+#   description: [Description of the role]
+#   tasks: [List of task the rol can do] Note: The tasks are dot separated names, like routing id
+#
+# Note: The tasks can be the list of all tasks or the short mode: part.part.[lastPart;lastPart;...;lastPart]
+
+guest:
+  description: Guest to the website
+  tasks:
+    - main
+    - logging
+
+user:
+  description: Common user
+  tasks:
+    - dashboard
+    - logout

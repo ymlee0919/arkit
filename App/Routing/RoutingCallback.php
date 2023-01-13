@@ -14,18 +14,14 @@ class RoutingCallback
      * @param string $ruleId
      * @param string $callback
      * @param array|null $parameters
-     * @param string|null $task
      */
-    public function __construct(string $ruleId, string $callback, ?array $parameters = null, ?string $task = null)
+    public function __construct(string $ruleId, string $callback, ?array $parameters = null)
     {
         $this->info = [
             'Id' => $ruleId,
             'Callback' => $callback,
             'Parameters' => $parameters
         ];
-
-        if(!is_null($task))
-            $this->info['Task'] = $task;
     }
 
     /**
@@ -42,14 +38,6 @@ class RoutingCallback
     public function getCallback() : string
     {
         return $this->info['Callback'];
-    }
-
-    /**
-     * @return ?string
-     */
-    public function getTask() : ?string
-    {
-        return $this->info['Task'] ?? null;
     }
 
     /**

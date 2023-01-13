@@ -1,0 +1,18 @@
+# Define the tasks of the system
+# Structure:
+# [taskName]: Note: The tasks are dot separated names, like routing id
+#    description: [Description of the task]
+#    routes: [List of routes IDs needed to make the task]
+#
+# Note: The routes can be the list of all routes or the short mode: part.part.[lastPart;lastPart;...;lastPart]
+
+login:
+  description: Show login page
+  routes:
+    - root
+    - login
+
+dashboard:
+  description: Show user dashboard
+  routes:
+    - dashboard

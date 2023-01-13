@@ -26,14 +26,17 @@ class AccessControlHelper
      */
     public function init(array $config) : void
     {
-        $filePath = $config['path'];
+        $rolesSource = $config['roles_source'];
+        $tasksSource = $config['tasks_source'];
 
-        $sign = md5_file($filePath);
+        $md5Roles = md5_file($rolesSource);
+        $md5Tasks = md5_file($tasksSource);
+        $sign = sha1($md5Roles . '//' . $md5Tasks);
 
         if(App::$Cache->isEnable())
         {
             // Build key for cache
-            $key = 'access.' . sha1($filePath);
+            $key = 'access.' . sha1($md5Roles);
             // Try to get the tree from cache
             $tree = App::$Cache->get($key);
             if($tree instanceof AccessTree && $tree->getSign() == $sign)
@@ -41,26 +44,27 @@ class AccessControlHelper
             else
             {
                 // Load the tree and store in cache
-                $this->loadAccessTreeFromFile($filePath);
+                $this->loadAccessTreeFromFiles($rolesSource, $tasksSource);
                 $this->tree->setSign($sign);
                 App::$Cache->set($key, $this->tree);
             }
         }
         else
-            $this->loadAccessTreeFromFile($filePath);
+            $this->loadAccessTreeFromFiles($rolesSource, $tasksSource);
     }
 
     /**
-     * @param string $filePath
+     * @param string $rolesSource
+     * @param string $tasksSource
      * @return void
+     * @throws Exception
      */
-    private function loadAccessTreeFromFile(string $filePath) : void
+    private function loadAccessTreeFromFiles(string $rolesSource, string $tasksSource) : void
     {
-        $rules = App::readConfig($filePath);
+        $roles = App::readConfig($rolesSource);
+        $tasks = App::readConfig($tasksSource);
 
-        foreach ($rules as $role => $rulesList)
-            foreach ($rulesList as $accessRule)
-                $this->tree->addAccessRule($role, $accessRule);
+        $this->tree->build($roles, $tasks);
     }
 
     /**
@@ -68,13 +72,25 @@ class AccessControlHelper
      * @param string ...$roles
      * @return bool
      */
-    public function validateAccess(string $task, string ...$roles) : bool
+    public function checkTaskAccess(string $task, string ...$roles) : bool
     {
         foreach ($roles as $role)
-        {
             if($this->tree->haveAccess($role, $task))
                 return true;
-        }
+
+        return false;
+    }
+
+    /**
+     * @param string $routingId
+     * @param string ...$roles
+     * @return bool
+     */
+    public function checkRoutingAccess(string $routingId, string ...$roles) : bool
+    {
+        foreach ($roles as $role)
+            if($this->tree->canInvoke($role, $routingId))
+                return true;
 
         return false;
     }

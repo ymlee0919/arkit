@@ -202,7 +202,8 @@ class Systems
         // Treat the firewall
         if($accessControl)
         {
-            $success = @copy($sourceDir . '_access.yaml', $systemDir . '/_config/access.yaml');
+            $success = @copy($sourceDir . '_roles.yaml', $systemDir . '/_config/roles.yaml');
+            $success.= @copy($sourceDir . '_tasks.yaml', $systemDir . '/_config/tasks.yaml');
             if(!$success)
             {
                 App::$Session->setFlash('ACTION_ERROR', 'Unable to create access configuration file');
