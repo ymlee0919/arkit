@@ -36,6 +36,16 @@
                         <label for="pass">Password:</label>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <p>
+                            <label>
+                                <input type="checkbox" name="crypt" value="yes" />
+                                <span>Need Crypt</span>
+                            </label>
+                        </p>
+                    </div>
+                </div>
                 <br>
             </div>
             <div class="card-action right-align">

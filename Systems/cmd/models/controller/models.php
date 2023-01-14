@@ -59,36 +59,36 @@ class Models
     {
         $output = &App::$Response;
 
-        $domain = "cmd.arkit.com";
-        $err = null; $errStr = null; $header = '';
-
-        // open the socket
-        $f = @stream_socket_client($domain . ':80', $err, $errStr, 30, STREAM_CLIENT_CONNECT);
-        if(!$f)
-            die("Error: " . $err . $errStr);
-
-        // prepare the HTTP request headers
-        $request_headers  = "GET /models/new HTTP/1.1" . "\r\n";
-        $request_headers .= "Host: " . $domain . "\r\n";
-        $request_headers .= "Connection: close" . "\r\n";
-        $request_headers .= "\r\n";
-
-        // send the HTTP request
-        fputs ($f, $request_headers);
-
-        // read everything from the socket
-        $buf = "";
-        while (!feof($f)) {
-            $buf .= fgets ($f, 8192);
-        }
-
-        // close the socket
-        fclose($f);
-
-        echo '<pre>';
-        var_dump($header);
-        var_dump($buf);
-        die;
+//        $domain = "cmd.arkit.com";
+//        $err = null; $errStr = null; $header = '';
+//
+//        // open the socket
+//        $f = @stream_socket_client($domain . ':80', $err, $errStr, 30, STREAM_CLIENT_CONNECT);
+//        if(!$f)
+//            die("Error: " . $err . $errStr);
+//
+//        // prepare the HTTP request headers
+//        $request_headers  = "GET /models/new HTTP/1.1" . "\r\n";
+//        $request_headers .= "Host: " . $domain . "\r\n";
+//        $request_headers .= "Connection: close" . "\r\n";
+//        $request_headers .= "\r\n";
+//
+//        // send the HTTP request
+//        fputs ($f, $request_headers);
+//
+//        // read everything from the socket
+//        $buf = "";
+//        while (!feof($f)) {
+//            $buf .= fgets ($f, 8192);
+//        }
+//
+//        // close the socket
+//        fclose($f);
+//
+//        echo '<pre>';
+//        var_dump($header);
+//        var_dump($buf);
+//        die;
 
         // Validate entry
         $post = App::$Request->getAllPostParams();
@@ -146,7 +146,7 @@ class Models
         }
 
         // Copy the Model Class
-        $class = file_get_contents($sourceDir . 'model.php');
+        $class = file_get_contents($sourceDir . ((isset($post['crypt']) && $post['crypt'] == 'yes') ? 'modelWCrypt.php' : 'model.php'));
         $class = str_replace('ModelName', $model, $class);
         $class = str_replace('dataBase', $database, $class);
         $success = $this->write($modelDir . '/' . $model . '.php', $class);

@@ -82,6 +82,27 @@ class ModelName implements \Model
         spl_autoload_register(array($this, 'loadClass'), true);
     }
 
+    /**
+     * @param $className
+     * @return bool
+     * @throws \Exception
+     */
+    public function loadClass($className) : bool
+    {
+        if (strpos($className, 'ModelName\\') === 0)
+        {
+            import($className,'Model.' . str_replace('\\', '.', $className));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Connect to database given an account
+     * @param string $account Account for connection
+     * @return void
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
     public function connect(string $account): void
     {
         $config = include dirname(__FILE__) . '/config/config.php';
@@ -96,21 +117,6 @@ class ModelName implements \Model
         $this->connectionManager->setName('dataBase');
         $serviceContainer->setConnectionManager($this->connectionManager);
         $serviceContainer->setDefaultDatasource('dataBase');
-    }
-
-    /**
-     * @param $className
-     * @return bool
-     * @throws \Exception
-     */
-    public function loadClass($className) : bool
-    {
-        if (strpos($className, 'ModelName\\') === 0)
-        {
-            import($className,'Model.' . str_replace('\\', '.', $className));
-            return true;
-        }
-        return false;
     }
 
     /**

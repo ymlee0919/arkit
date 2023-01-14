@@ -2,7 +2,6 @@
 
 require 'CSRFHandler.php';
 require 'FieldValidator.php';
-import('Crypt','App.Security.Crypt');
 
 /**
  * Class FormValidator

@@ -56,10 +56,10 @@ class CSRFHandler
         $this->cookie_prefix    = $config['cookie_prefix'] ?? 'field_';
 
         if(!isset(App::$Session['CSRF']))
-            App::$Session['CSRF'] = Crypt::getRandomString($config['private_key_length'] ?? 32);
+            App::$Session['CSRF'] = App::$Crypt->getRandomString($config['private_key_length'] ?? 32);
 
         if(!isset(App::$Session['PRIVATE_KEY']))
-            App::$Session['PRIVATE_KEY'] =  str_shuffle(Crypt::getRandomString(64));
+            App::$Session['PRIVATE_KEY'] =  str_shuffle(App::$Crypt->getRandomString(64));
     }
 
     /**
@@ -71,7 +71,7 @@ class CSRFHandler
     {
         $expiry = $_SERVER['REQUEST_TIME'] + ($expire ?? $this->defaultExpire);
         $code = App::$Session['CSRF']. '|' . strval( $expiry ) . '|' . trim(md5( $this->csrf_key .'['. $formId.']'));
-        return Crypt::encrypt($code, App::$Session['PRIVATE_KEY']);
+        return App::$Crypt->strongEncrypt($code, App::$Session['PRIVATE_KEY']);
     }
 
     public function generateCookie(string $formId, ?int $expire = null, string $path = '/') : void
@@ -94,7 +94,7 @@ class CSRFHandler
      */
     public function validateCode(string $formId, string $code) : string
     {
-        $token = @Crypt::decrypt($code, App::$Session['PRIVATE_KEY']);
+        $token = @App::$Crypt->strongDecrypt($code, App::$Session['PRIVATE_KEY']);
         if(!$token)
             return self::CSRF_VALIDATION_INVALID;
 
@@ -138,7 +138,7 @@ class CSRFHandler
      */
     private function getCryptFormName(string $formId) : string
     {
-        return Crypt::encodeUrl($formId);
+        return App::$Crypt->smoothEncrypt($formId);
     }
 
     /**
@@ -147,7 +147,7 @@ class CSRFHandler
      */
     private function buildCookieValue(string $formId) : string
     {
-        return Crypt::encodeUrl($this->csrf_key . '[[' . $formId . ']]');
+        return App::$Crypt->smoothEncrypt($this->csrf_key . '[[' . $formId . ']]');
     }
 
 

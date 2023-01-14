@@ -20,6 +20,7 @@ require $dir . '/Cookie/CookieStore.php';
 require $dir . '/Model/Model.php';
 require $dir . '/Base/FunctionAddress.php';
 require $dir . '/Control/AccessControllerInterface.php';
+require $dir . '/Security/Crypt.php';
 
 /**
  * Class Application
@@ -93,6 +94,12 @@ final class App {
      * @var ?Session
      */
     public static ?Session $Session = null;
+
+    /**
+     * Crypt manager
+     * @var ?CryptInterface
+     */
+    public static ?CryptInterface $Crypt = null;
 
     /**
      * Constructor of the class
@@ -257,6 +264,10 @@ final class App {
                     break;
             }
         }
+
+        // Load the crypt
+        self::$Crypt = new Crypt();
+        self::$Crypt->init(self::$config['crypt']);
 
         // Load the model
         if(isset(self::$config['model']) && isset(self::$config['model']['name']))

@@ -84,6 +84,10 @@ form:
     # Prefix for cookie implementing the CSRF
     cookie_prefix: field_
 
+# CRYPT ---------------------------------------
+crypt:
+  hash_algo: gost-crypto
+
 # ENVIRONMENT ---------------------------------
 env:
   time_zone: America/Havana

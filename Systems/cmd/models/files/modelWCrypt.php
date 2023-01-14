@@ -1,18 +1,18 @@
 <?php
 
-namespace Landscaping;
+namespace ModelName;
 
 /**
- * Class Landscaping
- * @package Landscaping
+ * Class ModelName
+ * @package ModelName
  */
-class Landscaping implements \Model
+class ModelName implements \Model
 {
 
     /**
-     * @var ?Landscaping
+     * @var ?ModelName
      */
-    private static ?Landscaping $instance = null;
+    private static ?ModelName $instance = null;
 
     /**
      * @var ?\Propel\Runtime\Connection\ConnectionInterface
@@ -24,6 +24,12 @@ class Landscaping implements \Model
      */
     private ?\Propel\Runtime\Connection\ConnectionManagerSingle $connectionManager;
 
+
+    /**
+     * @var \CryptInterface|null
+     */
+    public readonly ?\CryptInterface $crypt;
+
     /**
      *
      */
@@ -31,15 +37,18 @@ class Landscaping implements \Model
     {
         $this->conn = null;
         $this->connectionManager = null;
+
+        $this->crypt = new \Crypt();
+        $this->crypt->init();
     }
 
     /**
-     * @returns Landscaping
+     * @returns ModelName
      */
-    public static function getInstance() : Landscaping
+    public static function getInstance() : ModelName
     {
         if(!self::$instance)
-            self::$instance = new Landscaping();
+            self::$instance = new ModelName();
 
         return self::$instance;
     }
@@ -78,22 +87,8 @@ class Landscaping implements \Model
     public function load() : void
     {
 		import(null, 'Libs.Propel.vendor.autoload');
+		import(null, 'Model.ModelName.config.config');
         spl_autoload_register(array($this, 'loadClass'), true);
-    }
-
-    public function connect(string $account): void
-    {
-        $config = include dirname(__FILE__) . '/config/config.php';
-
-        $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
-        $serviceContainer->checkVersion('2.0.0-dev');
-        $serviceContainer->setAdapterClass('landscaping', 'mysql');
-
-        $this->connectionManager = new \Propel\Runtime\Connection\ConnectionManagerSingle('landscaping');
-        $this->connectionManager->setConfiguration($config[$account]);
-
-        $serviceContainer->setConnectionManager($this->connectionManager);
-        $serviceContainer->setDefaultDatasource('landscaping');
     }
 
     /**
@@ -103,12 +98,34 @@ class Landscaping implements \Model
      */
     public function loadClass($className) : bool
     {
-        if (str_starts_with($className, 'Landscaping\\'))
+        if (strpos($className, 'ModelName\\') === 0)
         {
             import($className,'Model.' . str_replace('\\', '.', $className));
             return true;
         }
         return false;
+    }
+
+    /**
+     * Connect to database given an account
+     * @param string $account Account for connection
+     * @return void
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public function connect(string $account): void
+    {
+        $config = include dirname(__FILE__) . '/config/config.php';
+
+        $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
+        $serviceContainer->checkVersion('2.0.0-dev');
+        $serviceContainer->setAdapterClass('dataBase', 'mysql');
+
+        $this->connectionManager = new \Propel\Runtime\Connection\ConnectionManagerSingle('dataBase');
+        $this->connectionManager->setConfiguration($config[$account]);
+
+        $this->connectionManager->setName('dataBase');
+        $serviceContainer->setConnectionManager($this->connectionManager);
+        $serviceContainer->setDefaultDatasource('dataBase');
     }
 
     /**
@@ -119,5 +136,4 @@ class Landscaping implements \Model
     {
         $this->connectionManager->closeConnections();
     }
-
 }
