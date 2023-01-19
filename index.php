@@ -3,11 +3,15 @@
 
 require 'App/conf.php';
 require 'App/inc.php';
-require 'App/Application.php';
+require 'App/loader.php';
 
-$clientRequest = new Request();
+$loader = Loader::getInstance();
+$loader->register();
+$loader->addNamespace('Arkit', __DIR__ . '/App');
 
-$app = new App();
+$clientRequest = new Arkit\Core\HTTP\Request();
+
+$app = new Arkit\App();
 $app->init();
 $app->dispatch($clientRequest);
 

@@ -1,35 +1,10 @@
 <?php
-/**
- * @param ?string $className
- * @param string $lib
- * @param bool $include
- * @return bool
- */
-function import(?string $className, string $lib, bool $include = false) : bool
+
+function clean_file_address(string $fileName) : string
 {
-    if(!is_null($className))
-        if(class_exists($className))
-            return true;
-
-    // Go to root folder
-    $folder = dirname(__FILE__, 2);
-
-    // Explode by dot
-	$tokens = explode('.', $lib);
-    // The last token is the file
-	$file = array_pop($tokens);
-    // Build the folder
-	$folder = $folder . '/' . implode('/', $tokens);
-    // Check the folder exists
-    if(!is_dir($folder)) return false;
-    // Build full file path
-    $file = $folder.'/'.$file.'.php';
-    if(false === is_file($file)) return false;
-
-    if(!$include) require $file;
-    else include $file;
-
-    return true;
+    return strtr(
+        strtr($fileName, ['\\' => DIRECTORY_SEPARATOR, '/' => DIRECTORY_SEPARATOR]),
+        DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 }
 
 /**
@@ -116,5 +91,10 @@ function clean_phone_number(string $phone) : string
     }
 
     return $number;
+}
+
+function file_type($file): string
+{
+    return $file;
 }
 ?>

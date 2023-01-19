@@ -1,0 +1,5 @@
+### - Router for << System >> system
+rulerId:
+  url: /url
+  handler: System\Dashboard\DashboardController::Function
+  method: GET or POST

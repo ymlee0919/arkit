@@ -1,10 +1,12 @@
-<?php declare(strict_types = 1);
+<?php
 
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Generator\Util;
 
@@ -466,24 +468,25 @@ class QuickBuilder
             $script .= $this->fixNamespaceDeclarations($class);
         }
 
-        if ($col = $table->getChildrenColumn()) {
-            if ($col->isEnumeratedClasses()) {
-                foreach ($col->getChildren() as $child) {
-                    if ($child->getAncestor()) {
-                        /** @var \Propel\Generator\Builder\Om\QueryInheritanceBuilder $builder */
-                        $builder = $this->getConfig()->getConfiguredBuilder($table, 'queryinheritance');
-                        $builder->setChild($child);
-                        $class = $builder->build();
-                        $script .= $this->fixNamespaceDeclarations($class);
+        $col = $table->getChildrenColumn();
+        if ($col && $col->isEnumeratedClasses()) {
+            foreach ($col->getChildren() as $child) {
+                if (!$child->getAncestor()) {
+                    continue;
+                }
 
-                        foreach (['objectmultiextend', 'queryinheritancestub'] as $target) {
-                            /** @var \Propel\Generator\Builder\Om\MultiExtendObjectBuilder $builder */
-                            $builder = $this->getConfig()->getConfiguredBuilder($table, $target);
-                            $builder->setChild($child);
-                            $class = $builder->build();
-                            $script .= $this->fixNamespaceDeclarations($class);
-                        }
-                    }
+                /** @var \Propel\Generator\Builder\Om\QueryInheritanceBuilder $builder */
+                $builder = $this->getConfig()->getConfiguredBuilder($table, 'queryinheritance');
+                $builder->setChild($child);
+                $class = $builder->build();
+                $script .= $this->fixNamespaceDeclarations($class);
+
+                foreach (['objectmultiextend', 'queryinheritancestub'] as $target) {
+                    /** @var \Propel\Generator\Builder\Om\MultiExtendObjectBuilder $builder */
+                    $builder = $this->getConfig()->getConfiguredBuilder($table, $target);
+                    $builder->setChild($child);
+                    $class = $builder->build();
+                    $script .= $this->fixNamespaceDeclarations($class);
                 }
             }
         }

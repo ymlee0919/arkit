@@ -73,6 +73,7 @@ class PgsqlSchemaParser extends AbstractSchemaParser
         'timestamp with time zone' => PropelTypes::TIMESTAMP,
         'double precision' => PropelTypes::DOUBLE,
         'json' => PropelTypes::JSON,
+        'uuid' => PropelTypes::UUID,
     ];
 
     /**
@@ -153,7 +154,8 @@ class PgsqlSchemaParser extends AbstractSchemaParser
             AND n.nspname NOT LIKE 'pg_toast%'";
 
         if ($filterTable) {
-            if ($schema = $filterTable->getSchema()) {
+            $schema = $filterTable->getSchema();
+            if ($schema) {
                 $sql .= ' AND n.nspname = ?';
                 $params[] = $schema;
             }
@@ -190,7 +192,7 @@ class PgsqlSchemaParser extends AbstractSchemaParser
 
         $stmt->execute($params);
 
-        // First load the tables (important that this happen before filling out details of tables)
+        // First load the tables (important that this happens before filling out details of tables)
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $name = $row['relname'];
             $namespaceName = $row['nspname'];
@@ -232,7 +234,8 @@ class PgsqlSchemaParser extends AbstractSchemaParser
         $searchPath = '?';
         $params = [$table->getDatabase()->getSchema()];
 
-        if ($schema = $table->getSchema()) {
+        $schema = $table->getSchema();
+        if ($schema) {
             $searchPath = '?';
             $params = [$schema];
         } elseif (!$table->getDatabase()->getSchema()) {

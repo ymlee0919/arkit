@@ -24,12 +24,14 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class EmailValidator extends ConstraintValidator
 {
+    private const PATTERN_HTML5_ALLOW_NO_TLD = '/^[a-zA-Z0-9.!#$%&\'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/';
     private const PATTERN_HTML5 = '/^[a-zA-Z0-9.!#$%&\'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/';
     private const PATTERN_LOOSE = '/^.+\@\S+\.\S+$/';
 
     private const EMAIL_PATTERNS = [
         Email::VALIDATION_MODE_LOOSE => self::PATTERN_LOOSE,
         Email::VALIDATION_MODE_HTML5 => self::PATTERN_HTML5,
+        Email::VALIDATION_MODE_HTML5_ALLOW_NO_TLD => self::PATTERN_HTML5_ALLOW_NO_TLD,
     ];
 
     private string $defaultMode;
@@ -40,12 +42,13 @@ class EmailValidator extends ConstraintValidator
             throw new \InvalidArgumentException('The "defaultMode" parameter value is not valid.');
         }
 
+        if (Email::VALIDATION_MODE_LOOSE === $defaultMode) {
+            trigger_deprecation('symfony/validator', '6.2', 'The "%s" mode is deprecated. The default mode will be changed to "%s" in 7.0.', Email::VALIDATION_MODE_LOOSE, Email::VALIDATION_MODE_HTML5);
+        }
+
         $this->defaultMode = $defaultMode;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof Email) {
@@ -56,7 +59,7 @@ class EmailValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_scalar($value) && !$value instanceof \Stringable) {
+        if (!\is_scalar($value) && !$value instanceof \Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
 
@@ -70,6 +73,10 @@ class EmailValidator extends ConstraintValidator
         }
 
         if (null === $constraint->mode) {
+            if (Email::VALIDATION_MODE_STRICT === $this->defaultMode && !class_exists(EguliasEmailValidator::class)) {
+                throw new LogicException(sprintf('The "egulias/email-validator" component is required to make the "%s" constraint default to strict mode.', EguliasEmailValidator::class));
+            }
+
             $constraint->mode = $this->defaultMode;
         }
 

@@ -31,9 +31,9 @@
  * @method object getRegisteredObject(string $object_name)
  * @method Smarty_Internal_TemplateBase registerCacheResource(string $name, Smarty_CacheResource $resource_handler)
  * @method Smarty_Internal_TemplateBase registerClass(string $class_name, string $class_impl)
- * @method Smarty_Internal_TemplateBase registerDefaultConfigHandler(FunctionAddress $callback)
- * @method Smarty_Internal_TemplateBase registerDefaultPluginHandler(FunctionAddress $callback)
- * @method Smarty_Internal_TemplateBase registerDefaultTemplateHandler(FunctionAddress $callback)
+ * @method Smarty_Internal_TemplateBase registerDefaultConfigHandler(callback $callback)
+ * @method Smarty_Internal_TemplateBase registerDefaultPluginHandler(callback $callback)
+ * @method Smarty_Internal_TemplateBase registerDefaultTemplateHandler(callback $callback)
  * @method Smarty_Internal_TemplateBase registerResource(string $name, mixed $resource_handler)
  * @method Smarty_Internal_TemplateBase setAutoloadFilters(mixed $filters, string $type = null)
  * @method Smarty_Internal_TemplateBase setDebugTemplate(string $tpl_name)
@@ -257,7 +257,7 @@ abstract class Smarty_Internal_TemplateBase extends Smarty_Internal_Data
                 error_reporting($_smarty_old_error_level);
             }
             return $result;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }

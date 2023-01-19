@@ -23,9 +23,6 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class IsinValidator extends ConstraintValidator
 {
-    /**
-     * {@inheritdoc}
-     */
     public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof Isin) {
@@ -36,7 +33,7 @@ class IsinValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_scalar($value) && !$value instanceof \Stringable) {
+        if (!\is_scalar($value) && !$value instanceof \Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
 

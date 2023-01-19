@@ -1,5 +1,7 @@
 <?php
 
+use Cache\MemcachedCacheEngine;
+
 /**
  * Memcache CacheResource
  *

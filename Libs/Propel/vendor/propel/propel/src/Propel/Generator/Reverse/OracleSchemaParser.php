@@ -58,6 +58,7 @@ class OracleSchemaParser extends AbstractSchemaParser
         'NUMBER' => PropelTypes::INTEGER,
         'NVARCHAR2' => PropelTypes::VARCHAR,
         'TIMESTAMP' => PropelTypes::TIMESTAMP,
+        'UUID' => PropelTypes::UUID,
         'VARCHAR2' => PropelTypes::VARCHAR,
     ];
 
@@ -87,7 +88,7 @@ class OracleSchemaParser extends AbstractSchemaParser
 
         $seqPattern = $this->getGeneratorConfig()->get()['database']['adapters']['oracle']['autoincrementSequencePattern'];
 
-        // First load the tables (important that this happen before filling out details of tables)
+        // First load the tables (important that this happens before filling out details of tables)
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             if (strpos($row['OBJECT_NAME'], '$') !== false) {
                 // this is an Oracle internal table or materialized view - prune

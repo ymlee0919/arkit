@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02be5a7f8fef48e43552371b2e53a122",
+    "content-hash": "d6f3a77c05bf432bb3420c6c2a22fef2",
     "packages": [
         {
             "name": "smarty/smarty",
-            "version": "v4.1.1",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "71036be8be02bf93735c47b0b745f722efbc729f"
+                "reference": "c02e9e135ea719b91f457a0072748ded0e852e7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/71036be8be02bf93735c47b0b745f722efbc729f",
-                "reference": "71036be8be02bf93735c47b0b745f722efbc729f",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c02e9e135ea719b91f457a0072748ded0e852e7d",
+                "reference": "c02e9e135ea719b91f457a0072748ded0e852e7d",
                 "shasum": ""
             },
             "require": {
@@ -68,9 +68,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v4.1.1"
+                "source": "https://github.com/smarty-php/smarty/tree/v4.3.0"
             },
-            "time": "2022-05-17T12:56:28+00:00"
+            "time": "2022-11-22T21:47:32+00:00"
         }
     ],
     "packages-dev": [],

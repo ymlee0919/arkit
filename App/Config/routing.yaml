@@ -1,5 +1,5 @@
 # ROUTING ------------------------------------
-cmd.arkit.com: 'cmd/_config/router.yaml'
+cmd.arkit.com: 'CMD/_config/router.yaml'
 
 gardencruz.com: 'GardenCruz/_config/router.yaml'
 gardencruzcompany.com: 'GardenCruz/_config/router.yaml'

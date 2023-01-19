@@ -20,9 +20,6 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class JsonValidator extends ConstraintValidator
 {
-    /**
-     * {@inheritdoc}
-     */
     public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof Json) {
@@ -33,7 +30,7 @@ class JsonValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_scalar($value) && !$value instanceof \Stringable) {
+        if (!\is_scalar($value) && !$value instanceof \Stringable) {
             throw new UnexpectedTypeException($value, 'string');
         }
 

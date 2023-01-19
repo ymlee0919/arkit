@@ -26,9 +26,6 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class TimezoneValidator extends ConstraintValidator
 {
-    /**
-     * {@inheritdoc}
-     */
     public function validate(mixed $value, Constraint $constraint)
     {
         if (!$constraint instanceof Timezone) {
@@ -39,7 +36,7 @@ class TimezoneValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_scalar($value) && !$value instanceof \Stringable) {
+        if (!\is_scalar($value) && !$value instanceof \Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
 

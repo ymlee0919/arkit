@@ -1,0 +1,19 @@
+# URL ---------------------------------------
+request:
+  max_post_params: 64
+  max_post_size: 2048
+
+# Model to load -----------------------------
+model:
+  name: ModelName
+
+# AccessControl -----------------------------
+access:
+  controller: {System}\Access\AccessController
+
+# Response ----------------------------------
+response:
+  onBeforeDisplay: {System}\Events\ResponseEvents::onBeforeDisplay
+  onPageNotFound: {System}\Events\ResponseEvents::onPageNotFound
+  onAccessDenied: {System}\Events\ResponseEvents::onAccessDenied
+  onForbiddenAccess: {System}\Events\ResponseEvents::onForbiddenAccess

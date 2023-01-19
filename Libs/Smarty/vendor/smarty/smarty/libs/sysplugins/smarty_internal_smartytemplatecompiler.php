@@ -155,7 +155,7 @@ class Smarty_Internal_SmartyTemplateCompiler extends Smarty_Internal_TemplateCom
      * Register a post compile callback
      * - when the callback is called after template compiling the compiler object will be inserted as first parameter
      *
-     * @param FunctionAddress $callback
+     * @param callback $callback
      * @param array    $parameter optional parameter array
      * @param string   $key       optional key for callback
      * @param bool     $replace   if true replace existing keyed callback

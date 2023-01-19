@@ -60,7 +60,7 @@ class MssqlSchemaParser extends AbstractSchemaParser
         'timestamp' => PropelTypes::BINARY,
         'tinyint identity' => PropelTypes::TINYINT,
         'tinyint' => PropelTypes::TINYINT,
-        'uniqueidentifier' => PropelTypes::CHAR,
+        'uniqueidentifier' => PropelTypes::UUID,
         'varbinary' => PropelTypes::VARBINARY,
         'varbinary(max)' => PropelTypes::CLOB,
         'varchar' => PropelTypes::VARCHAR,
@@ -92,7 +92,7 @@ class MssqlSchemaParser extends AbstractSchemaParser
     {
         $dataFetcher = $this->dbh->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME <> 'dtproperties'");
 
-        // First load the tables (important that this happen before filling out details of tables)
+        // First load the tables (important that this happens before filling out details of tables)
         $tables = [];
         foreach ($dataFetcher as $row) {
             $name = $this->cleanDelimitedIdentifiers($row[0]);

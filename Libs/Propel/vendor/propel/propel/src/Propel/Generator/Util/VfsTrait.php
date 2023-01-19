@@ -1,10 +1,12 @@
-<?php declare(strict_types = 1);
+<?php
 
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Generator\Util;
 
@@ -65,7 +67,7 @@ trait VfsTrait
      */
     private function getDir(string $dirname): vfsStreamDirectory
     {
-        if ('.' === $dirname) {
+        if ($dirname === '.') {
             return $this->getRoot();
         }
 
@@ -73,7 +75,7 @@ trait VfsTrait
         $parent = $this->getRoot();
         foreach ($dirs as $dir) {
             $current = $parent->getChild($dir);
-            if (null === $current) {
+            if ($current === null) {
                 $current = vfsStream::newDirectory($dir)->at($parent);
             }
             $parent = $current;
