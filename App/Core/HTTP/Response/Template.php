@@ -17,6 +17,7 @@ class Template extends \Smarty
         $this->setCompileDir($RESOURCES_FOLDER . '/templates_c/');
         $this->setConfigDir($RESOURCES_FOLDER . '/configs/');
         $this->setCacheDir($RESOURCES_FOLDER . '/cache/');
+        $this->addPluginsDir(__DIR__ . DIRECTORY_SEPARATOR. 'plugins');
 
         $this->left_delimiter = '{{';
         $this->right_delimiter = '}}';
