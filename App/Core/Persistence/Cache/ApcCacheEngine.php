@@ -11,7 +11,7 @@ class ApcCacheEngine implements CacheInterface
      * Indicate if cache is enabled or not
      * @var bool
      */
-    private bool $isEnable;
+    private bool $enabled;
 
     /**
      * Default prefix
@@ -40,9 +40,9 @@ class ApcCacheEngine implements CacheInterface
      */
     public function init(): bool
     {
-        $this->isEnable = apcu_enabled();
+        $this->enabled = function_exists('apcu_enabled') && apcu_enabled();
 
-        if (!$this->isEnable)
+        if (!$this->enabled)
             return false;
 
         return true;
@@ -53,7 +53,7 @@ class ApcCacheEngine implements CacheInterface
      */
     public function set(string $key, mixed $value, ?int $expire = null): bool
     {
-        if (!$this->isEnable)
+        if (!$this->enabled)
             return false;
 
         $key = $this->prefix . $key;
@@ -65,7 +65,7 @@ class ApcCacheEngine implements CacheInterface
      */
     public function get(string $key): mixed
     {
-        if (!$this->isEnable)
+        if (!$this->enabled)
             return false;
 
         $success = true;
@@ -82,7 +82,7 @@ class ApcCacheEngine implements CacheInterface
      */
     public function remove(string $key): bool
     {
-        if (!$this->isEnable)
+        if (!$this->enabled)
             return false;
 
         $key = $this->prefix . $key;
@@ -94,7 +94,7 @@ class ApcCacheEngine implements CacheInterface
      */
     public function clean(): bool
     {
-        if (!$this->isEnable)
+        if (!$this->enabled)
             return false;
 
         return apcu_clear_cache();
@@ -103,9 +103,9 @@ class ApcCacheEngine implements CacheInterface
     /**
      * @inheritDoc
      */
-    public function isEnable(): bool
+    public function enabled(): bool
     {
-        return $this->isEnable();
+        return $this->enabled;
     }
 
     /**

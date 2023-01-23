@@ -101,7 +101,7 @@ class FileCacheEngine implements CacheInterface
         return 'File cache class is not defined';
     }
 
-    public function isEnable(): bool
+    public function enabled(): bool
     {
         return true;
     }

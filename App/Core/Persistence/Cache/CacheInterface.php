@@ -46,7 +46,7 @@ interface CacheInterface
      * Return if is enabled after initialization
      * @return bool
      */
-    public function isEnable(): bool;
+    public function enabled(): bool;
 
     /**
      * Return the last error occurred

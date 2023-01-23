@@ -13,12 +13,12 @@ class MemcacheCacheEngine implements CacheInterface
 
     private int $expireTime;
 
-    private function __construct(array &$config)
+    public function __construct(array &$config)
     {
         $this->expireTime = $config['expiry'] ?? 86400;
         $this->prefix = $config['prefix'] ?? '_memCache';
 
-        $this->enabled = (extension_loaded('memcache'));
+        $this->enabled = (extension_loaded('memcache') || class_exists('Memcache'));
     }
 
     public function init(): bool
@@ -82,7 +82,7 @@ class MemcacheCacheEngine implements CacheInterface
         return $error;
     }
 
-    public function isEnable(): bool
+    public function enabled(): bool
     {
         return $this->enabled;
     }

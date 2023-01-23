@@ -53,7 +53,23 @@ switch(RUN_MODE)
         ini_set('display_startup_errors', '0');
         ini_set('output_buffering', '4096');
         ini_set('implicit_flush', 'Off');
-        break;
+
+        if(ini_get('opcache.enable'))
+        {
+            ini_set('opcache.memory_consumption',128);
+            ini_set('opcache.interned_strings_buffer', 16);
+            ini_set('opcache.max_accelerated_files',7963);
+            ini_set('opcache.revalidate_freq', 3600);
+            ini_set('opcache.fast_shutdown', 1);
+            ini_set('opcache.max_wasted_percentage', 15);
+            ini_set('opcache.enable_cli',false);
+            ini_set('opcache.use_cwd',true);
+
+            ini_set('opcache.jit','tracing');
+            ini_set('opcache.jit_buffer_size','64M');
+            ini_set('opcache.jit_max_recursive_calls','7');
+        }
+        break; // END OF RELEASE_MODE
 
     case TESTING_MODE:
         error_reporting(-1);
@@ -61,6 +77,7 @@ switch(RUN_MODE)
         ini_set('display_startup_errors', '1');
         ini_set('output_buffering', '4096');
         ini_set('implicit_flush', 'Off');
+        ini_set('opcache.enable',0);
         break;
 
     case DEBUG_MODE:
@@ -68,5 +85,7 @@ switch(RUN_MODE)
         ini_set('display_errors', 'On');
         ini_set('output_buffering', 'Off');
         ini_set('implicit_flush', 'On');
+        ini_set('opcache.enable',0);
+        opcache_reset();
         break;
 }

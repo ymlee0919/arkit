@@ -147,6 +147,7 @@ final class App
         // Load cache
         $cacheClass = '\\Arkit\\Core\\Persistence\\Cache\\' . self::$config['cache']['handler'] . 'CacheEngine';
         self::$Cache = new $cacheClass(self::$config['cache']);
+        self::$Cache->init();
 
         // Load output
         self::$Response = new Core\HTTP\Response();
@@ -321,7 +322,7 @@ final class App
         $full_path = self::$ROOT_DIR . '/Systems/' . $path;
         $md5 = md5_file($full_path);
 
-        if(self::$Cache->isEnable()) {
+        if(self::$Cache->enabled()) {
             $key = 'router.' . $path;
             $router = self::$Cache->get($key);
             if(!$router || $router->getSign() != $md5) {

@@ -7,6 +7,7 @@ class Controller
     {
         $output = \Arkit\App::$Response;
         $output->loadTemplate('main.tpl');
+        $output->assign('extra', 'Welcome');
         $output->displayTemplate();
     }
 

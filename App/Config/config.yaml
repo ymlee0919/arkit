@@ -46,13 +46,13 @@ logs:
 cache:
   # Cache file class
   # Enabled classes: Apc, File, Memcache, Memcached
-  handler: File
+  handler: Apc
   # Key for cache
-  master_key: master_global
+  master_key: ArkitCache
   # Expire time for cache in seconds (default 86400 = 24H)
   expire_time: 86400
   # Prefix
-  prefix: _cache
+  prefix: TheCache.
 
 # SESSION ----------------------------------
 session:
