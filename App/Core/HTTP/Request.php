@@ -2,7 +2,11 @@
 
 namespace Arkit\Core\HTTP;
 
+use Arkit\Core\HTTP\Request\JsonBodyParser;
+use Arkit\Core\HTTP\Request\MultipartFormParser;
+use Arkit\Core\HTTP\Request\UrlEncodedBodyParser;
 use Arkit\Core\Persistence\Client\CookieStore;
+use Arkit\Core\HTTP\Request\RequestBodyParser;
 
 /**
  * Class Request
@@ -15,6 +19,12 @@ final class Request
      * @var ?string
      */
     private ?string $_url = null;
+
+    /**
+     * Headers sent by client
+     * @var array
+     */
+    private array $headers;
 
     /**
      * URL parameters of the request
@@ -50,7 +60,13 @@ final class Request
      *  Cookies sent by the browser
      * @var ?CookieStore
      */
-    private $cookies;
+    private ?CookieStore $cookies;
+
+    /**
+     * Parser for the body
+     * @var RequestBodyParser|null
+     */
+    private ?RequestBodyParser $bodyParser;
 
     /**
      *
@@ -66,11 +82,50 @@ final class Request
         $this->_post = [];
         $this->levels = [];
         $this->config = [];
+
+        $this->headers = [];
+
+        foreach (getallheaders() as $key => $value)
+            $this->headers[strtoupper($key)] = $value;
     }
 
-    public function init(array &$config)
+    /**
+     * @param array $config
+     * @return void
+     */
+    public function init(array &$config) : void
     {
         $this->config = $config;
+    }
+
+    /**
+     * Set parser for the payload request
+     * @param RequestBodyParser $bodyParser
+     * @return void
+     */
+    public function setBodyParser(RequestBodyParser $bodyParser) : void
+    {
+        $this->bodyParser = $bodyParser;
+    }
+
+    /**
+     * Get value of header given the name
+     * @param string $headerName
+     * @return string|null
+     */
+    public function getHeader(string $headerName) : ?string
+    {
+        $header = strtoupper($headerName);
+        return $this->headers[$header] ?? null;
+    }
+
+    /**
+     * Get all headers
+     * @return array
+     */
+    public function getAllHeaders() : array
+    {
+        return $this->headers;
     }
 
     /**
@@ -93,6 +148,7 @@ final class Request
 
         if (strlen($this->_url) == 1)
             return;
+
         if (strlen($this->_url) < 1) {
             $this->isValid = false;
             return;
@@ -104,28 +160,19 @@ final class Request
             return;
         }
 
-        $this->_url = str_replace('/?', '?', $this->_url);
-
         // Separate url from get parameters
-        $urlParts = explode('?', $this->_url);
+        $urlParts = parse_url($this->_url);
 
         //// Treat the first part of the url
         // Split by slash
-        $this->levels = explode('/', $urlParts[0]);
-        // Remove the first item, is always null
-        array_shift($this->levels);
+        $this->levels = explode('/', $urlParts['path']);
+        // Remove the first item if empty
+        if(empty($this->levels[0]))
+            array_shift($this->levels);
 
         // Treat the parameters by get
-        if (isset($urlParts[1])) {
-            // Split the url options by the &
-            $opts = explode("&", $urlParts[1]);
-
-            foreach ($opts as $item) {
-                $tokens = explode('=', $item);
-                $this->_get[$tokens[0]] = $tokens[1];
-            }
-            unset($opts);
-        }
+        if (isset($urlParts['query']))
+            parse_str($urlParts['query'], $this->_get);
 
         unset($urlParts);
     }
@@ -161,44 +208,71 @@ final class Request
         return true;
     }
 
-
     /**
      * @return void
      */
-    public function processPost(): void
+    public function processBody(): void
     {
-        // If the url is steel valid and the page is not null, take the parameters set by post
+        // Parse the payload according the request type
+        if(is_null(!$this->bodyParser))
+        {
+            // Set multipart/form as default
+            $contentType = $this->getHeader('Content-Type') ?? 'multipart/form-data;';
+            $contentType = strtolower(trim(explode(';', $contentType)[0]));
+
+            $this->bodyParser = match ($contentType) {
+                'application/json' => new JsonBodyParser(),
+                'application/x-www-form-urlencoded' => new UrlEncodedBodyParser(),
+                default => new MultipartFormParser()
+            };
+
+            $this->bodyParser->setHeaders(getallheaders());
+        }
+
+        $content = file_get_contents('php://input');
+        $this->bodyParser->parse($content);
+        $values = $this->bodyParser->getAll();
+
+        // Validate parameters
         $i = 0;
         $max = (isset($this->config['max_post_value_size'])) ? $this->config['max_post_value_size'] : 1024000000;
         $pattern = (isset($this->config['post_param_name_format'])) ? '/^' . $this->config['post_param_name_format'] . '$/' : null;
 
-        foreach ($_POST as $key => $value) {
+        foreach ($values as $key => $value)
+        {
             // If exceed the number of available parameters
-            if (isset($this->config['max_post_params']) && $i >= $this->config['max_post_params']) {
+            if (isset($this->config['max_post_params']) && $i >= $this->config['max_post_params'])
+            {
                 \Arkit\App::$Logs->notice("Parameter '$key' skipped. Maximum allowed.");
                 break;
             }
             // Validate name length
-            if (isset($this->config['max_post_name_size']) && isset($key[$this->config['max_post_name_size']])) {
+            if (isset($this->config['max_post_name_size']) && isset($key[$this->config['max_post_name_size']]))
+            {
                 \Arkit\App::$Logs->notice("Parameter name '$key' have invalid size.");
                 continue;
             }
             // Validate name
-            if (!is_null($pattern) && !preg_match($pattern, $key)) {
+            if (!is_null($pattern) && !preg_match($pattern, $key))
+            {
                 \Arkit\App::$Logs->notice("Parameter name '$key' mismatch $pattern pattern.");
                 continue;
             }
 
-            if (!is_array($value)) {
-                if (!mb_check_encoding($key, 'UTF-8')) {
+            if (!is_array($value))
+            {
+                if (!mb_check_encoding($key, 'UTF-8'))
+                {
                     \Arkit\App::$Logs->notice("Parameter name '$key' have not UTF-8 encoding.");
                     continue;
                 }
-                if (mb_detect_encoding($value) == 'UTF-8') {
+                if (mb_detect_encoding($value) == 'UTF-8')
+                {
                     if (mb_strlen($value, 'UTF-8') > $max)
                         \Arkit\App::$Logs->notice("Parameter '$key' truncate to $max characters.");
                     $value = mb_substr($value, 0, $max);
-                } elseif (mb_detect_encoding($value, 'ASCII')) {
+                } elseif (mb_detect_encoding($value, 'ASCII'))
+                {
                     if (mb_strlen($value, 'ASCII') > $max)
                         \Arkit\App::$Logs->notice("Parameter '$key' truncate to $max characters.");
                     $value = utf8_encode(mb_substr($value, 0, $max));
@@ -206,33 +280,43 @@ final class Request
                     continue;
 
                 $this->_post[$key] = $value;
-            } else {
-                if (isset($this->config['max_post_array_size']) && isset($value[$this->config['max_post_array_size']])) {
+            }
+            else
+            {
+                if (isset($this->config['max_post_array_size']) && isset($value[$this->config['max_post_array_size']]))
+                {
                     \Arkit\App::$Logs->notice("Parameter name '$key' exceed the {$this->config['max_post_array_size']} elements.");
                     continue;
                 }
                 $list = [];
                 $i = -1;
-                foreach ($value as $val) {
+                foreach ($value as $val)
+                {
                     $i++;
-                    if (mb_detect_encoding($val) == 'UTF-8') {
+                    if (mb_detect_encoding($val) == 'UTF-8')
+                    {
                         if (mb_strlen($val, 'UTF-8') > $max)
                             \Arkit\App::$Logs->notice("Parameter '$key [$i]' truncate to $max characters.");
                         $list[] = mb_substr($val, 0, $max);
-                    } elseif (mb_detect_encoding($val, 'ASCII')) {
+                    }
+                    elseif (mb_detect_encoding($val, 'ASCII'))
+                    {
                         if (mb_strlen($val, 'ASCII') > $max)
                             \Arkit\App::$Logs->notice("Parameter '$key [$i]' truncate to $max characters.");
                         $list[] = utf8_encode(mb_substr($val, 0, $max));
-                    } else
+                    }
+                    else
                         continue;
                 }
 
                 $this->_post[$key] = $list;
             }
 
-            unset($_POST[$key]);
+            unset($values[$key]);
             $i++;
         }
+
+        unset($values);
     }
 
     /**
@@ -277,7 +361,7 @@ final class Request
      * Get all parameters passed by url
      * @return array
      */
-    public function getAllGetParams(): array
+    public function getAllUrlParams(): array
     {
         return $this->_get;
     }
@@ -287,7 +371,7 @@ final class Request
      * @param string $option
      * @return string|null
      */
-    public function getGetParam(string $option): ?string
+    public function getUrlParam(string $option): ?string
     {
         if (isset($this->_get[$option]))
             return $this->_get[$option];

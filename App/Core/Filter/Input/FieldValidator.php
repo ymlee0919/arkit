@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\Filter\Form;
 
-use \Arkit\Core\Filter\Form;
+use \Arkit\Core\Filter\InputValidator;
 
 /**
  * Class FieldValidator
@@ -23,9 +23,9 @@ abstract class FieldValidator
     protected mixed $realValue;
 
     /**
-     * @var Form
+     * @var InputValidator
      */
-    protected Form $form;
+    protected InputValidator $form;
 
     /**
      * @var bool
@@ -34,9 +34,9 @@ abstract class FieldValidator
 
 
     /**
-     * @param Form $form
+     * @param InputValidator $form
      */
-    public function __construct(Form &$form)
+    public function __construct(InputValidator &$form)
     {
         $this->value = null;
         $this->form = $form;

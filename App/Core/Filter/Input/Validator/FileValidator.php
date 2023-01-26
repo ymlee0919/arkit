@@ -1,7 +1,7 @@
 <?php
 namespace Arkit\Core\Filter\Form\Validator;
 
-use \Arkit\Core\Filter\Form;
+use \Arkit\Core\Filter\InputValidator;
 use \Arkit\Core\Filter\Form\FieldValidator;
 
 /**
@@ -15,10 +15,10 @@ class FileValidator extends FieldValidator {
     private string $fieldName;
 
     /**
-     * @param Form $form
+     * @param InputValidator $form
      * @param string $fieldName
      */
-    public function __construct(Form &$form, string $fieldName)
+    public function __construct(InputValidator &$form, string $fieldName)
     {
         parent::__construct($form);
         $this->fieldName = $fieldName;

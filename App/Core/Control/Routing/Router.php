@@ -100,7 +100,7 @@ final class Router implements RouterInterface
                 if (!isset($rule['allow'])) continue;
 
                 $valid = true;
-                foreach (\Arkit\App::$Request->getAllGetParams() as $option)
+                foreach (\Arkit\App::$Request->getAllUrlParams() as $option)
                     $valid = (in_array($option, $rule['allow']) && $valid);
                 if (!$valid) continue;
                 else {

@@ -6,7 +6,7 @@ use \Arkit\Core\HTTP\Request;
 /**
  * Class FormValidator
  */
-class Form
+class InputValidator
 {
     /**
      * @var ?array
@@ -154,7 +154,7 @@ class Form
         $language = $config['language'] ?? 'en';
 
         // Load the hash errors
-        $lang_file = dirname(__FILE__) . '/Form/lang/' . $language . '.php';
+        $lang_file = dirname(__FILE__) . '/Input/lang/' . $language . '.php';
         if(!is_file($lang_file))
             throw new \Exception('Invalid language for from validator');
 

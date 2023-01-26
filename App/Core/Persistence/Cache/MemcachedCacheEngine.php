@@ -38,7 +38,7 @@ class MemcachedCacheEngine implements CacheInterface
 
         // Set options to memcached
         $this->cache->setOption(\Memcached::HAVE_IGBINARY, TRUE);
-        $this->cache->setOption(\Memcached::OPT_SERIALIZER, Memcached::SERIALIZER_IGBINARY);
+        $this->cache->setOption(\Memcached::OPT_SERIALIZER, \Memcached::SERIALIZER_IGBINARY);
         $this->cache->setOption(\Memcached::OPT_PREFIX_KEY, $this->prefix);
 
         return true;

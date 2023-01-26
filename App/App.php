@@ -54,7 +54,7 @@ final class App
     /**
      * Form validator
      *
-     * @var ?Core\Filter\Form
+     * @var ?Core\Filter\InputValidator
      * @static var
      */
     public static $Form = null;
@@ -277,7 +277,7 @@ final class App
         // Load the form validator if the request is not GET
         if('GET' != strtoupper(self::$Request->getRequestMethod())  ) {
             self::loadFormValidator();
-            self::$Request->processPost();
+            self::$Request->processBody();
         }
 
         // Load the handler class
@@ -389,7 +389,7 @@ final class App
     public static function loadFormValidator() : void
     {
         if(is_null(self::$Form)) {
-            self::$Form = new Core\Filter\Form();
+            self::$Form = new Core\Filter\InputValidator();
             self::$Form->init(self::$config['form']);
         }
     }
