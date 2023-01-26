@@ -1,6 +1,6 @@
 <?php
 
-namespace Arkit\Core\Filter\Form;
+namespace Arkit\Core\Filter\Input;
 
 use \Arkit\App;
 /**

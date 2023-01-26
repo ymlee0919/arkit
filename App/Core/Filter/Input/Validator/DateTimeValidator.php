@@ -1,7 +1,7 @@
 <?php
-namespace Arkit\Core\Filter\Form\Validator;
+namespace Arkit\Core\Filter\Input\Validator;
 
-use \Arkit\Core\Filter\Form\FieldValidator;
+use \Arkit\Core\Filter\Input\FieldValidator;
 
 /**
  * Class DateTimeValidator

@@ -34,62 +34,62 @@ class InputValidator
     private ?string $defaultCsrfFieldName;
 
     /**
-     * @var Form\CSRFHandler
+     * @var Input\CSRFHandler
      */
     private $csrfHandler;
 
     /**
-     * @var ?Form\Validator\IntValidator
+     * @var ?Input\Validator\IntValidator
      */
     private $intValidator;
 	
 	/**
-     * @var ?Form\Validator\NumericValidator
+     * @var ?Input\Validator\NumericValidator
      */
     private $numericValidator;
 	
 	/**
-     * @var ?Form\Validator\BoolValidator
+     * @var ?Input\Validator\BoolValidator
      */
     private $booleanValidator;
 
     /**
-     * @var ?Form\Validator\PersonalDataValidator
+     * @var ?Input\Validator\PersonalDataValidator
      */
     private $personalDataValidator;
 
     /**
-     * @var ?Form\Validator\InternetAddressValidator
+     * @var ?Input\Validator\InternetAddressValidator
      */
     private $internetAddressValidator;
 
     /**
-     * @var ?Form\Validator\CreditCardValidator
+     * @var ?Input\Validator\CreditCardValidator
      */
     private $creditCardValidator;
 
     /**
-     * @var ?Form\Validator\StringValidator
+     * @var ?Input\Validator\StringValidator
      */
     private $stringValidator;
 
     /**
-     * @var ?Form\Validator\StrNumberValidator
+     * @var ?Input\Validator\StrNumberValidator
      */
     private $strNumberValidator;
 
     /**
-     * @var ?Form\Validator\DateValidator
+     * @var ?Input\Validator\DateValidator
      */
     private $dateValidator;
 
     /**
-     * @var ?Form\Validator\DateTimeValidator
+     * @var ?Input\Validator\DateTimeValidator
      */
     private $dateTimeValidator;
 
     /**
-     * @var ?Form\Validator\FileValidator
+     * @var ?Input\Validator\FileValidator
      */
     private $fileValidator;
 
@@ -165,7 +165,7 @@ class InputValidator
         $this->datetime_format = $config['default_datetime_format'] ?? 'd-m-Y H:i:s';
         $this->defaultCsrfFieldName = $config['CSRF']['field_name'] ?? '_token_';
 
-        $this->csrfHandler = new Form\CSRFHandler();
+        $this->csrfHandler = new Input\CSRFHandler();
         $this->csrfHandler->init($config['CSRF']);
     }
 
@@ -216,15 +216,15 @@ class InputValidator
         }
 
         $result = $this->csrfHandler->validateCode($formId, $token);
-        if($result != Form\CSRFHandler::CSRF_VALIDATION_SUCCESS)
+        if($result != Input\CSRFHandler::CSRF_VALIDATION_SUCCESS)
         {
             switch ($result)
             {
-                case Form\CSRFHandler::CSRF_VALIDATION_INVALID:
+                case Input\CSRFHandler::CSRF_VALIDATION_INVALID:
                     \Arkit\App::$Logs->warning('Invalid CSRF token');
                     return $this->registerError('invalid_form_token');
 
-                case Form\CSRFHandler::CSRF_VALIDATION_EXPIRED:
+                case Input\CSRFHandler::CSRF_VALIDATION_EXPIRED:
                     \Arkit\App::$Logs->warning('Expired CSRF token');
                     return $this->registerError('expired_form_token');
             }
@@ -483,9 +483,9 @@ class InputValidator
     }
 
     /**
-     * @param Form\FieldValidator $validator
+     * @param Input\FieldValidator $validator
      */
-    private function checkAndValidate(Form\FieldValidator &$validator) : void
+    private function checkAndValidate(Input\FieldValidator &$validator) : void
     {
         $validator->set($this->current['value']);
         if(!$this->current['allowEmpty'])
@@ -505,15 +505,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\IntValidator
+     * @return Input\Validator\IntValidator
      * @throws \Exception
      */
-    public function isInteger() : Form\Validator\IntValidator
+    public function isInteger() : Input\Validator\IntValidator
     {
         if(is_null($this->intValidator))
         {
             \Loader::import('IntValidator','App.Form.Validators.IntValidator');
-            $this->intValidator = new Form\Validator\IntValidator($this);
+            $this->intValidator = new Input\Validator\IntValidator($this);
         }
 
         $this->checkAndValidate($this->intValidator);
@@ -521,15 +521,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\NumericValidator
+     * @return Input\Validator\NumericValidator
      * @throws \Exception
      */
-    public function isNumeric() : Form\Validator\NumericValidator
+    public function isNumeric() : Input\Validator\NumericValidator
     {
         if(is_null($this->numericValidator))
         {
             \Loader::import('NumericValidator','App.Form.Validators.NumericValidator');
-            $this->numericValidator = new Form\Validator\NumericValidator($this);
+            $this->numericValidator = new Input\Validator\NumericValidator($this);
         }
 
         $this->checkAndValidate($this->numericValidator);
@@ -537,15 +537,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\BoolValidator
+     * @return Input\Validator\BoolValidator
      * @throws \Exception
      */
-    public function isBoolean() : Form\Validator\BoolValidator
+    public function isBoolean() : Input\Validator\BoolValidator
     {
         if(is_null($this->booleanValidator))
         {
             \Loader::import('BoolValidator','App.Form.Validators.BoolValidator');
-            $this->booleanValidator = new Form\Validator\BoolValidator($this);
+            $this->booleanValidator = new Input\Validator\BoolValidator($this);
         }
 
         $this->checkAndValidate($this->booleanValidator);
@@ -553,10 +553,10 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\InternetAddressValidator
+     * @return Input\Validator\InternetAddressValidator
      * @throws \Exception
      */
-    public function isInternetAddress() : Form\Validator\InternetAddressValidator
+    public function isInternetAddress() : Input\Validator\InternetAddressValidator
     {
         if(is_null($this->internetAddressValidator))
         {
@@ -569,10 +569,10 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\PersonalDataValidator
+     * @return Input\Validator\PersonalDataValidator
      * @throws \Exception
      */
-    public function isPersonalData() : Form\Validator\PersonalDataValidator
+    public function isPersonalData() : Input\Validator\PersonalDataValidator
     {
         if(is_null($this->personalDataValidator))
         {
@@ -585,15 +585,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\CreditCardValidator
+     * @return Input\Validator\CreditCardValidator
      * @throws \Exception
      */
-    public function isCreditCard() : Form\Validator\CreditCardValidator
+    public function isCreditCard() : Input\Validator\CreditCardValidator
     {
         if(is_null($this->creditCardValidator))
         {
             \Loader::import('CreditCardValidator', 'App.Form.Validators.CreditCardValidator');
-            $this->creditCardValidator = new Form\Validator\CreditCardValidator($this);
+            $this->creditCardValidator = new Input\Validator\CreditCardValidator($this);
         }
 
         $this->checkAndValidate($this->creditCardValidator);
@@ -602,15 +602,15 @@ class InputValidator
 
 
     /**
-     * @return Form\Validator\StringValidator
+     * @return Input\Validator\StringValidator
      * @throws \Exception
      */
-    public function isString() : Form\Validator\StringValidator
+    public function isString() : Input\Validator\StringValidator
     {
         if(is_null($this->stringValidator))
         {
             \Loader::import('StringValidator', 'App.Form.Validators.StringValidator');
-            $this->stringValidator = new Form\Validator\StringValidator($this);
+            $this->stringValidator = new Input\Validator\StringValidator($this);
         }
 
         $this->purify();
@@ -619,15 +619,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\StrNumberValidator
+     * @return Input\Validator\StrNumberValidator
      * @throws \Exception
      */
-    public function isStrNumber() : Form\Validator\StrNumberValidator
+    public function isStrNumber() : Input\Validator\StrNumberValidator
     {
         if(is_null($this->stringValidator))
         {
             \Loader::import('StrNumberValidator', 'App.Form.Validators.StrNumberValidator');
-            $this->strNumberValidator = new Form\Validator\StrNumberValidator($this);
+            $this->strNumberValidator = new Input\Validator\StrNumberValidator($this);
         }
 
         $this->checkAndValidate($this->strNumberValidator);
@@ -635,15 +635,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\DateTimeValidator
+     * @return Input\Validator\DateTimeValidator
      * @throws \Exception
      */
-    public function isDateTime() : Form\Validator\DateTimeValidator
+    public function isDateTime() : Input\Validator\DateTimeValidator
     {
         if(is_null($this->dateTimeValidator))
         {
             \Loader::import('DateTimeValidator', 'App.Form.Validators.DateTimeValidator');
-            $this->dateTimeValidator = new Form\Validator\DateTimeValidator($this);
+            $this->dateTimeValidator = new Input\Validator\DateTimeValidator($this);
         }
 
         $this->dateTimeValidator->setFormat($this->datetime_format);
@@ -653,15 +653,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\DateValidator
+     * @return Input\Validator\DateValidator
      * @throws \Exception
      */
-    public function isDate() : Form\Validator\DateValidator
+    public function isDate() : Input\Validator\DateValidator
     {
         if(is_null($this->dateValidator))
         {
             \Loader::import('DateValidator', 'App.Form.Validators.DateValidator');
-            $this->dateValidator = new Form\Validator\DateValidator($this);
+            $this->dateValidator = new Input\Validator\DateValidator($this);
         }
 
         $this->dateValidator->setFormat($this->date_format);
@@ -671,15 +671,15 @@ class InputValidator
     }
 
     /**
-     * @return Form\Validator\FileValidator
+     * @return Input\Validator\FileValidator
      * @throws \Exception
      */
-    public function isFile() : Form\Validator\FileValidator
+    public function isFile() : Input\Validator\FileValidator
     {
         if(is_null($this->fileValidator))
         {
             \Loader::import('FileValidator', 'App.Form.Validators.FileValidator');
-            $this->fileValidator = new Form\Validator\FileValidator($this, $this->current['field']);
+            $this->fileValidator = new Input\Validator\FileValidator($this, $this->current['field']);
         }
 
         $this->fileValidator->set($this->current['value']);
