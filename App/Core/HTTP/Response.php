@@ -3,7 +3,6 @@
 namespace Arkit\Core\HTTP;
 
 use Arkit\Core\Base\FunctionAddress;
-use Arkit\Core\HTTP\Response\Template;
 use Arkit\Core\Persistence\Client\CookieStore;
 
 /**
@@ -12,19 +11,42 @@ use Arkit\Core\Persistence\Client\CookieStore;
 final class Response
 {
     /**
-     * @var ?Response\Template
+     * @var ?Response\DispatcherInterface
      */
-    private ?Response\Template $template;
+    private ?Response\DispatcherInterface $dispatcher;
 
     /**
-     * @var ?string
+     * Internal array values
+     * @var array
      */
-    private ?string $tpl_name;
+    private array $values;
 
     /**
-     * @var ?string
+     * Input errors
+     *
+     * @var array
      */
-    private ?string $default_dir;
+    private array $inputErrors;
+
+    /**
+     * Messages
+     *
+     * @var array
+     */
+    private array $messages;
+
+    /**
+     * Http Response Headers
+     *
+     * @var array
+     */
+    private array $headers;
+    
+    /**
+     * Flag to indicate if dispatching process is started
+     * @var bool 
+     */
+    private bool $dispatching;
 
     /**
      * Function to execute before display the template
@@ -61,13 +83,17 @@ final class Response
      */
     public function __construct()
     {
-        $this->template = null;
-        $this->tpl_name = null;
-        $this->default_dir = null;
         $this->onBeforeDisplay = null;
         $this->onPageNotFound = null;
         $this->onAccessDenied = null;
         $this->cookies = null;
+        $this->dispatcher = null;
+
+        $this->values = [];
+        $this->inputErrors = [];
+        $this->messages = [];
+        $this->headers = [];
+        $this->dispatching = false;
     }
 
     public function init(array &$config): void
@@ -85,25 +111,46 @@ final class Response
             $this->onForbiddenAccess = FunctionAddress::fromString($config['onForbiddenAccess']);
     }
 
-    /**
-     * @param string $module
-     * @returns void
-     */
-    public function setWorkingDir(string $module): void
+    public function setDispatcher(Response\DispatcherInterface $dispatcher) : void
     {
-        $this->default_dir = \Arkit\App::fullPath('Systems/' . $module);
+        // Set the internal dispatcher
+        $this->dispatcher = $dispatcher;
+    }
+
+    public function setHeader(string $header, ?string $value = null) : void
+    {
+        if(is_null($value))
+        {
+            $parts = explode(':', $header);
+
+            if(!isset($parts[1]))
+                throw new \InvalidArgumentException('Invalid header value. You must provide a Header: Value string or $Header and $Value parameters');
+
+            $header = trim($parts[0]);
+            $value = trim($parts[1]);
+        }
+
+        $this->headers[$header] = $value;
+    }
+
+    private function fetchHeaders() : void
+    {
+        foreach ($this->headers as $headerName => $value)
+            header("$headerName: $value");
     }
 
     /**
-     * @param ?string $call
      * @returns void
      */
-    public function beforeDisplay(string $call = null): void
+    private function beforeDisplay(): void
     {
-        if (is_null($call) && isset(\Arkit\App::$config['onBeforeDisplay']))
-            $this->onBeforeDisplay = \Arkit\App::$config['onBeforeDisplay'];
-        else
-            $this->onBeforeDisplay = $call;
+        if (!is_null($this->onBeforeDisplay))
+        {
+            $className = $this->onBeforeDisplay->getClassName();
+            $functionName = $this->onBeforeDisplay->getFunctionName();
+            $output = new $className();
+            $output->$functionName();
+        }
     }
 
     /**
@@ -116,7 +163,6 @@ final class Response
             \Arkit\App::$Model->release();
 
         if (!is_null($this->onPageNotFound)) {
-            $this->onPageNotFound->importFrom('System', \Arkit\App::$store['SYSTEM']);
             $className = $this->onPageNotFound->getClassName();
             $functionName = $this->onPageNotFound->getFunctionName();
             $output = new $className();
@@ -138,7 +184,6 @@ final class Response
             \Arkit\App::$Model->release();
 
         if (!is_null($this->onAccessDenied)) {
-            $this->onAccessDenied->importFrom('System', \Arkit\App::$store['SYSTEM']);
             $className = $this->onAccessDenied->getClassName();
             $functionName = $this->onAccessDenied->getFunctionName();
             $output = new $className();
@@ -160,7 +205,6 @@ final class Response
             \Arkit\App::$Model->release();
 
         if (!is_null($this->onForbiddenAccess)) {
-            $this->onForbiddenAccess->importFrom('System', \Arkit\App::$store['SYSTEM']);
             $className = $this->onForbiddenAccess->getClassName();
             $functionName = $this->onForbiddenAccess->getFunctionName();
             $output = new $className();
@@ -206,40 +250,22 @@ final class Response
         }
     }
 
-    /**
-     * Load a template given the Page and the filename
-     * @param string $filename
-     * @param ?string $directory
-     * @returns void
-     * @throws \Exception
-     */
-    public function loadTemplate(string $filename, string $directory = null): void
-    {
-        $this->template = new Response\Template((is_null($directory)) ? $this->default_dir . "/view" : $directory);
-        $this->tpl_name = $filename;
-
-        // Set the current working directory
-        $this->template->assign('CWD', \Arkit\App::$ROOT_DIR);
-
-        $this->template->assign('URL', \Arkit\App::$Request->getRequestUrl());
-    }
-
-    /**
-     * @param ?string $cacheId
-     * @return bool
-     * @throws \SmartyException
-     */
-    public function inCache(string $cacheId = null): bool
-    {
-        if (RUN_MODE != RELEASE_MODE || !!$this->template) return false;
-        $this->template->setCaching(\Smarty::CACHING_LIFETIME_CURRENT);
-
-        \Arkit\Core\Monitor\ErrorHandler::stop();
-        $result = @$this->template->isCached($this->tpl_name, $cacheId);
-        \Arkit\Core\Monitor\ErrorHandler::init();
-
-        return $result;
-    }
+//    /**
+//     * @param ?string $cacheId
+//     * @return bool
+//     * @throws \SmartyException
+//     */
+//    public function inCache(string $cacheId = null): bool
+//    {
+//        if (RUN_MODE != RELEASE_MODE || !!$this->template) return false;
+//        $this->template->setCaching(\Smarty::CACHING_LIFETIME_CURRENT);
+//
+//        \Arkit\Core\Monitor\ErrorHandler::stop();
+//        $result = @$this->template->isCached($this->tpl_name, $cacheId);
+//        \Arkit\Core\Monitor\ErrorHandler::init();
+//
+//        return $result;
+//    }
 
     /**
      * Assign a values to the template from a file
@@ -255,8 +281,10 @@ final class Response
         if ($encodeFirst)
             $this->toHtmlEntities($value, $toUtf8);
 
-        if (!!$this->template)
-            $this->template->assign($field, $value);
+        if(is_null($this->dispatcher))
+            $this->values[$field] = $value;
+        else
+            $this->dispatcher->assign($field, $value);
     }
 
     /**
@@ -268,119 +296,125 @@ final class Response
      */
     public function assign(string|array $field, mixed $value = null, bool $encodeFirst = true, bool $toUtf8 = false): void
     {
-        if (!!$this->template) {
-            if (!is_object($value))
-                if ($encodeFirst) $this->toHtmlEntities($value, $toUtf8);
+        if (!is_object($value) && $encodeFirst)
+            $this->toHtmlEntities($value, $toUtf8);
 
-            $this->template->assign($field, $value);
-        }
-    }
-
-    /**
-     * Append a value to a template
-     * @param string|array $field
-     * @param mixed $value
-     * @param bool $merge
-     * @returns void
-     */
-    public function append(string|array $field, mixed $value, bool $merge = true): void
-    {
-        if (!!$this->template)
-            $this->template->append($field, $value, $merge);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function execBeforeDisplay(): void
-    {
-        if (!isset($this->default_dir)) return;
-
-        // Get the package
-        $tokens = explode("/", $this->default_dir);
-        array_pop($tokens);
-
-        // Extract the file to import, the class name and the method
-        $items = array();
-        preg_match_all("/^([A-Za-z._-]+)\/([A-Za-z._-]+)::([A-Za-z._-]+)$/", $this->onBeforeDisplay, $items);
-
-        // Items[1] : Include
-        $include = sprintf("Systems.%s.%s", \Arkit\App::$store['SYSTEM'], $items[1][0]);
-        // Import the file
-        \Loader::import($items[1][0], $include);
-
-        // Items[2] : Class
-        $class = $items[2][0];
-        // Create the class
-        $obj = new $class();
-
-        // Items[3] : Method
-        $method = $items[3][0];
-
-        // Call the method
-        $obj->$method();
-    }
-
-    /**
-     * Read session vars and assign them to current template
-     * @param string ...$list Comma separated list of session vars
-     */
-    public function setSessionVars(string ...$list): void
-    {
-        $vars = func_get_args();
-
-        foreach ($vars as $var) {
-            if (\Arkit\App::$Session->is_set($var)) {
-                $value = \Arkit\App::$Session->get($var);
-                $this->toHtmlEntities($value, false);
-                $this->template->assign($var, $value);
-            }
-        }
-    }
-
-
-    /**
-     * Display the loaded template
-     * @param string|null $cacheId
-     * @return void
-     * @throws \SmartyException
-     * @throws \Exception
-     */
-    public function displayTemplate(string $cacheId = null): void
-    {
-        if (!!$this->template) {
-            if (!is_null($this->cookies))
-                $this->cookies->dispatch();
-            if (isset(\Arkit\App::$store['CSRF'])) {
-                $this->template->assign('CSRF_INPUT', \Arkit\App::$store['CSRF']['HTML']);
-                $this->template->assign('CSRF_CODE', \Arkit\App::$store['CSRF']['CODE']);
-            }
-            // Check if there is a function to execute before show the template
-            if (!is_null($this->onBeforeDisplay)) $this->execBeforeDisplay();
-            \Arkit\Core\Monitor\ErrorHandler::stop();
-
-            if (!empty(\Arkit\App::$Model))
-                \Arkit\App::$Model->release();
-
-            if (!!$cacheId)
-                $this->template->display($this->tpl_name, $cacheId);
+        if(!is_array($field))
+        {
+            if(!is_null($this->dispatcher) && $this->dispatching)
+                $this->dispatcher->assign($field, $value);
             else
-                $this->template->display($this->tpl_name);
-        } else {
-            if (!empty(\Arkit\App::$Model))
-                \Arkit\App::$Model->release();
-
-            die("NO TEMPLATE TO DISPLAY");
+                $this->values[$field] = $value;
+        }
+        else
+        {
+            if(!is_null($this->dispatcher) && $this->dispatching)
+                $this->dispatcher->assignValues($field);
+            else
+                $this->values = $this->values + $field;
         }
     }
 
-    /**
-     * Get the current template
-     * @return Template
-     */
-    public function getTemplate(): Template
+    public function inputError(string $fieldName, string $error, bool $encode = true, bool $toUtf8 = false): void
     {
-        return $this->template;
+        if($encode)
+            $this->toHtmlEntities($error, $toUtf8);
+
+        if(!is_null($this->dispatcher) && $this->dispatching)
+            $this->dispatcher->inputError($fieldName, $error);
+        else
+            $this->inputErrors[$fieldName] = $error;
+    }
+
+    public function inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): void
+    {
+        if($encode)
+            $this->toHtmlEntities($errors, $toUtf8);
+
+        if(!is_null($this->dispatcher) && $this->dispatching)
+            $this->dispatcher->inputErrors($errors);
+        else
+            $this->inputErrors = $this->inputErrors + $errors;
+    }
+
+    public function error(string $errorType, string $message, bool $encode = true, bool $toUtf8 = false): void
+    {
+        if($encode)
+            $this->toHtmlEntities($message, $toUtf8);
+
+        if(!is_null($this->dispatcher) && $this->dispatching)
+            $this->dispatcher->error($errorType, $message);
+        else
+            $this->messages[$errorType] = $message;
+    }
+
+    public function warning(string $message, bool $encode = true, bool $toUtf8 = false): void
+    {
+        if($encode)
+            $this->toHtmlEntities($message, $toUtf8);
+
+        if(!is_null($this->dispatcher) && $this->dispatching)
+            $this->dispatcher->warning($message);
+        else
+            $this->messages['WARNING'] = $message;
+    }
+
+    public function success(string $message, bool $encode = true, bool $toUtf8 = false): void
+    {
+        if($encode)
+            $this->toHtmlEntities($message, $toUtf8);
+
+        if(!is_null($this->dispatcher) && $this->dispatching)
+            $this->dispatcher->success($message);
+        else
+            $this->messages['SUCCESS_MESSAGE'] = $message;
+    }
+
+    public function dispatch(string $resource, ?array $arguments = null) : void
+    {
+        // Call before display trigger
+        $this->beforeDisplay();
+
+        // Fetch the headers
+        $this->fetchHeaders();
+
+        // Fetch the cookies
+        if (!is_null($this->cookies))
+            $this->cookies->dispatch();
+
+        // Release all database connections
+        if (!empty(\Arkit\App::$Model))
+            \Arkit\App::$Model->release();
+        
+        // Set flag dispatching
+        $this->dispatching = true;
+
+        // Set all values to dispatcher
+        $this->setDispatcherValues();
+        
+        // Dispatch
+        $this->dispatcher->dispatch($resource, $arguments);
+    }
+    
+    private function setDispatcherValues() : void
+    {
+        // Assign all values, errors and messages
+        if(!empty($this->values))
+            $this->dispatcher->assignValues($this->values);
+
+        if(!empty($this->inputErrors))
+            $this->dispatcher->inputErrors($this->inputErrors);
+
+        if(!empty($this->messages))
+        {
+            foreach ($this->messages as $type => $message)
+                if($type === 'WARNING')
+                    $this->dispatcher->warning($message);
+                elseif($type === 'SUCCESS')
+                    $this->dispatcher->success($message);
+                else
+                    $this->dispatcher->error($type, $message);
+        }
     }
 
     public function getCookies(): CookieStore
@@ -391,6 +425,26 @@ final class Response
         return $this->cookies;
     }
 
+
+    /**
+     * Display a template
+     * @param string $template Template name or full template name
+     * <ul>
+     *  <li>If set the template name, the folder is 'view' at same level of the current controller</li>
+     *  <li>Provide full path for custom folder</li>
+     * </ul>
+     * @param string|null $cacheId
+     * @return void
+     * @throws \SmartyException
+     * @throws \Exception
+     */
+    public function displayTemplate(string $template, string $cacheId = null): void
+    {
+        $tplPathInfo = pathinfo($template);
+        $this->setDispatcher(new Response\TemplateDispatcher(($tplPathInfo['dirname'] !== '.') ? $tplPathInfo['dirname'] : null));
+        $this->dispatch($tplPathInfo['basename'], (!empty($cacheId)) ? ['cache' => $cacheId] : null);
+    }
+
     /**
      * Redirect to the url build by router
      * @param string $urlId
@@ -398,12 +452,11 @@ final class Response
      */
     public function redirectTo(string $urlId, ?array $params = null): void
     {
-        if (!empty(\Arkit\App::$Model))
-            \Arkit\App::$Model->release();
-
+        // Build url to dispatch
         $url = \Arkit\App::$Router->buildUrl($urlId, $params);
-        header("Location: $url");
-        exit;
+
+        $this->setDispatcher(new Response\RedirectDispatcher());
+        $this->dispatch($url);
     }
 
     /**
@@ -412,47 +465,17 @@ final class Response
      */
     public function redirectToUrl(string $url): void
     {
-        if (!empty(\Arkit\App::$Model))
-            \Arkit\App::$Model->release();
-
-        header("Location: $url");
-        exit;
+        $this->setDispatcher(new Response\RedirectDispatcher());
+        $this->dispatch($url);
     }
 
     /**
-     * @param mixed $content
-     * @param bool $disconnect
-     * @param bool $encode_first
      * @returns void
      */
-    public function write(mixed $content, bool $disconnect = false, bool $encode_first = true): void
+    public function toJSON(): void
     {
-        if ($disconnect)
-            if (!empty(\Arkit\App::$Model))
-                \Arkit\App::$Model->release();
-
-        if ($encode_first)
-            $this->toHtmlEntities($content);
-
-        if (is_array($content))
-            echo json_encode($content);
-        else
-            echo $content;
-    }
-
-    /**
-     * @param mixed $var
-     * @param bool $die
-     * @returns void
-     */
-    public function display(mixed $var, bool $die = true): void
-    {
-        echo "<pre>\n";
-        //var_dump($var);
-        echo htmlentities($var);
-        echo "\n</pre>\n";
-
-        if ($die) exit;
+        $this->setDispatcher(new Response\JsonDispatcher());
+        $this->dispatch(null);
     }
 
 }

@@ -1,6 +1,6 @@
 <?PHP
 
-namespace Arkit\Core\HTTP\Response;
+namespace Arkit\Core\HTTP\Response\Template;
 
 \Loader::import('Smarty', 'Libs.Smarty.vendor.autoload');
 

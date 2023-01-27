@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\HTTP\Request;
 
-class UrlEncodedBodyParser extends RequestBodyParser
+class UrlEncodedParser extends BodyParserInterface
 {
 
     /**

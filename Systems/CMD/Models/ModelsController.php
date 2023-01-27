@@ -1,7 +1,7 @@
 <?php
 namespace CMD\Models;
 
-class ModelsController
+class ModelsController extends \CMD\Core\Controller
 {
     private string $modelsDir;
 
@@ -13,7 +13,6 @@ class ModelsController
     public function ShowModels()
     {
         $output = \Arkit\App::$Response;
-        $output->loadTemplate('models.tpl');
 
         // Load the name of the packages
         $models = [];
@@ -28,16 +27,14 @@ class ModelsController
         }
 
         $output->assign('Models', $models);
-        $output->setSessionVars('INPUT_ERROR', 'ACTION_ERROR', 'ACTION_SUCCESS');
 
-        $output->displayTemplate();
+        $output->displayTemplate('models.tpl');
     }
 
     public function NewModel()
     {
         $output = \Arkit\App::$Response;
-        $output->loadTemplate('new.tpl');
-
+        
         // Set a sample cookie
         $options = [
             'expires'  => time() + 3600,
@@ -51,10 +48,10 @@ class ModelsController
         setcookie('MyCookie', md5('This is my secret key'), $options);
 
         // Set form ID
-        \Arkit\App::loadFormValidator();
-        \Arkit\App::$Form->setId('NEW-MODEL')->generateCsrfCode();
+        \Arkit\App::loadInputValidator();
+        \Arkit\App::$InputValidator->setId('NEW-MODEL')->generateCsrfCode();
 
-        $output->displayTemplate();
+        $output->displayTemplate('new.tpl');
     }
 
     public function Add()
@@ -64,7 +61,7 @@ class ModelsController
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
 
-        $form = &\Arkit\App::$Form;
+        $form = &\Arkit\App::$InputValidator;
 
         $form->setId('NEW-MODEL');
         $form->checkValues(\Arkit\App::$Request);
@@ -76,8 +73,8 @@ class ModelsController
 
         if(!$form->isValid())
         {
-            $form->storeErrorsInSession('INPUT_ERROR', true);
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $output->inputErrors($form->getErrors());
+            $output->redirectTo('cmd.models');
         }
 
         // Get configuration
@@ -101,7 +98,7 @@ class ModelsController
             $success = true;
         if(!$success)
         {
-            \Arkit\App::$Session->set('ACTION_ERROR', 'Unable to create the Model', true);
+            $output->error('ACTION_ERROR', 'Unable to create the Model');
             $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
         }
 
@@ -112,8 +109,8 @@ class ModelsController
             $success = true;
         if(!$success)
         {
-            \Arkit\App::$Session->set('ACTION_ERROR', 'Unable to create the configuration', true);
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $output->error('ACTION_ERROR', 'Unable to create the configuration', true);
+            $output->redirectTo('cmd.models');
         }
 
         // Copy the Model Class
@@ -123,8 +120,8 @@ class ModelsController
         $success = $this->write($modelDir . '/' . $model . '.php', $class);
         if(!$success)
         {
-            \Arkit\App::$Session->set('ACTION_ERROR', 'Unable to create the Model Class', true);
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $output->error('ACTION_ERROR', 'Unable to create the Model Class', true);
+            $output->redirectTo('cmd.models');
         }
 
         // Copy the config file
@@ -138,11 +135,11 @@ class ModelsController
         $success = $this->write($modelDir . '/config/config.php', $class);
         if(!$success)
         {
-            \Arkit\App::$Session->set('ACTION_ERROR', 'Unable to create the Config file', true);
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $output->error('ACTION_ERROR', 'Unable to create the Config file', true);
+            $output->redirectTo('cmd.models');
         }
 
-        // Copy the propel config file
+        // Copy propel config file
         $config = file_get_contents($sourceDir . 'propel.yaml');
         $config = strtr($config, [
             'dataBase' => $database,
@@ -153,11 +150,11 @@ class ModelsController
         $success = $this->write($modelDir . '/config/propel.yaml', $config);
         if(!$success)
         {
-            \Arkit\App::$Session->set('ACTION_ERROR', 'Unable to create the Propel config file');
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $output->error('ACTION_ERROR', 'Unable to create the Propel config file');
+            $output->redirectTo('cmd.models');
         }
 
-        \Arkit\App::$Session->set('ACTION_SUCCESS', 'Model successfully created', true);
+        $output->success('Model successfully created');
         $output->redirectTo('cmd.models');
     }
 

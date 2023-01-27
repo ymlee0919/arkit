@@ -2,11 +2,11 @@
 
 namespace Arkit\Core\HTTP;
 
-use Arkit\Core\HTTP\Request\JsonBodyParser;
+use Arkit\Core\HTTP\Request\JsonParser;
 use Arkit\Core\HTTP\Request\MultipartFormParser;
-use Arkit\Core\HTTP\Request\UrlEncodedBodyParser;
+use Arkit\Core\HTTP\Request\UrlEncodedParser;
 use Arkit\Core\Persistence\Client\CookieStore;
-use Arkit\Core\HTTP\Request\RequestBodyParser;
+use Arkit\Core\HTTP\Request\BodyParserInterface;
 
 /**
  * Class Request
@@ -64,9 +64,9 @@ final class Request
 
     /**
      * Parser for the body
-     * @var RequestBodyParser|null
+     * @var BodyParserInterface|null
      */
-    private ?RequestBodyParser $bodyParser;
+    private $bodyParser;
 
     /**
      *
@@ -100,10 +100,10 @@ final class Request
 
     /**
      * Set parser for the payload request
-     * @param RequestBodyParser $bodyParser
+     * @param BodyParserInterface $bodyParser
      * @return void
      */
-    public function setBodyParser(RequestBodyParser $bodyParser) : void
+    public function setBodyParser(BodyParserInterface $bodyParser) : void
     {
         $this->bodyParser = $bodyParser;
     }
@@ -214,15 +214,15 @@ final class Request
     public function processBody(): void
     {
         // Parse the payload according the request type
-        if(is_null(!$this->bodyParser))
+        if(is_null($this->bodyParser))
         {
             // Set multipart/form as default
             $contentType = $this->getHeader('Content-Type') ?? 'multipart/form-data;';
             $contentType = strtolower(trim(explode(';', $contentType)[0]));
 
             $this->bodyParser = match ($contentType) {
-                'application/json' => new JsonBodyParser(),
-                'application/x-www-form-urlencoded' => new UrlEncodedBodyParser(),
+                'application/json' => new JsonParser(),
+                'application/x-www-form-urlencoded' => new UrlEncodedParser(),
                 default => new MultipartFormParser()
             };
 
@@ -473,6 +473,32 @@ final class Request
      */
     public function getRequestedProtocolAndDomain(): string
     {
-        return ((!empty($_SERVER['HTTPS'])) ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'];
+        return (($this->isSecure()) ? 'https://' : 'http://'). $_SERVER['SERVER_NAME'];
+    }
+
+    /**
+     * Test to see if a request contains the HTTP_X_REQUESTED_WITH header.
+     */
+    public function isAJAX(): bool
+    {
+        $xRequestWithHeader = $this->getHeader('X-Requested-With');
+        return (!!$xRequestWithHeader && strtolower($xRequestWithHeader) === 'xmlhttprequest');
+    }
+
+    /**
+     * Attempts to detect if the current connection is secure through
+     * a few different methods.
+     */
+    public function isSecure(): bool
+    {
+        if (! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+            return true;
+
+        $xForwardedProtoHeader = $this->getHeader('X-Forwarded-Proto');
+        if (!empty($xForwardedProtoHeader) && strtolower($xForwardedProtoHeader) === 'https')
+            return true;
+
+        $frontEndHttpsHeader = $this->getHeader('Front-End-Https');
+        return !empty($frontEndHttpsHeader) && strtolower($frontEndHttpsHeader) !== 'off';
     }
 }

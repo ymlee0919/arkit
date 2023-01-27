@@ -18,9 +18,9 @@
             </div>{{if not $error@first}}{{/if}}
         {{/foreach}}
     {{/if}}
-    {{if isset($ACTION_SUCCESS)}}
+    {{if isset($SUCCESS_MESSAGE)}}
         <div class="chip green white-text">
-            {{$ACTION_SUCCESS}}
+            {{$SUCCESS_MESSAGE}}
             <i class="close material-icons yellow-text">close</i>
         </div>
     {{/if}}

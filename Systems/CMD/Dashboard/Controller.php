@@ -1,14 +1,13 @@
 <?php
 namespace CMD\Dashboard;
 
-class Controller
+class Controller extends \CMD\Core\Controller
 {
     public function Show() : void
     {
         $output = \Arkit\App::$Response;
-        $output->loadTemplate('main.tpl');
         $output->assign('extra', 'Welcome');
-        $output->displayTemplate();
+        $output->displayTemplate('main.tpl');
     }
 
     public function GetFonts() : void

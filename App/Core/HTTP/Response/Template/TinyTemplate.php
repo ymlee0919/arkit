@@ -1,6 +1,6 @@
 <?php
 
-namespace Arkit\Core\HTTP\Response;
+namespace Arkit\Core\HTTP\Response\Template;
 
 /**
  * Class TinyTemplate

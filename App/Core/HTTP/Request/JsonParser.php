@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\HTTP\Request;
 
-class JsonBodyParser extends RequestBodyParser
+class JsonParser extends BodyParserInterface
 {
 
     /**

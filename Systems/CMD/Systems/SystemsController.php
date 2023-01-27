@@ -2,12 +2,11 @@
 
 namespace CMD\Systems;
 
-class SystemsController
+class SystemsController extends \CMD\Core\Controller
 {
     public function ShowSystems()
     {
         $output = \Arkit\App::$Response;
-        $output->loadTemplate('systems.tpl');
 
         // Load the name of the systems
         $systems = [];
@@ -19,19 +18,16 @@ class SystemsController
         $d->close();
 
         $output->assign('Systems', $systems);
-        $output->setSessionVars('INPUT_ERROR', 'ACTION_ERROR', 'ACTION_SUCCESS');
-
-        $output->displayTemplate();
+        $output->displayTemplate('systems.tpl');
     }
 
     public function NewSystem()
     {
         $output = \Arkit\App::$Response;
-        $output->loadTemplate('new.tpl');
 
         // Set form ID
-        \Arkit\App::loadFormValidator();
-        \Arkit\App::$Form->setId('NEW-SYSTEM')->generateCsrfCode();
+        \Arkit\App::loadInputValidator();
+        \Arkit\App::$InputValidator->setId('NEW-SYSTEM')->generateCsrfCode();
 
         // Load the name of the systems
         $models = [];
@@ -47,7 +43,7 @@ class SystemsController
 
         $output->assign('Models', $models);
 
-        $output->displayTemplate();
+        $output->displayTemplate('new.tpl');
     }
 
     public function Add()
@@ -57,9 +53,7 @@ class SystemsController
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
 
-        $form = &\Arkit\App::$Form;
-
-        //var_dump($post);
+        $form = &\Arkit\App::$InputValidator;
 
         $form->setId('NEW-SYSTEM');
         $form->checkValues(\Arkit\App::$Request);
@@ -68,7 +62,7 @@ class SystemsController
 
         if(!$form->isValid())
         {
-            $form->storeErrorsInSession('INPUT_ERROR', true);
+            $output->inputErrors($form->getErrors());
             $output->redirectTo('cmd.systems');
         }
 
@@ -91,7 +85,26 @@ class SystemsController
 
         if(!$success)
         {
-            \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the System');
+            $output->error('ACTION_ERROR', 'Unable to create the System');
+            $output->redirectTo('cmd.systems');
+        }
+
+        // Build the default controller
+        if(!is_dir($systemDir . '/Core'))
+            $success = mkdir($systemDir . '/Core');
+
+        if(!$success)
+        {
+            $output->error('ACTION_ERROR', 'Unable to create the _base directory');
+            $output->redirectTo('cmd.systems');
+        }
+
+        $controller = file_get_contents($sourceDir . '_controller.php');
+        $class = str_replace('System', $system, $controller);
+        $success = $this->write($systemDir . '/Core/Controller.php', $class);
+        if(!$success)
+        {
+            $output->error('ACTION_ERROR', 'Unable to create the Controller parent class');
             $output->redirectTo('cmd.systems');
         }
 
@@ -103,7 +116,7 @@ class SystemsController
 
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the _base directory');
+                $output->error('ACTION_ERROR', 'Unable to create the _base directory');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -113,7 +126,7 @@ class SystemsController
             $success &= copy($sourceDir . '_base.tpl', $systemDir . '/_base/view/base.tpl');
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the base template.');
+                $output->error('ACTION_ERROR', 'Unable to create the base template.');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -128,7 +141,7 @@ class SystemsController
 
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the Access directory');
+                $output->error('ACTION_ERROR', 'Unable to create the Access directory');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -137,7 +150,7 @@ class SystemsController
             $success = $this->write($systemDir . '/Access/AccessControl.php', $class);
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the access control class');
+                $output->error('ACTION_ERROR', 'Unable to create the access control class');
                 $output->redirectTo('cmd.systems');
             }
         }
@@ -155,7 +168,7 @@ class SystemsController
 
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the Events directory');
+                $output->error('ACTION_ERROR', 'Unable to create the Events directory');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -165,7 +178,7 @@ class SystemsController
             $success = $this->write($systemDir . '/Events/ResponseEvents.php', $class);
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the response class');
+                $output->error('ACTION_ERROR', 'Unable to create the response class');
                 $output->redirectTo('cmd.systems');
             }
 
@@ -182,7 +195,7 @@ class SystemsController
         $success = mkdir($systemDir . '/_config');
         if(!$success)
         {
-            \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the configuration folder');
+            $output->error('ACTION_ERROR', 'Unable to create the configuration folder');
             $output->redirectTo('cmd.systems');
         }
 
@@ -193,7 +206,7 @@ class SystemsController
 
         if(!$success)
         {
-            \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the router');
+            $output->error('ACTION_ERROR', 'Unable to create the router');
             $output->redirectTo('cmd.systems');
         }
 
@@ -221,7 +234,7 @@ class SystemsController
             $success.= @copy($sourceDir . '_tasks.yaml', $systemDir . '/_config/tasks.yaml');
             if(!$success)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create access configuration file');
+                $output->error('ACTION_ERROR', 'Unable to create access configuration file');
                 $output->redirectTo('cmd.systems');
             }
         }
@@ -246,11 +259,11 @@ class SystemsController
         $success = $this->write($systemDir . '/_config/config.yaml', $content);
         if(!$success)
         {
-            \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create config file');
+            $output->error('ACTION_ERROR', 'Unable to create config file');
             $output->redirectTo('cmd.systems');
         }
 
-        \Arkit\App::$Session->setFlash('ACTION_SUCCESS', 'System successfully created');
+        $output->success('System successfully created');
         $output->redirectTo('cmd.systems');
     }
 

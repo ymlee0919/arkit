@@ -2,6 +2,8 @@
 
 namespace Arkit\Core\Control\Access;
 
+use Arkit\Core\Control\Routing\RoutingHandler;
+
 /**
  *
  */
@@ -25,8 +27,8 @@ interface AccessControllerInterface
     /**
      * Evaluate the access tu the given routing callback
      *
-     * @param \Arkit\Core\Control\Routing\RoutingHandler $handler
+     * @param RoutingHandler $handler
      * @return string One of the defined constants
      */
-    public function checkAccess(\Arkit\Core\Control\Routing\RoutingHandler $handler): string;
+    public function checkAccess(RoutingHandler $handler): string;
 }

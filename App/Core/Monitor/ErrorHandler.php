@@ -94,7 +94,6 @@ final class ErrorHandler
 
     /**
      * @param \Exception|\Error $exception
-     * @throws \Exception
      */
     public static function handleException(\Exception|\Error $exception) : void
     {

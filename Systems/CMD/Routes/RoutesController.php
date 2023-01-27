@@ -1,23 +1,20 @@
 <?php
 namespace CMD\Routes;
 
-class RoutesController
+class RoutesController extends \CMD\Core\Controller
 {
     public function ManageRouter($system)
     {
         $output = \Arkit\App::$Response;
-        $output->loadTemplate('router.tpl');
 
         // Set form ID
-        \Arkit\App::loadFormValidator();
-        \Arkit\App::$Form->setId('ROUTER-MANAGER')->generateCsrfCode();
+        \Arkit\App::loadInputValidator();
+        \Arkit\App::$InputValidator->setId('ROUTER-MANAGER')->generateCsrfCode();
 
         // Load the router information
 
         $output->assign('System', $system);
-        $output->setSessionVars('INPUT_ERROR', 'ACTION_ERROR', 'ACTION_SUCCESS');
-
-        $output->displayTemplate();
+        $output->displayTemplate('router.tpl');
     }
 
     public function GenerateAll()
@@ -27,20 +24,20 @@ class RoutesController
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
 
-        $form = &\Arkit\App::$Form;
+        $form = &\Arkit\App::$InputValidator;
 
         $form->setId('ROUTER-MANAGER');
         $form->checkValues(\Arkit\App::$Request);
         $form->validate('system')->isRequired()->isString()->matchWith('/^[a-zA-Z]+$/');
-        $form->validate('id')->isString()->matchWith('/^[a-z\.]+$/');
+        //$form->validate('id')->isString()->matchWith('/^[a-z\.]+$/');
         $form->validate('action')->isRequired()->isString()->isOneOf(['single', 'all']);
 
         $form->validateCsrfCode();
 
         if(!$form->isValid())
         {
-            $form->storeErrorsInSession('INPUT_ERROR', true);
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.systems'));
+            $output->inputErrors($form->getErrors());
+            $output->redirectTo('cmd.systems');
         }
 
         $form->releaseCsrfCookie();
@@ -69,7 +66,7 @@ class RoutesController
             $filePath = $this->buildClass($system, $parts[1], $parts[2]);
             if(!$filePath)
             {
-                \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the class for the rule: ' . $ruleId);
+                $output->error('ACTION_ERROR', 'Unable to create the class for the rule: ' . $ruleId);
                 $output->redirectTo('cmd.router', ['system' => $system]);
             }
 
@@ -90,7 +87,7 @@ class RoutesController
             $this->addFunction($filePath, $functionName, $params, $rule['method']);
         }
 
-        \Arkit\App::$Session->setFlash('ACTION_SUCCESS', 'Request success');
+        $output->success( 'Request success');
 
         $output->redirectTo('cmd.router', ['system' => $system]);
     }
@@ -102,7 +99,7 @@ class RoutesController
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
 
-        $form = &\Arkit\App::$Form;
+        $form = &\Arkit\App::$InputValidator;
 
         $form->setId('ROUTER-MANAGER');
         $form->checkValues(\Arkit\App::$Request);
@@ -114,7 +111,7 @@ class RoutesController
 
         if(!$form->isValid())
         {
-            $form->storeErrorsInSession('INPUT_ERROR', true);
+            $output->inputErrors($form->getErrors());
             if(!$validSystem)
                 $output->redirectTo('cmd.systems');
             else
@@ -128,7 +125,7 @@ class RoutesController
 
         if(!isset($router[$post['id']]))
         {
-            \Arkit\App::$Session->setFlash('ACTION_ERROR', 'The rule Id do not exists');
+            $output->error('ACTION_ERROR', 'The rule Id do not exists');
             $output->redirectTo('cmd.router', ['system' => $system]);
         }
 
@@ -144,7 +141,7 @@ class RoutesController
         $filePath = $this->buildClass($className);
         if(!$filePath)
         {
-            \Arkit\App::$Session->setFlash('ACTION_ERROR', 'Unable to create the class for the rule: ' . $post['id']);
+            $output->error('ACTION_ERROR', 'Unable to create the class for the rule: ' . $post['id']);
             $output->redirectTo('cmd.router', ['system' => $system]);
         }
 
@@ -232,13 +229,12 @@ class RoutesController
 
         $this->addFunction($filePath, $functionName, $params, $rule['method'], $options);
 
-        \Arkit\App::$Session->setFlash('ACTION_SUCCESS', 'Request success');
+        $output->success( 'Request success');
         $output->redirectTo('cmd.router', ['system' => $system]);
     }
 
     private function buildClass($className)
     {
-
         $parts = explode('\\', $className);
         // Get the class name
         $class = array_pop($parts);
@@ -273,6 +269,7 @@ class RoutesController
         $classFile = file_get_contents(\Arkit\App::fullPathFromSystem('/Routes/files/_class.php'));
         $classFile = str_replace('ClassName', $class, $classFile);
         $classFile = str_replace('TheNameSpace', $namespace, $classFile);
+        $classFile = str_replace('System', $parts[0], $classFile);
         $success = $this->write($fileName, $classFile);
 
         // If can not be created, return false

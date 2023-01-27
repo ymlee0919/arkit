@@ -4,7 +4,7 @@ namespace Arkit\Core\HTTP\Request;
 /**
  *
  */
-abstract class RequestBodyParser
+abstract class BodyParserInterface
 {
 
     /**

@@ -57,7 +57,7 @@ final class App
      * @var ?Core\Filter\InputValidator
      * @static var
      */
-    public static $Form = null;
+    public static $InputValidator = null;
 
     /**
      * Model
@@ -171,16 +171,16 @@ final class App
         $domainConfig = self::readConfig(self::fullPath('App/Config/routing.yaml'));
         $domainRouter = new Core\Control\Routing\DomainRouter($domainConfig);
         $routerPath = $domainRouter->route($request);
-        if(!$routerPath) {
+        if(!$routerPath)
             self::$Response->throwInvalidRequest();
-        }
 
         // Get the system
         self::$store['SYSTEM'] = explode('/', $routerPath)[0];
 
         // Load the system configuration
         $configFile = self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . '/_config/config.yaml';
-        if(is_file($configFile)) {
+        if(is_file($configFile))
+        {
             $pkConfig = self::readConfig($configFile);
             self::$config = array_replace_recursive($pkConfig, self::$config);
             unset($pkConfig);
@@ -188,28 +188,31 @@ final class App
         unset($configFile);
 
         // Init the response
-        if(isset(self::$config['response'])) {
+        if(isset(self::$config['response']))
             self::$Response->init(self::$config['response']);
-        }
 
         // Init the request
-        if(isset(self::$config['request'])) {
+        if(isset(self::$config['request']))
             self::$Request->init(self::$config['request']);
+
+        // Load the crypt
+        if(isset(self::$config['crypt']) && is_array(self::$config['crypt']))
+        {
+            self::$Crypt = new Core\Security\Crypt();
+            self::$Crypt->init(self::$config['crypt']);
         }
 
         // Validate the request
         $valid = self::$Request->validate();
-        if(!$valid) {
+        if(!$valid)
             self::$Response->throwPageNotFound();
-        }
 
         // Get the router
         self::$Router = self::getRouter($routerPath);
         $routing = self::$Router->route($request->getRequestUrl(), $request->getRequestMethod());
 
-        if(is_null($routing)) {
+        if(is_null($routing))
             self::$Response->throwPageNotFound();
-        }
 
         // Store the routing result
         self::$store['ROUTING'] = $routing;
@@ -224,20 +227,36 @@ final class App
      */
     private function invoke(Core\Control\Routing\RoutingHandler &$routingHandler) : void
     {
-        // Init session and start it
-        self::$Session = Core\Persistence\Server\Session::getInstance();
-        self::$Session->init(self::$config['session']);
-        self::$Session->start();
+        // Load the handler class
+        $fnAddress = Core\Base\FunctionAddress::fromString($routingHandler->getHandler());
+
+        // Register the namespace
+        \Loader::getInstance()->addNamespace(self::$store['SYSTEM'], self::fullPathFromSystem('/'));
+
+        // Create the class object
+        $className = $fnAddress->getClassName();
+        $controller = new $className();
+
+        // Validate is a controller class
+        if(!$controller instanceof Core\Base\Controller)
+            throw new \Exception('Controller class of handler must extends from Core\\Base\\Controller');
+
+        // Initialize
+        $controller->init();
+
+        // Validate the incoming request
+        if(!$controller->validateIncomingRequest())
+            self::$Response->throwAccessDenied();
 
         // Check access
-        if(isset(self::$config['access'])) {
+        if(isset(self::$config['access']))
+        {
             $accessControllerClass = self::$config['access']['controller']();
             $accessController = new $accessControllerClass();
 
             // Check the class implements the AccessControllerInterface
-            if(!$accessController instanceof Core\Control\Access\AccessControllerInterface) {
+            if(!$accessController instanceof Core\Control\Access\AccessControllerInterface)
                 throw new \Exception('Invalid Access Controller Class');
-            }
 
             $result = $accessController->checkAccess($routingHandler);
 
@@ -256,51 +275,20 @@ final class App
             }
         }
 
-        // Load the crypt
-        self::$Crypt = new Core\Security\Crypt();
-        self::$Crypt->init(self::$config['crypt']);
-
-        // Load the model
-        if(isset(self::$config['model']) && isset(self::$config['model']['name'])) {
-            $modelClassName = 'Model\\' . self::$config['model']['name'] . '\\' . self::$config['model']['name'];
-
-            self::$Model = $modelClassName::getInstance();
-            if(! self::$Model instanceof Core\Persistence\Database\Model) {
-                throw new \Exception('Invalid model class provided');
-            }
-
-            self::$Model->load();
-
-            unset($model);
-        }
-
-        // Load the form validator if the request is not GET
-        if('GET' != strtoupper(self::$Request->getRequestMethod())  ) {
-            self::loadFormValidator();
-            self::$Request->processBody();
-        }
-
-        // Load the handler class
-        $fnAddress = Core\Base\FunctionAddress::fromString($routingHandler->getHandler());
-        // Register the namespace
-        \Loader::getInstance()->addNamespace(self::$store['SYSTEM'], self::fullPathFromSystem('/'));
-
-        // Create the class object
-        $className = $fnAddress->getClassName();
-        $controller = new $className();
+        // Prepare before invoke the handler function
+        $controller->prepare();
 
         // Get the method
         $method = $fnAddress->getFunctionName();
 
-        // Set the default directory to the output
-        $workingDir = substr($className,0, strrpos($className, '\\'));
-        self::$Response->setWorkingDir($workingDir);
-
         // Clean the memory before call the method
-        //        unset($items);
+        // unset($items);
         unset($include);
         unset($router);
         unset($tokens);
+
+        // Store the controller name result
+        self::$store['CONTROLLER'] = $className;
 
         // Call the methods
         $ref_method = new \ReflectionMethod($className, $method);
@@ -318,14 +306,15 @@ final class App
      */
     public static function getRouter(string &$path) : ?Core\Control\Routing\RouterInterface
     {
-        $router = null;
         $full_path = self::$ROOT_DIR . '/Systems/' . $path;
         $md5 = md5_file($full_path);
 
-        if(self::$Cache->enabled()) {
+        if(self::$Cache->enabled())
+        {
             $key = 'router.' . $path;
             $router = self::$Cache->get($key);
-            if(!$router || $router->getSign() != $md5) {
+            if(!$router || $router->getSign() != $md5)
+            {
                 if(!!$router) {
                     unset($router);
                     $router = null;
@@ -355,6 +344,70 @@ final class App
     }
 
     /**
+     * @return void
+     * @throws \Exception
+     */
+    public static function loadInputValidator() : void
+    {
+        if(is_null(self::$InputValidator))
+        {
+            self::$InputValidator = new Core\Filter\InputValidator();
+            self::$InputValidator->init(self::$config['form']);
+        }
+    }
+
+    /**
+     * Start the session
+     * @return void
+     */
+    public static function startSession() : void
+    {
+        // Init session and start it
+        if(is_null(self::$Session))
+        {
+            self::$Session = Core\Persistence\Server\Session::getInstance();
+            self::$Session->init(self::$config['session']);
+            self::$Session->start();
+        }
+    }
+
+    /**
+     * Load the model
+     * @param string|null $modelName
+     * @return void
+     * @throws \Exception
+     */
+    public static function loadModel(?string $modelName) : void
+    {
+        $model = $modelName ?? self::$config['model']['name'];
+        $modelClassName = 'Model\\' . $model . '\\' . $model;
+
+        if(!class_exists($modelClassName))
+            throw new \Exception('The Model class "' . $model . '" is not defined');
+
+        if(!method_exists($modelClassName, 'getInstance'))
+            throw new \Exception('The Model class "' . $model . '" must be a Singleton class with getInstance method');
+
+        self::$Model = $modelClassName::getInstance();
+        if(! self::$Model instanceof Core\Persistence\Database\Model)
+            throw new \Exception('Invalid model class provided');
+
+        self::$Model->load();
+
+        unset($model);
+        unset($modelClassName);
+    }
+
+    /**
+     * @param  string $path
+     * @return array
+     */
+    public static function readConfig(string $path) : array
+    {
+        return Core\Base\YamlReader::ReadFile($path);
+    }
+
+    /**
      * @param  string $relPath
      * @return string
      */
@@ -371,27 +424,4 @@ final class App
     {
         return clean_file_address(self::$ROOT_DIR . DIRECTORY_SEPARATOR . 'Systems'. DIRECTORY_SEPARATOR . self::$store['SYSTEM'] . DIRECTORY_SEPARATOR . $relPath);
     }
-
-    /**
-     * @param  string $path
-     * @return array
-     */
-    public static function readConfig(string $path) : array
-    {
-        return Core\Base\YamlReader::ReadFile($path);
-    }
-
-
-    /**
-     * @return void
-     * @throws \Exception
-     */
-    public static function loadFormValidator() : void
-    {
-        if(is_null(self::$Form)) {
-            self::$Form = new Core\Filter\InputValidator();
-            self::$Form->init(self::$config['form']);
-        }
-    }
-
 }

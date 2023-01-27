@@ -2,9 +2,7 @@
 
 namespace TheNameSpace;
 
-use Arkit\Helper\View\ViewFlashMemory;
-
-class ClassName
+class ClassName extends \System\Core\Controller
 {
     private $formId = 'FORM-ID';
 

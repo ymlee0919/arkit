@@ -15,11 +15,11 @@ class ViewFlashMemory
     private string $viewName;
 
     /**
-     * @param string $viewName
+     * @param string $url
      */
-    public function __construct(string $viewName)
+    public function __construct(string $url)
     {
-        $this->viewName = 'VIEW.' . $viewName;
+        $this->viewName = 'VIEW.' . md5($url);
     }
 
     /**
@@ -58,22 +58,6 @@ class ViewFlashMemory
 
         foreach ($errorList as $fieldName => $error)
             $hash['INPUT_ERRORS'][$fieldName] = $error;
-
-        \Arkit\App::$Session->setFlash($this->viewName, $hash);
-    }
-
-    /**
-     * Store an action error
-     * @param string $error
-     * @return void
-     */
-    public function storeActionError(string $error): void
-    {
-        $hash = \Arkit\App::$Session[$this->viewName];
-        if (is_null($hash))
-            $hash = array();
-
-        $hash['ACTION_ERROR'] = $error;
 
         \Arkit\App::$Session->setFlash($this->viewName, $hash);
     }
@@ -151,23 +135,34 @@ class ViewFlashMemory
     }
 
     /**
-     * @param Response $response
-     * @param string $prefix
      * @return void
      */
-    public function sendToResponse(Response &$response, string $prefix = ''): void
+    public function sendToResponse(): void
     {
         $hash = \Arkit\App::$Session[$this->viewName];
         if (is_null($hash))
             return;
 
-        foreach ($hash as $index => $value)
-            if ($index != 'VALUES')
-                $response->assign($prefix . $index, $value);
+        // Dispatch input errors
+        if(isset($hash['INPUT_ERRORS']))
+            \Arkit\App::$Response->inputErrors($hash['INPUT_ERRORS'], false);
 
-        if (isset($hash['VALUES']))
-            foreach ($hash['VALUES'] as $index => $value)
-                $response->assign($index, $value);
+        // Dispatch values
+        if(isset($hash['VALUES']))
+            \Arkit\App::$Response->assign($hash['VALUES'], null, false);
+
+        // Dispatch custom errors
+        if(isset($hash['CUSTOM_ERRORS']))
+            foreach ($hash['CUSTOM_ERRORS'] as $errorType => $message)
+                \Arkit\App::$Response->error($errorType, $message);
+
+        // Dispatch warning
+        if(isset($hash['WARNING']))
+            \Arkit\App::$Response->warning($hash['WARNING'], false);
+
+        // Dispatch success message
+        if(isset($hash['SUCCESS_MESSAGE']))
+            \Arkit\App::$Response->warning($hash['SUCCESS_MESSAGE'], false);
     }
 
 }
