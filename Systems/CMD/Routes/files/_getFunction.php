@@ -4,11 +4,8 @@ public function functionName($params) : void
 
         // Validate parameters ...
 
-        // Load the template
-        $response->loadTemplate('template.tpl');
-
         // Set form ID
-        \Arkit\App::loadFormValidator();
+        \Arkit\App::loadInputValidator();
         \Arkit\App::$Form->setId($this->formId)->generateCsrfCode();
 
         // Connect
@@ -18,12 +15,8 @@ public function functionName($params) : void
 
         $response->assign('FieldName', $FieldValue);
 
-        // Assign items from flash memory stored in session
-        $flashMemory = new ViewFlashMemory($this->formId);
-        $flashMemory->sendToResponse($response, 'VIEW');
-
         // Finally, display the template
-        $response->displayTemplate();
+        $response->displayTemplate('sample.tpl');
     }
 
     /// End of class

@@ -36,6 +36,13 @@ final class Response
     private array $messages;
 
     /**
+     * Response status
+     *
+     * @var int
+     */
+    private int $status;
+
+    /**
      * Http Response Headers
      *
      * @var array
@@ -94,8 +101,13 @@ final class Response
         $this->messages = [];
         $this->headers = [];
         $this->dispatching = false;
+        $this->status = 200;
     }
 
+    /**
+     * @param array $config
+     * @return void
+     */
     public function init(array &$config): void
     {
         if (isset($config['onBeforeDisplay']))
@@ -111,12 +123,33 @@ final class Response
             $this->onForbiddenAccess = FunctionAddress::fromString($config['onForbiddenAccess']);
     }
 
+    /**
+     * @param Response\DispatcherInterface $dispatcher
+     * @return void
+     */
     public function setDispatcher(Response\DispatcherInterface $dispatcher) : void
     {
         // Set the internal dispatcher
         $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * Set response status
+     *
+     * @param int $status
+     * @return $this
+     */
+    public function setStatus(int $status) : self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @param string $header
+     * @param string|null $value
+     * @return void
+     */
     public function setHeader(string $header, ?string $value = null) : void
     {
         if(is_null($value))
@@ -133,10 +166,14 @@ final class Response
         $this->headers[$header] = $value;
     }
 
+    /**
+     * @return void
+     */
     private function fetchHeaders() : void
     {
         foreach ($this->headers as $headerName => $value)
-            header("$headerName: $value");
+            if(strtolower($headerName) !== 'status')
+                header("$headerName: $value");
     }
 
     /**
@@ -273,9 +310,9 @@ final class Response
      * @param string $filePath
      * @param bool $encodeFirst
      * @param bool $toUtf8
-     * @return void
+     * @return self
      */
-    public function assignFromFile(string $field, string $filePath, bool $encodeFirst = true, bool $toUtf8 = false): void
+    public function assignFromFile(string $field, string $filePath, bool $encodeFirst = true, bool $toUtf8 = false): self
     {
         $value = \Arkit\App::readConfig($filePath);
         if ($encodeFirst)
@@ -285,16 +322,19 @@ final class Response
             $this->values[$field] = $value;
         else
             $this->dispatcher->assign($field, $value);
+
+        return $this;
     }
 
     /**
-     * Assing a value to the template
+     * Assign a value to the template
      * @param string|array $field
      * @param mixed|null $value
      * @param bool $encodeFirst
      * @param bool $toUtf8
+     * @return self
      */
-    public function assign(string|array $field, mixed $value = null, bool $encodeFirst = true, bool $toUtf8 = false): void
+    public function assign(string|array $field, mixed $value = null, bool $encodeFirst = true, bool $toUtf8 = false): self
     {
         if (!is_object($value) && $encodeFirst)
             $this->toHtmlEntities($value, $toUtf8);
@@ -313,9 +353,18 @@ final class Response
             else
                 $this->values = $this->values + $field;
         }
+
+        return $this;
     }
 
-    public function inputError(string $fieldName, string $error, bool $encode = true, bool $toUtf8 = false): void
+    /**
+     * @param string $fieldName
+     * @param string $error
+     * @param bool $encode
+     * @param bool $toUtf8
+     * @return self
+     */
+    public function inputError(string $fieldName, string $error, bool $encode = true, bool $toUtf8 = false): self
     {
         if($encode)
             $this->toHtmlEntities($error, $toUtf8);
@@ -324,9 +373,17 @@ final class Response
             $this->dispatcher->inputError($fieldName, $error);
         else
             $this->inputErrors[$fieldName] = $error;
+
+        return $this;
     }
 
-    public function inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): void
+    /**
+     * @param array $errors
+     * @param bool $encode
+     * @param bool $toUtf8
+     * @return self
+     */
+    public function inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): self
     {
         if($encode)
             $this->toHtmlEntities($errors, $toUtf8);
@@ -335,9 +392,18 @@ final class Response
             $this->dispatcher->inputErrors($errors);
         else
             $this->inputErrors = $this->inputErrors + $errors;
+
+        return $this;
     }
 
-    public function error(string $errorType, string $message, bool $encode = true, bool $toUtf8 = false): void
+    /**
+     * @param string $errorType
+     * @param string $message
+     * @param bool $encode
+     * @param bool $toUtf8
+     * @return self
+     */
+    public function error(string $errorType, string $message, bool $encode = true, bool $toUtf8 = false): self
     {
         if($encode)
             $this->toHtmlEntities($message, $toUtf8);
@@ -346,9 +412,17 @@ final class Response
             $this->dispatcher->error($errorType, $message);
         else
             $this->messages[$errorType] = $message;
+
+        return $this;
     }
 
-    public function warning(string $message, bool $encode = true, bool $toUtf8 = false): void
+    /**
+     * @param string $message
+     * @param bool $encode
+     * @param bool $toUtf8
+     * @return self
+     */
+    public function warning(string $message, bool $encode = true, bool $toUtf8 = false): self
     {
         if($encode)
             $this->toHtmlEntities($message, $toUtf8);
@@ -357,9 +431,17 @@ final class Response
             $this->dispatcher->warning($message);
         else
             $this->messages['WARNING'] = $message;
+
+        return $this;
     }
 
-    public function success(string $message, bool $encode = true, bool $toUtf8 = false): void
+    /**
+     * @param string $message
+     * @param bool $encode
+     * @param bool $toUtf8
+     * @return self
+     */
+    public function success(string $message, bool $encode = true, bool $toUtf8 = false): self
     {
         if($encode)
             $this->toHtmlEntities($message, $toUtf8);
@@ -368,14 +450,22 @@ final class Response
             $this->dispatcher->success($message);
         else
             $this->messages['SUCCESS_MESSAGE'] = $message;
+
+        return $this;
     }
 
+    /**
+     * @param string $resource
+     * @param array|null $arguments
+     * @return void
+     */
     public function dispatch(string $resource, ?array $arguments = null) : void
     {
         // Call before display trigger
         $this->beforeDisplay();
 
         // Fetch the headers
+        header('Status: ' . strval($this->status));
         $this->fetchHeaders();
 
         // Fetch the cookies
@@ -395,7 +485,10 @@ final class Response
         // Dispatch
         $this->dispatcher->dispatch($resource, $arguments);
     }
-    
+
+    /**
+     * @return void
+     */
     private function setDispatcherValues() : void
     {
         // Assign all values, errors and messages
@@ -417,6 +510,9 @@ final class Response
         }
     }
 
+    /**
+     * @return CookieStore
+     */
     public function getCookies(): CookieStore
     {
         if (is_null($this->cookies))
@@ -428,6 +524,7 @@ final class Response
 
     /**
      * Display a template
+     *
      * @param string $template Template name or full template name
      * <ul>
      *  <li>If set the template name, the folder is 'view' at same level of the current controller</li>
@@ -447,6 +544,7 @@ final class Response
 
     /**
      * Redirect to the url build by router
+     *
      * @param string $urlId
      * @param array|null $params
      */
@@ -461,6 +559,7 @@ final class Response
 
     /**
      * Redirect to a given URL
+     *
      * @param string $url
      */
     public function redirectToUrl(string $url): void
@@ -470,6 +569,8 @@ final class Response
     }
 
     /**
+     * Dispatch values in JSON format
+     *
      * @returns void
      */
     public function toJSON(): void

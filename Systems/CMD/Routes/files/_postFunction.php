@@ -1,7 +1,6 @@
 public function functionName($params) : void
     {
         $response = &\Arkit\App::$Response;
-        $flashMemory = new ViewFlashMemory($this->formId);
 
         // Validate parameters ...
 
@@ -22,7 +21,7 @@ public function functionName($params) : void
 
         if(!$form->isValid())
         {
-            $flashMemory->storeInputErrors($form->getErrors());
+            $output->inputErrors($form->getErrors());
             $output->redirectTo('RULE-ID');
         }
 
@@ -30,7 +29,7 @@ public function functionName($params) : void
         \Arkit\App::$Model->connect('root');
 
         // End of request, send the response
-        $flashMemory->storeSuccessMessage('Request successfully processed');
+        $output->success('Request successfully processed');
         $response->redirectTo('RULE-ID');
     }
 
