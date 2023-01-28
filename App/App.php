@@ -205,14 +205,14 @@ final class App
         // Validate the request
         $valid = self::$Request->validate();
         if(!$valid)
-            self::$Response->throwPageNotFound();
+            self::$Response->throwNotFound();
 
         // Get the router
         self::$Router = self::getRouter($routerPath);
         $routing = self::$Router->route($request->getRequestUrl(), $request->getRequestMethod());
 
         if(is_null($routing))
-            self::$Response->throwPageNotFound();
+            self::$Response->throwNotFound();
 
         // Store the routing result
         self::$store['ROUTING'] = $routing;

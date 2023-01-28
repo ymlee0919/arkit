@@ -65,7 +65,7 @@ final class Response
      * Function to execute when page not found
      * @var ?FunctionAddress
      */
-    private ?FunctionAddress $onPageNotFound;
+    private ?FunctionAddress $onNotFound;
 
     /**
      * Function to execute before when access denied
@@ -91,7 +91,7 @@ final class Response
     public function __construct()
     {
         $this->onBeforeDisplay = null;
-        $this->onPageNotFound = null;
+        $this->onNotFound = null;
         $this->onAccessDenied = null;
         $this->cookies = null;
         $this->dispatcher = null;
@@ -104,6 +104,7 @@ final class Response
         $this->status = 200;
     }
 
+    //// INTERNAL ASSIGNMENT ------------------------------
     /**
      * @param array $config
      * @return void
@@ -113,8 +114,8 @@ final class Response
         if (isset($config['onBeforeDisplay']))
             $this->onBeforeDisplay = FunctionAddress::fromString($config['onBeforeDisplay']);
 
-        if (isset($config['onPageNotFound']))
-            $this->onPageNotFound = FunctionAddress::fromString($config['onPageNotFound']);
+        if (isset($config['onNotFound']))
+            $this->onNotFound = FunctionAddress::fromString($config['onNotFound']);
 
         if (isset($config['onAccessDenied']))
             $this->onAccessDenied = FunctionAddress::fromString($config['onAccessDenied']);
@@ -166,14 +167,16 @@ final class Response
         $this->headers[$header] = $value;
     }
 
+    //// EVENTS ----------------------------------------------
     /**
+     * Set onBeforeDisplay event handler
+     *
+     * @param FunctionAddress $onBeforeDisplay Function address to handle the event before dispatch the payload
      * @return void
      */
-    private function fetchHeaders() : void
+    public function onBeforeDisplay(FunctionAddress $onBeforeDisplay) : void
     {
-        foreach ($this->headers as $headerName => $value)
-            if(strtolower($headerName) !== 'status')
-                header("$headerName: $value");
+        $this->onBeforeDisplay = $onBeforeDisplay;
     }
 
     /**
@@ -191,29 +194,52 @@ final class Response
     }
 
     /**
-     * Throw the 404 page
+     * Set onNotFound event handler
+     *
+     * @param FunctionAddress $onNotFound Function address to handle the event when request is not found
+     * @return void
+     */
+    public function onNotFound(FunctionAddress $onNotFound) : void
+    {
+        $this->onNotFound = $onNotFound;
+    }
+
+    /**
+     * Respond not found error - 404 Response
+     *
      * @throws \Exception
      */
-    public function throwPageNotFound(): void
+    public function throwNotFound(): void
     {
         if (!empty(\Arkit\App::$Model))
             \Arkit\App::$Model->release();
 
-        if (!is_null($this->onPageNotFound)) {
-            $className = $this->onPageNotFound->getClassName();
-            $functionName = $this->onPageNotFound->getFunctionName();
+        if (!is_null($this->onNotFound)) {
+            $className = $this->onNotFound->getClassName();
+            $functionName = $this->onNotFound->getFunctionName();
             $output = new $className();
             $output->$functionName();
         } else {
             header('Status: 404');
-            readfile(dirname(__FILE__) . '404.html');
+            readfile(dirname(__FILE__) . '/Response/Template/defaults/404.html');
         }
 
         exit;
     }
 
     /**
+     * Set onAccessDenied event handler
      *
+     * @param FunctionAddress $onAccessDenied Function address to handle the event when access is denied
+     * @return void
+     */
+    public function onAccessDenied(FunctionAddress $onAccessDenied) : void
+    {
+        $this->onAccessDenied = $onAccessDenied;
+    }
+
+    /**
+     * Respond unauthorized error - 401 Response
      */
     public function throwAccessDenied(): void
     {
@@ -227,14 +253,25 @@ final class Response
             $output->$functionName();
         } else {
             header('Status: 401');
-            readfile(dirname(__FILE__) . '401.html');
+            readfile(dirname(__FILE__) . '/Response/Template/defaults/401.html');
         }
 
         exit;
     }
 
     /**
+     * Set onForbiddenAccess event handler
      *
+     * @param FunctionAddress $onForbiddenAccess Function address to handle the event when access is forbidden
+     * @return void
+     */
+    public function onForbiddenAccess(FunctionAddress $onForbiddenAccess) : void
+    {
+        $this->onForbiddenAccess = $onForbiddenAccess;
+    }
+
+    /**
+     * Respond forbidden error - 403 Response
      */
     public function throwForbiddenAccess(): void
     {
@@ -248,7 +285,7 @@ final class Response
             $output->$functionName();
         } else {
             header('Status: 403');
-            readfile(dirname(__FILE__) . '403.html');
+            readfile(dirname(__FILE__) . '/Response/Template/defaults/403.html');
         }
 
         exit;
@@ -260,11 +297,12 @@ final class Response
     public function throwInvalidRequest(): void
     {
         header('Status: 400');
-        readfile(dirname(__FILE__) . '400.html');
+        readfile(dirname(__FILE__) . '/Response/Template/defaults/400.html');
     }
 
     /**
      * Encode to html entities
+     *
      * @param string|array $param
      * @param bool $utf8Encode
      * @returns void
@@ -287,6 +325,17 @@ final class Response
         }
     }
 
+    /**
+     * @return CookieStore
+     */
+    public function getCookies(): CookieStore
+    {
+        if (is_null($this->cookies))
+            $this->cookies = new CookieStore();
+
+        return $this->cookies;
+    }
+
 //    /**
 //     * @param ?string $cacheId
 //     * @return bool
@@ -304,6 +353,7 @@ final class Response
 //        return $result;
 //    }
 
+    //// OUTPUT ASSIGNMENT ------------------------------
     /**
      * Assign a values to the template from a file
      * @param string $field
@@ -454,6 +504,17 @@ final class Response
         return $this;
     }
 
+    //// DISPATCHING ------------------------------
+    /**
+     * @return void
+     */
+    private function fetchHeaders() : void
+    {
+        foreach ($this->headers as $headerName => $value)
+            if(strtolower($headerName) !== 'status')
+                header("$headerName: $value");
+    }
+
     /**
      * @param string $resource
      * @param array|null $arguments
@@ -509,18 +570,6 @@ final class Response
                     $this->dispatcher->error($type, $message);
         }
     }
-
-    /**
-     * @return CookieStore
-     */
-    public function getCookies(): CookieStore
-    {
-        if (is_null($this->cookies))
-            $this->cookies = new CookieStore();
-
-        return $this->cookies;
-    }
-
 
     /**
      * Display a template
