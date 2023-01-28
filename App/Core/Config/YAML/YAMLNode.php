@@ -1,6 +1,6 @@
 <?php
 
-namespace Arkit\Core\Base\YAML;
+namespace Arkit\Core\Config\YAML;
 /**
  * A node, used by YAMLParser for parsing YAML.
  * @package YAMLParser

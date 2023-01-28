@@ -7,11 +7,14 @@ namespace Arkit\Core\Persistence\Cache;
  */
 interface CacheInterface
 {
+
     /**
-     * Init the cache
+     * Init the cache engine
+     *
+     * @param array $config Configuration
      * @return bool
      */
-    public function init(): bool;
+    public function init(array &$config): bool;
 
     /**
      * Set a value under a key
@@ -46,7 +49,7 @@ interface CacheInterface
      * Return if is enabled after initialization
      * @return bool
      */
-    public function enabled(): bool;
+    public function isEnabled(): bool;
 
     /**
      * Return the last error occurred

@@ -20,30 +20,23 @@ class ApcCacheEngine implements CacheInterface
     private string $prefix;
 
     /**
-     * Defaulr expired time
+     * Default expired time
      * @var int
      */
     private int $expireTime;
 
     /**
-     * Configuration for engine
-     * @param array $config
-     */
-    public function __construct(array &$config)
-    {
-        $this->expireTime = $config['expiry'] ?? 86400;
-        $this->prefix = $config['prefix'] ?? '_apcuCached';
-    }
-
-    /**
      * @inheritDoc
      */
-    public function init(): bool
+    public function init(array &$config): bool
     {
         $this->enabled = function_exists('apcu_enabled') && apcu_enabled();
 
         if (!$this->enabled)
             return false;
+
+        $this->expireTime = $config['expiry'] ?? 86400;
+        $this->prefix = $config['prefix'] ?? '_apcuCached';
 
         return true;
     }
@@ -103,7 +96,7 @@ class ApcCacheEngine implements CacheInterface
     /**
      * @inheritDoc
      */
-    public function enabled(): bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }

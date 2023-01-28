@@ -1,3 +1,5 @@
+## Router for CMD System
+
 cmd.dashboard:
   url: '/'
   handler: 'CMD\Dashboard\Controller::Show'

@@ -2,34 +2,62 @@
 
 namespace Arkit\Core\Persistence\Cache;
 
+/**
+ *
+ */
 class FileCacheEngine implements CacheInterface
 {
+    /**
+     * @var string
+     */
     private string $cacheDirectory;
 
+    /**
+     * @var string
+     */
     private string $prefix;
 
+    /**
+     * @var int
+     */
     private int $expireTime;
 
-    public function __construct(array &$config)
+    /**
+     * Constructor of the class
+     */
+    public function __construct()
     {
         $this->cacheDirectory = \Arkit\App::fullPath('/resources/cache');
-        $this->prefix = $config['prefix'] ?? '_cache';
-        $this->expireTime = $config['expiry'] ?? 86400;
+
     }
 
-    public function init(): bool
+    /**
+     * @inheritDoc
+     */
+    public function init(array &$config): bool
     {
+        $this->prefix = $config['prefix'] ?? '_cache';
+        $this->expireTime = $config['expiry'] ?? 86400;
+
         if (!is_dir($this->cacheDirectory))
             mkdir($this->cacheDirectory);
 
         return true;
     }
 
+
+    /**
+     * @param string $key
+     * @return string
+     */
     private function buildFileName(string $key): string
     {
         return $this->cacheDirectory . '/' . $this->prefix . '.' . md5($key) . '.cache';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function set(string $key, mixed $value, ?int $expire = null): bool
     {
         $filename = $this->buildFileName($key);
@@ -47,6 +75,9 @@ class FileCacheEngine implements CacheInterface
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function get(string $key): mixed
     {
         $filename = $this->buildFileName($key);
@@ -72,6 +103,9 @@ class FileCacheEngine implements CacheInterface
         return unserialize($data);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function remove(string $key): bool
     {
         $filename = $this->buildFileName($key);
@@ -80,6 +114,9 @@ class FileCacheEngine implements CacheInterface
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function clean(): bool
     {
         $hDir = dir($this->cacheDirectory);
@@ -96,12 +133,18 @@ class FileCacheEngine implements CacheInterface
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getLastError(): string
     {
         return 'File cache class is not defined';
     }
 
-    public function enabled(): bool
+    /**
+     * @inheritDoc
+     */
+    public function isEabled(): bool
     {
         return true;
     }

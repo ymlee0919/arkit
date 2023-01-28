@@ -122,7 +122,7 @@ final class App
         self::$ROOT_DIR = clean_file_address(getcwd());
 
         // Init configuration
-        self::$config = Core\Base\YamlReader::ReadFile(self::$ROOT_DIR . '/App/Config/config.yaml');
+        self::$config = Core\Config\YamlReader::ReadFile(self::$ROOT_DIR . '/App/Config/config.yaml');
 
         // Load the logs manager
         self::$Logs = new Core\Monitor\Logger(self::$config['logs']);
@@ -131,23 +131,13 @@ final class App
         // Init the errors handler
         Core\Monitor\ErrorHandler::init();
 
-        // Set cookies defaults
-        Core\Persistence\Client\Cookie::setDefaults(
-            [
-            // Set the default domain
-            'domain' => $_SERVER['SERVER_NAME'],
-            // Set secure according the request
-            'secure' => !empty($_SERVER['HTTPS'])
-            ]
-        );
-
         // Set time zone
         date_default_timezone_set(self::$config['env']['time_zone']);
 
         // Load cache
         $cacheClass = '\\Arkit\\Core\\Persistence\\Cache\\' . self::$config['cache']['handler'] . 'CacheEngine';
-        self::$Cache = new $cacheClass(self::$config['cache']);
-        self::$Cache->init();
+        self::$Cache = new $cacheClass();
+        self::$Cache->init(self::$config['cache']);
 
         // Load output
         self::$Response = new Core\HTTP\Response();
@@ -166,6 +156,16 @@ final class App
 
         // Log the request
         self::$Logs->logRequest($request);
+
+        // Set cookies defaults
+        Core\Persistence\Client\Cookie::setDefaults(
+            [
+                // Set the default domain
+                'domain' => $_SERVER['SERVER_NAME'],
+                // Set secure according the request
+                'secure' => $request->isSecure()
+            ]
+        );
 
         // Route by domain
         $domainConfig = self::readConfig(self::fullPath('App/Config/routing.yaml'));
@@ -321,7 +321,7 @@ final class App
                 }
 
                 $router = new Core\Control\Routing\Router();
-                $rules = Core\Base\YamlReader::ReadFile($full_path);
+                $rules = Core\Config\YamlReader::ReadFile($full_path);
                 $router->setRules($rules);
                 $router->setSign($md5);
 
@@ -333,7 +333,7 @@ final class App
         else
         {
             $router = new Core\Control\Routing\Router();
-            $rules = Core\Base\YamlReader::ReadFile($full_path);
+            $rules = Core\Config\YamlReader::ReadFile($full_path);
             $router->setRules($rules);
         }
 
@@ -352,7 +352,7 @@ final class App
         if(is_null(self::$InputValidator))
         {
             self::$InputValidator = new Core\Filter\InputValidator();
-            self::$InputValidator->init(self::$config['form']);
+            self::$InputValidator->init(self::$config['validation']);
         }
     }
 
@@ -404,7 +404,7 @@ final class App
      */
     public static function readConfig(string $path) : array
     {
-        return Core\Base\YamlReader::ReadFile($path);
+        return Core\Config\YamlReader::ReadFile($path);
     }
 
     /**

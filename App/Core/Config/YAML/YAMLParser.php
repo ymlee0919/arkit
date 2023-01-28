@@ -1,6 +1,7 @@
 <?php
 
-namespace Arkit\Core\Base\YAML;
+namespace Arkit\Core\Config\YAML;
+
 
 /**
  * The Simple PHP YAML Class.

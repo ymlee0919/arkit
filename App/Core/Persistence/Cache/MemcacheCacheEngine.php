@@ -3,37 +3,60 @@
 namespace Arkit\Core\Persistence\Cache;
 
 
+/**
+ *
+ */
 class MemcacheCacheEngine implements CacheInterface
 {
+    /**
+     * @var \Memcache
+     */
     private \Memcache $cache;
 
+    /**
+     * @var bool
+     */
     private bool $enabled;
 
+    /**
+     * @var string
+     */
     private string $prefix;
 
+    /**
+     * @var int
+     */
     private int $expireTime;
 
-    public function __construct(array &$config)
+    /**
+     * @inheritDoc
+     */
+    public function init(array &$config): bool
     {
-        $this->expireTime = $config['expiry'] ?? 86400;
-        $this->prefix = $config['prefix'] ?? '_memCache';
-
+        // Verify is enabled
         $this->enabled = (extension_loaded('memcache') || class_exists('Memcache'));
-    }
 
-    public function init(): bool
-    {
         if (!$this->enabled) return false;
 
+        // Create and configure Memcache
         $this->cache = new \Memcache();
 
-        $this->enabled = $this->cache->connect('localhost', 11211);
+        $this->enabled = $this->cache->connect('127.0.0.1', 11211);
         if (!$this->enabled)
             return false;
 
-        $this->cache->addServer('localhost', 11221, true, 1);
+        $this->cache->addServer('127.0.0.1', 11211, false, 1);
+
+        // Set class configuration
+        $this->expireTime = $config['expiry'] ?? 86400;
+        $this->prefix = $config['prefix'] ?? '_memCache';
+
+        return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function set(string $key, mixed $value, int $expire = null): bool
     {
         if (!$this->enabled) return false;
@@ -41,6 +64,9 @@ class MemcacheCacheEngine implements CacheInterface
         return $this->cache->set($key, $value, 0, (is_null($expire)) ? $this->expireTime : $expire);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function get(string $key): mixed
     {
         if (!$this->enabled) return false;
@@ -57,6 +83,9 @@ class MemcacheCacheEngine implements CacheInterface
         return $data;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function remove(string $key): bool
     {
         if (!$this->enabled)
@@ -65,6 +94,9 @@ class MemcacheCacheEngine implements CacheInterface
         return $this->cache->delete($key);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function clean(): bool
     {
         if (!$this->enabled)
@@ -72,6 +104,9 @@ class MemcacheCacheEngine implements CacheInterface
         return $this->cache->flush();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getLastError(): string
     {
         if (!$this->enabled)
@@ -82,7 +117,10 @@ class MemcacheCacheEngine implements CacheInterface
         return $error;
     }
 
-    public function enabled(): bool
+    /**
+     * @inheritDoc
+     */
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
