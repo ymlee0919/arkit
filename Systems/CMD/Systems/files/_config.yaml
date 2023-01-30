@@ -3,14 +3,6 @@ request:
   max_post_params: 64
   max_post_size: 2048
 
-# Model to load -----------------------------
-model:
-  name: ModelName
-
-# AccessControl -----------------------------
-access:
-  controller: {System}\Access\AccessController
-
 # Response ----------------------------------
 response:
   onBeforeDisplay: {System}\Events\ResponseEvents::onBeforeDisplay

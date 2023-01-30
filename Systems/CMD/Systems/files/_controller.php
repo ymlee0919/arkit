@@ -55,5 +55,11 @@ class Controller extends \Arkit\Core\Base\Controller
             // Process the body
             \Arkit\App::$Request->processBody();
         }
+
+        // Load the model
+        \Arkit\App::loadModel('ModelName');
+
+        // Connect
+        \Arkit\App::$Model->connect('root');
     }
 }

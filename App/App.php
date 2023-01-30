@@ -2,6 +2,8 @@
 
 namespace Arkit;
 
+use Arkit\Core\Config\DotEnv;
+
 /**
  * Class Application
  * Manage the application
@@ -94,6 +96,14 @@ final class App
      */
     public static $Crypt = null;
 
+
+    /**
+     * Environment vars manager
+     * 
+     * @var ?Core\Config\DotEnv
+     */
+    public static $Env = null;
+
     /**
      * Constructor of the class
      */
@@ -123,6 +133,10 @@ final class App
 
         // Init configuration
         self::$config = Core\Config\YamlReader::ReadFile(self::$ROOT_DIR . '/App/Config/config.yaml');
+
+        // Read environment vars
+        self::$Env = new DotEnv(self::$ROOT_DIR . '/App/Config');
+        self::$Env->init();
 
         // Load the logs manager
         self::$Logs = new Core\Monitor\Logger(self::$config['logs']);
@@ -296,7 +310,7 @@ final class App
         $full_path = self::$ROOT_DIR . '/Systems/' . $path;
         $md5 = md5_file($full_path);
 
-        if(self::$Cache->enabled())
+        if(self::$Cache->isEnabled())
         {
             $key = 'router.' . $path;
             $router = self::$Cache->get($key);

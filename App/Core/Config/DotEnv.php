@@ -6,7 +6,7 @@ namespace Arkit\Core\Config;
 /**
  * Environment-specific configuration
  */
-class DotEnv
+class DotEnv implements \ArrayAccess
 {
     /**
      * The directory where the .env file can be located.
@@ -28,8 +28,11 @@ class DotEnv
      * so that we end up with all settings in the PHP environment vars
      * (i.e. getenv(), $_ENV, and $_SERVER)
      */
-    public function load(): bool
+    public function init(): bool
     {
+        if(!is_file($this->path))
+            return false;
+
         $vars = $this->parse();
 
         return $vars !== null;
@@ -38,7 +41,7 @@ class DotEnv
     /**
      * Parse the .env file into an array of key => value
      */
-    public function parse(): ?array
+    protected function parse(): ?array
     {
         // We don't want to enforce the presence of a .env file, they should be optional.
         if (! is_file($this->path)) {
@@ -95,7 +98,7 @@ class DotEnv
      * Parses for assignment, cleans the $name and $value, and ensures
      * that nested variables are handled.
      */
-    public function normaliseVariable(string $name, string $value = ''): array
+    protected function normaliseVariable(string $name, string $value = ''): array
     {
         // Split our compound string into its parts.
         if (strpos($name, '=') !== false) {
@@ -220,5 +223,47 @@ class DotEnv
                 // switch getenv default to null
                 return $value === false ? null : $value;
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        if(array_key_exists($offset, $_ENV))
+            return true;
+
+        if(array_key_exists($offset, $_SERVER))
+            return true;
+
+        return getenv($offset) !== false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->getVariable($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->setVariable($offset, $value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        if(isset($_ENV[$offset]))
+            unset($_ENV[$offset]);
+
+        if(isset($_SERVER[$offset]))
+            unset($_SERVER[$offset]);
     }
 }

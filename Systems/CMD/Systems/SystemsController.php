@@ -101,6 +101,11 @@ class SystemsController extends \CMD\Core\Controller
 
         $controller = file_get_contents($sourceDir . '_controller.php');
         $class = str_replace('System', $system, $controller);
+
+        // Treat the model
+        if(isset($post['model']) && !!$post['model'])
+            $class = str_replace('ModelName', $post['model'], $class);
+
         $success = $this->write($systemDir . '/Core/Controller.php', $class);
         if(!$success)
         {
@@ -212,18 +217,6 @@ class SystemsController extends \CMD\Core\Controller
 
         // Build the configuration file
         $content = file_get_contents($sourceDir . '_config.yaml');
-
-        // Treat the model
-        if(isset($post['model']) && !!$post['model'])
-            $content = strtr($content,[
-                'ModelName' => $post['model']
-            ]);
-        else
-            $content = strtr($content, [
-                'model:' => '#model:',
-                'name:' => '#name:'
-            ]);
-
 
         $content = str_replace('{System}', $system, $content);
 
