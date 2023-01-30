@@ -9,6 +9,7 @@ use Arkit\Core\Control\Routing\RoutingHandler;
  */
 interface AccessControllerInterface
 {
+
     /**
      * Access forbidden because insufficient privileges
      */

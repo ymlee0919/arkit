@@ -248,31 +248,19 @@ final class App
         if(!$controller->validateIncomingRequest())
             self::$Response->throwAccessDenied();
 
-        // Check access
-        if(isset(self::$config['access']))
+        // Check access to the method
+        $accessController = $controller->getAccessController();
+        $result = $accessController->checkAccess($routingHandler);
+
+        switch ($result)
         {
-            $accessControllerClass = self::$config['access']['controller']();
-            $accessController = new $accessControllerClass();
+            case Core\Control\Access\AccessControllerInterface::ACCESS_DENIED:
+                self::$Response->throwAccessDenied();
+                break;
 
-            // Check the class implements the AccessControllerInterface
-            if(!$accessController instanceof Core\Control\Access\AccessControllerInterface)
-                throw new \Exception('Invalid Access Controller Class');
-
-            $result = $accessController->checkAccess($routingHandler);
-
-            unset($controllerAddress);
-            unset($controllerClass);
-
-            switch ($result)
-            {
-                case Core\Control\Access\AccessControllerInterface::ACCESS_DENIED:
-                    self::$Response->throwAccessDenied();
-                    break;
-
-                case Core\Control\Access\AccessControllerInterface::ACCESS_FORBIDDEN:
-                    self::$Response->throwForbiddenAccess();
-                    break;
-            }
+            case Core\Control\Access\AccessControllerInterface::ACCESS_FORBIDDEN:
+                self::$Response->throwForbiddenAccess();
+                break;
         }
 
         // Prepare before invoke the handler function
@@ -292,11 +280,10 @@ final class App
 
         // Call the methods
         $ref_method = new \ReflectionMethod($className, $method);
-        if($routingHandler->haveParameters()) {
+        if($routingHandler->haveParameters())
             $ref_method->invokeArgs($controller, array_values($routingHandler->getParameters()));
-        } else {
+        else
             $ref_method->invoke($controller);
-        }
     }
 
     /**

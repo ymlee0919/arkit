@@ -1,10 +1,12 @@
 <?php
 
 namespace SystemName\Access;
+
+use \Arkit\Core\Control\Access\AccessControllerInterface;
 /**
  * Class for control the access to the system
  */
-class AccessControl implements \Arkit\Core\Control\Access\AccessControllerInterface
+class AccessControl implements AccessControllerInterface
 {
 
     /**

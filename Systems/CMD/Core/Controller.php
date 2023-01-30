@@ -2,6 +2,7 @@
 
 namespace CMD\Core;
 
+use Arkit\Core\Control\Access\AccessControllerInterface;
 use Arkit\Core\HTTP\Request\UrlEncodedParser;
 
 class Controller extends \Arkit\Core\Base\Controller
@@ -35,5 +36,13 @@ class Controller extends \Arkit\Core\Base\Controller
             \Arkit\App::$Request->setBodyParser(new UrlEncodedParser());
             \Arkit\App::$Request->processBody();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccessController(): AccessControllerInterface
+    {
+        return new \CMD\Core\AccessController();
     }
 }
