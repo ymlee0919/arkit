@@ -99,7 +99,7 @@ final class App
 
     /**
      * Environment vars manager
-     * 
+     *
      * @var ?Core\Config\DotEnv
      */
     public static $Env = null;

@@ -86,6 +86,8 @@ class ModelsController extends \CMD\Core\Controller
 
         // Build package path
         $modelDir = \Arkit\App::fullPath('Model/' . $model);
+        $persistence = \Arkit\App::fullPath('Model' . DIRECTORY_SEPARATOR . $model . DIRECTORY_SEPARATOR . 'Persistence' );
+        $business = \Arkit\App::fullPath('Model' . DIRECTORY_SEPARATOR . $model . DIRECTORY_SEPARATOR . 'Business' );
         $sourceDir = \Arkit\App::fullPathFromSystem('/Models/files/');
 
         if(!is_dir($this->modelsDir))
@@ -102,9 +104,31 @@ class ModelsController extends \CMD\Core\Controller
             $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
         }
 
+        // Make the persistence directory
+        if(!is_dir($persistence))
+            $success = mkdir($persistence);
+        else
+            $success = true;
+        if(!$success)
+        {
+            $output->error('ACTION_ERROR', 'Unable to create the Persistence Model');
+            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+        }
+
+        // Make the business directory
+        if(!is_dir($business))
+            $success = mkdir($business);
+        else
+            $success = true;
+        if(!$success)
+        {
+            $output->error('ACTION_ERROR', 'Unable to create the Business Model');
+            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+        }
+
         // Create config directory
-        if(!is_dir($modelDir . '/config'))
-            $success = mkdir($modelDir . '/config');
+        if(!is_dir($persistence . '/config'))
+            $success = mkdir($persistence . '/config');
         else
             $success = true;
         if(!$success)
@@ -132,10 +156,23 @@ class ModelsController extends \CMD\Core\Controller
             'userName' => $user,
             'userPassword' => $password
         ]);
-        $success = $this->write($modelDir . '/config/config.php', $class);
+        $success = $this->write($persistence . '/config/config.php', $class);
         if(!$success)
         {
             $output->error('ACTION_ERROR', 'Unable to create the Config file', true);
+            $output->redirectTo('cmd.models');
+        }
+
+        // Copy the schema file
+        $file = file_get_contents($sourceDir . 'schema.xml');
+        $file = strtr($file, [
+            'ModelName' => $model,
+            'database' => $database
+        ]);
+        $success = $this->write($persistence . '/config/schema.xml', $file);
+        if(!$success)
+        {
+            $output->error('ACTION_ERROR', 'Unable to create the Schema file', true);
             $output->redirectTo('cmd.models');
         }
 
@@ -147,7 +184,7 @@ class ModelsController extends \CMD\Core\Controller
             'userName' => $user,
             'userPassword' => $password
         ]);
-        $success = $this->write($modelDir . '/config/propel.yaml', $config);
+        $success = $this->write($persistence . '/config/propel.yaml', $config);
         if(!$success)
         {
             $output->error('ACTION_ERROR', 'Unable to create the Propel config file');

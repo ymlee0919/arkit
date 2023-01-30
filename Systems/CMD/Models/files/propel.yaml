@@ -5,10 +5,10 @@ propel:
       outputDir: '../../'
 
       # The directory where Propel should output generated object model classes.
-      phpDir: '../../'
+      phpDir: '../../../'
 
       # The directory where Propel should output the compiled runtime configuration.
-      phpConfDir: '../config'
+      phpConfDir: '../'
 
       # The directory where Propel should output the generated migrations.
       migrationDir: '../Migration'
