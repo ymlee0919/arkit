@@ -1,7 +1,7 @@
 <?php
 
 // Include the PHP Unit autoload
-require dirname(__DIR__) . '/_Testing/PHPUnit/vendor/autoload.php';
+require __DIR__ . '/PHPUnit/vendor/autoload.php';
 
 // Include the Arkit autoload
 require dirname(__DIR__ ) . '/App/conf.php';
