@@ -6,7 +6,20 @@ use \Arkit\Core\Filter\Input\FieldValidator;
 /**
  * Class StringValidator
  */
-class StringValidator extends FieldValidator {
+class StringValidator extends FieldValidator
+{
+
+    public function set(mixed $value): void
+    {
+        if(!is_string($value))
+        {
+            $this->value = null;
+            $this->realValue = null;
+            $this->validField = false;
+        }
+        else
+            parent::set($value);
+    }
 
     /**
      * @return $this
@@ -101,7 +114,7 @@ class StringValidator extends FieldValidator {
         if(!$this->validField)
             return $this;
         
-        if(is_null($part))
+        if(empty($part))
 			throw new \InvalidArgumentException('Invalid part of string',601);
             
 		if($matchCase)
@@ -128,17 +141,17 @@ class StringValidator extends FieldValidator {
         if(!$this->validField)
             return $this;
         
-        if(is_null($begin))
+        if(empty($begin))
 			throw new \InvalidArgumentException('Invalid begin of string',601);
 		
 		if($matchCase)
 		{
-			if(strpos($this->value, $begin) > 0)
+			if(strpos($this->value, $begin) !== 0)
 				return $this->registerError('string_must_begin', ['value' => $begin]);
 		}
 		else
 		{
-			if(stripos($this->value, $begin) > 0)
+			if(stripos($this->value, $begin) !== 0)
 				return $this->registerError('string_must_begin_matchcase', ['value' => $begin]);
 		}
 
@@ -158,13 +171,13 @@ class StringValidator extends FieldValidator {
         if($matchCase)
         {
 			$pos = strrpos($this->value, $final);
-			if($pos + strlen($final) + 1 != strlen($this->value))
+			if($pos + strlen($final) + 1 !== strlen($this->value))
 				return $this->registerError('string_must_end', ['value' => $final]);
 		}
 		else
 		{
 			$pos = strripos($this->value, $final);
-			if($pos + strlen($final) + 1 != strlen($this->value))
+			if($pos + strlen($final) + 1 !== strlen($this->value))
 				return $this->registerError('string_must_end_matchcase', ['value' => $final]);
 		}
 
@@ -244,11 +257,8 @@ class StringValidator extends FieldValidator {
         if(!$this->validField)
             return $this;
 
-        if(!class_exists('Security\Crypt', false))
-            \Loader::import('App.Security.Crypt');
-
         // Decode
-        $str = @Crypt::decodeUrl($this->value);
+        $str = \Arkit\App::$Crypt->smoothDecrypt($this->value);
 
         // Check the return value
         if(!$str)

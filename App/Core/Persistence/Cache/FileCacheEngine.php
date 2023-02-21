@@ -144,7 +144,7 @@ class FileCacheEngine implements CacheInterface
     /**
      * @inheritDoc
      */
-    public function isEabled(): bool
+    public function isEnabled(): bool
     {
         return true;
     }

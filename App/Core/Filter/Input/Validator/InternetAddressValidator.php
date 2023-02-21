@@ -86,6 +86,9 @@ class InternetAddressValidator extends FieldValidator
         if(!$this->validField)
             return $this;
 
+        if(!is_string($this->value))
+            return $this->registerError('invalid_mac_address');
+
 		if(!preg_match('/^(([0-9a-fA-F]{2}-){5}|([0-9a-fA-F]{2}:){5})[0-9a-fA-F]{2}$/', $this->value))
             return $this->registerError('invalid_mac_address');
         else
@@ -115,6 +118,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function isRemoteFile() : self
 	{
+        // TODO: Implement this function
         return $this;
 	}
 
@@ -125,6 +129,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function remoteFileSize(int $min_size, int $max_size) : self
 	{
+        // TODO: Implement this function
         return $this;
 	}
 

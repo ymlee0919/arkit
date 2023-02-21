@@ -561,7 +561,7 @@ class InputValidator
         if(is_null($this->internetAddressValidator))
         {
             \Loader::import('InternetAddressValidator', 'App.Form.Validators.InternetAddressValidator');
-            $this->internetAddressValidator = new InternetAddressValidator($this);
+            $this->internetAddressValidator = new Input\Validator\InternetAddressValidator($this);
         }
 
         $this->checkAndValidate($this->internetAddressValidator);
@@ -577,7 +577,7 @@ class InputValidator
         if(is_null($this->personalDataValidator))
         {
             \Loader::import('PersonalDataValidator', 'App.Form.Validators.PersonalDataValidator');
-            $this->personalDataValidator = new PersonalDataValidator($this);
+            $this->personalDataValidator = new Input\Validator\PersonalDataValidator($this);
         }
 
         $this->checkAndValidate($this->personalDataValidator);
@@ -635,10 +635,11 @@ class InputValidator
     }
 
     /**
+     * @param string|null $format
      * @return Input\Validator\DateTimeValidator
      * @throws \Exception
      */
-    public function isDateTime() : Input\Validator\DateTimeValidator
+    public function isDateTime(?string $format = null) : Input\Validator\DateTimeValidator
     {
         if(is_null($this->dateTimeValidator))
         {
@@ -646,17 +647,20 @@ class InputValidator
             $this->dateTimeValidator = new Input\Validator\DateTimeValidator($this);
         }
 
-        $this->dateTimeValidator->setFormat($this->datetime_format);
+        $dateFormat = $format ?? $this->datetime_format;
+
+        $this->dateTimeValidator->setFormat($dateFormat);
         $this->checkAndValidate($this->dateTimeValidator);
 
         return $this->dateTimeValidator;
     }
 
     /**
+     * @param string|null $format
      * @return Input\Validator\DateValidator
      * @throws \Exception
      */
-    public function isDate() : Input\Validator\DateValidator
+    public function isDate(?string $format = null) : Input\Validator\DateValidator
     {
         if(is_null($this->dateValidator))
         {
@@ -664,7 +668,9 @@ class InputValidator
             $this->dateValidator = new Input\Validator\DateValidator($this);
         }
 
-        $this->dateValidator->setFormat($this->date_format);
+        $dateFormat = $format ?? $this->date_format;
+
+        $this->dateValidator->setFormat($dateFormat);
         $this->checkAndValidate($this->dateValidator);
 
         return $this->dateValidator;
@@ -721,7 +727,7 @@ class InputValidator
 
         if(!$value)
         {
-            if(!!$this->current['value'])
+            if(is_string($this->current['value']) && !!$this->current['value'])
                 $this->current['value'] = utf8_decode( $this->purifier->purify( utf8_encode($this->current['value']) ) );
 
             return $this;

@@ -42,7 +42,7 @@ ini_set('register_globals', 'Off');
 // Limit PHP Access To File System
 // According: https://learn2torials.com/a/php-best-practices
 ini_set('cgi.force_redirect', 'On');
-ini_set('open_basedir', getcwd());
+ini_set('open_basedir', dirname(__FILE__, 2));
 
 switch(RUN_MODE)
 {

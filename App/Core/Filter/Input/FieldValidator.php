@@ -73,6 +73,7 @@ abstract class FieldValidator
     {
         $this->form->registerError($error, $params);
         $this->realValue = null;
+        $this->validField = false;
         return $this;
     }
 

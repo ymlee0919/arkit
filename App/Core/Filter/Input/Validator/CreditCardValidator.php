@@ -71,6 +71,14 @@ class CreditCardValidator extends FieldValidator{
             'cvcLength' => array(3),
             'luhn' => true,
         ),
+        'americanexpress' => array(
+            'type' => 'amex',
+            'pattern' => '/^3[47]/',
+            'format' => '/(\d{1,4})(\d{1,6})?(\d{1,5})?/',
+            'length' => array(15),
+            'cvcLength' => array(3, 4),
+            'luhn' => true,
+        ),
         'amex' => array(
             'type' => 'amex',
             'pattern' => '/^3[47]/',
@@ -154,18 +162,20 @@ class CreditCardValidator extends FieldValidator{
         if(!$this->validField)
             return $this;
 
-        $type = strtolower($type);
-        if(!isset(CreditCardValidator::$cards[$type]))
-            throw new InvalidArgumentException('Credit Card type not supported', 701);
+        $cardType = strtolower($type);
+        $cardType = str_replace(' ', '', $cardType);
+
+        if(!isset(CreditCardValidator::$cards[$cardType]))
+            throw new \InvalidArgumentException('Credit Card type not supported', 701);
 
         $number = preg_replace('/\D/', '', $this->value);
 
         // Check the length and pattern
         $length = strlen($number);
-        if(!preg_match(CreditCardValidator::$cards[$type]['pattern'], $number) || !in_array($length, self::$cards[$type]['length']))
+        if(!preg_match(CreditCardValidator::$cards[$cardType]['pattern'], $number) || !in_array($length, self::$cards[$cardType]['length']))
             $this->validField = $this->form->registerError('invalid_credit_card', ['type' => $type]);
         else
-            $this->type = $type;
+            $this->type = $cardType;
 
         return $this;
     }
@@ -184,6 +194,9 @@ class CreditCardValidator extends FieldValidator{
             $this->validField = $this->form->registerError('invalid_credit_card_cvc');
             return $this;
         }
+
+        if(!isset(CreditCardValidator::$cards[$this->type]))
+            throw new \InvalidArgumentException('Credit Card type not supported', 701);
 
         foreach (self::$cards[$this->type]['cvcLength'] as $length) {
             if (strlen($cvc) == $length) {

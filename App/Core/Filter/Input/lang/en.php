@@ -83,6 +83,12 @@ return [
     'string_must_end_matchcase'=> 'The field {field} must end exactly with "{value}"',
     'invalid_expression'=> 'The field {field} has not a valid expression',
 
+	'invalid_roman_number'=> 'The field {field} is not a valid roman number',
+	'invalid_hexadecimal_number'=> 'The field {field} is not a valid hexadecimal number',
+	'invalid_octal_number'=> 'The field {field} is not a valid octal number',
+	'invalid_binary_number'=> 'The field {field} is not a valid binary number',
+	'invalid_rgb_color'=> 'The field {field} is not a valid RGB color',
+
     'file_not_set' => 'The file {field} must be set',
     'invalid_image_file' => 'The file {field} is not a valid image file',
 

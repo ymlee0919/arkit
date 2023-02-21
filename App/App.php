@@ -129,7 +129,7 @@ final class App
      */
     public function init() : void
     {
-        self::$ROOT_DIR = clean_file_address(getcwd());
+        self::$ROOT_DIR = clean_file_address( dirname(__FILE__, 2) );
 
         // Init configuration
         self::$config = Core\Config\YamlReader::ReadFile(self::$ROOT_DIR . '/App/Config/config.yaml');

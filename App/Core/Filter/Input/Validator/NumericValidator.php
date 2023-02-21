@@ -157,12 +157,12 @@ class NumericValidator extends FieldValidator {
 
         if($notEqual)
         {
-            if($this->realValue >= $min && $this->realValue <= $max)
+            if($this->realValue > $min && $this->realValue < $max)
                 return $this->registerError('number_not_between_and_equal', ['min' => $min, 'max' => $max]);
         }
         else
         {
-            if($this->realValue > $min && $this->realValue < $max)
+            if($this->realValue >= $min && $this->realValue <= $max)
                 return $this->registerError('number_not_between', ['min' => $min, 'max' => $max]);
         }
 

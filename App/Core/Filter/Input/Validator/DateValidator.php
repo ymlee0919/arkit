@@ -2,6 +2,7 @@
 namespace Arkit\Core\Filter\Input\Validator;
 
 use \Arkit\Core\Filter\Input\FieldValidator;
+use Arkit\Core\Filter\InputValidator;
 
 /**
  * Class DateValidator
@@ -18,6 +19,7 @@ class DateValidator extends FieldValidator {
      */
     private string $format;
 
+
     /**
      * @param $format string
      */
@@ -29,7 +31,7 @@ class DateValidator extends FieldValidator {
     /**
      * @return \DateTime|null
      */
-    public function getValue() : ?DateTime
+    public function getValue() : ?\DateTime
     {
         return $this->realValue;
     }
@@ -41,7 +43,8 @@ class DateValidator extends FieldValidator {
     private function toStr(string $date) : bool|string
     {
         $parts = date_parse_from_format($this->format, $date);
-        if($parts['warning_count'] > 0 && $parts['error_count'] > 0)
+
+        if($parts['warning_count'] > 0 || $parts['error_count'] > 0)
             return false;
 
         $str = sprintf('%s.%s.%s',
@@ -61,23 +64,29 @@ class DateValidator extends FieldValidator {
         if(!$this->validField)
             return $this;
 
-        $str = $this->toStr($this->value);
-        if(!$str)
+        $str_val = null;
+
+        if(is_string($this->value))
+            $str_val = $this->toStr($this->value);
+        elseif(is_object($this->value) && get_class($this->value) == 'DateTime')
+            $str_val = $this->value->format('Y.m.d');
+
+        if(empty($str_val))
             return $this->registerError('invalid_date');
 
-        $this->str_value = $str;
-        $this->realValue = date_create_from_format('Y.m.d::H.i.s', $this->str_value);
+        $this->str_value = $str_val;
+        $this->realValue = date_create_from_format('Y.m.d', $this->str_value);
 
         return $this;
     }
 
     /**
-     * @param string|DateTime $value
+     * @param string|\DateTime $value
      * @param bool $equal
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function isBefore(string|DateTime $value, bool $equal = true) : self
+    public function isBefore(string|\DateTime $value, bool $equal = true) : self
     {
         if(!$this->validField)
             return $this;
@@ -90,7 +99,7 @@ class DateValidator extends FieldValidator {
             $str_val = $value->format('Y.m.d');
 
         if(!$str_val)
-            throw new InvalidArgumentException('The value to compare for, must be a valid date', 511);
+            throw new \InvalidArgumentException('The value to compare for, must be a valid date', 511);
 
         $cmp = strcmp($str_val, $this->str_value);
         // TODO: The translation of the date when register the error
@@ -109,12 +118,12 @@ class DateValidator extends FieldValidator {
     }
 
     /**
-     * @param string|DateTime $value
+     * @param string|\DateTime $value
      * @param bool $equal
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function isAfter(string|DateTime $value, bool $equal = true) : self
+    public function isAfter(string|\DateTime $value, bool $equal = true) : self
     {
         if(!$this->validField)
             return $this;
@@ -127,7 +136,7 @@ class DateValidator extends FieldValidator {
             $str_val = $value->format('Y.m.d');
 
         if(!$str_val)
-            throw new InvalidArgumentException('The value to compare for, must be a valid date', 511);
+            throw new \InvalidArgumentException('The value to compare for, must be a valid date', 511);
 
         $cmp = strcmp($this->str_value, $str_val);
         // TODO: The translation of the date when register the error
@@ -146,13 +155,13 @@ class DateValidator extends FieldValidator {
     }
 
     /**
-     * @param string|DateTime $min
-     * @param string|DateTime $max
+     * @param string|\DateTime $min
+     * @param string|\DateTime $max
      * @param bool $equal
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function between(string|DateTime $min, string|DateTime $max, bool $equal = true) : self
+    public function between(string|\DateTime $min, string|\DateTime $max, bool $equal = true) : self
     {
         if(!$this->validField)
             return $this;
@@ -166,7 +175,7 @@ class DateValidator extends FieldValidator {
             $min_val = $min->format('Y.m.d');
 
         if(!$min_val)
-            throw new InvalidArgumentException('The minimum value to compare for, must be a date', 511);
+            throw new \InvalidArgumentException('The minimum value to compare for, must be a date', 511);
 
         // Validate max value
         $max_val = null;
@@ -177,7 +186,7 @@ class DateValidator extends FieldValidator {
             $max_val = $min->format('Y.m.d');
 
         if(!$max_val)
-            throw new InvalidArgumentException('The maximum value to compare for, must be a date', 511);
+            throw new \InvalidArgumentException('The maximum value to compare for, must be a date', 511);
 
         if($equal)
         {
@@ -194,13 +203,13 @@ class DateValidator extends FieldValidator {
     }
 
     /**
-     * @param string|DateTime $min
-     * @param string|DateTime $max
+     * @param string|\DateTime $min
+     * @param string|\DateTime $max
      * @param bool $notEqual
      * @return $this
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function notBetween(string|DateTime $min, string|DateTime $max, bool $notEqual = true) : self
+    public function notBetween(string|\DateTime $min, string|\DateTime $max, bool $notEqual = true) : self
     {
         if(!$this->validField)
             return $this;
@@ -214,7 +223,7 @@ class DateValidator extends FieldValidator {
             $min_val = $min->format('Y.m.d');
 
         if(!$min_val)
-            throw new InvalidArgumentException('The minimum value to compare for, must be a date', 511);
+            throw new \InvalidArgumentException('The minimum value to compare for, must be a date', 511);
 
         // Validate max value
         $max_val = null;
@@ -225,7 +234,7 @@ class DateValidator extends FieldValidator {
             $max_val = $min->format('Y.m.d');
 
         if(!$max_val)
-            throw new InvalidArgumentException('The maximum value to compare for, must be a date', 511);
+            throw new \InvalidArgumentException('The maximum value to compare for, must be a date', 511);
 
         if($notEqual)
         {

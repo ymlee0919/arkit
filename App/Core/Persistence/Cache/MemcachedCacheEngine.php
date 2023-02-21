@@ -43,6 +43,11 @@ class MemcachedCacheEngine implements CacheInterface
 
         if (!$this->enabled) return false;
 
+        // Set class configuration
+        $this->masterKey = $config['master_key'] ?? 'memcachedKey';
+        $this->expireTime = $config['expiry'] ?? 86400;
+        $this->prefix = $config['prefix'] ?? '_memCached';
+
         // Create and configure Memcached
         $this->cache = new \Memcached($this->masterKey);
         $this->cache->addServer('localhost', 11211, 1);
@@ -51,11 +56,6 @@ class MemcachedCacheEngine implements CacheInterface
         $status = $this->cache->getStats();
         if (!isset($status['localhost:11211']))
             return $this->enabled = false;
-
-        // Set class configuration
-        $this->masterKey = $config['master_key'] ?? 'memcachedKey';
-        $this->expireTime = $config['expiry'] ?? 86400;
-        $this->prefix = $config['prefix'] ?? '_memCached';
 
         // Set options to memcached
         $this->cache->setOption(\Memcached::HAVE_IGBINARY, TRUE);

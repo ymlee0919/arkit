@@ -3,10 +3,26 @@ namespace Arkit\Core\Filter\Input\Validator;
 
 use \Arkit\Core\Filter\Input\FieldValidator;
 
-class PersonalDataValidator extends FieldValidator {
+class PersonalDataValidator extends FieldValidator 
+{
 
     /**
-     * @return $this
+     * @inheritDoc
+     */
+    public function set(mixed $value) : void
+    {
+        if(!is_string($value))
+        {
+            $this->value = null;
+            $this->realValue = null;
+            $this->validField = false;
+        }
+        else
+            parent::set(trim($value));
+    }
+
+    /**
+     * @inheritDoc
      */
     public function check() : self
     {
@@ -14,7 +30,7 @@ class PersonalDataValidator extends FieldValidator {
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
      */
     public function getValue() : mixed
     {
@@ -47,16 +63,19 @@ class PersonalDataValidator extends FieldValidator {
             return $this;
 
         $values = explode($separator, $this->value);
+        $list = [];
         foreach($values as $value)
         {
-            if(false === filter_var(trim($value), FILTER_VALIDATE_EMAIL))
+            $email = trim($value);
+            if(false === filter_var($email, FILTER_VALIDATE_EMAIL))
             {
                 $this->form->registerError('invalid_email');
-                break;
+                return $this;
             }
+            $list[] = $email;
         }
 
-        $this->realValue = $values;
+        $this->realValue = $list;
 
         return $this;
     }
@@ -68,8 +87,12 @@ class PersonalDataValidator extends FieldValidator {
     {
         if(!$this->validField)
             return $this;
-            
-        $pattern = '/^[+]?([\d]{0,3})?[\(\.\-\s]?(([\d]{1,3})[\)\.\-\s]*)?(([\d]{3,5})[\.\-\s]?([\d]{4})|([\d]{2}[\.\-\s]?){4})$/';
+        
+        $strPhone = strtr($this->value, [
+            ' '
+        ]);
+
+        $pattern = '/^[+]?([\d]{0,3})?[\(\.\-\s]?(([\d]{1,3})[\)\.\-\s]*)?(([\d]{3,5})[\.\-\s]?([\d]{3,5})|([\d]{2}[\.\-\s]?){4})$/';
         if(!preg_match($pattern, $this->value))
             $this->form->registerError('invalid_phone');
         else
@@ -102,20 +125,32 @@ class PersonalDataValidator extends FieldValidator {
     {
         if(!$this->validField)
             return $this;
-            
-        $pattern = '/^[0-9a-zA-Z-_\.]+$/';
-        if(!preg_match($pattern, $this->value))
-            $this->form->registerError('invalid_user');
-        else
-            $this->realValue = $this->value;
 
+        $pattern = '/^[0-9a-zA-Z_\.\-]{4,}$/';
+        if(!preg_match($pattern, $this->value))
+        {
+            $this->form->registerError('invalid_user');
+            return $this;
+        }
+        else
+        {
+            // The user name must have 3 or more types of characters
+            $chars = count_chars($this->value, 1);
+            if(count($chars) < 3)
+            {
+                $this->form->registerError('invalid_user');
+                return $this;
+            }
+        }
+            
+        $this->realValue = $this->value;
         return $this;
     }
 
     /**
      * @return $this
      */
-    public function isWeakPassword() : self
+    public function isPassword() : self
     {
         if(!$this->validField)
             return $this;
@@ -126,7 +161,6 @@ class PersonalDataValidator extends FieldValidator {
         if($len < 8 || $len > 32)
             return $this->registerError('invalid_password_length');
 
-        // Contains special chars ['.', '*', '=', '#', '$', '@', '%']
         $rules = ['lowercase' => false, 'uppercase' => false, 'numeric' => false];
         for($i = 0; $i < $len; $i++)
             if(ctype_digit($this->value[$i])) $rules['numeric'] = true;
@@ -155,12 +189,12 @@ class PersonalDataValidator extends FieldValidator {
             
         $len = strlen($this->value);
         
-        // Length > 12
-        if($len < 12 || $len > 32)
+        // Length > 10
+        if($len < 10 || $len > 32)
             return $this->registerError('invalid_password_length');
             
-        // Contains special chars ['.', '*', '=', '#', '$', '@', '%']
-        $specials = ['.', '*', '=', '$', '@', '%'];
+        // Contains special chars ['.', '*', '=', '$', '@', '%', '+', '-', '&', '#']
+        $specials = ['.', '*', '=', '$', '@', '%', '+', '-', '&', '#'];
         $rules = ['lowercase' => false, 'uppercase' => false, 'numeric' => false, 'special' => false];
         for($i = 0; $i < $len; $i++)
             if(ctype_digit($this->value[$i])) $rules['numeric'] = true;

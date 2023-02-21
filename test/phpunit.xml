@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="bootstrap.php"
+         cacheResultFile="unit.cache/test-results"
+         executionOrder="depends,defects"
+         forceCoversAnnotation="true"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         convertDeprecationsToExceptions="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         stopOnError="false"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="unit">
+            <directory>ArkitTest</directory>
+            <directory>ArkitTest\InputValidation</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage cacheDirectory="unit.cache/code-coverage"
+              processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">/App</directory>
+        </include>
+    </coverage>
+</phpunit>
