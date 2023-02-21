@@ -160,6 +160,13 @@ class PersonalDataValidationTest extends ValidationTest
      */
     public function testPhone($phone) : void
     {
+        /*
+        Pending....
+        (+34) 617 279 035
+        (+34) 617 27 9064
+        (+34) 681-168-236
+        (+34) 431-16-8221
+        */
         $valid = $this->validator->validate('phone', $phone)->isPersonalData()->isPhone()->isValid();
         $this->assertTrue($valid, "Invalid phone number: {$phone}");
     }
