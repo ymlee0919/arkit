@@ -1,8 +1,6 @@
 <?php
-
 namespace ArkitTest\InputValidation;
 
-use Arkit\App;
 use PHPUnit\Framework\TestCase;
 
 abstract class ValidationTest extends TestCase

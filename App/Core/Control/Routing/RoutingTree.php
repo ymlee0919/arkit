@@ -22,6 +22,22 @@ function _node_add_rule(&$node, $rule): void
     $node['rules'][] = $rule;
 }
 
+// Function to set precedence to rules
+function sortRules($rule1, $rule2)
+{
+    $asterPos1 = strpos($rule1, '*');
+    $asterPos2 = strpos($rule2, '*');
+    
+    if($asterPos1 === false && $asterPos2 === false)
+        return 0;
+    
+    if($asterPos1 === false && $asterPos2 !== false)
+        return -1;
+    
+    if($asterPos1 !== false && $asterPos2 === false)
+        return 1;
+}
+
 function _node_get(&$node, $value): mixed
 {
     if (isset($node['literals'][$value]))

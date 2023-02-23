@@ -34,7 +34,7 @@ final class Router implements RouterInterface
 
     /**
      * @param string $str
-     * @returns void
+     * @return void
      */
     public function setSign(string $str): void
     {
@@ -90,35 +90,51 @@ final class Router implements RouterInterface
         $match_id = null;
         $parameters = [];
 
-        foreach ($rules as $id) {
+        foreach ($rules as $id)
+        {
             $rule = &$this->hash[$id];
-
             $route_url = &$rule['url'];
 
             // Check url with allowed parameters, ONLY FOR URL WITHOUT OPTIONS
-            if (!str_contains($route_url, '?') && str_contains($url, '?')) {
-                if (!isset($rule['allow'])) continue;
+            if (str_contains($route_url, '*') && str_contains($url, '?'))
+            {
+                if (!isset($rule['allow']))
+                    continue;
 
+                // Parse parameters set by url
+                $urlParams = [];
+                parse_str(parse_url($url, PHP_URL_QUERY), $urlParams);
+                
+                // Set flag
                 $valid = true;
-                foreach (\Arkit\App::$Request->getAllUrlParams() as $option)
+                
+                foreach (array_keys($urlParams) as $option)
                     $valid = (in_array($option, $rule['allow']) && $valid);
-                if (!$valid) continue;
-                else {
+                
+                if (!$valid)
+                    continue;
+                else
+                {
                     $match_id = $id;
                     break;
                 }
             }
 
             // Check literal rule
-            if (!str_contains($route_url, '{') && !str_contains($route_url, '*')) {
-                if (0 == strcmp($url, $route_url)) {
+            if (!str_contains($route_url, '{') && !str_contains($route_url, '*'))
+            {
+                if (0 == strcmp($url, $route_url))
+                {
                     $match_id = $id;
                     break;
                 }
-            } else {
+            }
+            else
+            {
                 $end = (str_ends_with($route_url, '*')) ? '/' : '$/';
 
-                if (str_contains($route_url, '{')) {
+                if (str_contains($route_url, '{'))
+                {
                     // Get the url parameters
                     $params = [];
                     preg_match_all('/{[^}]*}/', $route_url, $params);
@@ -132,11 +148,12 @@ final class Router implements RouterInterface
                     else $pattern_url = str_replace('?', '\?', $pattern_url);
 
                     // Replace each parameter into the pattern url
-                    foreach ($params[0] as $param) {
+                    foreach ($params[0] as $param)
+                    {
                         // Check if the parameter is into the constraint
                         $p = substr($param, 1, -1);
                         if (isset($rule['constraint']) && isset($rule['constraint'][$p]))
-                            $pattern_url = str_replace($param, $rule['constraint'][$p], $pattern_url);
+                            $pattern_url = str_replace($param, '(' . $rule['constraint'][$p] . ')', $pattern_url);
 
                         // Replace the parameter by the pattern, taking the position into the url
                         // A part of the root is different to a parameter by get

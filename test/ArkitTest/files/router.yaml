@@ -1,0 +1,55 @@
+home:
+  url: '/'
+  handler: 'Sample\Dashboard\Controller::ShowHome'
+  method: 'GET'
+
+dashboard:
+  url: '/dashboard'
+  handler: 'Sample\Dashboard\Controller::ShowDashboard'
+  method: 'GET'
+
+systems.list:
+  url: '/app-systems/list'
+  handler: 'Sample\Systems\Controller::List'
+  method: 'GET'
+
+systems.new:
+  url: '/app-systems/new'
+  handler: 'Sample\Systems\Controller::NewItem'
+  method: 'GET'
+
+systems.add:
+  url: '/systems/add'
+  handler: 'Sample\Systems\Controller::AddNewItem'
+  method: 'POST'
+
+systems.info:
+  url: '/app-systems/{systemId}/info'
+  handler: 'Sample\Systems\Controller::ShowInfo'
+  method: 'GET'
+
+systems.edit:
+  url: '/app-systems/{systemId}/edit'
+  handler: 'Sample\Systems\Controller::Edit'
+  method: 'GET'
+  constraint:
+    systemId: '[0-9]+'
+
+systems.update:
+  url: '/app-systems/update'
+  handler: 'Sample\Systems\Controller::Update'
+  method: 'POST'
+
+systems.filter:
+  url: '/app-systems/list/filter?start={start}&end={end}'
+  handler: 'Sample\Systems\Controller::Filter'
+  method: 'GET',
+  constraint:
+    start: '[0-9]+'
+    end: '[0-9]+'
+
+systems.filter-w-params:
+  url: '/app-systems/list/filter?*'
+  handler: 'Sample\Systems\Controller::Filter'
+  method: 'GET'
+  allow: [start, end, name, limit]
