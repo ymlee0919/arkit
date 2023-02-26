@@ -4,10 +4,6 @@ define('DEBUG_MODE', 'DEBUG');
 define('TESTING_MODE', 'TESTING');
 define('RELEASE_MODE', 'RELEASE');
 
-define('RUN_MODE', DEBUG_MODE);
-//define('RUN_MODE', TESTING_MODE);
-//define('RUN_MODE', RELEASE_MODE);
-
 //// Set a secure environment:
 //// According: https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html
 //-------------------------------------------

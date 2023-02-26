@@ -11,7 +11,7 @@ $loader->addNamespace('Arkit', __DIR__ . '/App');
 
 $clientRequest = new Arkit\Core\HTTP\Request();
 
-$app = new Arkit\App();
+$app = \Arkit\App::getInstance();
 $app->init();
 $app->dispatch($clientRequest);
 

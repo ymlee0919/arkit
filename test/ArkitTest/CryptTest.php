@@ -14,7 +14,7 @@ class CryptTest extends TestCase
     {
         parent::setUp();
 
-        $this->app = new \Arkit\App();
+        $this->app = \Arkit\App::getInstance();
         $this->app->init();
 
         $this->crypt = new \Arkit\Core\Security\Crypt();

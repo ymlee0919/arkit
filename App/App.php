@@ -105,6 +105,18 @@ final class App
     public static $Env = null;
 
     /**
+     * Static instance
+     *
+     * @var ?App
+     */
+    private static $instance = null;
+
+    private function __construct()
+    {
+
+    }
+
+    /**
      *
      */
     public function __destruct()
@@ -112,6 +124,17 @@ final class App
         self::$ROOT_DIR = null;
         self::$config = null;
         self::$store = null;
+    }
+
+    public static function getInstance()
+    {
+        if(is_null(self::$instance))
+        {
+            self::$instance = new App();
+            self::$store = [];
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -152,7 +175,8 @@ final class App
 
     private static function initRunMode()
     {
-        define('RUN_MODE', self::$Env['RUN_MODE']);
+        if(!defined('RUN_MODE'))
+            define('RUN_MODE', self::$Env['RUN_MODE']);
 
         switch(RUN_MODE)
         {

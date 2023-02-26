@@ -12,7 +12,7 @@ class InputValidatorTest extends TestCase
     {
         parent::setUp();
 
-        $this->app = new \Arkit\App();
+        $this->app = \Arkit\App::getInstance();
         $this->app->init();
     }
 

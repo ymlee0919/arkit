@@ -13,7 +13,7 @@ abstract class ValidationTest extends TestCase
     {
         parent::setUp();
 
-        $this->app = new \Arkit\App();
+        $this->app = \Arkit\App::getInstance();
         $this->app->init();
 
         \Arkit\App::$Crypt = new \Arkit\Core\Security\Crypt();
