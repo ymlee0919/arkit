@@ -61,9 +61,11 @@ class RouterTest extends TestCase
             ['POST', '/app-systems//new'],
             ['GET', '/app-systems/34-23/edit'],
             ['GET', '/app-systems/aP312/edit'],
+            ['SEARCH', '/systems/add'],
             ['GET', '/app-systems/update/'],
             ['GET', '/app-systems/list/filter?start=0&ends=10'],
             ['GET', '/app-systems/list/filter?start=0&end=10&name=algo&callback=route.callback'],
+            ['PUSH', '/systems/update'],
         ];
     }
 

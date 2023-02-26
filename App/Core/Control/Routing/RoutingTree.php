@@ -92,7 +92,7 @@ final class RoutingTree
         $method = strtoupper($method);
 
         if (!isset($this->root[$method]))
-            $this->root[$method] = ['literals' => [], 'regexs' => [], 'rules' => []];
+            $this->root[$method] = [];
 
         return $this->root[$method];
     }
@@ -150,6 +150,8 @@ final class RoutingTree
 
         // Find the node
         $node = $this->root($method);
+        if(empty($node))
+            return null;
 
         if (!isset($parts[0]) || !isset($parts[0][1])) {
             unset($parts);
