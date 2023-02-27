@@ -19,7 +19,7 @@ request:
   # Maximum number of characters for post parameter name
   max_post_name_size: 32
   # Regular expression for post parameters name
-  post_param_name_format: '[a-zA-Z0-9_.-]+'
+  post_param_name_format: '[a-zA-Z0-9_.\-]+'
   # Maximum elements count for array sent by post
   max_post_array_size: 10
 

@@ -142,3 +142,4 @@ mail.html
 sample.yaml
 /_Testing/
 /test/PHPUnit
+/App/Config/.env

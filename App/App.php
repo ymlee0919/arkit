@@ -176,7 +176,7 @@ final class App
     private static function initRunMode()
     {
         if(!defined('RUN_MODE'))
-            define('RUN_MODE', self::$Env['RUN_MODE']);
+            define('RUN_MODE', self::$Env['RUN_MODE'] ?? RELEASE_MODE);
 
         switch(RUN_MODE)
         {

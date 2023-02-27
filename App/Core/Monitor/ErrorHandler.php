@@ -10,7 +10,12 @@ final class ErrorHandler
     /**
      * @var ?string
      */
-    private static ?string $prev_error_reporting = null;
+    private static ?string $prevErrorReporting = null;
+
+    /**
+     * @var ?\Arkit\Core\Base\FunctionAddress
+     */
+    private static ?\Arkit\Core\Base\FunctionAddress $onError = null;
 
     /**
      * @var array
@@ -37,7 +42,7 @@ final class ErrorHandler
      */
     public static function init() : void
     {
-        self::$prev_error_reporting = ini_get('error_reporting');
+        self::$prevErrorReporting = ini_get('error_reporting');
 
         if(RUN_MODE == DEBUG_MODE)
             set_error_handler('Arkit\\Core\\Monitor\\handleServerError', E_STRICT|~E_DEPRECATED);
@@ -48,14 +53,19 @@ final class ErrorHandler
     }
 
     /**
-     *
+     * Stop current error handler
      */
     public static function stop() : void
     {
         restore_exception_handler();
         restore_error_handler();
 
-        ini_set('error_reporting', self::$prev_error_reporting);
+        ini_set('error_reporting', self::$prevErrorReporting);
+    }
+
+    public static function onInternalServerError(\Arkit\Core\Base\FunctionAddress $onError) : void
+    {
+        self::$onError = $onError;
     }
 
     /**
@@ -70,18 +80,19 @@ final class ErrorHandler
         if(filter_var($type, FILTER_VALIDATE_INT) !== false)
             $type = self::$errors[$type] ?? 'Internal Server Error';
 
+        \Arkit\App::$Logs->error($type, $message, $file, $line,$trace);
+
 		switch(RUN_MODE)
 		{
 			case RELEASE_MODE:
-				\Arkit\App::$Logs->error($type, $message, $file, $line,$trace);
 				self::stop();
 				self::showInternalServerError();
 				exit;
 			
 			case TESTING_MODE:
             case DEBUG_MODE:
-				$error = self::buildErrorPage($type, $message, $file, $line, $trace);
-                \Arkit\App::$Logs->error($type, $message, $file, $line,$trace);
+				$error = self::buildErrorMessage($type, $message, $file, $line, $trace);
+                
 				self::stop();
 				
 				header("Status: 500 Server Error");
@@ -99,21 +110,20 @@ final class ErrorHandler
     {
         $trace = $exception->getTrace();
 
+        \Arkit\App::$Logs->error($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
+
         switch(RUN_MODE)
         {
             case RELEASE_MODE:
-                \Arkit\App::$Logs->error($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
                 self::stop();
                 self::showInternalServerError();
                 exit;
 
             case TESTING_MODE:
             case DEBUG_MODE:
-                $error = self::buildErrorPage($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(),$trace);
-                \Arkit\App::$Logs->error($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
+                $error = self::buildErrorMessage($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
                 self::stop();
-                header("Status: 500 Server Error");
-                echo $error;
+                self::displayError($error);
                 exit;
 
             default: exit;
@@ -128,7 +138,7 @@ final class ErrorHandler
      * @param mixed $backtrace
      * @return string
      */
-    private static function buildErrorPage(string $type, string $message, string $file, int $line, mixed &$backtrace) : string
+    private static function buildErrorMessage(string $type, string $message, string $file, int $line, mixed &$backtrace) : string
 	{
 		$stack = '';
 		foreach($backtrace as $inv)
@@ -143,12 +153,9 @@ final class ErrorHandler
 			$stack .= '<br><br>';
 		}
 		
-		$html = '<html><head><title>Internal Server Error</title></head><body>'.
-		'<h2 style="color:red">Internal Server Error</h2><p>'.
-			sprintf('<b>Error</b>: %s<br><b>Message</b>: %s<br><b>File</b>: %s<br><b>Line</b>:%s<br></p>',
+		$html = sprintf('<b>Error</b>: %s<br><b>Message</b>: %s<br><b>File</b>: %s<br><b>Line</b>:%s<br></p>',
 					$type, $message, $file, $line).
-		'<b>Call stack</b><br>'. $stack .
-		'</body></html>';
+		        '<b>Call stack</b><br>'. $stack;
 		
 		return $html;
 	}
@@ -158,12 +165,35 @@ final class ErrorHandler
      */
     public static function showInternalServerError() : void
     {
-        ob_end_clean();
-        header("Status: 500 Server Error");
-        readfile( dirname(__FILE__) . '/500_PageError.html');
-        die;
+        if(is_null(self::$onError))
+        {
+            ob_end_clean();
+            header("Status: 500 Server Error");
+            readfile( dirname(__FILE__) . '/500_PageError.html');
+        }
+        else
+        {
+            $className    = self::$onError->getClassName();
+            $functionName = self::$onError->getFunctionName();
+
+            $obj = new $className();
+            $obj->$functionName();
+        }
+        
+        exit;
     }
 
+    private static function displayError($message)
+    {
+        $errorPage = '<html><head><title>Internal Server Error</title></head><body>'.
+		'<h2 style="color:red">Internal Server Error</h2><p>'.
+        $message.
+		'</body></html>';
+
+        header("Status: 500 Server Error");
+        echo $errorPage;
+        exit;
+    }
 
 }
 
@@ -173,7 +203,7 @@ final class ErrorHandler
  * @param string $file
  * @param int $line
  * @param mixed $context
- * @returns void
+ * @return void
  */
 function handleServerError(int $type, string $message, string $file, int $line, mixed $context = null) : void
 {
