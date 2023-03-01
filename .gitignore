@@ -131,15 +131,25 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm+all,linux,windows
+
+# Test and performance directories
+/_Testing/
+/test/PHPUnit
+
+# Internal files
+/App/Config/.env
+/Libs/source/
+/Libs/binaries/
 /Systems/Master/
+
+# Resources files
 /resources/cache/
 /resources/smarty/templates_c/
 /resources/logs/
+
+# Misc files
 structure.txt
 Tasks.txt
 test.php
 mail.html
 sample.yaml
-/_Testing/
-/test/PHPUnit
-/App/Config/.env

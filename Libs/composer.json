@@ -1,0 +1,26 @@
+{
+    "name": "ymlee0919/arkit-microframework",
+    "description": "Small framework for web applications",
+    "type": "project",
+    "require": {
+        "propel/propel": "~2.0@dev",
+        "stripe/stripe-php": "^8.12",
+        "phpmailer/phpmailer": "^6.6",
+        "spipu/html2pdf": "^4.6",
+        "ezyang/htmlpurifier": "4.16.0",
+        "firebase/php-jwt": "^6.3",
+        "smarty/smarty": "^4.3",
+        "bjeavons/zxcvbn-php": "^1.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuriesky Mendez",
+            "email": "ymlee0919@gmail.com"
+        }
+    ],
+    "config": {
+        "vendor-dir": "source\\",
+        "bin-dir": "binaries\\"
+    }
+}

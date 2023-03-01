@@ -200,4 +200,9 @@ class Loader
 
         return true;
     }
+
+    public function loadDependencies()
+    {
+        $this->import(null, 'Libs.source.autoload');
+    }
 }

@@ -86,7 +86,6 @@ class ModelName implements \Arkit\Core\Persistence\Database\Model
      */
     public function load() : void
     {
-        \Loader::import(null, 'Libs.Propel.vendor.autoload');
         \Loader::getInstance()->addNamespace('Model\\ModelName', __DIR__);
     }
 

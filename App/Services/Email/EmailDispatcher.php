@@ -2,11 +2,6 @@
 
 namespace Arkit\Services\Email;
 
-\Loader::import('PHPMailer\PHPMailer\PHPMailer', 'Libs.PHPMailer.PHPMailer');
-\Loader::import('PHPMailer\PHPMailer\SMTP', 'Libs.PHPMailer.SMTP');
-\Loader::import('PHPMailer\PHPMailer\POP3', 'Libs.PHPMailer.POP3');
-\Loader::import('PHPMailer\PHPMailer\Exception', 'Libs.PHPMailer.Exception');
-
 /**
  *
  */

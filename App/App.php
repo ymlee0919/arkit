@@ -232,6 +232,10 @@ final class App
      */
     public function dispatch(Core\HTTP\Request &$request) : void
     {
+        // Load dependencies
+        \Loader::getInstance()->loadDependencies();
+
+        // Set the request
         self::$Request = $request;
 
         // Log the request
