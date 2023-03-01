@@ -2,16 +2,13 @@
 
 namespace Arkit\Core\HTTP;
 
-use Arkit\Core\HTTP\Request\JsonParser;
-use Arkit\Core\HTTP\Request\MultipartFormParser;
-use Arkit\Core\HTTP\Request\UrlEncodedParser;
 use Arkit\Core\Persistence\Client\CookieStore;
 use Arkit\Core\HTTP\Request\BodyParserInterface;
 
 /**
  * Class Request
  */
-final class Request
+final class Request implements RequestInterface
 {
 
     /**
@@ -221,9 +218,9 @@ final class Request
             $contentType = strtolower(trim(explode(';', $contentType)[0]));
 
             $this->bodyParser = match ($contentType) {
-                'application/json' => new JsonParser(),
-                'application/x-www-form-urlencoded' => new UrlEncodedParser(),
-                default => new MultipartFormParser()
+                'application/json' => new \Arkit\Core\HTTP\Request\JsonParser(),
+                'application/x-www-form-urlencoded' => new \Arkit\Core\HTTP\Request\UrlEncodedParser(),
+                default => new \Arkit\Core\HTTP\Request\MultipartFormParser()
             };
 
             $this->bodyParser->setHeaders(getallheaders());
@@ -233,6 +230,12 @@ final class Request
         $this->bodyParser->parse($content);
         $values = $this->bodyParser->getAll();
 
+        $this->setPostValues($values);
+        unset($values);
+    }
+
+    protected function setPostValues(array &$values) : void
+    {
         // Validate parameters
         $i = 0;
         $max = (isset($this->config['max_post_value_size'])) ? $this->config['max_post_value_size'] : 1024000000;
@@ -315,8 +318,6 @@ final class Request
             unset($values[$key]);
             $i++;
         }
-
-        unset($values);
     }
 
     /**

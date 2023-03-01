@@ -35,7 +35,7 @@ final class App
     /**
      * Request
      *
-     * @var ?Core\HTTP\Request
+     * @var ?Core\HTTP\RequestInterface
      */
     public static $Request = null;
 
@@ -226,11 +226,11 @@ final class App
     }
 
     /**
-     * @param  Core\HTTP\Request $request
+     * @param  Core\HTTP\RequestInterface $request
      * @return void
      * @throws \Exception
      */
-    public function dispatch(Core\HTTP\Request &$request) : void
+    public function dispatch(Core\HTTP\RequestInterface &$request) : void
     {
         // Load dependencies
         \Loader::getInstance()->loadDependencies();

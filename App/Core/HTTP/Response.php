@@ -180,7 +180,7 @@ final class Response
     }
 
     /**
-     * @returns void
+     * @return void
      */
     private function beforeDisplay(): void
     {
@@ -305,7 +305,7 @@ final class Response
      *
      * @param string|array $param
      * @param bool $utf8Encode
-     * @returns void
+     * @return void
      */
     public function toHtmlEntities(string|array &$param, bool $utf8Encode = true): void
     {
@@ -516,11 +516,11 @@ final class Response
     }
 
     /**
-     * @param string $resource
+     * @param ?string $resource
      * @param array|null $arguments
      * @return void
      */
-    public function dispatch(string $resource, ?array $arguments = null) : void
+    public function dispatch(?string $resource, ?array $arguments = null) : void
     {
         // Call before display trigger
         $this->beforeDisplay();
@@ -620,7 +620,7 @@ final class Response
     /**
      * Dispatch values in JSON format
      *
-     * @returns void
+     * @return void
      */
     public function toJSON(): void
     {

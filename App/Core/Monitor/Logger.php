@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\Monitor;
 
-use Arkit\Core\HTTP\Request;
+use Arkit\Core\HTTP\RequestInterface;
 use Arkit\Core\Monitor\Log\LogsHandlerInterface;
 
 const LOG_LEVEL_REQUEST = 'Request';
@@ -67,10 +67,10 @@ final class Logger
     }
 
     /**
-     * @param Request $request
+     * @param RequestInterface $request
      * @return void
      */
-    public function logRequest(Request &$request): void
+    public function logRequest(RequestInterface &$request): void
     {
         foreach ($this->handlers[LOG_LEVEL_REQUEST] as $handler)
             $handler->registerRequest($request);

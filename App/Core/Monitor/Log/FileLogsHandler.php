@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\Monitor\Log;
 
-use \Arkit\Core\HTTP\Request;
+use \Arkit\Core\HTTP\RequestInterface;
 
 class FileLogsHandler implements LogsHandlerInterface
 {
@@ -13,10 +13,10 @@ class FileLogsHandler implements LogsHandlerInterface
     protected string $outputDirectory = 'resources/logs';
 
     /**
-     * Request made
-     * @var Request
+     * RequestInterface made
+     * @var RequestInterface
      */
-    protected Request $request;
+    protected RequestInterface $request;
 
     /**
      * @param $config
@@ -78,7 +78,7 @@ class FileLogsHandler implements LogsHandlerInterface
     /**
      * {@inheritDoc}
      */
-    public function registerRequest(Request &$request): bool
+    public function registerRequest(RequestInterface &$request): bool
     {
         $this->request = $request;
 

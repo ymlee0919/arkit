@@ -2,7 +2,8 @@
 
 namespace Arkit\Core\Monitor\Log;
 
-use \Arkit\Core\HTTP\Request;
+use \Arkit\Core\HTTP\RequestInterface;
+use \Arkit\Services\Email\EmailDispatcher;
 
 /**
  *
@@ -64,7 +65,7 @@ class EmailLogsHandler implements LogsHandlerInterface
     /**
      * @inheritDoc
      */
-    public function registerRequest(Request &$request): bool
+    public function registerRequest(RequestInterface &$request): bool
     {
         $content = strtr("[ {moment} ] <br> Request: [{method}] {domain}{url} <br>FROM: {from}<br>Cookies: {cookies}", [
             '{moment}' => date('d-m-Y H:i:s', $_SERVER['REQUEST_TIME']),

@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\Filter;
 
-use \Arkit\Core\HTTP\Request;
+use \Arkit\Core\HTTP\RequestInterface;
 /**
  * Class FormValidator
  */
@@ -19,9 +19,9 @@ class InputValidator
     private ?array $errors_hash;
 
     /**
-     * @var ?Request
+     * @var ?RequestInterface
      */
-    private ?Request $request;
+    private ?RequestInterface $request;
 
     /**
      * @var ?array
@@ -265,9 +265,9 @@ class InputValidator
     }
 
     /**
-     * @param Request &$request
+     * @param RequestInterface &$request
      */
-    public function checkValues(Request &$request) : void
+    public function checkValues(RequestInterface &$request) : void
 	{
 		$this->request = $request;
 		

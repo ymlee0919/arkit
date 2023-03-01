@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\Monitor\Log;
 
-use \Arkit\Core\HTTP\Request;
+use \Arkit\Core\HTTP\RequestInterface;
 
 interface LogsHandlerInterface
 {
@@ -15,10 +15,10 @@ interface LogsHandlerInterface
 
     /**
      * Register a request made to the application
-     * @param Request $request
+     * @param RequestInterface $request
      * @return bool
      */
-    public function registerRequest(Request &$request): bool;
+    public function registerRequest(RequestInterface &$request): bool;
 
     /**
      * Register an internal event

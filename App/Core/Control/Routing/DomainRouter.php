@@ -21,10 +21,10 @@ class DomainRouter
     }
 
     /**
-     * @param \Arkit\Core\HTTP\Request $request
+     * @param \Arkit\Core\HTTP\RequestInterface $request
      * @return string|bool
      */
-    public function route(\Arkit\Core\HTTP\Request &$request): string|bool
+    public function route(\Arkit\Core\HTTP\RequestInterface &$request): string|bool
     {
         $domain = $request->getRequestedDomain();
 
