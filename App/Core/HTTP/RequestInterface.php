@@ -49,13 +49,13 @@ interface RequestInterface
 
     /**
      * Check if the url is valid
-     * @returns bool
+     * @return bool
      */
     public function isValid(): bool;
 
     /**
      * Check if the url is emply (have not levels)
-     * @returns bool
+     * @return bool
      */
     public function isEmptyUrl(): bool;
 

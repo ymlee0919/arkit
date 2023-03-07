@@ -33,7 +33,7 @@ class AccessControlHelper
         $md5Tasks = md5_file($tasksSource);
         $sign = sha1($md5Roles . '//' . $md5Tasks);
 
-        if (\Arkit\App::$Cache->enabled()) {
+        if (\Arkit\App::$Cache->isEnabled()) {
             // Build key for cache
             $key = 'access.' . sha1($md5Roles);
             // Try to get the tree from cache

@@ -2,8 +2,6 @@
 
 namespace Arkit\Core\HTTP\Response\Template;
 
-\Loader::import('Smarty', 'Libs.Smarty.vendor.autoload');
-
 class Template extends \Smarty
 {
     public function __construct(string $templateFolder)

@@ -6,7 +6,7 @@
         "propel/propel": "~2.0@dev",
         "stripe/stripe-php": "^8.12",
         "phpmailer/phpmailer": "^6.6",
-        "spipu/html2pdf": "^4.6",
+        "spipu/html2pdf": "5.2.7",
         "ezyang/htmlpurifier": "4.16.0",
         "firebase/php-jwt": "^6.3",
         "smarty/smarty": "^4.3",

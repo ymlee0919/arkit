@@ -2,8 +2,6 @@
 
 namespace Arkit\Services\Pdf;
 
-\Loader::import('Html2Pdf', 'Libs.Html2pdf.vendor.autoload');
-
 /**
  * Class for building a pdf from a web page
  */

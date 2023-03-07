@@ -43,13 +43,18 @@ final class ErrorHandler
     public static function init() : void
     {
         self::$prevErrorReporting = ini_get('error_reporting');
-
-        if(RUN_MODE == DEBUG_MODE)
-            set_error_handler('Arkit\\Core\\Monitor\\handleServerError', E_STRICT|~E_DEPRECATED);
+        
+        if(RUN_MODE != TESTING_MODE)
+        {
+            set_error_handler('Arkit\\Core\\Monitor\\handleServerError', self::$prevErrorReporting);
+            set_exception_handler('Arkit\\Core\\Monitor\\handleException');
+        }
         else
-            set_error_handler('Arkit\\Core\\Monitor\\handleServerError', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
-
-        set_exception_handler('Arkit\\Core\\Monitor\\handleException');
+        {
+            ini_set('log_errors', 1);
+            ini_set('error_log', constant('ERRORS_LOG_FILE') ?? \Arkit\App::fullPath('/resources/logs/testing.log'));
+        }
+        
     }
 
     /**
@@ -57,10 +62,18 @@ final class ErrorHandler
      */
     public static function stop() : void
     {
-        restore_exception_handler();
-        restore_error_handler();
+        if(RUN_MODE != TESTING_MODE)
+        {
 
-        ini_set('error_reporting', self::$prevErrorReporting);
+        }
+        else
+        {
+            restore_exception_handler();
+            restore_error_handler();
+    
+            ini_set('error_reporting', self::$prevErrorReporting);
+        }
+        
     }
 
     public static function onInternalServerError(\Arkit\Core\Base\FunctionAddress $onError) : void
@@ -90,6 +103,8 @@ final class ErrorHandler
 				exit;
 			
 			case TESTING_MODE:
+                return;
+
             case DEBUG_MODE:
 				$error = self::buildErrorMessage($type, $message, $file, $line, $trace);
                 

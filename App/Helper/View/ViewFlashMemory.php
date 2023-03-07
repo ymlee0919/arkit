@@ -2,8 +2,6 @@
 
 namespace Arkit\Helper\View;
 
-use Arkit\Core\HTTP\Response;
-
 /**
  * Class to store flash values in session
  */

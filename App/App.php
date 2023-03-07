@@ -207,7 +207,7 @@ final class App
 
             case TESTING_MODE:
                 error_reporting(-1);
-                ini_set('display_errors', 'On');
+                ini_set('display_errors', 'Off');
                 ini_set('display_startup_errors', '1');
                 ini_set('output_buffering', '4096');
                 ini_set('implicit_flush', 'Off');

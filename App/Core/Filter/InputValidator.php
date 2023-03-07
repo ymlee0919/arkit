@@ -721,7 +721,6 @@ class InputValidator
     {
         if(is_null($this->purifier))
         {
-            \Loader::import('HtmlPurifier','Libs.HtmlPurifier.autoload');
             $this->purifier = new \HTMLPurifier();
         }
 

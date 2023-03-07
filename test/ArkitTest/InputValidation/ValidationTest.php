@@ -15,11 +15,11 @@ abstract class ValidationTest extends TestCase
 
         $this->app = \Arkit\App::getInstance();
         $this->app->init();
+        
+        \Loader::getInstance()->loadDependencies();
 
         \Arkit\App::$Crypt = new \Arkit\Core\Security\Crypt();
         \Arkit\App::$Crypt->init(\Arkit\App::$config['crypt']);
-
-        \Arkit\Core\Monitor\ErrorHandler::stop();
 
         \Arkit\App::loadInputValidator();
         $this->validator = \Arkit\App::$InputValidator;
