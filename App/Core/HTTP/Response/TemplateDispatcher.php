@@ -107,10 +107,10 @@ class TemplateDispatcher implements DispatcherInterface
     public function dispatch(?string $resource, ?array $arguments = null): void
     {
         // Validate the template exists
-        $file = $this->template->getTemplateDir(0) . $resource;
+        //$file = $this->template->getTemplateDir(0) . $resource;
         //var_dump($file);die;
-        if(!file_exists($file))
-            throw new \Exception('The provided template do not exists');
+        //if(!file_exists($file))
+        //    throw new \Exception('The provided template do not exists');
 
         // Set the current working directory
         $this->template->assign('CWD', \Arkit\App::$ROOT_DIR);

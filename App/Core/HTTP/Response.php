@@ -499,7 +499,7 @@ final class Response
         if(!is_null($this->dispatcher) && $this->dispatching)
             $this->dispatcher->success($message);
         else
-            $this->messages['SUCCESS_MESSAGE'] = $message;
+            $this->messages['SUCCESS'] = $message;
 
         return $this;
     }
@@ -526,7 +526,7 @@ final class Response
         $this->beforeDisplay();
 
         // Fetch the headers
-        header('Status: ' . strval($this->status));
+        http_response_code($this->status);
         $this->fetchHeaders();
 
         // Fetch the cookies
@@ -545,6 +545,8 @@ final class Response
         
         // Dispatch
         $this->dispatcher->dispatch($resource, $arguments);
+
+        exit;
     }
 
     /**
@@ -586,9 +588,17 @@ final class Response
      */
     public function displayTemplate(string $template, string $cacheId = null): void
     {
-        $tplPathInfo = pathinfo($template);
-        $this->setDispatcher(new Response\TemplateDispatcher(($tplPathInfo['dirname'] !== '.') ? $tplPathInfo['dirname'] : null));
-        $this->dispatch($tplPathInfo['basename'], (!empty($cacheId)) ? ['cache' => $cacheId] : null);
+        if(str_starts_with($template, 'extends:'))
+        {
+            $this->setDispatcher(new Response\TemplateDispatcher(null));
+            $this->dispatch($template, (!empty($cacheId)) ? ['cache' => $cacheId] : null);
+        }
+        else
+        {
+            $tplPathInfo = pathinfo($template);
+            $this->setDispatcher(new Response\TemplateDispatcher(($tplPathInfo['dirname'] !== '.') ? $tplPathInfo['dirname'] : null));
+            $this->dispatch($tplPathInfo['basename'], (!empty($cacheId)) ? ['cache' => $cacheId] : null);
+        }
     }
 
     /**

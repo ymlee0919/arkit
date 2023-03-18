@@ -4,7 +4,7 @@ function clean_file_address(string $fileName) : string
 {
     return strtr(
         strtr($fileName, ['\\' => DIRECTORY_SEPARATOR, '/' => DIRECTORY_SEPARATOR]),
-        DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+        [ DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR => DIRECTORY_SEPARATOR]);
 }
 
 /**

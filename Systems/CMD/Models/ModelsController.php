@@ -39,7 +39,7 @@ class ModelsController extends \CMD\Core\Controller
         $options = [
             'expires'  => time() + 3600,
             'path'     => '/',
-            'domain'   => 'cmd.arkit.com',
+            'domain'   => 'cmd.landscaping.com',
             'secure'   => false,
             'httponly' => true,
             'samesite' => 'Lax'
@@ -76,6 +76,7 @@ class ModelsController extends \CMD\Core\Controller
             $output->inputErrors($form->getErrors());
             $output->redirectTo('cmd.models');
         }
+        
 
         // Get configuration
         $model = $post['model'];
@@ -167,7 +168,7 @@ class ModelsController extends \CMD\Core\Controller
         $file = file_get_contents($sourceDir . 'schema.xml');
         $file = strtr($file, [
             'ModelName' => $model,
-            'database' => $database
+            'DataBase' => $database
         ]);
         $success = $this->write($persistence . '/config/schema.xml', $file);
         if(!$success)

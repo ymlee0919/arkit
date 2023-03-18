@@ -89,6 +89,6 @@ return [
     'field_required' => 'Le champ {champ} est obligatoire.',
     'invalid_field' => 'Le champ {champ} n\'est pas valide.',
     'not_empty_field' => 'Le champ {champ} ne peut pas être vide.',
-    'invalid_form_token' => 'Votre formulaire n\'est pas valide, veuillez réessayer',
-    'token_expired' => 'Le temps pour faire la demande est expiré, veuillez réessayer'
+    'invalid_token' => 'Votre formulaire n\'est pas valide, veuillez réessayer',
+    'expired_token' => 'Le temps pour faire la demande est expiré, veuillez réessayer'
 ];

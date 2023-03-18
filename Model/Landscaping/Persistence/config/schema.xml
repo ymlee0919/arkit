@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database namespace="Model\ModelName\Persistence" name="DataBase" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+<landscaping namespace="Model\Landscaping\Persistence" name="landscaping" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
     <table namespace="TableNamespace" name="table_name" idMethod="native" phpName="TableName">
         <column name="pkey" phpName="PKey" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
         <column name="value" phpName="Value" type="VARCHAR"/>
     </table>
-</database>
+</landscaping>

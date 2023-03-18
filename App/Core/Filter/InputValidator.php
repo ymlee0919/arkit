@@ -212,9 +212,9 @@ class InputValidator
         if(is_null($token))
         {
             \Arkit\App::$Logs->warning('CSRF token not send');
-            return $this->registerError('invalid_form_token');
+            return $this->registerError('invalid_token');
         }
-
+        
         $result = $this->csrfHandler->validateCode($formId, $token);
         if($result != Input\CSRFHandler::CSRF_VALIDATION_SUCCESS)
         {
@@ -222,11 +222,11 @@ class InputValidator
             {
                 case Input\CSRFHandler::CSRF_VALIDATION_INVALID:
                     \Arkit\App::$Logs->warning('Invalid CSRF token');
-                    return $this->registerError('invalid_form_token');
+                    return $this->registerError('invalid_token');
 
                 case Input\CSRFHandler::CSRF_VALIDATION_EXPIRED:
                     \Arkit\App::$Logs->warning('Expired CSRF token');
-                    return $this->registerError('expired_form_token');
+                    return $this->registerError('expired_token');
             }
         }
 
@@ -236,7 +236,7 @@ class InputValidator
             if(!$result)
             {
                 \Arkit\App::$Logs->warning('Invalid CSRF cookie');
-                return $this->registerError('invalid_form_token');
+                return $this->registerError('invalid_token');
             }
         }
 

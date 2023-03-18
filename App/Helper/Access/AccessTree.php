@@ -66,12 +66,12 @@ class AccessTree
                     $this->addPath($tasksPtr, $taskId);
 
                     if (!isset($tasks[$taskId]))
-                        throw new \Exception('The role ' . $roleName . ' have not the task ' . $taskId);
+                        throw new \Exception('The task ' . $roleName . '::' . $taskId . ' do not exists');
 
-                    if (!isset($task[$taskId]['routes']))
-                        throw new \Exception('The task ' . $taskId . ' have not routes');
+                    if (!isset($tasks[$taskId]['routes']))
+                        throw new \Exception('The task ' . $roleName . '::' . $taskId . ' have not routes');
 
-                    foreach ($task[$taskId]['routes'] as $route)
+                    foreach ($tasks[$taskId]['routes'] as $route)
                         $this->addPath($routesPtr, $route);
 
                 } // End of: foreach ($taskList as $taskId)
@@ -79,6 +79,9 @@ class AccessTree
             } // End of: foreach ($roleInfo['tasks'] as $task)
 
         } // End of foreach ($roles as $roleName => $roleInfo)
+
+        echo '<pre>';
+        var_dump($this->tree);
     }
 
     /**

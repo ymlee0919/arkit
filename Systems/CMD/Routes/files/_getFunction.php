@@ -6,10 +6,7 @@ public function functionName($params) : void
 
         // Set form ID
         \Arkit\App::loadInputValidator();
-        \Arkit\App::$Form->setId($this->formId)->generateCsrfCode();
-
-        // Connect
-        \Arkit\App::$Model->connect('root');
+        \Arkit\App::$InputValidator->setId($this->formId)->generateCsrfCode();
 
         // Process the request ...
 

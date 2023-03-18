@@ -183,7 +183,7 @@ final class ErrorHandler
         if(is_null(self::$onError))
         {
             ob_end_clean();
-            header("Status: 500 Server Error");
+            http_response_code(500);
             readfile( dirname(__FILE__) . '/500_PageError.html');
         }
         else
@@ -205,7 +205,7 @@ final class ErrorHandler
         $message.
 		'</body></html>';
 
-        header("Status: 500 Server Error");
+        http_response_code(500);
         echo $errorPage;
         exit;
     }

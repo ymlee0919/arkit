@@ -1,5 +1,5 @@
 # ROUTING ------------------------------------
-cmd.arkit.com: 'CMD/_config/router.yaml'
+cmd.landscaping.com: 'CMD/_config/router.yaml'
 
-gardencruz.com: 'GardenCruz/_config/router.yaml'
-gardencruzcompany.com: 'GardenCruz/_config/router.yaml'
+admin.landscaping.com: 'Admin/_config/router.yaml'
+dashboard.landscaping.com: 'Management/_config/router.yaml'

@@ -79,6 +79,105 @@ final class Router implements RouterInterface
     }
 
     /**
+     * Get score of the routing url given the number of parameters
+     *
+     * @param string $routingUrl
+     * @return int
+     */
+    private function getScore(string $routingUrl) : int
+    {
+        return substr_count($routingUrl,'{') * 2 + substr_count($routingUrl,'?') * 3;
+    }
+
+    /**
+     * Extract parameters from the requestUrl given the routing url
+     *
+     * @param string $routingUrl
+     * @param string $requestedUrl
+     * @return array|bool
+     */
+    private function extractParameters(string $routingUrl, string $requestedUrl) : array|bool
+    {
+        $result = [];
+    
+        // If not parameters, return empty array
+        if(false === strpos($routingUrl,'{'))
+            return $result;
+    
+        $routingParts = parse_url($routingUrl);
+        $requestParts = parse_url($requestedUrl);
+    
+        //// Extract parameters from path ------------------------
+        $routingPath = $routingParts['path'];
+        $requestPath = $requestParts['path'];
+    
+        // If the path have parameters
+        if(false !== strpos($routingPath,'{'))
+        {
+            // Split the url by levels
+            $routingLevels = explode('/', $routingPath);
+            $requestLevels = explode('/', $requestPath);
+            $levels = count($routingLevels);
+            
+            // Iterate each level
+            for($i = 0; $i < $levels; $i++)
+            {
+                // If current routing level have parameter, extract it
+                if(false !== strpos($routingLevels[$i],'{'))
+                {
+                    $outputParamName = substr($routingLevels[$i], 1, -1);
+                    $result[$outputParamName] = $requestLevels[$i];
+                }
+            }
+    
+            unset($routingLevels);
+            unset($requestLevels);
+            unset($levels);
+        }
+    
+        unset($routingPath);
+        unset($requestPath);
+    
+        // If no query in routing, return the current parameters
+        if(!isset($routingParts['query']))
+            return $result;
+        
+        // At this point the routing path have query
+        // If request have not parameters, then return false
+        if(!isset($requestParts['query']))
+            return false;
+    
+        //// Extract parameters from query ------------------------
+        $routingQuery = $routingParts['query'];
+        $requestQuery = $requestParts['query'];
+    
+        // If routing query have parameters
+        if(false !== strpos($routingQuery,'{'))
+        {
+            $routingQueryParams = [];
+            parse_str($routingQuery, $routingQueryParams);
+            $requestQueryParams = [];
+            parse_str($requestQuery, $requestQueryParams);
+    
+            foreach($routingQueryParams as $queryParamName => $queryParamValue)
+            {
+                // If this parameter is not sent into the request, the request is not valid
+                if(!isset($requestQueryParams[$queryParamName]))
+                    return false;
+    
+                // If the value of have a url parameter
+                if(false !== strpos($queryParamValue,'{'))
+                {
+                    $outputParamName = substr($queryParamValue, 1, -1);
+                    $result[$outputParamName] = $requestQueryParams[$queryParamName];
+                }
+            }
+        }
+    
+        return $result;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function route(string $url, string $method): ?RoutingHandler
@@ -89,99 +188,32 @@ final class Router implements RouterInterface
         // Find the matched rule id
         $match_id = null;
         $parameters = [];
+        $maxScore = -1;
 
         foreach ($rules as $id)
         {
             $rule = &$this->hash[$id];
             $route_url = &$rule['url'];
 
-            // Check url with allowed parameters, ONLY FOR URL WITHOUT OPTIONS
-            if (str_contains($route_url, '*') && str_contains($url, '?'))
+            // Get the score of url
+            $score = $this->getScore($route_url);
+            
+            // If the escore is not bigger, get the other rule
+            if($score < $maxScore)
+                continue;
+            
+            // Extract the parameters if score > 0
+            if($score > 0)
             {
-                if (!isset($rule['allow']))
+                $requestParams = $this->extractParameters($route_url, $url);
+                if(false === $requestParams)
                     continue;
-
-                // Parse parameters set by url
-                $urlParams = [];
-                parse_str(parse_url($url, PHP_URL_QUERY), $urlParams);
                 
-                // Set flag
-                $valid = true;
-                
-                foreach (array_keys($urlParams) as $option)
-                    $valid = (in_array($option, $rule['allow']) && $valid);
-                
-                if (!$valid)
-                    continue;
-                else
-                {
-                    $match_id = $id;
-                    break;
-                }
+                $parameters = $requestParams;
             }
 
-            // Check literal rule
-            if (!str_contains($route_url, '{') && !str_contains($route_url, '*'))
-            {
-                if (0 == strcmp($url, $route_url))
-                {
-                    $match_id = $id;
-                    break;
-                }
-            }
-            else
-            {
-                $end = (str_ends_with($route_url, '*')) ? '/' : '$/';
-
-                if (str_contains($route_url, '{'))
-                {
-                    // Get the url parameters
-                    $params = [];
-                    preg_match_all('/{[^}]*}/', $route_url, $params);
-
-                    // Build the pattern of the url
-                    $pattern_url = $route_url;
-
-                    // Get the position of the ? sign
-                    $ptr = strpos($pattern_url, '?');
-                    if ($ptr === false) $ptr = strlen($pattern_url) + 1;
-                    else $pattern_url = str_replace('?', '\?', $pattern_url);
-
-                    // Replace each parameter into the pattern url
-                    foreach ($params[0] as $param)
-                    {
-                        // Check if the parameter is into the constraint
-                        $p = substr($param, 1, -1);
-                        if (isset($rule['constraint']) && isset($rule['constraint'][$p]))
-                            $pattern_url = str_replace($param, '(' . $rule['constraint'][$p] . ')', $pattern_url);
-
-                        // Replace the parameter by the pattern, taking the position into the url
-                        // A part of the root is different to a parameter by get
-                        if (strpos($pattern_url, $param) < $ptr)
-                            $pattern_url = str_replace($param, '([0-9a-zA-Z-]+)', $pattern_url);
-                        else
-                            $pattern_url = str_replace($param, '([@A-Za-z0-9\._-]+)', $pattern_url);
-                    }
-
-                    // Scape the / character
-                    $pattern_url = str_replace('/', "\/", $pattern_url);
-
-                    // Get each parameter of the given client request
-                    $url_params = [];
-                    // Try to match the url
-                    $success = preg_match_all('/^' . $pattern_url . $end, $url, $url_params);
-                    // If not match, get the next url
-                    if (!$success) continue;
-
-                    // Collect each parameter
-                    $c = count($params[0]);
-                    for ($i = 0; $i < $c; ++$i)
-                        $parameters[substr($params[0][$i], 1, -1)] = $url_params[$i + 1][0];
-
-                    $match_id = $id;
-                    break;
-                }
-            }
+            $match_id = $id;
+            $maxScore = $score;
         }
 
         if (is_null($match_id)) return null;

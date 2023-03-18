@@ -95,6 +95,6 @@ return [
 	'field_required' => 'The {field} field is required.',
 	'invalid_field' => 'The {field} field is not valid.',
 	'not_empty_field' => 'The {field} field can not be empty.',
-    'invalid_form_token' => 'Your form is not valid, please, try again',
-    'token_expired' => 'The time to make the request has expired, please, try again'
+    'invalid_token' => 'Your form is not valid, please, try again',
+    'expired_token' => 'The time to make the request has expired, please, try again'
 ];

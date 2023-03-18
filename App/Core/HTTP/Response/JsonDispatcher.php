@@ -129,15 +129,15 @@ class JsonDispatcher implements DispatcherInterface
 
             // Set warning
             if(isset($this->messages['SUCCESS']))
-                $response['success_message'] = $this->messages['SUCCESS'];
+                $response['message'] = $this->messages['SUCCESS'];
         }
         else
         {
             if(!empty($this->inputErrors))
             {
-                $response['input_error'] = [];
+                $response['inputErrors'] = [];
                 foreach ($this->inputErrors as $field => $error)
-                    $response['input_error'][strtolower($field)] = $error;
+                    $response['inputErrors'][strtolower($field)] = $error;
             }
 
             foreach ($this->messages as $errorType => $message)

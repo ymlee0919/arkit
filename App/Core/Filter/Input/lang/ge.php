@@ -89,6 +89,6 @@ return [
     'field_required' => 'Das Feld {field} ist erforderlich.',
     'invalid_field' => 'Das Feld {field} ist ungültig.',
     'not_empty_field' => 'Das Feld {field} darf nicht leer sein.',
-    'invalid_form_token' => 'Ihr Formular ist ungültig, bitte versuchen Sie es erneut',
-    'token_expired' => 'Die Zeit für die Anfrage ist abgelaufen, bitte versuchen Sie es erneut'
+    'invalid_token' => 'Ihr Formular ist ungültig, bitte versuchen Sie es erneut',
+    'expired_token' => 'Die Zeit für die Anfrage ist abgelaufen, bitte versuchen Sie es erneut'
 ];

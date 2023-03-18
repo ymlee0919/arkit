@@ -8,11 +8,6 @@ namespace Arkit\Core\Persistence\Database;
 interface Model
 {
     /**
-     * @return void
-     */
-    public function load(): void;
-
-    /**
      * @param string $account
      * @return void
      */

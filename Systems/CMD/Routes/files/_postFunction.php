@@ -5,11 +5,10 @@ public function functionName($params) : void
         // Validate parameters ...
 
         // Validate entry
-        $post = \Arkit\App::$Request->PostAll();
-        $form = &\Arkit\App::$Form;
+        $form = &\Arkit\App::$InputValidator;
 
         $form->setId($this->formId);
-        $form->checkValues($post);
+        $form->checkValues(\Arkit\App::$Request);
 
         // Validate each field
         $form->validate('field1')->setCustomError('The custom error')->isRequired()->isInteger()->greaterThan(1, true);
@@ -24,9 +23,6 @@ public function functionName($params) : void
             $output->inputErrors($form->getErrors());
             $output->redirectTo('RULE-ID');
         }
-
-        // Process the request ...
-        \Arkit\App::$Model->connect('root');
 
         // End of request, send the response
         $output->success('Request successfully processed');

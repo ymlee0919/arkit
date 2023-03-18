@@ -8,16 +8,16 @@ namespace Arkit\Helper\Access;
 class AccessControlHelper
 {
     /**
-     * @var AccessTree
+     * @var AccessHash
      */
-    private AccessTree $tree;
+    private AccessHash $tree;
 
     /**
      *
      */
     public function __construct()
     {
-        $this->tree = new AccessTree();
+        $this->tree = new AccessHash();
     }
 
     /**
@@ -38,7 +38,7 @@ class AccessControlHelper
             $key = 'access.' . sha1($md5Roles);
             // Try to get the tree from cache
             $tree = \Arkit\App::$Cache->get($key);
-            if ($tree instanceof AccessTree && $tree->getSign() == $sign)
+            if ($tree instanceof AccessHash && $tree->getSign() == $sign)
                 $this->tree = $tree;
             else {
                 // Load the tree and store in cache

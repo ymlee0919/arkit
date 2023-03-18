@@ -453,6 +453,8 @@ final class App
         $model = $modelName ?? self::$config['model']['name'];
         $modelClassName = 'Model\\' . $model . '\\' . $model;
 
+        \Loader::getInstance()->addNamespace('Model\\' . $model, self::fullPath('Model\\' . $model));
+
         if(!class_exists($modelClassName))
             throw new \Exception('The Model class "' . $model . '" is not defined');
 
@@ -462,8 +464,6 @@ final class App
         self::$Model = $modelClassName::getInstance();
         if(! self::$Model instanceof Core\Persistence\Database\Model)
             throw new \Exception('Invalid model class provided');
-
-        self::$Model->load();
 
         unset($model);
         unset($modelClassName);

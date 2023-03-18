@@ -5,7 +5,7 @@ propel:
       outputDir: '../../'
 
       # The directory where Propel should output generated object model classes.
-      phpDir: '../../../../'
+      phpDir: '../../../'
 
       # The directory where Propel should output the compiled runtime configuration.
       phpConfDir: '../'
@@ -18,17 +18,17 @@ propel:
 
   database:
       connections:
-          dataBase:
+          landscaping:
               adapter: mysql
               classname: Propel\Runtime\Connection\DebugPDO
-              dsn: mysql:host=hostName;dbname=dataBase
-              user: userName
-              password: userPassword
+              dsn: mysql:host=localhost;dbname=landscaping
+              user: root
+              password: root
   runtime:
-      defaultConnection: dataBase
+      defaultConnection: landscaping
       connections:
-          - dataBase
+          - landscaping
   generator:
-      defaultConnection: dataBase
+      defaultConnection: landscaping
       connections:
-          - dataBase
+          - landscaping

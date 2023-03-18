@@ -136,9 +136,11 @@ final class Request implements RequestInterface
 
         $this->_url = trim(urldecode($_SERVER['REQUEST_URI']));
 
-        // Check the length of the url
-        if (!!strpos($this->_url, 'aclk'))
-            $this->_url = explode('aclk', $this->_url)[0];
+        $fullRequest = $this->getRequestedProtocolAndDomain() . $this->_url;
+        if(!filter_var($fullRequest, FILTER_VALIDATE_URL)){
+            $this->isValid = false;
+            return;
+        }
 
         // Replace '/?' by '?' eg: /search/?q=query by /search?q=query
         $this->_url = str_replace('/?', '?', $this->_url);
@@ -152,10 +154,10 @@ final class Request implements RequestInterface
         }
 
         // Validate the pattern of the url
-        if (strlen($this->_url) > 1 && !preg_match_all("/^(\/[0-9a-zA-Z-]+(\/)?)+(\?([A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)(&[A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)*)?$/", $this->_url)) {
+        /*if (strlen($this->_url) > 1 && !preg_match_all("/^(\/[0-9a-zA-Z-]+(\/)?)+(\?([A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)(&[A-Za-z_]{2,}=[@A-Za-z0-9\._-]+)*)?$/", $this->_url)) {
             $this->isValid = false;
             return;
-        }
+        }*/
 
         // Separate url from get parameters
         $urlParts = parse_url($this->_url);
