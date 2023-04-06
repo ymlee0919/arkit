@@ -7,6 +7,7 @@ use Arkit\Core\HTTP\Request\UrlEncodedParser;
 
 class Controller extends \Arkit\Core\Base\Controller
 {
+    protected ?string $baseTpl;
 
     /**
      * @inheritDoc
@@ -14,6 +15,8 @@ class Controller extends \Arkit\Core\Base\Controller
     public function init(?array $config = null): void
     {
         \Arkit\App::startSession();
+
+        $this->baseTpl = \Arkit\App::fullPathFromSystem('/_base/view/base.tpl');
     }
 
     /**

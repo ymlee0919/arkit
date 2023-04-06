@@ -1,7 +1,8 @@
 public function functionName($params) : void
     {
-        $response = \Arkit\App::$Response;
-
+        $request = &\Arkit\App::$Request;
+        $response = &\Arkit\App::$Response;
+        
         // Validate parameters ...
 
         // Set form ID

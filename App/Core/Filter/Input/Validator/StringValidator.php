@@ -45,9 +45,12 @@ class StringValidator extends FieldValidator
      */
 	public function withLengthBetween(int $min = 0, ?int $max = null) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
-            
+        
+        if($this->checkValidEmpty())
+            return $this;
+
 		if($min == 0 && is_null($max))
 			throw new \InvalidArgumentException('You must establish length boundaries to compare the string length',601);
 		
@@ -74,7 +77,7 @@ class StringValidator extends FieldValidator
      */
     public function wordsCount(int $min = 0, ?int $max = null) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if($min == 0 && is_null($max))
@@ -111,7 +114,7 @@ class StringValidator extends FieldValidator
      */
 	public function contains(string $part, bool $matchCase = true) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
         
         if(empty($part))
@@ -138,7 +141,7 @@ class StringValidator extends FieldValidator
      */
 	public function startWith(string $begin, bool $matchCase = true) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
         
         if(empty($begin))
@@ -165,7 +168,7 @@ class StringValidator extends FieldValidator
      */
 	public function endWith(string $final, bool $matchCase = true) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
         
         if($matchCase)
@@ -190,7 +193,7 @@ class StringValidator extends FieldValidator
      */
 	public function matchWith(string $pattern) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(!preg_match($pattern, $this->value))
@@ -207,7 +210,7 @@ class StringValidator extends FieldValidator
      */
 	public function isOneOf(array $items, bool $matchCase = true) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
         
         if(!is_array($items))
@@ -234,7 +237,7 @@ class StringValidator extends FieldValidator
      */
 	public function matchWithAny(array $items) : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
         
         if(!is_array($items))
@@ -254,7 +257,7 @@ class StringValidator extends FieldValidator
      */
     public function isCryptId(string $prefix) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         // Decode

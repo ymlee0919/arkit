@@ -6,7 +6,7 @@ class SystemsController extends \CMD\Core\Controller
 {
     public function ShowSystems()
     {
-        $output = \Arkit\App::$Response;
+        $response = \Arkit\App::$Response;
 
         // Load the name of the systems
         $systems = [];
@@ -17,13 +17,16 @@ class SystemsController extends \CMD\Core\Controller
         }
         $d->close();
 
-        $output->assign('Systems', $systems);
-        $output->displayTemplate('systems.tpl');
+        $response->assign('Systems', $systems);
+
+        $responseTpl = 'systems.tpl';
+        $outputTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $response->displayTemplate($outputTpl);
     }
 
     public function NewSystem()
     {
-        $output = \Arkit\App::$Response;
+        $response = \Arkit\App::$Response;
 
         // Set form ID
         \Arkit\App::loadInputValidator();
@@ -41,14 +44,16 @@ class SystemsController extends \CMD\Core\Controller
             $d->close();
         }
 
-        $output->assign('Models', $models);
+        $response->assign('Models', $models);
 
-        $output->displayTemplate('new.tpl');
+        $responseTpl = 'new.tpl';
+        $outputTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $response->displayTemplate($outputTpl);
     }
 
     public function Add()
     {
-        $output = &\Arkit\App::$Response;
+        $response = &\Arkit\App::$Response;
 
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
@@ -62,8 +67,9 @@ class SystemsController extends \CMD\Core\Controller
 
         if(!$form->isValid())
         {
-            $output->inputErrors($form->getErrors());
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(400);
+            $response->inputErrors($form->getErrors());
+            $response->toJSON();
         }
 
         // Get configuration
@@ -81,12 +87,17 @@ class SystemsController extends \CMD\Core\Controller
         if(!is_dir($systemDir))
             $success = mkdir($systemDir);
         else
-            $success = true;
+        {
+            $response->setStatus(409);
+            $response->error('error', 'The system you want to create already exists');
+            $response->toJSON();
+        }
 
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the System');
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the System directory');
+            $response->toJSON();
         }
 
         // Build the default controller
@@ -95,8 +106,9 @@ class SystemsController extends \CMD\Core\Controller
 
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the _base directory');
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Core directory');
+            $response->toJSON();
         }
 
         $controller = file_get_contents($sourceDir . '_controller.php');
@@ -109,8 +121,9 @@ class SystemsController extends \CMD\Core\Controller
         $success = $this->write($systemDir . '/Core/Controller.php', $class);
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Controller parent class');
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Controller parent class');
+            $response->toJSON();
         }
 
         if($baseTpl)
@@ -121,8 +134,9 @@ class SystemsController extends \CMD\Core\Controller
 
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create the _base directory');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the _base directory');
+                $response->toJSON();
             }
 
             // Check require base template
@@ -131,8 +145,9 @@ class SystemsController extends \CMD\Core\Controller
             $success &= copy($sourceDir . '_base.tpl', $systemDir . '/_base/view/base.tpl');
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create the base template.');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the base template');
+                $response->toJSON();
             }
 
         }
@@ -146,8 +161,9 @@ class SystemsController extends \CMD\Core\Controller
 
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create the Access directory');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the Access directory');
+                $response->toJSON();
             }
 
             $class = file_get_contents($sourceDir . '_access.php');
@@ -155,8 +171,9 @@ class SystemsController extends \CMD\Core\Controller
             $success = $this->write($systemDir . '/Access/AccessControl.php', $class);
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create the access control class');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the AccessControl class');
+                $response->toJSON();
             }
         }
 
@@ -173,8 +190,9 @@ class SystemsController extends \CMD\Core\Controller
 
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create the Events directory');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the Events directory');
+                $response->toJSON();
             }
 
             // Update output class name and write the file
@@ -183,8 +201,9 @@ class SystemsController extends \CMD\Core\Controller
             $success = $this->write($systemDir . '/Events/ResponseEvents.php', $class);
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create the response class');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the ResponseEvents class');
+                $response->toJSON();
             }
 
             // Copy custom error pages
@@ -200,8 +219,9 @@ class SystemsController extends \CMD\Core\Controller
         $success = mkdir($systemDir . '/_config');
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the configuration folder');
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the configuration folder');
+            $response->toJSON();
         }
 
         // Build the router file
@@ -211,8 +231,9 @@ class SystemsController extends \CMD\Core\Controller
 
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the router');
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the router file');
+            $response->toJSON();
         }
 
         // Build the configuration file
@@ -227,8 +248,9 @@ class SystemsController extends \CMD\Core\Controller
             $success.= @copy($sourceDir . '_tasks.yaml', $systemDir . '/_config/tasks.yaml');
             if(!$success)
             {
-                $output->error('ACTION_ERROR', 'Unable to create access configuration file');
-                $output->redirectTo('cmd.systems');
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create access configurations files');
+                $response->toJSON();
             }
         }
         else
@@ -252,12 +274,14 @@ class SystemsController extends \CMD\Core\Controller
         $success = $this->write($systemDir . '/_config/config.yaml', $content);
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create config file');
-            $output->redirectTo('cmd.systems');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create config file');
+            $response->toJSON();
         }
 
-        $output->success('System successfully created');
-        $output->redirectTo('cmd.systems');
+        $response->setStatus(200);
+        $response->success('System successfully created');
+        $response->toJSON();
     }
 
     private function write($target, $content)

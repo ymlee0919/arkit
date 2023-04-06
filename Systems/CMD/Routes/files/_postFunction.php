@@ -1,5 +1,6 @@
 public function functionName($params) : void
     {
+        $request  = &\Arkit\App::$Request;
         $response = &\Arkit\App::$Response;
 
         // Validate parameters ...
@@ -8,7 +9,7 @@ public function functionName($params) : void
         $form = &\Arkit\App::$InputValidator;
 
         $form->setId($this->formId);
-        $form->checkValues(\Arkit\App::$Request);
+        $form->checkValues($request);
 
         // Validate each field
         $form->validate('field1')->setCustomError('The custom error')->isRequired()->isInteger()->greaterThan(1, true);

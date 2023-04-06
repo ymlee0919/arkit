@@ -13,7 +13,10 @@ class BoolValidator extends FieldValidator {
      */
     public function check() : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
+            return $this;
+        
+        if($this->checkValidEmpty())
             return $this;
 
         $this->realValue = filter_var($this->value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
@@ -37,7 +40,10 @@ class BoolValidator extends FieldValidator {
 
 	public function isTrue() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
+            return $this;
+        
+        if($this->checkValidEmpty())
             return $this;
 		
 		$val = (is_bool($this->value)) ? $this->value : filter_var($this->value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
@@ -50,7 +56,10 @@ class BoolValidator extends FieldValidator {
 
 	public function isFalse() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
+            return $this;
+        
+        if($this->checkValidEmpty())
             return $this;
 		
 		$val = (is_bool($this->value)) ? $this->value : filter_var($this->value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);

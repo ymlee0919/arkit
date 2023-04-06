@@ -313,9 +313,12 @@ final class Response
             foreach (array_keys($param) as $key) {
                 if (strcmp($key, 'literal') == 0) continue;
 
-                $value = $param[$key];
-                $this->toHtmlEntities($value, $utf8Encode);
-                $param[$key] = $value;
+                if(!is_null($param[$key]))
+                {
+                    $value = $param[$key];
+                    $this->toHtmlEntities($value, $utf8Encode);
+                    $param[$key] = $value;
+                }
             }
         } else {
             if ($utf8Encode)

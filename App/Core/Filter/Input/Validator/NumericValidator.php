@@ -13,7 +13,7 @@ class NumericValidator extends FieldValidator {
      */
     public function check() : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         $success = filter_var($this->value, FILTER_VALIDATE_FLOAT);
@@ -41,7 +41,7 @@ class NumericValidator extends FieldValidator {
      */
     public function greaterThan(float $value, bool $equal = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($value, FILTER_VALIDATE_FLOAT))
@@ -71,7 +71,7 @@ class NumericValidator extends FieldValidator {
      */
     public function lessThan(float $value, bool $equal = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($value, FILTER_VALIDATE_FLOAT))
@@ -102,7 +102,7 @@ class NumericValidator extends FieldValidator {
      */
     public function between(float $min, float $max, bool $equal = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($min, FILTER_VALIDATE_FLOAT))
@@ -140,7 +140,7 @@ class NumericValidator extends FieldValidator {
      */
     public function notBetween(float $min, float $max, bool $notEqual = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($min, FILTER_VALIDATE_FLOAT))
@@ -175,7 +175,7 @@ class NumericValidator extends FieldValidator {
      */
     public function isPositive(bool $zeroIncluded = false) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(!!$zeroIncluded)
@@ -198,7 +198,7 @@ class NumericValidator extends FieldValidator {
      */
     public function isNegative(bool $zeroIncluded = false) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(!!$zeroIncluded)

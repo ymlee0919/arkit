@@ -234,7 +234,13 @@ final class Router implements RouterInterface
 
         $parameters = [];
         foreach ($params as $key => $value)
-            $parameters['{' . $key . '}'] = $value;
+        {
+            if(is_array($value))
+                $parameters['{' . $key . '}'] = \Arkit\App::$Crypt->smoothEncrypt($value['prefix'] . ':' . $value['id']);
+            else
+                $parameters['{' . $key . '}'] = $value;
+        }
+            
 
         $url = $this->hash[$ruleId]['url'];
         $url = strtr($url, $parameters);

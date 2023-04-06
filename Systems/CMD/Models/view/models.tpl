@@ -1,47 +1,54 @@
-{{extends file='../../_base/view/base.tpl'}}
-{{$session = 'models'}}{{$current = 'admin'}}
-{{block name=body}}
+{{$session = 'models'}}
+{{block name=content}}
     <ol class="breadcrumb">
+        <li class="root">Arkit v1.2</li>
         <li class="active">Models</li>
     </ol>
-    {{if isset($ACTION_ERROR)}}
-        <div class="chip red white-text">
-            {{$ACTION_ERROR}}
-            <i class="close material-icons yellow-text">close</i>
+    <div class="panel">
+        <div class="panel-header">
+            <span class="title">Application models</span>
+            <a class="btn white right blue-text always-visible-header-btn" role="link" href="{{url id='cmd.models.new'}}">
+                <i class="large material-icons">add</i>
+            </a>
         </div>
-    {{/if}}
-    {{if isset($INPUT_ERRORS)}}
-        {{foreach $INPUT_ERRORS as $field => $error}}
-            <div class="chip red white-text">
-            {{$error}}
-            <i class="close material-icons yellow-text">close</i>
-            </div>{{if not $error@first}}{{/if}}
-        {{/foreach}}
-    {{/if}}
-    {{if isset($SUCCESS_MESSAGE)}}
-        <div class="chip green white-text">
-            {{$SUCCESS_MESSAGE}}
-            <i class="close material-icons yellow-text">close</i>
+        <div class="panel-content">
+            <table id="table" class="bordered highlight">
+                <thead>
+                    <tr>
+                        <th>Models</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{if count($Models) > 0}}
+                {{foreach $Models as $Model}}
+                    <tr>
+                        <td>{{$Model}}</td>
+                    </tr>
+                {{/foreach}}
+                {{else}}
+                    <tr>
+                        <td class="center-align">No models registered</td>
+                    </tr>
+                {{/if}}
+                </tbody>
+            </table>          
         </div>
-    {{/if}}
+    </div>
+    <br><br>
+    <script>
+        App.handler = {
 
-    <table>
-        <thead>
-            <tr>
-                <th>Models</th>
-                <td>
-                    <a class="btn-floating btn blue right" href="{{url id='cmd.models.new'}}">
-                        <i class="large material-icons">add</i>
-                    </a>
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-        {{foreach $Models as $Model}}
-            <tr>
-                <td colspan="2">{{$Model}}</td>
-            </tr>
-        {{/foreach}}
-        </tbody>
-    </table>
+            init : function(){
+                $('main a[role="link"]').click((e)=>{
+                    e.preventDefault();
+                    let ref = $(e.currentTarget).attr('href');
+                    App.workingArea.loadFrom(ref);
+                });
+            },
+
+            release : function(){
+                $('main a[role="link"]').off('click');
+            }
+        };
+    </script>
 {{/block}}

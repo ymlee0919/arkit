@@ -32,6 +32,11 @@ abstract class FieldValidator
      */
     protected bool $validField;
 
+    /**
+     * @var bool
+     */
+    protected bool $allowEmpty;
+
 
     /**
      * @param InputValidator $form
@@ -41,6 +46,7 @@ abstract class FieldValidator
         $this->value = null;
         $this->form = $form;
         $this->validField = true;
+        $this->allowEmpty = true;
     }
 
     /**
@@ -77,13 +83,29 @@ abstract class FieldValidator
         return $this;
     }
 
+    public function checkValidEmpty() : bool
+    {
+        if($this->isEmpty())
+            return $this->allowEmpty;
+
+        return true;
+    }
+
+
+    public function isEmpty() : bool
+    {
+        return (is_null($this->value) || strlen(strval($this->value)) == 0);
+    }
+
     /**
      * @return $this
      */
     public function notEmpty() : self
     {
-        if(is_null($this->value) || strlen(strval($this->value)) == 0)
-            $this->form->registerError('not_empty_field');
+        $this->allowEmpty = false;
+
+        if($this->isEmpty())
+            return $this->registerError('not_empty_field');
 
         return $this;
     }

@@ -5,7 +5,7 @@ class RoutesController extends \CMD\Core\Controller
 {
     public function ManageRouter($system)
     {
-        $output = \Arkit\App::$Response;
+        $response = \Arkit\App::$Response;
 
         // Set form ID
         \Arkit\App::loadInputValidator();
@@ -13,8 +13,11 @@ class RoutesController extends \CMD\Core\Controller
 
         // Load the router information
 
-        $output->assign('System', $system);
-        $output->displayTemplate('router.tpl');
+        $response->assign('System', $system);
+        
+        $responseTpl = 'router.tpl';
+        $responseTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $response->displayTemplate($responseTpl);
     }
 
     public function GenerateAll()
@@ -94,7 +97,7 @@ class RoutesController extends \CMD\Core\Controller
 
     public function GenerateRule()
     {
-        $output = &\Arkit\App::$Response;
+        $response = &\Arkit\App::$Response;
 
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
@@ -111,11 +114,9 @@ class RoutesController extends \CMD\Core\Controller
 
         if(!$form->isValid())
         {
-            $output->inputErrors($form->getErrors());
-            if(!$validSystem)
-                $output->redirectTo('cmd.systems');
-            else
-                $output->redirectTo('cmd.router', ['system' => $post['system']]);
+            $response->setStatus(400);
+            $response->inputErrors($form->getErrors());
+            $response->toJSON();
         }
 
         $system = $post['system'];
@@ -125,8 +126,9 @@ class RoutesController extends \CMD\Core\Controller
 
         if(!isset($router[$post['id']]))
         {
-            $output->error('ACTION_ERROR', 'The rule Id do not exists');
-            $output->redirectTo('cmd.router', ['system' => $system]);
+            $response->setStatus(409);
+            $response->error('error', 'The rule Id do not exists');
+            $response->toJSON();
         }
 
         $rule = $router[$post['id']];
@@ -141,8 +143,9 @@ class RoutesController extends \CMD\Core\Controller
         $filePath = $this->buildClass($className);
         if(!$filePath)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the class for the rule: ' . $post['id']);
-            $output->redirectTo('cmd.router', ['system' => $system]);
+            $response->setStatus(409);
+            $response->error('error', "Unable to create the class {$className}");
+            $response->toJSON();
         }
 
         //// Build folders if sent
@@ -154,14 +157,29 @@ class RoutesController extends \CMD\Core\Controller
         {
             $i18nFolder = $rootDir . '/view/i18n';
             if(!is_dir($i18nFolder))
-                mkdir($i18nFolder);
+            {
+                if(!mkdir($i18nFolder))
+                {
+                    $response->setStatus(409);
+                    $response->error('error', "Unable to create the i18n internationalization directory");
+                    $response->toJSON();
+                }
+            }
+                
         }
         // Helper
         if(isset($post['helper']) && $post['helper'] === 'yes')
         {
             $helperFolder = $rootDir . '/Helper';
             if(!is_dir($helperFolder))
-                mkdir($helperFolder);
+            {
+                if(!mkdir($helperFolder))
+                {
+                    $response->setStatus(409);
+                    $response->error('error', "Unable to create the directory for helpers");
+                    $response->toJSON();
+                }
+            }
 		
 	        $namespace = $mainNamespace . '\\Helper';
 
@@ -175,7 +193,13 @@ class RoutesController extends \CMD\Core\Controller
                     $classFile = file_get_contents(\Arkit\App::fullPathFromSystem('/Routes/files/_pdfHelper.php'));
                     $classFile = str_replace('pdfHelper', $className, $classFile);
                     $classFile = str_replace('TheNameSpace', $namespace, $classFile);
-                    $this->write($fileName, $classFile);
+                    $success = $this->write($fileName, $classFile);
+                    if(!$success)
+                    {
+                        $response->setStatus(409);
+                        $response->error('error', "Unable to create the class the PDF Helper class {$className}");
+                        $response->toJSON();
+                    }
                 }
             }
 
@@ -189,7 +213,13 @@ class RoutesController extends \CMD\Core\Controller
                     $classFile = file_get_contents(\Arkit\App::fullPathFromSystem('/Routes/files/_emailHelper.php'));
                     $classFile = str_replace('emailHelper', $className, $classFile);
 		            $classFile = str_replace('TheNameSpace', $namespace, $classFile);
-                    $this->write($fileName, $classFile);
+                    $success = $this->write($fileName, $classFile);
+                    if(!$success)
+                    {
+                        $response->setStatus(409);
+                        $response->error('error', "Unable to create the class the Email Helper class {$className}");
+                        $response->toJSON();
+                    }
                 }
             }
         }
@@ -229,8 +259,9 @@ class RoutesController extends \CMD\Core\Controller
 
         $this->addFunction($filePath, $functionName, $params, $rule['method'], $options);
 
-        $output->success( 'Request success');
-        $output->redirectTo('cmd.router', ['system' => $system]);
+        $response->setStatus(200);
+        $response->success('Route handler successfully created');
+        $response->toJSON();
     }
 
     private function buildClass($className)

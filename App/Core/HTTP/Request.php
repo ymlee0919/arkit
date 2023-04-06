@@ -399,6 +399,7 @@ final class Request implements RequestInterface
     {
         if (isset($this->_post[$param]))
             return $this->_post[$param];
+
         return null;
     }
 

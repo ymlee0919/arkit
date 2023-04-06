@@ -110,6 +110,7 @@ final class ErrorHandler
                 
 				self::stop();
 				
+                http_response_code(500);
 				header("Status: 500 Server Error");
 				echo $error;
 				exit;

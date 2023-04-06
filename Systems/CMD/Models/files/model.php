@@ -34,7 +34,7 @@ class ModelName implements \Arkit\Core\Persistence\Database\Model
     }
 
     /**
-     * @returns ModelName
+     * @return ModelName
      */
     public static function getInstance() : ModelName
     {
@@ -72,7 +72,7 @@ class ModelName implements \Arkit\Core\Persistence\Database\Model
     }
 
     /**
-     * @returns void
+     * @return void
      * @throws \Exception
      */
     public function load() : void

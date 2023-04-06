@@ -511,10 +511,7 @@ class InputValidator
     public function isInteger() : Input\Validator\IntValidator
     {
         if(is_null($this->intValidator))
-        {
-            \Loader::import('IntValidator','App.Form.Validators.IntValidator');
             $this->intValidator = new Input\Validator\IntValidator($this);
-        }
 
         $this->checkAndValidate($this->intValidator);
         return $this->intValidator;
@@ -527,10 +524,7 @@ class InputValidator
     public function isNumeric() : Input\Validator\NumericValidator
     {
         if(is_null($this->numericValidator))
-        {
-            \Loader::import('NumericValidator','App.Form.Validators.NumericValidator');
             $this->numericValidator = new Input\Validator\NumericValidator($this);
-        }
 
         $this->checkAndValidate($this->numericValidator);
         return $this->numericValidator;
@@ -543,10 +537,7 @@ class InputValidator
     public function isBoolean() : Input\Validator\BoolValidator
     {
         if(is_null($this->booleanValidator))
-        {
-            \Loader::import('BoolValidator','App.Form.Validators.BoolValidator');
             $this->booleanValidator = new Input\Validator\BoolValidator($this);
-        }
 
         $this->checkAndValidate($this->booleanValidator);
         return $this->booleanValidator;
@@ -559,10 +550,7 @@ class InputValidator
     public function isInternetAddress() : Input\Validator\InternetAddressValidator
     {
         if(is_null($this->internetAddressValidator))
-        {
-            \Loader::import('InternetAddressValidator', 'App.Form.Validators.InternetAddressValidator');
             $this->internetAddressValidator = new Input\Validator\InternetAddressValidator($this);
-        }
 
         $this->checkAndValidate($this->internetAddressValidator);
         return $this->internetAddressValidator;
@@ -575,10 +563,7 @@ class InputValidator
     public function isPersonalData() : Input\Validator\PersonalDataValidator
     {
         if(is_null($this->personalDataValidator))
-        {
-            \Loader::import('PersonalDataValidator', 'App.Form.Validators.PersonalDataValidator');
             $this->personalDataValidator = new Input\Validator\PersonalDataValidator($this);
-        }
 
         $this->checkAndValidate($this->personalDataValidator);
         return $this->personalDataValidator;
@@ -591,10 +576,7 @@ class InputValidator
     public function isCreditCard() : Input\Validator\CreditCardValidator
     {
         if(is_null($this->creditCardValidator))
-        {
-            \Loader::import('CreditCardValidator', 'App.Form.Validators.CreditCardValidator');
             $this->creditCardValidator = new Input\Validator\CreditCardValidator($this);
-        }
 
         $this->checkAndValidate($this->creditCardValidator);
         return $this->creditCardValidator;
@@ -608,10 +590,7 @@ class InputValidator
     public function isString() : Input\Validator\StringValidator
     {
         if(is_null($this->stringValidator))
-        {
-            \Loader::import('StringValidator', 'App.Form.Validators.StringValidator');
             $this->stringValidator = new Input\Validator\StringValidator($this);
-        }
 
         $this->purify();
         $this->checkAndValidate($this->stringValidator);
@@ -624,11 +603,8 @@ class InputValidator
      */
     public function isStrNumber() : Input\Validator\StrNumberValidator
     {
-        if(is_null($this->stringValidator))
-        {
-            \Loader::import('StrNumberValidator', 'App.Form.Validators.StrNumberValidator');
+        if(is_null($this->strNumberValidator))
             $this->strNumberValidator = new Input\Validator\StrNumberValidator($this);
-        }
 
         $this->checkAndValidate($this->strNumberValidator);
         return $this->strNumberValidator;
@@ -642,10 +618,7 @@ class InputValidator
     public function isDateTime(?string $format = null) : Input\Validator\DateTimeValidator
     {
         if(is_null($this->dateTimeValidator))
-        {
-            \Loader::import('DateTimeValidator', 'App.Form.Validators.DateTimeValidator');
             $this->dateTimeValidator = new Input\Validator\DateTimeValidator($this);
-        }
 
         $dateFormat = $format ?? $this->datetime_format;
 
@@ -663,10 +636,7 @@ class InputValidator
     public function isDate(?string $format = null) : Input\Validator\DateValidator
     {
         if(is_null($this->dateValidator))
-        {
-            \Loader::import('DateValidator', 'App.Form.Validators.DateValidator');
             $this->dateValidator = new Input\Validator\DateValidator($this);
-        }
 
         $dateFormat = $format ?? $this->date_format;
 
@@ -683,10 +653,7 @@ class InputValidator
     public function isFile() : Input\Validator\FileValidator
     {
         if(is_null($this->fileValidator))
-        {
-            \Loader::import('FileValidator', 'App.Form.Validators.FileValidator');
             $this->fileValidator = new Input\Validator\FileValidator($this, $this->current['field']);
-        }
 
         $this->fileValidator->set($this->current['value']);
         $this->fileValidator->check();

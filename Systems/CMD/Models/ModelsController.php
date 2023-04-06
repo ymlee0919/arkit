@@ -12,7 +12,7 @@ class ModelsController extends \CMD\Core\Controller
 
     public function ShowModels()
     {
-        $output = \Arkit\App::$Response;
+        $response = \Arkit\App::$Response;
 
         // Load the name of the packages
         $models = [];
@@ -26,37 +26,29 @@ class ModelsController extends \CMD\Core\Controller
             $d->close();
         }
 
-        $output->assign('Models', $models);
+        $response->assign('Models', $models);
 
-        $output->displayTemplate('models.tpl');
+        $responseTpl = 'models.tpl';
+        $responseTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $response->displayTemplate($responseTpl);
     }
 
     public function NewModel()
     {
-        $output = \Arkit\App::$Response;
-        
-        // Set a sample cookie
-        $options = [
-            'expires'  => time() + 3600,
-            'path'     => '/',
-            'domain'   => 'cmd.landscaping.com',
-            'secure'   => false,
-            'httponly' => true,
-            'samesite' => 'Lax'
-        ];
-
-        setcookie('MyCookie', md5('This is my secret key'), $options);
+        $response = \Arkit\App::$Response;
 
         // Set form ID
         \Arkit\App::loadInputValidator();
         \Arkit\App::$InputValidator->setId('NEW-MODEL')->generateCsrfCode();
 
-        $output->displayTemplate('new.tpl');
+        $responseTpl = 'new.tpl';
+        $responseTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $response->displayTemplate($responseTpl);
     }
 
     public function Add()
     {
-        $output = &\Arkit\App::$Response;
+        $response = &\Arkit\App::$Response;
 
         // Validate entry
         $post = \Arkit\App::$Request->getAllPostParams();
@@ -73,8 +65,9 @@ class ModelsController extends \CMD\Core\Controller
 
         if(!$form->isValid())
         {
-            $output->inputErrors($form->getErrors());
-            $output->redirectTo('cmd.models');
+            $response->setStatus(400);
+            $response->inputErrors($form->getErrors());
+            $response->toJSON();
         }
         
 
@@ -101,8 +94,9 @@ class ModelsController extends \CMD\Core\Controller
             $success = true;
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Model');
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the model directory');
+            $response->toJSON();
         }
 
         // Make the persistence directory
@@ -112,8 +106,9 @@ class ModelsController extends \CMD\Core\Controller
             $success = true;
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Persistence Model');
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Persistence Model');
+            $response->toJSON();
         }
 
         // Make the business directory
@@ -123,8 +118,9 @@ class ModelsController extends \CMD\Core\Controller
             $success = true;
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Business Model');
-            $output->redirectTo(\Arkit\App::$Router->buildUrl('cmd.models'));
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Business Model');
+            $response->toJSON();
         }
 
         // Create config directory
@@ -134,19 +130,21 @@ class ModelsController extends \CMD\Core\Controller
             $success = true;
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the configuration', true);
-            $output->redirectTo('cmd.models');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the configuration');
+            $response->toJSON();
         }
 
         // Copy the Model Class
-        $class = file_get_contents($sourceDir . ((isset($post['crypt']) && $post['crypt'] == 'yes') ? 'modelWCrypt.php' : 'model.php'));
+        $class = file_get_contents($sourceDir .  'model.php');
         $class = str_replace('ModelName', $model, $class);
         $class = str_replace('dataBase', $database, $class);
         $success = $this->write($modelDir . '/' . $model . '.php', $class);
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Model Class', true);
-            $output->redirectTo('cmd.models');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Model Class');
+            $response->toJSON();
         }
 
         // Copy the config file
@@ -160,8 +158,9 @@ class ModelsController extends \CMD\Core\Controller
         $success = $this->write($persistence . '/config/config.php', $class);
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Config file', true);
-            $output->redirectTo('cmd.models');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Config file');
+            $response->toJSON();
         }
 
         // Copy the schema file
@@ -173,8 +172,9 @@ class ModelsController extends \CMD\Core\Controller
         $success = $this->write($persistence . '/config/schema.xml', $file);
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Schema file', true);
-            $output->redirectTo('cmd.models');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Schema file');
+            $response->toJSON();
         }
 
         // Copy propel config file
@@ -188,12 +188,14 @@ class ModelsController extends \CMD\Core\Controller
         $success = $this->write($persistence . '/config/propel.yaml', $config);
         if(!$success)
         {
-            $output->error('ACTION_ERROR', 'Unable to create the Propel config file');
-            $output->redirectTo('cmd.models');
+            $response->setStatus(409);
+            $response->error('error', 'Unable to create the Propel config file');
+            $response->toJSON();
         }
 
-        $output->success('Model successfully created');
-        $output->redirectTo('cmd.models');
+        $response->setStatus(200);
+        $response->success('Model successfully created');
+        $response->toJSON();
     }
 
     private function write($target, $content)

@@ -35,7 +35,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function isIp() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
 		if(!filter_var($this->value, FILTER_VALIDATE_IP))
@@ -51,7 +51,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function isIpv4() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
 		if(!filter_var($this->value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
@@ -67,7 +67,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function isIpv6() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
 		if(!filter_var($this->value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
@@ -83,7 +83,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function isMacAddress() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(!is_string($this->value))
@@ -102,7 +102,7 @@ class InternetAddressValidator extends FieldValidator
      */
     public function isValidUrl() : self
 	{
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
 		if(!filter_var($this->value, FILTER_VALIDATE_URL))

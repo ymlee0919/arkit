@@ -12,7 +12,7 @@ class IntValidator extends FieldValidator {
      */
     public function check() : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($this->value, FILTER_VALIDATE_INT))
@@ -39,7 +39,7 @@ class IntValidator extends FieldValidator {
      */
     public function greaterThan(int $value, bool $equal = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($value, FILTER_VALIDATE_INT))
@@ -69,7 +69,7 @@ class IntValidator extends FieldValidator {
      */
     public function lessThan(int $value, bool $equal = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($value, FILTER_VALIDATE_INT))
@@ -100,7 +100,7 @@ class IntValidator extends FieldValidator {
      */
     public function between(int $min, int $max, bool $equal = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($min, FILTER_VALIDATE_INT))
@@ -138,7 +138,7 @@ class IntValidator extends FieldValidator {
      */
     public function notBetween(int $min, int $max, bool $notEqual = true) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(false === filter_var($min, FILTER_VALIDATE_INT))
@@ -173,7 +173,7 @@ class IntValidator extends FieldValidator {
      */
     public function isPositive(bool $zeroIncluded = false) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(!!$zeroIncluded)
@@ -196,7 +196,7 @@ class IntValidator extends FieldValidator {
      */
     public function isNegative(bool $zeroIncluded = false) : self
     {
-        if(!$this->validField)
+        if(!$this->validField || !$this->checkValidEmpty())
             return $this;
 
         if(!!$zeroIncluded)
