@@ -56,7 +56,7 @@
                             </tr>
                         {{/foreach}}
                         {{else}}
-                            <tr>
+                            <tr colspan="2">
                                 <td class="center-align">No systems registered</td>
                             </tr>
                         {{/if}}

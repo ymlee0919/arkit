@@ -212,7 +212,7 @@ nav.top-header {
 
 .panel-header.panel-header-lighten{
     background: #eff6cc;
-    color: #1b3f1d;
+    color: #366398;
 }
 
 div.panel-header>span.title {
@@ -235,7 +235,7 @@ div.panel-header>span.title {
 }
 
 .panel-header.panel-header-lighten>span.title{
-    color: #1b3f1d;
+    color: #366398;
 }
 
 .panel-content {

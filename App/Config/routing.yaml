@@ -1,5 +1,2 @@
 # ROUTING ------------------------------------
-cmd.landscaping.com: 'CMD/_config/router.yaml'
-
-admin.landscaping.com: 'Admin/_config/router.yaml'
-dashboard.landscaping.com: 'Management/_config/router.yaml'
+cmd.arkit.com: 'CMD/_config/router.yaml'
