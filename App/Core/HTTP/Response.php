@@ -298,6 +298,7 @@ final class Response
     {
         header('Status: 400');
         readfile(dirname(__FILE__) . '/Response/Template/defaults/400.html');
+        exit;
     }
 
     /**

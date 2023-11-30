@@ -44,7 +44,7 @@ class StrNumberValidator extends FieldValidator
      */
     public function isRoman() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
             
     	if(!preg_match('/^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/', $this->value))
@@ -60,7 +60,7 @@ class StrNumberValidator extends FieldValidator
      */
     public function isHexadecimal() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
         
         // Set 0x as prefix if have not
@@ -81,7 +81,7 @@ class StrNumberValidator extends FieldValidator
      */
     public function isOctal() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
         // Set 0x as prefix if have not
         $octVal = $this->value;
@@ -101,7 +101,7 @@ class StrNumberValidator extends FieldValidator
      */
     public function isBinary() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
             
     	if(!preg_match('/^(0x)?[0-1]+$/', $this->value))
@@ -117,7 +117,7 @@ class StrNumberValidator extends FieldValidator
      */
     public function isRgbColor() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
             
         if(!preg_match('/^#?[0-9A-F]{6}$/', strtoupper(trim($this->value))))

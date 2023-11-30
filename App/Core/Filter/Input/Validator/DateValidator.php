@@ -61,7 +61,7 @@ class DateValidator extends FieldValidator {
      */
     public function check() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $str_val = null;
@@ -88,7 +88,7 @@ class DateValidator extends FieldValidator {
      */
     public function isBefore(string|\DateTime $value, bool $equal = true) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $str_val = null;
@@ -125,7 +125,7 @@ class DateValidator extends FieldValidator {
      */
     public function isAfter(string|\DateTime $value, bool $equal = true) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $str_val = null;
@@ -163,7 +163,7 @@ class DateValidator extends FieldValidator {
      */
     public function between(string|\DateTime $min, string|\DateTime $max, bool $equal = true) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         // Validate min value
@@ -211,7 +211,7 @@ class DateValidator extends FieldValidator {
      */
     public function notBetween(string|\DateTime $min, string|\DateTime $max, bool $notEqual = true) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         // Validate min value

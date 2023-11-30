@@ -1,7 +1,7 @@
 <?PHP
 namespace Arkit\Core\Exception;
 
-class InvalidActionException extends \Exception
+class DatabasePerformanceException extends \Exception
 {
     public function __construct($message, $code = 0)
     {

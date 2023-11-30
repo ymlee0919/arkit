@@ -176,7 +176,7 @@ class InputValidator
      * @param bool $setCookie - Indicate if set cookies into the output as other token validation
      * @return string
      */
-    public function generateCsrfCode(?string $formId = null, ?string $fieldName = null, ?int $expire = null, bool $setCookie = true) : string
+    public function generateCsrfCode(?string $formId = null, ?string $fieldName = null, ?int $expire = null, bool $setCookie = false) : string
     {
         $fieldName = $fieldName ?? $this->defaultCsrfFieldName;
         $formId = $formId ?? $this->formId;
@@ -201,7 +201,7 @@ class InputValidator
      * @param bool $validateCookie
      * @return bool
      */
-    public function validateCsrfCode(?string $formId = null, ?string $fieldName = null, bool $validateCookie = true) : bool
+    public function validateCsrfCode(?string $formId = null, ?string $fieldName = null, bool $validateCookie = false) : bool
     {
         $formId = $formId ?? $this->formId;
         $fieldName = $fieldName ?? $this->defaultCsrfFieldName;
@@ -310,6 +310,21 @@ class InputValidator
             $message = str_replace('{field}', $this->current['alias'], $message);
 
             $this->errors[$this->current['field']] = $message;
+        }
+
+        return false;
+    }
+
+    public function registerCustomError($errorMessage)
+    {
+        if(!is_null($this->current['error']))
+            $this->errors[$this->current['field']] = $this->current['error'];
+        else
+        {
+            if(isset($this->errors[$this->current['field']]))
+                return false;
+
+            $this->errors[$this->current['field']] = $errorMessage;
         }
 
         return false;
@@ -676,6 +691,12 @@ class InputValidator
         }
 
         return $this->fileValidator;
+    }
+
+    public function isCustom(Input\FieldValidator $fieldValidator) : Input\FieldValidator
+    {
+        $this->checkAndValidate($fieldValidator);
+        return $fieldValidator;
     }
 
 

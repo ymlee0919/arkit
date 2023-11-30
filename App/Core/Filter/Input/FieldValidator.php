@@ -60,14 +60,14 @@ abstract class FieldValidator
     }
 
     /**
-     * @return bool
+     * @return self
      */
-    public abstract function check();
+    public abstract function check() : self;
 
     /**
      * @return mixed
      */
-    public abstract function getValue();
+    public abstract function getValue() : mixed;
 
     /**
      * @param string $error

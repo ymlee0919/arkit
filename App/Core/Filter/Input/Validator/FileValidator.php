@@ -49,7 +49,7 @@ class FileValidator extends FieldValidator {
     {
         $this->check();
 
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this->registerError('not_empty_field');
 
         return $this;
@@ -68,7 +68,7 @@ class FileValidator extends FieldValidator {
      */
     public function isRequired() : self
 	{
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this->registerError('file_not_set');
 
 		return $this;
@@ -79,7 +79,7 @@ class FileValidator extends FieldValidator {
      */
     public function isImage() : self
 	{
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         if(!preg_match('#^(gif|jpg|jpeg|jpe|png)$#i', $_FILES[$this->fieldName]['name']))
@@ -94,7 +94,7 @@ class FileValidator extends FieldValidator {
      */
     public function checkExtension(string $extension) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $fileName = $_FILES[$this->fieldName]['name'];

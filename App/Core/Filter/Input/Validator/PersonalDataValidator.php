@@ -42,7 +42,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isEmail() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
             
         if(false === filter_var($this->value, FILTER_VALIDATE_EMAIL))
@@ -59,7 +59,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isEmailList(string $separator = ';') : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $values = explode($separator, $this->value);
@@ -85,7 +85,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isPhone() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $pattern = '/^[+]?([\d]{0,3})?[\(\.\-\s]?(([\d]{1,3})[\)\.\-\s]*)?(([\d]{3,5})[\.\-\s]?([\d]{3,5})|([\d]{2}[\.\-\s]?){4})$/';
@@ -102,7 +102,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isValidName() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
             
         $pattern = "/^(([A-Z\. ])|([A-ZÑÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖßÙÚÛÜÝ][a-zA-ZÑÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖßÙÚÛÜÝñàáâãäåçèéêëìíîïñðòóôõöùúûüýÿ'\-, ]{1,}))+$/";
@@ -119,7 +119,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isValidUser() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $pattern = '/^[0-9a-zA-Z_\.\-]{4,}$/';
@@ -148,7 +148,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isPassword() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $len = strlen($this->value);
@@ -180,7 +180,7 @@ class PersonalDataValidator extends FieldValidator
      */
     public function isStrongPassword() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
             
         $len = strlen($this->value);

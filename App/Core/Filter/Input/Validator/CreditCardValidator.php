@@ -122,7 +122,7 @@ class CreditCardValidator extends FieldValidator{
      */
     public function check() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
         
         // Strip any non-digits (useful for credit card numbers with spaces and hyphens)
@@ -159,7 +159,7 @@ class CreditCardValidator extends FieldValidator{
      */
     public function is(string $type) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         $cardType = strtolower($type);
@@ -186,7 +186,7 @@ class CreditCardValidator extends FieldValidator{
      */
     public function isValidCvc(string $cvc) : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
         if(!ctype_digit($cvc))
@@ -215,7 +215,7 @@ class CreditCardValidator extends FieldValidator{
      */
     public function isValidExpDate(int $year, int $month) : self
 	{
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 		
 		$month = str_pad($month, 2, '0', STR_PAD_LEFT);

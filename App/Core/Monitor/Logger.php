@@ -50,10 +50,14 @@ final class Logger
     {
         foreach ($this->config['handlers'] as $handler) {
             $handlerClass = $handler['name'] . 'LogsHandler';
-            if (\Loader::import($handlerClass, 'App.Logs.' . $handlerClass)) {
-                $logHandler = new $handlerClass($handler['config']);
+            $fullClassName = 'Arkit\\Core\\Monitor\\Log\\' . $handlerClass;
+            
+            if (\Loader::import($handlerClass, 'App.Core.Monitor.Log.' . $handlerClass)) {
+                $logHandler = new $fullClassName($handler['config']);
                 $this->setHandler($logHandler, $handler['levels']);
             }
+            else
+                die("The class $handlerClass do not exists");
         }
     }
 

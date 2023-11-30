@@ -62,7 +62,7 @@ class CSRFHandler
             App::$Session['CSRF'] = App::$Crypt->getRandomString($config['private_key_length'] ?? 32);
 
         if(!isset(App::$Session['PRIVATE_KEY']))
-            App::$Session['PRIVATE_KEY'] =  str_shuffle(App::$Crypt->getRandomString(64));
+            App::$Session['PRIVATE_KEY'] = base64_encode(str_shuffle(App::$Crypt->getRandomString(64)));
     }
 
     /**
@@ -97,7 +97,7 @@ class CSRFHandler
      */
     public function validateCode(string $formId, string $code) : string
     {
-        $token = @App::$Crypt->strongDecrypt($code, App::$Session['PRIVATE_KEY']);
+        $token = App::$Crypt->strongDecrypt($code, App::$Session['PRIVATE_KEY']);
         if(!$token)
             return self::CSRF_VALIDATION_INVALID;
 

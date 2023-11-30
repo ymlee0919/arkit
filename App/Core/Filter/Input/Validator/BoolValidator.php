@@ -13,7 +13,7 @@ class BoolValidator extends FieldValidator {
      */
     public function check() : self
     {
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
         
         if($this->checkValidEmpty())
@@ -40,7 +40,7 @@ class BoolValidator extends FieldValidator {
 
 	public function isTrue() : self
 	{
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
         
         if($this->checkValidEmpty())
@@ -56,7 +56,7 @@ class BoolValidator extends FieldValidator {
 
 	public function isFalse() : self
 	{
-        if(!$this->validField || !$this->checkValidEmpty())
+        if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
         
         if($this->checkValidEmpty())

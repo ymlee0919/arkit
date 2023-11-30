@@ -70,7 +70,7 @@ class Crypt extends CryptInterface
      */
     public function strongCrypt(string $data, ?string $key = null): string
     {
-        return $this->cryptProvider->oneWayStrongCrypt($data, $key ?? $this->defaultKey);
+        $this->cryptProvider->oneWayStrongCrypt($data, $key ?? $this->defaultKey);
     }
 
     /**
