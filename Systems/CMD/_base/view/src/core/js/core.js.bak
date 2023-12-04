@@ -1,15 +1,4 @@
 var App = {
-    i18n : {
-        calendar: {
-            cancel: 'Cancelar',
-            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            weekdays: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-            weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
-        }
-    },
-
     handler : null,
 
     tools: {
@@ -20,9 +9,6 @@ var App = {
             let keys = format.split(separator),parts = strDate.split(separator),hash = [];
             hash[keys[0]] = parts[0];hash[keys[1]] = parts[1];hash[keys[2]] = parts[2];
             return new Date(hash['yyyy'], parseInt(hash['mm']) - 1, hash['dd'])
-        },
-        addDays : function(date, days){
-            return new Date(date.setDate(date.getDate() + days));
         }
     },
 
@@ -140,32 +126,6 @@ var App = {
 
         dispatch: function(){
             $.ajax(this.param);
-        },
-
-        sendForm: function(form, onSuccess, onError){
-            $.ajax({
-                type: form.attr('method'),
-                url: form.attr('action'),
-                data: form.serialize(),
-                dataType : 'json',
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    if(XMLHttpRequest.status == 500)
-                        App.notify('error', 'Unexpected Internal Server Error. It was notified and will be fixed ASAP.', false, null);
-
-                    if(!!onError)
-                        onError(XMLHttpRequest, textStatus, errorThrown);
-                    else {
-                        App.notify('error', textStatus, false, null);
-                    }
-                },
-                success : function(data, textStatus) {
-                    if(!!onSuccess)
-                        onSuccess(data, textStatus)
-                    else {
-                        App.notify('success', 'Request successfully processed', true, null);
-                    }
-                }
-            });
         }
     },
 
@@ -227,13 +187,7 @@ var App = {
             
             $('ul.sidenav a.collapsible-header').removeClass('active');
             if(!!el.attr('data-parent'))
-            {
-                let parent = $(el.attr('data-parent')),
-                    index = parent.attr('data-index');
-                parent.addClass('active');
-                parent.parent().parent().collapsible('open', index);
-            }
-                
+                $(el.attr('data-parent')).addClass('active');
         }
     },
 
@@ -265,7 +219,7 @@ var App = {
             this.content = $('#working_space');
         },
 
-        load : function(url){
+        loadFrom : function(url){
             let me = this;
 
             // Freeze the application
@@ -277,27 +231,18 @@ var App = {
                 url: url,
                 dataType : 'html',
                 error: function(jqXHR, textStatus, errorThrown){
-                    App.releaseScreen();
-                    switch(jqXHR.status)
-                    {
-                        case 500:
-                            App.notify('error', jqXHR.statusText, false, null);
-                            break;
-                        default:
-                            let error;
-                            try{
-                                let response = JSON.parse(jqXHR.responseText);
-                                error = response.message;
-                            }
-                            catch(e){
-                                error = textStatus;
-                            }
-                            finally{
-                                App.notify('error', error, false, null);
-                            }
-                            break;
+                    let error;
+                    try{
+                        let response = JSON.parse(jqXHR.responseText);
+                        error = response.message;
                     }
-                    
+                    catch(e){
+                        error = textStatus;
+                    }
+                    finally{
+                        App.releaseScreen();
+                        App.notify('error', error, false, null);
+                    }
                 },
                 success : function(data, textStatus, jqXHR ){
                     if(me.currentUrl != url){
@@ -315,7 +260,36 @@ var App = {
         },
 
         reload: function(){
-            this.load(this.currentUrl);
+            this.loadFrom(this.currentUrl);
+        },
+
+        sendForm : function(formId, successCallback, errorCallback){
+            let formSelector = '#' + formId,
+                form = $(formSelector);
+            
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType : 'json',
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    if(XMLHttpRequest.status == 500)
+                        App.notify('error', 'Unexpected Internal Server Error. It was notified and will be fixed ASAP.', false, null);
+
+                    if(!!errorCallback)
+                        errorCallback(XMLHttpRequest, textStatus, errorThrown);
+                    else {
+                        App.notify('error', textStatus, false, null);
+                    }
+                },
+                success : function(data, textStatus) {
+                    if(!!successCallback)
+                        successCallback(data, textStatus)
+                    else {
+                        App.notify('success', 'Request successfully processed', true, null);
+                    }
+                }
+            });
         }
     },
 
@@ -359,11 +333,8 @@ var App = {
     },
 
     updateUrl : function(newUrl){
-        if(newUrl.indexOf(window.location.origin) != -1)
-            return;
-
         let nextUrl = window.location.protocol + '//' + window.location.host + newUrl;
-        window.history.pushState({page: nextUrl}, document.title, nextUrl);
+        window.history.pushState({}, document.title, nextUrl);
     }
 }
 

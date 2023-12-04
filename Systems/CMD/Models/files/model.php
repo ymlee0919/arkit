@@ -88,18 +88,54 @@ class ModelName implements \Arkit\Core\Persistence\Database\Model
      */
     public function connect(string $account): void
     {
-        $config = include dirname(__FILE__) . '/config/config.php';
-
         $serviceContainer = \Propel\Runtime\Propel::getServiceContainer();
-        $serviceContainer->checkVersion('2.0.0-dev');
-        $serviceContainer->setAdapterClass('dataBase', 'mysql');
+        $serviceContainer->checkVersion(2);
+        $serviceContainer->setAdapterClass('dataBase', 'dbType');
 
-        $this->connectionManager = new \Propel\Runtime\Connection\ConnectionManagerSingle('dataBase');
-        $this->connectionManager->setConfiguration($config[$account]);
+        $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('dataBase');
 
-        $this->connectionManager->setName('dataBase');
-        $serviceContainer->setConnectionManager($this->connectionManager);
+        $server = \Arkit\App::$Env['DB_SERVER'];
+        $port = \Arkit\App::$Env['DB_PORT'];
+        $database = \Arkit\App::$Env['DB_NAME'];
+        $user = \Arkit\App::$Env['DB_USER'];
+        $password = \Arkit\App::$Env['DB_PASS'];
+        $sslMode = \Arkit\App::$Env['DB_SSL_MODE'];
+
+        $config = [
+            'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+            'dsn' => 'dbType:host=' . $server . ';port=' . $port . ';dbname=' . $database . ';sslmode=' . $sslMode,
+            'user' => $user,
+            'password' => $password,
+			'attributes' =>  [ 'ATTR_EMULATE_PREPARES' => true ]
+        ];
+    
+        $manager->setConfiguration($config);
+
+        $serviceContainer->setConnectionManager($manager);
         $serviceContainer->setDefaultDatasource('dataBase');
+
+        // Set Logger
+        $serviceContainer->setLoggerConfiguration('defaultLogger', array (
+            'type' => 'stream',
+            'path' => \Arkit\App::fullPath('resources/propel.log'),
+            'level' => 400,
+            'bubble' => true
+        ));
+
+        $this->initTables($serviceContainer);
+
+        $this->conn = $serviceContainer->getConnection();
+
+    }
+
+    private function initTables($serviceContainer)
+    {
+        $serviceContainer->initDatabaseMaps(array (
+            'global' => 
+            array (
+              // 
+            ),
+          ));
     }
 
     /**

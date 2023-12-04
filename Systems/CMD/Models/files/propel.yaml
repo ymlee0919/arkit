@@ -19,9 +19,9 @@ propel:
   database:
       connections:
           dataBase:
-              adapter: mysql
+              adapter: dbType
               classname: Propel\Runtime\Connection\DebugPDO
-              dsn: mysql:host=hostName;dbname=dataBase
+              dsn: dbType:host=hostName;dbname=dataBase
               user: userName
               password: userPassword
   runtime:

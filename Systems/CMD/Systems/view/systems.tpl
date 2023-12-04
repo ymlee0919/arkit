@@ -48,7 +48,7 @@
                 $('main a[role="link"]').click((e)=>{
                     e.preventDefault();
                     let ref = $(e.currentTarget).attr('href');
-                    App.workingArea.loadFrom(ref);
+                    App.workingArea.load(ref);
                 });
             },
 

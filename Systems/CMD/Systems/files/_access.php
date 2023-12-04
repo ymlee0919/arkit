@@ -1,6 +1,6 @@
 <?php
 
-namespace SystemName\Access;
+namespace SystemName\System\Access;
 
 use \Arkit\Core\Control\Access\AccessControllerInterface;
 /**

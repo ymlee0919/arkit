@@ -300,7 +300,7 @@ class RoutesController extends \CMD\Core\Controller
         $classFile = file_get_contents(\Arkit\App::fullPathFromSystem('/Routes/files/_class.php'));
         $classFile = str_replace('ClassName', $class, $classFile);
         $classFile = str_replace('TheNameSpace', $namespace, $classFile);
-        $classFile = str_replace('System', $parts[0], $classFile);
+        $classFile = str_replace('SystemName', $parts[0], $classFile);
         $success = $this->write($fileName, $classFile);
 
         // If can not be created, return false

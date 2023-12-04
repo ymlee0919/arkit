@@ -57,10 +57,14 @@ class ModelsController extends \CMD\Core\Controller
 
         $form->setId('NEW-MODEL');
         $form->checkValues(\Arkit\App::$Request);
-        $form->validate('model')->isRequired()->isString()->matchWith('/^[a-zA-Z_-]+$/');
-        $form->validate('database')->isRequired()->isString()->matchWith('/^[a-z_-]+$/');
-        $form->validate('host')->isRequired()->isString()->matchWith('/^[a-z_-]+$/');
-        $form->validate('user')->isRequired()->isString()->matchWith('/^[A-Za-z_-]+$/');
+        $model    = $form->validate('model')->isRequired()->isString()->matchWith('/^[a-zA-Z_-]+$/')->getValue();
+        $database = $form->validate('database')->isRequired()->isString()->matchWith('/^[a-z_-]+$/')->getValue();
+        $type     = $form->validate('type')->isRequired()->isString()->matchWith('/^[a-zA-Z_-]+$/')->getValue();
+        $host     = $form->validate('host')->isRequired()->isString()->matchWith('/^[a-z_-]+$/')->getValue();
+        $port     = $form->validate('port')->isRequired()->isInteger()->isPositive()->getValue();
+        $user     = $form->validate('user')->isRequired()->isString()->matchWith('/^[A-Za-z_-]+$/')->getValue();
+        $password = $form->validate('pass')->isRequired()->isString()->matchWith('/^[A-Za-z_-]+$/')->getValue();
+        
         $form->validateCsrfCode();
 
         if(!$form->isValid())
@@ -69,20 +73,12 @@ class ModelsController extends \CMD\Core\Controller
             $response->inputErrors($form->getErrors());
             $response->toJSON();
         }
-        
-
-        // Get configuration
-        $model = $post['model'];
-        $database = $post['database'];
-        $host = $post['host'];
-        $user = $post['user'];
-        $password = $post['pass'];
 
         // Build package path
-        $modelDir = \Arkit\App::fullPath('Model/' . $model);
+        $modelDir    = \Arkit\App::fullPath('Model/' . $model);
         $persistence = \Arkit\App::fullPath('Model' . DIRECTORY_SEPARATOR . $model . DIRECTORY_SEPARATOR . 'Persistence' );
-        $business = \Arkit\App::fullPath('Model' . DIRECTORY_SEPARATOR . $model . DIRECTORY_SEPARATOR . 'Business' );
-        $sourceDir = \Arkit\App::fullPathFromSystem('/Models/files/');
+        $business    = \Arkit\App::fullPath('Model' . DIRECTORY_SEPARATOR . $model . DIRECTORY_SEPARATOR . 'Business' );
+        $sourceDir   = \Arkit\App::fullPathFromSystem('/Models/files/');
 
         if(!is_dir($this->modelsDir))
             mkdir($this->modelsDir);
@@ -139,6 +135,8 @@ class ModelsController extends \CMD\Core\Controller
         $class = file_get_contents($sourceDir .  'model.php');
         $class = str_replace('ModelName', $model, $class);
         $class = str_replace('dataBase', $database, $class);
+        $class = str_replace('dbType', $type, $class);
+
         $success = $this->write($modelDir . '/' . $model . '.php', $class);
         if(!$success)
         {
@@ -147,15 +145,32 @@ class ModelsController extends \CMD\Core\Controller
             $response->toJSON();
         }
 
-        // Copy the config file
-        $class = file_get_contents($sourceDir . 'config.php');
-        $class = strtr($class, [
-            'dataBase' => $database,
-            'hostName' => $host,
-            'userName' => $user,
-            'userPassword' => $password
+        // Copy Master class if is set
+        if(isset($post['master']) && $post['master'] == 'yes')
+        {
+            $class = file_get_contents($sourceDir .  'master.php');
+            $class = str_replace('ModelName', $model, $class);
+            $success = $this->write($modelDir . '/Master.php', $class);
+            if(!$success)
+            {
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the Master Class');
+                $response->toJSON();
+            }
+        }
+        
+        // Write the configuration
+        $envFile = \Arkit\App::fullPath('App/Config/.env');
+        $env = file_get_contents($envFile);
+
+        $env = strtr($env, [
+            '/SERVER_NAME/' => $host,
+            '/DATABASE_NAME/' => $database,
+            '/DATABASE_PORT/' => $port,
+            '/DATABASE_USER/' => $user,
+            '/USER_PASSWORD/' => $password
         ]);
-        $success = $this->write($persistence . '/config/config.php', $class);
+        $success = $this->write($envFile, $env);
         if(!$success)
         {
             $response->setStatus(409);
@@ -180,6 +195,7 @@ class ModelsController extends \CMD\Core\Controller
         // Copy propel config file
         $config = file_get_contents($sourceDir . 'propel.yaml');
         $config = strtr($config, [
+            'dbType' => $type,
             'dataBase' => $database,
             'hostName' => $host,
             'userName' => $user,

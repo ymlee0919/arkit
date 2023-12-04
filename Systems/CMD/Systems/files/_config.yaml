@@ -5,7 +5,7 @@ request:
 
 # Response ----------------------------------
 response:
-  onBeforeDisplay: {System}\Events\ResponseEvents::onBeforeDisplay
-  onPageNotFound: {System}\Events\ResponseEvents::onPageNotFound
-  onAccessDenied: {System}\Events\ResponseEvents::onAccessDenied
-  onForbiddenAccess: {System}\Events\ResponseEvents::onForbiddenAccess
+  onBeforeDisplay: {SystemName}\System\Events\ResponseEvents::onBeforeDisplay
+  onPageNotFound: {SystemName}\System\Events\ResponseEvents::onPageNotFound
+  onAccessDenied: {SystemName}\System\Events\ResponseEvents::onAccessDenied
+  onForbiddenAccess: {SystemName}\System\Events\ResponseEvents::onForbiddenAccess

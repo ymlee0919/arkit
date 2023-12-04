@@ -84,7 +84,7 @@
                 onSubmit : function(){
                     let me = this;
                     App.lockScreen();
-                    App.workingArea.sendForm('main-form', me.onSuccess.bind(me), me.onError.bind(me))
+                    App.serverRequest.sendForm(me.form, me.onSuccess.bind(me), me.onError.bind(me))
                 },
 
                 release : function(){
@@ -99,7 +99,7 @@
                 },
 
                 onSuccess : function(data, textStatus){
-                    App.workingArea.loadFrom('{{url id='cmd.systems'}}');
+                    App.workingArea.load('{{url id='cmd.systems'}}');
                     App.notify('success', data.message, true, null);
                 },
 
@@ -128,7 +128,7 @@
                 $('main a[role="link"]').click((e)=>{
                     e.preventDefault();
                     let ref = $(e.currentTarget).attr('href');
-                    App.workingArea.loadFrom(ref);
+                    App.workingArea.load(ref);
                 });
             },
 

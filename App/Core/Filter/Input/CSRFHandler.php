@@ -84,8 +84,7 @@ class CSRFHandler
         $expiry = $_SERVER['REQUEST_TIME'] + ($expire ?? $this->defaultExpire);
         $domain = $_SERVER['SERVER_NAME'];
         $secure = (!empty($_SERVER['HTTPS']));
-        //die($cookieName);
-        // The samesite option must be strict
+
         $cookie = \Arkit\Core\Persistence\Client\Cookie::build($cookieName, $cookieValue, $expiry, $path, $domain, $secure, true, \Arkit\Core\Persistence\Client\CookieInterface::SAMESITE_STRICT);
         App::$Response->getCookies()->put($cookie);
     }

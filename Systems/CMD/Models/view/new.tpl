@@ -22,19 +22,38 @@
                         <input placeholder="Database name" id="database" name="database" type="text" class="validate" required>
                         <label for="database" class="active">Database:</label>
                     </div>
+                    <div class="input-field col s12 m4">
+                        <select id="type-select" name="type">
+                            <option value="mysql">MySql</option>
+                            <option value="pgsql">PostgreSQL</option>
+                        </select>
+                        <label for="type-select">Type:</label>
+                    </div>
+                     <div class="col s6 m3">
+                        <p>
+                            <label>
+                                <input type="checkbox" name="master" value="yes" />
+                                <span>Require Master Class</span>
+                            </label>
+                        </p>
+                    </div>
                 </div>
                 <fieldset id="connection">
                     <label for="connection">Connection</label>
                     <div class="row">
-                        <div class="input-field col s12 m4">
+                        <div class="input-field col s12 m3">
                             <input placeholder="Host" id="host" name="host" type="text" class="validate" required>
                             <label for="host" class="active">Host:</label>
                         </div>
-                        <div class="input-field col s12 m4">
+                        <div class="input-field col s12 m3">
+                            <input placeholder="Port" id="port" name="port" type="number" class="validate" required>
+                            <label for="port" class="active">Port:</label>
+                        </div>
+                        <div class="input-field col s12 m3">
                             <input placeholder="User name" id="user" name="user" type="text" class="validate" required>
                             <label for="user" class="active">User:</label>
                         </div>
-                        <div class="input-field col s12 m4">
+                        <div class="input-field col s12 m3">
                             <input placeholder="Password" id="pass" name="pass" type="text" class="validate">
                             <label for="pass" class="active">Password:</label>
                         </div>
@@ -58,6 +77,7 @@
                 init: function(){
                     let me = this;
 
+                    $('select').formSelect();
                     this.form = $('#main-form');
                     this.validator = this.form.validate({
                         submitHandler: me.onSubmit.bind(me)
@@ -67,7 +87,7 @@
                 onSubmit : function(){
                     let me = this;
                     App.lockScreen();
-                    App.workingArea.sendForm('main-form', me.onSuccess.bind(me), me.onError.bind(me))
+                    App.serverRequest.sendForm(me.form, me.onSuccess.bind(me), me.onError.bind(me))
                 },
 
                 release : function(){
@@ -79,7 +99,7 @@
                 },
 
                 onSuccess : function(data, textStatus){
-                    App.workingArea.loadFrom('{{url id='cmd.models'}}');
+                    App.workingArea.load('{{url id='cmd.models'}}');
                     App.notify('success', data.message, true, null);
                 },
 
@@ -108,7 +128,7 @@
                 $('main a[role="link"]').click((e)=>{
                     e.preventDefault();
                     let ref = $(e.currentTarget).attr('href');
-                    App.workingArea.loadFrom(ref);
+                    App.workingArea.load(ref);
                 });
             },
 

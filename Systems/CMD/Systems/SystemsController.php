@@ -81,11 +81,27 @@ class SystemsController extends \CMD\Core\Controller
 
         // Build system path
         $systemDir = \Arkit\App::fullPath('Systems/' . $system);
+
+        // Directory for system core classes (EventsHander; AccessControl; Controller; etc...)
+        $coreDir =  \Arkit\App::fullPath('Systems/' . $system . '/System');
+
+        // Files sorce
         $sourceDir = \Arkit\App::fullPathFromSystem('/systems/files/');
 
         // Make system directory
         if(!is_dir($systemDir))
+        {
             $success = mkdir($systemDir);
+            $success = $success && mkdir($coreDir);
+
+            if(!$success)
+            {
+                $response->setStatus(409);
+                $response->error('error', 'Unable to create the System directory');
+                $response->toJSON();
+            }
+        }
+            
         else
         {
             $response->setStatus(409);
@@ -93,16 +109,9 @@ class SystemsController extends \CMD\Core\Controller
             $response->toJSON();
         }
 
-        if(!$success)
-        {
-            $response->setStatus(409);
-            $response->error('error', 'Unable to create the System directory');
-            $response->toJSON();
-        }
-
         // Build the default controller
-        if(!is_dir($systemDir . '/Core'))
-            $success = mkdir($systemDir . '/Core');
+        if(!is_dir($coreDir . '/Core'))
+            $success = mkdir($coreDir . '/Core');
 
         if(!$success)
         {
@@ -112,13 +121,13 @@ class SystemsController extends \CMD\Core\Controller
         }
 
         $controller = file_get_contents($sourceDir . '_controller.php');
-        $class = str_replace('System', $system, $controller);
+        $class = str_replace('SystemName', $system, $controller);
 
         // Treat the model
         if(isset($post['model']) && !!$post['model'])
             $class = str_replace('ModelName', $post['model'], $class);
 
-        $success = $this->write($systemDir . '/Core/Controller.php', $class);
+        $success = $this->write($coreDir . '/Core/Controller.php', $class);
         if(!$success)
         {
             $response->setStatus(409);
@@ -156,8 +165,8 @@ class SystemsController extends \CMD\Core\Controller
         if($accessControl)
         {
             // Create the base folder
-            if(!is_dir($systemDir . '/Access'))
-                $success = mkdir($systemDir . '/Access');
+            if(!is_dir($coreDir . '/Access'))
+                $success = mkdir($coreDir . '/Access');
 
             if(!$success)
             {
@@ -168,7 +177,7 @@ class SystemsController extends \CMD\Core\Controller
 
             $class = file_get_contents($sourceDir . '_access.php');
             $class = str_replace('SystemName', $system, $class);
-            $success = $this->write($systemDir . '/Access/AccessControl.php', $class);
+            $success = $this->write($coreDir . '/Access/AccessControl.php', $class);
             if(!$success)
             {
                 $response->setStatus(409);
@@ -181,12 +190,12 @@ class SystemsController extends \CMD\Core\Controller
         if($customOutput)
         {
             // Create the base folder
-            if(!is_dir($systemDir . '/Events'))
-                $success = mkdir($systemDir . '/Events');
+            if(!is_dir($coreDir . '/Events'))
+                $success = mkdir($coreDir . '/Events');
 
             // Create the base folder
-            if(!is_dir($systemDir . '/Events/view'))
-                $success = mkdir($systemDir . '/Events/view');
+            if(!is_dir($coreDir . '/Events/view'))
+                $success = mkdir($coreDir . '/Events/view');
 
             if(!$success)
             {
@@ -196,9 +205,9 @@ class SystemsController extends \CMD\Core\Controller
             }
 
             // Update output class name and write the file
-            $class = file_get_contents($sourceDir . '_response.php');
-            $class = str_replace('System', $system, $class);
-            $success = $this->write($systemDir . '/Events/ResponseEvents.php', $class);
+            $class = file_get_contents($sourceDir . '_events.php');
+            $class = str_replace('SystemName', $system, $class);
+            $success = $this->write($coreDir . '/Events/ResponseEvents.php', $class);
             if(!$success)
             {
                 $response->setStatus(409);
@@ -208,11 +217,11 @@ class SystemsController extends \CMD\Core\Controller
 
             // Copy custom error pages
             // 401 - Access denied
-            @copy($sourceDir . '_401.html', $systemDir . '/Events/view/401.html');
+            @copy($sourceDir . '_401.html', $coreDir . '/Events/view/401.html');
             // 403 - Forbidden access
-            @copy($sourceDir . '_403.html', $systemDir . '/Events/view/403.html');
+            @copy($sourceDir . '_403.html', $coreDir . '/Events/view/403.html');
             // 404 - Page not found
-            @copy($sourceDir . '_404.html', $systemDir . '/Events/view/404.html');
+            @copy($sourceDir . '_404.html', $coreDir . '/Events/view/404.html');
         }
 
         // Building configuration folder
@@ -239,7 +248,7 @@ class SystemsController extends \CMD\Core\Controller
         // Build the configuration file
         $content = file_get_contents($sourceDir . '_config.yaml');
 
-        $content = str_replace('{System}', $system, $content);
+        $content = str_replace('{SystemName}', $system, $content);
 
         // Treat the firewall
         if($accessControl)

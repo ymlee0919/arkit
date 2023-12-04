@@ -142,7 +142,7 @@
                 onSubmit : function(){
                     let me = this;
                     App.lockScreen();
-                    App.workingArea.sendForm('get-method', me.onSuccess.bind(me), me.onError.bind(me))
+                    App.serverRequest.sendForm('get-method', me.onSuccess.bind(me), me.onError.bind(me))
                 },
 
                 release : function(){
@@ -194,7 +194,7 @@
                 onSubmit : function(){
                     let me = this;
                     App.lockScreen();
-                    App.workingArea.sendForm('post-method', me.onSuccess.bind(me), me.onError.bind(me))
+                    App.serverRequest.sendForm('post-method', me.onSuccess.bind(me), me.onError.bind(me))
                 },
 
                 release : function(){
@@ -255,7 +255,7 @@
                 $('main a[role="link"]').click((e)=>{
                     e.preventDefault();
                     let ref = $(e.currentTarget).attr('href');
-                    App.workingArea.loadFrom(ref);
+                    App.workingArea.load(ref);
                 });
             },
 

@@ -2,7 +2,7 @@
 
 namespace TheNameSpace;
 
-class ClassName extends \System\Core\Controller
+class ClassName extends \SystemName\System\Core\Controller
 {
     private $formId = 'FORM-ID';
 

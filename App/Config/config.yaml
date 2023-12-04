@@ -1,6 +1,6 @@
 # GENERAL -----------------------------------
 # Important to update it with the current domain.
-domain: "landscaping.com"
+domain: "arkit.com"
 
 # URL ---------------------------------------
 request:
@@ -63,6 +63,8 @@ session:
   life_time: 0
   # Seconds between to regenerating the session ID
   time_to_update: 300
+  # Domain for the session
+  domain: arkit.com
 
 
 # FORM VALIDATION ------------------------------

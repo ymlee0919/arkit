@@ -1,9 +1,9 @@
 <?php
 
-namespace System\Core;
+namespace SystemName\System\Core;
 
 use Arkit\Core\Control\Access\AccessControllerInterface;
-use System\Access\AccessControl;
+use SystemName\System\Access\AccessControl;
 
 class Controller extends \Arkit\Core\Base\Controller
 {
