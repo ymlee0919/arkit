@@ -138,9 +138,8 @@ $RECYCLE.BIN/
 
 # Internal files
 /App/Config/.env
-/Libs/source/
-/Libs/binaries/
-/Systems/Master/
+/vendor/source/
+/vendor/binaries/
 
 # Resources files
 /resources/cache/

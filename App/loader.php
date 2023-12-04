@@ -203,6 +203,6 @@ class Loader
 
     public function loadDependencies()
     {
-        $this->import(null, 'Libs.source.autoload');
+        $this->import(null, 'vendor.source.autoload');
     }
 }
