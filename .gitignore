@@ -134,6 +134,7 @@ $RECYCLE.BIN/
 
 # Test and performance directories
 /_Testing/
+/_docs/
 /test/PHPUnit
 
 # Internal files
