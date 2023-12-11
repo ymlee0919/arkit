@@ -10,7 +10,7 @@ It is also possible to have as many business models as you need, each business m
 It has been the work of several years trying to improve a generic tool to develop management applications on the web.
 
 
-##Basic structure
+## Basic structure
 
 Let's talk about the directory structure in a very general way.
  - **Arkit**: core of the platform.
@@ -21,12 +21,12 @@ Let's talk about the directory structure in a very general way.
  - **index.php**: is the only entry point of the application.
  - **composer.json**: definition of third-party dependencies.
 
-##Routing
+## Routing
 
 The platform has two routing systems, one for domains and another for URLs. The domain's routing system defines the web application that handles the request. Once the platform determines the web application that should respond, said application uses URL routing to determine the controller that ultimately handles the request.
 
 
-##Classes
+## Classes
 
 Arkit has the basics to develop web applications.
 It has a coupled class system for:
