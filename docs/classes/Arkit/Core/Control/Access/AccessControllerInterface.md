@@ -2,9 +2,9 @@
 
 # AccessControllerInterface
 
+Interface for Access Controller clases.
 
-
-
+All classes that handle access control must implement this interface.
 
 * Full name: `\Arkit\Core\Control\Access\AccessControllerInterface`
 
@@ -13,8 +13,8 @@
 
 | Constant | Visibility | Type | Value |
 |:---------|:-----------|:-----|:------|
-|`ACCESS_FORBIDDEN`|public| |&#039;FORBIDDEN&#039;|
 |`ACCESS_GRANTED`|public| |&#039;GRANTED&#039;|
+|`ACCESS_FORBIDDEN`|public| |&#039;FORBIDDEN&#039;|
 |`ACCESS_DENIED`|public| |&#039;DENIED&#039;|
 
 ## Methods

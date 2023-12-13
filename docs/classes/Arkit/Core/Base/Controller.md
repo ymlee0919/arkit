@@ -39,7 +39,7 @@ public init(array|null $config = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array&#124;null** |  |
+| `$config` | **array&#124;null** | Configuration array |
 
 
 

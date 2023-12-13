@@ -13,13 +13,15 @@ use Arkit\Core\Control\Access\AccessControllerInterface;
  * 3.- getAccessController(): Return an object for authorization
  * 4.- prepare(): Prepare the last details before call the requested method
  * 5.- Invoke the requested method
+ * 
+ * @package Arkit\Core\Base
  */
 abstract class Controller
 {
     /**
      * Initialize the handler
      *
-     * @param array|null $config
+     * @param array|null $config Configuration array
      * @return void
      */
     public abstract function init(?array $config = null) : void;

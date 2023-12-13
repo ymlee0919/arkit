@@ -4,7 +4,10 @@ namespace Arkit\Core\Config;
 
 
 /**
- * Environment-specific configuration
+ * Environment-specific configuration handler.
+ * Taken form https://github.com/vlucas/phpdotenv 
+ * 
+ * @package Arkit\Core\Config
  */
 class DotEnv implements \ArrayAccess
 {
@@ -13,10 +16,13 @@ class DotEnv implements \ArrayAccess
      *
      * @var string
      */
-    protected $path;
+    private $path;
 
     /**
-     * Builds the path to our file.
+     * Constructor of the class
+     *
+     * @param string $path Absolute path to environment configuration file
+     * @param string $file File name (default .env)
      */
     public function __construct(string $path, string $file = '.env')
     {
@@ -41,7 +47,7 @@ class DotEnv implements \ArrayAccess
     /**
      * Parse the .env file into an array of key => value
      */
-    protected function parse(): ?array
+    private function parse(): ?array
     {
         // We don't want to enforce the presence of a .env file, they should be optional.
         if (! is_file($this->path)) {
@@ -79,7 +85,7 @@ class DotEnv implements \ArrayAccess
      * first to look for {name}={value} pattern, ensure that nested
      * variables are handled, and strip it of single and double quotes.
      */
-    protected function setVariable(string $name, string $value = '')
+    private function setVariable(string $name, string $value = '')
     {
         if (! getenv($name, true)) {
             putenv("{$name}={$value}");
@@ -98,7 +104,7 @@ class DotEnv implements \ArrayAccess
      * Parses for assignment, cleans the $name and $value, and ensures
      * that nested variables are handled.
      */
-    protected function normaliseVariable(string $name, string $value = ''): array
+    private function normaliseVariable(string $name, string $value = ''): array
     {
         // Split our compound string into its parts.
         if (strpos($name, '=') !== false) {
@@ -122,12 +128,9 @@ class DotEnv implements \ArrayAccess
     /**
      * Strips quotes from the environment variable value.
      *
-     * This was borrowed from the excellent phpdotenv with very few changes.
-     * https://github.com/vlucas/phpdotenv
-     *
      * @throws \InvalidArgumentException
      */
-    protected function sanitizeValue(string $value): string
+    private function sanitizeValue(string $value): string
     {
         if (! $value) {
             return $value;
@@ -175,11 +178,9 @@ class DotEnv implements \ArrayAccess
      *
      * Look for ${varname} patterns in the variable value and replace with an existing
      * environment variable.
-     *
-     * This was borrowed from the excellent phpdotenv with very few changes.
-     * https://github.com/vlucas/phpdotenv
+     * 
      */
-    protected function resolveNestedVariables(string $value): string
+    private function resolveNestedVariables(string $value): string
     {
         if (strpos($value, '$') !== false) {
             $value = preg_replace_callback(
@@ -203,12 +204,9 @@ class DotEnv implements \ArrayAccess
     /**
      * Search the different places for environment variables and return first value found.
      *
-     * This was borrowed from the excellent phpdotenv with very few changes.
-     * https://github.com/vlucas/phpdotenv
-     *
      * @return string|null
      */
-    protected function getVariable(string $name)
+    private function getVariable(string $name)
     {
         switch (true) {
             case array_key_exists($name, $_ENV):
@@ -226,7 +224,12 @@ class DotEnv implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetExists method.
+     * This method is executed when using isset() or empty() on objects implementing ArrayAccess. 
+     *
+     * @param mixed $offset An offset to check for
+     * @return boolean
+     * 
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -240,7 +243,10 @@ class DotEnv implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetGet method.
+     *
+     * @param mixed $offset Offset to retrieve
+     * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -248,7 +254,12 @@ class DotEnv implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetSet method.
+     * Assign a value to the specified offset.
+     *
+     * @param mixed $offset The offset to assign the value to
+     * @param mixed $value The value to set
+     * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -256,7 +267,11 @@ class DotEnv implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetUnset method.
+     * Unsets an offset
+     *
+     * @param mixed $offset The offset to unset
+     * @return void
      */
     public function offsetUnset(mixed $offset): void
     {

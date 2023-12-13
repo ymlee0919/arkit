@@ -72,9 +72,6 @@ public static ?\Arkit\Core\HTTP\RequestInterface $Request
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\HTTP\RequestInterface - 
 
 ***
 
@@ -90,9 +87,6 @@ public static ?\Arkit\Core\HTTP\Response $Response
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\HTTP\Response - 
 
 ***
 
@@ -108,9 +102,6 @@ public static ?\Arkit\Core\Persistence\Cache\CacheInterface $Cache
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\Persistence\Cache\CacheInterface - 
 
 ***
 
@@ -126,9 +117,6 @@ public static ?\Arkit\Core\Filter\InputValidator $InputValidator
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\Filter\InputValidator - 
 
 ***
 
@@ -159,9 +147,6 @@ public static ?\Arkit\Core\Control\Routing\RouterInterface $Router
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\Control\Routing\RouterInterface - 
 
 ***
 
@@ -177,9 +162,6 @@ public static ?\Arkit\Core\Monitor\Logger $Logs
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\Monitor\Logger - 
 
 ***
 
@@ -195,9 +177,6 @@ public static ?\Arkit\Core\Persistence\Server\Session $Session
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Persistence\Server\Session - 
 
 ***
 
@@ -213,9 +192,6 @@ public static ?\Arkit\Core\Security\Crypt\CryptInterface $Crypt
 
 * This property is **static**.
 
-**See Also:**
-
-* \Arkit\Core\Security\Crypt\CryptInterface - 
 
 ***
 
@@ -364,7 +340,7 @@ public static getRouter(string& $path): ?\Arkit\Core\Control\Routing\RouterInter
 
 **Return Value:**
 
-(@see \Core\Control\Routing\RouterInterface)
+Url router
 
 
 
@@ -477,6 +453,10 @@ public static readConfig(string $path): array
 | `$path` | **string** | Absolute path of the file |
 
 
+**Return Value:**
+
+Configuration
+
 
 
 
@@ -504,6 +484,10 @@ public static fullPath(string $relPath): string
 | `$relPath` | **string** | Relative path |
 
 
+**Return Value:**
+
+Absolute path form a relative path
+
 
 
 
@@ -530,6 +514,10 @@ public static fullPathFromSystem(string $relPath): string
 |-----------|------|-------------|
 | `$relPath` | **string** | Relative path |
 
+
+**Return Value:**
+
+Absolute path from a relative path inside the active System directory
 
 
 

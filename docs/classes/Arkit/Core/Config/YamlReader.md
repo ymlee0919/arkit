@@ -2,7 +2,7 @@
 
 # YamlReader
 
-
+Yaml file reader
 
 
 
@@ -16,7 +16,7 @@
 
 ### ReadFile
 
-
+Read a yaml file given the absolute file path
 
 ```php
 public static ReadFile(string $file): array
@@ -33,8 +33,12 @@ public static ReadFile(string $file): array
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$file` | **string** |  |
+| `$file` | **string** | Absolute file path |
 
+
+**Return Value:**
+
+Key => Value array according file
 
 
 

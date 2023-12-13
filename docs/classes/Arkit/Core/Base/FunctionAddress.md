@@ -2,7 +2,7 @@
 
 # FunctionAddress
 
-
+Class to store a class name and a method name.
 
 
 
@@ -16,13 +16,15 @@
 
 ### fromString
 
-
+Build an instance of FunctionAddress given an string.
 
 ```php
 public static fromString(string $strFunctionAddress): \Arkit\Core\Base\FunctionAddress
 ```
 
+String format: ClassName[::FunctionName]
 
+Note that FunctionName is optional.
 
 * This method is **static**.
 
@@ -33,7 +35,7 @@ public static fromString(string $strFunctionAddress): \Arkit\Core\Base\FunctionA
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$strFunctionAddress` | **string** |  |
+| `$strFunctionAddress` | **string** | String with format: ClassName[::FunctionName] |
 
 
 
@@ -43,7 +45,7 @@ public static fromString(string $strFunctionAddress): \Arkit\Core\Base\FunctionA
 
 ### __construct
 
-
+Constructor of the class
 
 ```php
 public __construct(string $className, string|null $functionName = null): mixed
@@ -60,8 +62,8 @@ public __construct(string $className, string|null $functionName = null): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$className` | **string** |  |
-| `$functionName` | **string&#124;null** |  |
+| `$className` | **string** | Name of the class |
+| `$functionName` | **string&#124;null** | Function name |
 
 
 
@@ -71,7 +73,7 @@ public __construct(string $className, string|null $functionName = null): mixed
 
 ### getClassName
 
-
+Return the class name
 
 ```php
 public getClassName(): string
@@ -92,7 +94,7 @@ public getClassName(): string
 
 ### getFunctionName
 
-
+Return the function name
 
 ```php
 public getFunctionName(): string|null

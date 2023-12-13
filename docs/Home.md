@@ -40,7 +40,7 @@ This is an automatically generated documentation for **Arkit API**.
 | Class | Description |
 |-------|-------------|
 | [`Controller`](./classes/Arkit/Core/Base/Controller.md) | Base class for handler request. Implements the Template Method pattern.|
-| [`FunctionAddress`](./classes/Arkit/Core/Base/FunctionAddress.md) | |
+| [`FunctionAddress`](./classes/Arkit/Core/Base/FunctionAddress.md) | Class to store a class name and a method name.|
 
 
 
@@ -51,8 +51,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`DotEnv`](./classes/Arkit/Core/Config/DotEnv.md) | Environment-specific configuration|
-| [`YamlReader`](./classes/Arkit/Core/Config/YamlReader.md) | |
+| [`DotEnv`](./classes/Arkit/Core/Config/DotEnv.md) | Environment-specific configuration handler.|
+| [`YamlReader`](./classes/Arkit/Core/Config/YamlReader.md) | Yaml file reader|
 
 
 
@@ -66,7 +66,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`AccessControllerInterface`](./classes/Arkit/Core/Control/Access/AccessControllerInterface.md) | |
+| [`AccessControllerInterface`](./classes/Arkit/Core/Control/Access/AccessControllerInterface.md) | Interface for Access Controller clases.|
 
 
 

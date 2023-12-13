@@ -1,25 +1,34 @@
 <?php
 
 namespace Arkit\Core\Base;
+
 /**
- *
+ * Class to store a class name and a method name.
+ * 
+ * @package Arkit\Core\Base
  */
 class FunctionAddress
 {
 
     /**
-     * @var string
+     * @var string Name of the class
      */
     private string $className;
 
     /**
-     * @var string|null
+     * @var string|null Name of the funcion
      */
     private ?string $functionName;
 
     /**
-     * @param string $strFunctionAddress
+     * Build an instance of FunctionAddress given an string.
+     * String format: ClassName[::FunctionName]
+     * 
+     * Note that FunctionName is optional.
+     * 
+     * @param string $strFunctionAddress String with format: ClassName[::FunctionName]
      * @return FunctionAddress
+     * @example FunctionAddress::fromString('\Administration\Dashboard\Controller::ShowDashboard') Return and object with class name \Administration\Dashboard\Controller and method name ShowDashboard
      */
     public static function fromString(string $strFunctionAddress): FunctionAddress
     {
@@ -33,8 +42,10 @@ class FunctionAddress
     }
 
     /**
-     * @param string $className
-     * @param string|null $functionName
+     * Constructor of the class
+     * 
+     * @param string $className Name of the class
+     * @param string|null $functionName Function name
      */
     public function __construct(string $className, ?string $functionName = null)
     {
@@ -43,6 +54,7 @@ class FunctionAddress
     }
 
     /**
+     * Return the class name
      * @return string
      */
     public function getClassName(): string
@@ -51,6 +63,7 @@ class FunctionAddress
     }
 
     /**
+     * Return the function name
      * @return string|null
      */
     public function getFunctionName(): ?string

@@ -40,7 +40,6 @@ final class App
      * Request handler
      *
      * @var ?Core\HTTP\RequestInterface
-     * @see \Arkit\Core\HTTP\RequestInterface
      * @api
      */
     public static $Request = null;
@@ -49,7 +48,6 @@ final class App
      * Response handler
      *
      * @var ?Core\HTTP\Response
-     * @see \Arkit\Core\HTTP\Response
      * @api
      */
     public static $Response = null;
@@ -58,7 +56,6 @@ final class App
      * Cache handler
      *
      * @var ?Core\Persistence\Cache\CacheInterface
-     * @see \Arkit\Core\Persistence\Cache\CacheInterface
      * @api
      */
     public static $Cache = null;
@@ -67,7 +64,6 @@ final class App
      * Form input validator
      *
      * @var ?Core\Filter\InputValidator
-     * @see \Arkit\Core\Filter\InputValidator
      * @api
      */
     public static $InputValidator = null;
@@ -84,7 +80,6 @@ final class App
      * Router for url
      *
      * @var ?Core\Control\Routing\RouterInterface
-     * @see \Arkit\Core\Control\Routing\RouterInterface
      * @api
      */
     public static $Router = null;
@@ -93,7 +88,6 @@ final class App
      * Logs handler
      *
      * @var ?Core\Monitor\Logger
-     * @see \Arkit\Core\Monitor\Logger
      * @api
      */
     public static $Logs = null;
@@ -102,7 +96,6 @@ final class App
      * Session vars handler
      *
      * @var ?Core\Persistence\Server\Session
-     * @see \Arkit\Persistence\Server\Session
      * @api
      */
     public static $Session = null;
@@ -111,7 +104,6 @@ final class App
      * Cryptography algorithms provider
      *
      * @var ?Core\Security\Crypt\CryptInterface
-     * @see Core\Security\Crypt\CryptInterface
      * @api
      */
     public static $Crypt = null;
@@ -260,7 +252,7 @@ final class App
     /**
      * Dispatch a giver request. This method in invoqued automatically by index.php
      * 
-     * @param  Core\HTTP\RequestInterface $request(@see \Arkit\Core\HTTP\RequestInterface)
+     * @param  Core\HTTP\RequestInterface $request
      * @return void
      * @throws \Exception
      */
@@ -344,7 +336,6 @@ final class App
      * 
      * @param  Core\Control\Routing\RoutingHandler $routingHandler
      * @throws \Exception
-     * @see \Arkit\Core\Control\Routing\RoutingHandler
      */
     private function invoke(Core\Control\Routing\RoutingHandler &$routingHandler) : void
     {
@@ -411,7 +402,7 @@ final class App
      * Return the Url Router given the path
      * 
      * @param string $path Absolute path to the file router definition
-     * @return ?Core\Control\Routing\RouterInterface (@see \Core\Control\Routing\RouterInterface)
+     * @return ?Core\Control\Routing\RouterInterface Url router
      * @throws \Exception
      * @api
      */
@@ -520,7 +511,7 @@ final class App
      * Read a yaml file from an absolute path
      * 
      * @param string $path Absolute path of the file
-     * @return array
+     * @return array Configuration
      * @api
      */
     public static function readConfig(string $path) : array
@@ -531,7 +522,7 @@ final class App
     /**
      * Return absolute path form a relative path. Relative path is taken form the current working directory
      * @param  string $relPath Relative path
-     * @return string
+     * @return string Absolute path form a relative path
      * @api
      */
     public static function fullPath(string $relPath) : string
@@ -541,8 +532,9 @@ final class App
 
     /**
      * Return absolute path from a relative path inside the active System directory.
+     * 
      * @param string $relPath Relative path
-     * @return string
+     * @return string Absolute path from a relative path inside the active System directory
      * @api
      */
     public static function fullPathFromSystem(string $relPath) : string
