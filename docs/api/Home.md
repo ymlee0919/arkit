@@ -57,61 +57,6 @@ This is an automatically generated documentation for **Arkit API**.
 
 
 
-### \Arkit\Core\Config\Yaml
-
-#### Classes
-
-| Class | Description |
-|-------|-------------|
-| [`Dumper`](./classes/Arkit/Core/Config/Yaml/Dumper.md) | Dumper dumps PHP variables to YAML strings.|
-| [`Parser`](./classes/Arkit/Core/Config/Yaml/Parser.md) | Parser parses YAML strings to convert them to PHP arrays.|
-| [`Yaml`](./classes/Arkit/Core/Config/Yaml/Yaml.md) | Yaml offers convenience methods to load and dump YAML.|
-
-
-
-
-### \Arkit\Core\Config\Yaml\Command
-
-#### Classes
-
-| Class | Description |
-|-------|-------------|
-| [`LintCommand`](./classes/Arkit/Core/Config/Yaml/Command/LintCommand.md) | Validates YAML files syntax and outputs encountered errors.|
-
-
-
-
-### \Arkit\Core\Config\Yaml\Exception
-
-#### Classes
-
-| Class | Description |
-|-------|-------------|
-| [`DumpException`](./classes/Arkit/Core/Config/Yaml/Exception/DumpException.md) | Exception class thrown when an error occurs during dumping.|
-| [`ParseException`](./classes/Arkit/Core/Config/Yaml/Exception/ParseException.md) | Exception class thrown when an error occurs during parsing.|
-| [`RuntimeException`](./classes/Arkit/Core/Config/Yaml/Exception/RuntimeException.md) | Exception class thrown when an error occurs during parsing.|
-
-
-
-#### Interfaces
-
-| Interface | Description |
-|-----------|-------------|
-| [`ExceptionInterface`](./classes/Arkit/Core/Config/Yaml/Exception/ExceptionInterface.md) | Exception interface for all exceptions thrown by the component.|
-
-
-
-### \Arkit\Core\Config\Yaml\Tag
-
-#### Classes
-
-| Class | Description |
-|-------|-------------|
-| [`TaggedValue`](./classes/Arkit/Core/Config/Yaml/Tag/TaggedValue.md) | |
-
-
-
-
 ### \Arkit\Core\Control\Access
 
 
