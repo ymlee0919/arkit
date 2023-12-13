@@ -327,7 +327,7 @@ public dispatch(\Arkit\Core\HTTP\RequestInterface& $request): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$request` | **\Arkit\Core\HTTP\RequestInterface** | {@see \Arkit\Core\HTTP\RequestInterface} |
+| `$request` | **\Arkit\Core\HTTP\RequestInterface** |  |
 
 
 
@@ -364,7 +364,7 @@ public static getRouter(string& $path): ?\Arkit\Core\Control\Routing\RouterInter
 
 **Return Value:**
 
-{@see \Core\Control\Routing\RouterInterface}
+(@see \Core\Control\Routing\RouterInterface)
 
 
 

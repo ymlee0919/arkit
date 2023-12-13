@@ -6,7 +6,7 @@ use Arkit\Core\Config\DotEnv;
 /**
  * Application controller class. Implements the singleton pattern.
  * 
- * @package Arkit
+ * @package \Arkit
  */
 final class App
 {
@@ -260,7 +260,7 @@ final class App
     /**
      * Dispatch a giver request. This method in invoqued automatically by index.php
      * 
-     * @param  Core\HTTP\RequestInterface $request {@see \Arkit\Core\HTTP\RequestInterface}
+     * @param  Core\HTTP\RequestInterface $request(@see \Arkit\Core\HTTP\RequestInterface)
      * @return void
      * @throws \Exception
      */
@@ -344,6 +344,7 @@ final class App
      * 
      * @param  Core\Control\Routing\RoutingHandler $routingHandler
      * @throws \Exception
+     * @see \Arkit\Core\Control\Routing\RoutingHandler
      */
     private function invoke(Core\Control\Routing\RoutingHandler &$routingHandler) : void
     {
@@ -410,7 +411,7 @@ final class App
      * Return the Url Router given the path
      * 
      * @param string $path Absolute path to the file router definition
-     * @return ?Core\Control\Routing\RouterInterface {@see \Core\Control\Routing\RouterInterface}
+     * @return ?Core\Control\Routing\RouterInterface (@see \Core\Control\Routing\RouterInterface)
      * @throws \Exception
      * @api
      */
