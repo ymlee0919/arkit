@@ -1,7 +1,9 @@
 <?php
 
 define('DEBUG_MODE', 'DEBUG');
+
 define('TESTING_MODE', 'TESTING');
+
 define('RELEASE_MODE', 'RELEASE');
 
 //// Set a secure environment:

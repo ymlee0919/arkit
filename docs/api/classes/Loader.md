@@ -2,9 +2,9 @@
 
 # Loader
 
+Class to handle loading files and dependencies.
 
-
-
+Implements the singleton pattern.
 
 * Full name: `\Loader`
 
@@ -34,7 +34,7 @@ protected array $prefixes
 
 ### getInstance
 
-
+Return the unique instacen of the class
 
 ```php
 public static getInstance(): \Loader
@@ -55,7 +55,7 @@ public static getInstance(): \Loader
 
 ### register
 
-Register loader with SPL autoloader stack.
+Register loader with SPL autoloader stack. This method is invoqued by index.php file. Should not be called again.
 
 ```php
 public register(): void
@@ -201,7 +201,7 @@ True if the file exists, false if not.
 
 ### import
 
-
+Import a class from a single file.
 
 ```php
 public static import(?string $className, string $lib, bool $include = false): bool
@@ -218,9 +218,9 @@ public static import(?string $className, string $lib, bool $include = false): bo
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$className` | **?string** |  |
-| `$lib` | **string** |  |
-| `$include` | **bool** |  |
+| `$className` | **?string** | Name of the class to be imported. The name is used to check the class do not exists. It can be null. |
+| `$lib` | **string** | Absolute file path |
+| `$include` | **bool** | Include or Require |
 
 
 
@@ -230,10 +230,10 @@ public static import(?string $className, string $lib, bool $include = false): bo
 
 ### loadDependencies
 
-
+Load all dependencies from the vendor directory
 
 ```php
-public loadDependencies(): mixed
+public loadDependencies(): void
 ```
 
 

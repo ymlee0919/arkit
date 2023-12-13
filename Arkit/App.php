@@ -1,27 +1,30 @@
 <?php
-
 namespace Arkit;
 
 use Arkit\Core\Config\DotEnv;
 
 /**
- * Class Application
- * Manage the application
+ * Application controller class. Implements the singleton pattern.
+ * 
+ * @package Arkit
  */
 final class App
 {
     
     /**
-     * Array to store global values
+     * Array to store global values. It can be used to share values between objects.
      *
      * @var ?array
+     * @example \Arkit\App::$store['info'] = '...'
+     * @api
      */
     public static ?array $store = null;
 
     /**
-     * Application configuration
+     * Store the global application configuration
      *
      * @var ?array
+     * @api
      */
     public static ?array $config = null;
     
@@ -29,92 +32,108 @@ final class App
      * Application root directory
      *
      * @var ?string
+     * @api
      */
     public static ?string $ROOT_DIR = null;
 
     /**
-     * Request
+     * Request handler
      *
      * @var ?Core\HTTP\RequestInterface
+     * @see \Arkit\Core\HTTP\RequestInterface
+     * @api
      */
     public static $Request = null;
 
     /**
-     * Output
+     * Response handler
      *
      * @var ?Core\HTTP\Response
+     * @see \Arkit\Core\HTTP\Response
+     * @api
      */
-    public static  $Response = null;
+    public static $Response = null;
 
     /**
-     * Cache manager
+     * Cache handler
      *
      * @var ?Core\Persistence\Cache\CacheInterface
+     * @see \Arkit\Core\Persistence\Cache\CacheInterface
+     * @api
      */
     public static $Cache = null;
 
     /**
-     * Form validator
+     * Form input validator
      *
      * @var ?Core\Filter\InputValidator
-     * @static var
+     * @see \Arkit\Core\Filter\InputValidator
+     * @api
      */
     public static $InputValidator = null;
 
     /**
-     * Model
+     * Business model class
      *
      * @var ?Core\Persistence\Database\Model
+     * @api
      */
     public static $Model = null;
 
     /**
-     * Router
+     * Router for url
      *
      * @var ?Core\Control\Routing\RouterInterface
+     * @see \Arkit\Core\Control\Routing\RouterInterface
+     * @api
      */
     public static $Router = null;
 
     /**
-     * Logs manager
+     * Logs handler
      *
      * @var ?Core\Monitor\Logger
+     * @see \Arkit\Core\Monitor\Logger
+     * @api
      */
     public static $Logs = null;
 
     /**
-     * Session manager
+     * Session vars handler
      *
      * @var ?Core\Persistence\Server\Session
+     * @see \Arkit\Persistence\Server\Session
+     * @api
      */
     public static $Session = null;
 
     /**
-     * Crypt manager
+     * Cryptography algorithms provider
      *
      * @var ?Core\Security\Crypt\CryptInterface
+     * @see Core\Security\Crypt\CryptInterface
+     * @api
      */
     public static $Crypt = null;
 
 
     /**
-     * Environment vars manager
+     * Environment vars handler
      *
      * @var ?Core\Config\DotEnv
+     * @see \Arkit\Core\Config\DotEnv
+     * @api
      */
     public static $Env = null;
 
     /**
-     * Static instance
+     * Singleton instance of the class
      *
      * @var ?App
      */
     private static $instance = null;
 
-    private function __construct()
-    {
-
-    }
+    private function __construct() { }
 
     /**
      *
@@ -126,7 +145,13 @@ final class App
         self::$store = null;
     }
 
-    public static function getInstance()
+    /**
+     * Return the unique instance of the class
+     *
+     * @return \Arkit\App
+     * @api
+     */
+    public static function getInstance() : \Arkit\App
     {
         if(is_null(self::$instance))
         {
@@ -138,6 +163,8 @@ final class App
     }
 
     /**
+     * Init the application
+     * 
      * @throws \Exception
      */
     public function init() : void
@@ -173,6 +200,11 @@ final class App
         unset($cacheClass);
     }
 
+    /**
+     * Init application according defined run mode
+     *
+     * @return void
+     */
     private static function initRunMode()
     {
         if(!defined('RUN_MODE'))
@@ -226,7 +258,9 @@ final class App
     }
 
     /**
-     * @param  Core\HTTP\RequestInterface $request
+     * Dispatch a giver request. This method in invoqued automatically by index.php
+     * 
+     * @param  Core\HTTP\RequestInterface $request {@see \Arkit\Core\HTTP\RequestInterface}
      * @return void
      * @throws \Exception
      */
@@ -306,6 +340,8 @@ final class App
     }
 
     /**
+     * Invoque a function of routing handler
+     * 
      * @param  Core\Control\Routing\RoutingHandler $routingHandler
      * @throws \Exception
      */
@@ -371,9 +407,12 @@ final class App
     }
 
     /**
-     * @param  string $path
-     * @return ?Core\Control\Routing\RouterInterface
+     * Return the Url Router given the path
+     * 
+     * @param string $path Absolute path to the file router definition
+     * @return ?Core\Control\Routing\RouterInterface {@see \Core\Control\Routing\RouterInterface}
      * @throws \Exception
+     * @api
      */
     public static function getRouter(string &$path) : ?Core\Control\Routing\RouterInterface
     {
@@ -415,8 +454,11 @@ final class App
     }
 
     /**
+     * Load the form input validator. 
+     * 
      * @return void
      * @throws \Exception
+     * @api
      */
     public static function loadInputValidator() : void
     {
@@ -428,8 +470,10 @@ final class App
     }
 
     /**
-     * Start the session
+     * Start the session handler. It must be called before use any session var.
+     * 
      * @return void
+     * @api
      */
     public static function startSession() : void
     {
@@ -443,10 +487,12 @@ final class App
     }
 
     /**
-     * Load the model
-     * @param string|null $modelName
+     * Load the model to work with.
+     * 
+     * @param string|null $modelName Name of the model to be loaded. If not set, the model will be taken form the configuration
      * @return void
      * @throws \Exception
+     * @api
      */
     public static function loadModel(?string $modelName) : void
     {
@@ -470,8 +516,11 @@ final class App
     }
 
     /**
-     * @param  string $path
+     * Read a yaml file from an absolute path
+     * 
+     * @param string $path Absolute path of the file
      * @return array
+     * @api
      */
     public static function readConfig(string $path) : array
     {
@@ -479,8 +528,10 @@ final class App
     }
 
     /**
-     * @param  string $relPath
+     * Return absolute path form a relative path. Relative path is taken form the current working directory
+     * @param  string $relPath Relative path
      * @return string
+     * @api
      */
     public static function fullPath(string $relPath) : string
     {
@@ -488,8 +539,10 @@ final class App
     }
 
     /**
-     * @param  string $relPath
+     * Return absolute path from a relative path inside the active System directory.
+     * @param string $relPath Relative path
      * @return string
+     * @api
      */
     public static function fullPathFromSystem(string $relPath) : string
     {

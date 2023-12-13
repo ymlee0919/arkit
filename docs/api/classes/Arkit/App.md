@@ -2,8 +2,7 @@
 
 # App
 
-Class Application
-Manage the application
+Application controller class. Implements the singleton pattern.
 
 
 
@@ -18,7 +17,7 @@ Manage the application
 
 ### store
 
-Array to store global values
+Array to store global values. It can be used to share values between objects.
 
 ```php
 public static ?array $store
@@ -33,7 +32,7 @@ public static ?array $store
 
 ### config
 
-Application configuration
+Store the global application configuration
 
 ```php
 public static ?array $config
@@ -63,7 +62,7 @@ public static ?string $ROOT_DIR
 
 ### Request
 
-Request
+Request handler
 
 ```php
 public static ?\Arkit\Core\HTTP\RequestInterface $Request
@@ -73,12 +72,15 @@ public static ?\Arkit\Core\HTTP\RequestInterface $Request
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\HTTP\RequestInterface - 
 
 ***
 
 ### Response
 
-Output
+Response handler
 
 ```php
 public static ?\Arkit\Core\HTTP\Response $Response
@@ -88,12 +90,15 @@ public static ?\Arkit\Core\HTTP\Response $Response
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\HTTP\Response - 
 
 ***
 
 ### Cache
 
-Cache manager
+Cache handler
 
 ```php
 public static ?\Arkit\Core\Persistence\Cache\CacheInterface $Cache
@@ -103,12 +108,15 @@ public static ?\Arkit\Core\Persistence\Cache\CacheInterface $Cache
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\Persistence\Cache\CacheInterface - 
 
 ***
 
 ### InputValidator
 
-Form validator
+Form input validator
 
 ```php
 public static ?\Arkit\Core\Filter\InputValidator $InputValidator
@@ -118,12 +126,15 @@ public static ?\Arkit\Core\Filter\InputValidator $InputValidator
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\Filter\InputValidator - 
 
 ***
 
 ### Model
 
-Model
+Business model class
 
 ```php
 public static ?\Arkit\Core\Persistence\Database\Model $Model
@@ -138,7 +149,7 @@ public static ?\Arkit\Core\Persistence\Database\Model $Model
 
 ### Router
 
-Router
+Router for url
 
 ```php
 public static ?\Arkit\Core\Control\Routing\RouterInterface $Router
@@ -148,12 +159,15 @@ public static ?\Arkit\Core\Control\Routing\RouterInterface $Router
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\Control\Routing\RouterInterface - 
 
 ***
 
 ### Logs
 
-Logs manager
+Logs handler
 
 ```php
 public static ?\Arkit\Core\Monitor\Logger $Logs
@@ -163,12 +177,15 @@ public static ?\Arkit\Core\Monitor\Logger $Logs
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\Monitor\Logger - 
 
 ***
 
 ### Session
 
-Session manager
+Session vars handler
 
 ```php
 public static ?\Arkit\Core\Persistence\Server\Session $Session
@@ -178,12 +195,15 @@ public static ?\Arkit\Core\Persistence\Server\Session $Session
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Persistence\Server\Session - 
 
 ***
 
 ### Crypt
 
-Crypt manager
+Cryptography algorithms provider
 
 ```php
 public static ?\Arkit\Core\Security\Crypt\CryptInterface $Crypt
@@ -193,12 +213,15 @@ public static ?\Arkit\Core\Security\Crypt\CryptInterface $Crypt
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\Security\Crypt\CryptInterface - 
 
 ***
 
 ### Env
 
-Environment vars manager
+Environment vars handler
 
 ```php
 public static ?\Arkit\Core\Config\DotEnv $Env
@@ -208,6 +231,9 @@ public static ?\Arkit\Core\Config\DotEnv $Env
 
 * This property is **static**.
 
+**See Also:**
+
+* \Arkit\Core\Config\DotEnv - 
 
 ***
 
@@ -237,10 +263,10 @@ public __destruct(): mixed
 
 ### getInstance
 
-
+Return the unique instance of the class
 
 ```php
-public static getInstance(): mixed
+public static getInstance(): \Arkit\App
 ```
 
 
@@ -258,7 +284,7 @@ public static getInstance(): mixed
 
 ### init
 
-
+Init the application
 
 ```php
 public init(): void
@@ -284,7 +310,7 @@ public init(): void
 
 ### dispatch
 
-
+Dispatch a giver request. This method in invoqued automatically by index.php
 
 ```php
 public dispatch(\Arkit\Core\HTTP\RequestInterface& $request): void
@@ -301,7 +327,7 @@ public dispatch(\Arkit\Core\HTTP\RequestInterface& $request): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$request` | **\Arkit\Core\HTTP\RequestInterface** |  |
+| `$request` | **\Arkit\Core\HTTP\RequestInterface** | {@see \Arkit\Core\HTTP\RequestInterface} |
 
 
 
@@ -316,7 +342,7 @@ public dispatch(\Arkit\Core\HTTP\RequestInterface& $request): void
 
 ### getRouter
 
-
+Return the Url Router given the path
 
 ```php
 public static getRouter(string& $path): ?\Arkit\Core\Control\Routing\RouterInterface
@@ -333,8 +359,12 @@ public static getRouter(string& $path): ?\Arkit\Core\Control\Routing\RouterInter
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$path` | **string** |  |
+| `$path` | **string** | Absolute path to the file router definition |
 
+
+**Return Value:**
+
+{@see \Core\Control\Routing\RouterInterface}
 
 
 
@@ -348,7 +378,7 @@ public static getRouter(string& $path): ?\Arkit\Core\Control\Routing\RouterInter
 
 ### loadInputValidator
 
-
+Load the form input validator.
 
 ```php
 public static loadInputValidator(): void
@@ -374,7 +404,7 @@ public static loadInputValidator(): void
 
 ### startSession
 
-Start the session
+Start the session handler. It must be called before use any session var.
 
 ```php
 public static startSession(): void
@@ -395,7 +425,7 @@ public static startSession(): void
 
 ### loadModel
 
-Load the model
+Load the model to work with.
 
 ```php
 public static loadModel(string|null $modelName): void
@@ -412,7 +442,7 @@ public static loadModel(string|null $modelName): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$modelName` | **string&#124;null** |  |
+| `$modelName` | **string&#124;null** | Name of the model to be loaded. If not set, the model will be taken form the configuration |
 
 
 
@@ -427,7 +457,7 @@ public static loadModel(string|null $modelName): void
 
 ### readConfig
 
-
+Read a yaml file from an absolute path
 
 ```php
 public static readConfig(string $path): array
@@ -444,7 +474,7 @@ public static readConfig(string $path): array
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$path` | **string** |  |
+| `$path` | **string** | Absolute path of the file |
 
 
 
@@ -454,7 +484,7 @@ public static readConfig(string $path): array
 
 ### fullPath
 
-
+Return absolute path form a relative path. Relative path is taken form the current working directory
 
 ```php
 public static fullPath(string $relPath): string
@@ -471,7 +501,7 @@ public static fullPath(string $relPath): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$relPath` | **string** |  |
+| `$relPath` | **string** | Relative path |
 
 
 
@@ -481,7 +511,7 @@ public static fullPath(string $relPath): string
 
 ### fullPathFromSystem
 
-
+Return absolute path from a relative path inside the active System directory.
 
 ```php
 public static fullPathFromSystem(string $relPath): string
@@ -498,7 +528,7 @@ public static fullPathFromSystem(string $relPath): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$relPath` | **string** |  |
+| `$relPath` | **string** | Relative path |
 
 
 

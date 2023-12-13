@@ -17,7 +17,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`Loader`](./classes/Loader.md) | |
+| [`Loader`](./classes/Loader.md) | Class to handle loading files and dependencies.|
 
 
 
@@ -28,7 +28,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`App`](./classes/Arkit/App.md) | Class Application<br />Manage the application|
+| [`App`](./classes/Arkit/App.md) | Application controller class. Implements the singleton pattern.|
 
 
 

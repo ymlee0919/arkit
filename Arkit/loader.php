@@ -1,7 +1,8 @@
 <?php
 
 /**
- *
+ * Class to handle loading files and dependencies.
+ * Implements the singleton pattern.
  */
 class Loader
 {
@@ -15,6 +16,8 @@ class Loader
 
 
     /**
+     * Unique instance of the class.
+     * 
      * @var Loader|null
      */
     private static ?Loader $instance = null;
@@ -28,6 +31,8 @@ class Loader
     }
 
     /**
+     * Return the unique instacen of the class
+     * 
      * @return Loader
      */
     public static function getInstance() : Loader
@@ -39,7 +44,7 @@ class Loader
     }
 
     /**
-     * Register loader with SPL autoloader stack.
+     * Register loader with SPL autoloader stack. This method is invoqued by index.php file. Should not be called again.
      *
      * @return void
      */
@@ -169,9 +174,11 @@ class Loader
     }
 
     /**
-     * @param ?string $className
-     * @param string $lib
-     * @param bool $include
+     * Import a class from a single file.
+     * 
+     * @param ?string $className Name of the class to be imported. The name is used to check the class do not exists. It can be null. 
+     * @param string $lib Absolute file path
+     * @param bool $include Include or Require
      * @return bool
      */
     public static function import(?string $className, string $lib, bool $include = false) : bool
@@ -201,6 +208,11 @@ class Loader
         return true;
     }
 
+    /**
+     * Load all dependencies from the vendor directory
+     *
+     * @return void
+     */
     public function loadDependencies()
     {
         $this->import(null, 'vendor.source.autoload');
