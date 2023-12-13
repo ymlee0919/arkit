@@ -47,8 +47,12 @@ It has a coupled class system for:
 
 It proposes a way to organize and structure the code.
 
+
+
+
+You can see the [API Dococumentation](https://github.com/ymlee0919/arkit/blob/main/docs/Home.md "API Documentation")
+
 <br>
-You can see the [API Documentation](../docs/Home.md)
 <br>
-<br>
-If you want to know a little more, you can contact me at: ymlee0919@gmail.com
+
+If you want to know a little more, you can contact me at: [ymlee0919@gmail.com](mailto:ymlee0919@gmail.com "ymlee0919@gmail.com")
