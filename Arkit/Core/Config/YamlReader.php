@@ -4,8 +4,6 @@ namespace Arkit\Core\Config;
 
 /**
  * Yaml file reader
- * 
- * @package Arkit\Core\Config
  */
 class YamlReader
 {

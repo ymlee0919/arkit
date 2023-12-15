@@ -5,7 +5,6 @@ namespace Arkit\Core\Base;
 /**
  * Class to store a class name and a method name.
  * 
- * @package Arkit\Core\Base
  */
 class FunctionAddress
 {

@@ -5,7 +5,7 @@
     "require": {
         "propel/propel": "2.0.0-beta3",
         "phpmailer/phpmailer": "^6.9",
-        "dompdf/dompdf": "^2.0",
+        "dompdf/dompdf": "^2.0.4",
         "ezyang/htmlpurifier": "4.16.0",
         "firebase/php-jwt": "^6.10",
         "monolog/monolog": "3.5.0",

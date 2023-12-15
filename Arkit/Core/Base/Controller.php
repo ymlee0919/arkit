@@ -14,7 +14,6 @@ use Arkit\Core\Control\Access\AccessControllerInterface;
  * 4.- prepare(): Prepare the last details before call the requested method
  * 5.- Invoke the requested method
  * 
- * @package Arkit\Core\Base
  */
 abstract class Controller
 {

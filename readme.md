@@ -50,7 +50,7 @@ It proposes a way to organize and structure the code.
 
 
 
-You can see the [API Dococumentation](https://github.com/ymlee0919/arkit/blob/main/docs/Home.md "API Documentation")
+You can see the [API Dococumentation](https://ymlee0919.github.io/arkit/ "API Documentation")
 
 <br>
 <br>

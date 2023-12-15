@@ -1,9 +1,4 @@
 <?php
-/**
- * Smarty plugin
- * @package Smarty
- * @subpackage PluginsFunction
- */
 
 /**
  * Smarty {url} function plugin

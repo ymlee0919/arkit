@@ -1,11 +1,5 @@
 <?php
 /**
- * Smarty plugin
- * @package Smarty
- * @subpackage PluginsFunction
- */
-
-/**
  * Smarty {crypt_id} function plugin
  *
  * Type:     function<br>

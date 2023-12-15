@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+            <title>Arkit API</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../">
+    <link rel="icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/base.css">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/template.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0/css/all.min.css" integrity="sha256-ybRkN9dBjhcS2qrW1z+hfCxq+1aBdwyQM5wlQoQVt/0=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism-okaidia.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.css">
+                <script src="https://cdn.jsdelivr.net/npm/fuse.js@3.4.6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2"></script>
+        <script src="js/template.js"></script>
+        <script src="js/search.js"></script>
+        <script defer src="js/searchIndex.js"></script>
+    </head>
+<body id="top">
+    <header class="phpdocumentor-header phpdocumentor-section">
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">Arkit API</a></h1>
+    <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
+    <label class="phpdocumentor-header__menu-icon" for="menu-button">
+        <i class="fas fa-bars"></i>
+    </label>
+    <section data-search-form class="phpdocumentor-search">
+    <label>
+        <span class="visually-hidden">Search for</span>
+        <svg class="phpdocumentor-search__icon" width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="7.5" cy="7.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+            <line x1="12.4892" y1="12.2727" x2="19.1559" y2="18.9393" stroke="currentColor" stroke-width="3"/>
+        </svg>
+        <input type="search" class="phpdocumentor-field phpdocumentor-search__field" placeholder="Loading .." disabled />
+    </label>
+</section>
+
+    <nav class="phpdocumentor-topnav">
+    <ul class="phpdocumentor-topnav__menu">
+        </ul>
+</nav>
+</header>
+
+    <main class="phpdocumentor">
+        <div class="phpdocumentor-section">
+            <input class="phpdocumentor-sidebar__menu-button" type="checkbox" id="sidebar-button" name="sidebar-button" />
+<label class="phpdocumentor-sidebar__menu-icon" for="sidebar-button">
+    Menu
+</label>
+<aside class="phpdocumentor-column -three phpdocumentor-sidebar">
+                    <section class="phpdocumentor-sidebar__category">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/arkit.html" class="">Arkit</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/arkit-core.html" class="">Core</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/arkit-helper.html" class="">Helper</a>
+                
+            </li>
+                    <li>
+                <a href="namespaces/arkit-services.html" class="">Services</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category">
+            <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/Arkit.html" class="">Arkit</a>
+</h4>
+
+                        </section>
+            
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Reports</h2>
+                <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/deprecated.html">Deprecated</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/errors.html">Errors</a></h3>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="reports/markers.html">Markers</a></h3>
+    </section>
+
+    <section class="phpdocumentor-sidebar__category">
+        <h2 class="phpdocumentor-sidebar__category-header">Indices</h2>
+        <h3 class="phpdocumentor-sidebar__root-package"><a href="indices/files.html">Files</a></h3>
+    </section>
+</aside>
+
+            <div class="phpdocumentor-column -nine phpdocumentor-content">
+                                <section>
+                                        <ul class="phpdocumentor-breadcrumbs">
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/arkit.html">Arkit</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/arkit-services.html">Services</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/arkit-services-pdf.html">Pdf</a></li>
+    </ul>
+
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    PdfBuilder
+
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/Arkit.html">Arkit</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+<div class="phpdocumentor-label-line">
+
+
+</div>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">8</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Class for building a pdf from a web page (Under construction)</p>
+
+
+
+
+
+
+<h3 id="toc">
+    Table of Contents
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h3>
+
+
+
+
+
+
+
+<h4 id="toc-constants">
+    Constants
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_AEFURAT">PDF_FONT_AEFURAT</a>
+    <span>
+        &nbsp;= &#039;aefurat&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSANS">PDF_FONT_DEJAVUSANS</a>
+    <span>
+        &nbsp;= &#039;dejavusans&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSANSMONO">PDF_FONT_DEJAVUSANSMONO</a>
+    <span>
+        &nbsp;= &#039;dejavusansmono&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSERIF">PDF_FONT_DEJAVUSERIF</a>
+    <span>
+        &nbsp;= &#039;dejavuserif&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREEMONO">PDF_FONT_FREEMONO</a>
+    <span>
+        &nbsp;= &#039;freemono&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREESANS">PDF_FONT_FREESANS</a>
+    <span>
+        &nbsp;= &#039;freesans&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREESERIF">PDF_FONT_FREESERIF</a>
+    <span>
+        &nbsp;= &#039;freeserif&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_HELVETICA">PDF_FONT_HELVETICA</a>
+    <span>
+        &nbsp;= &#039;helvetica&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFACOURIER">PDF_FONT_PDFACOURIER</a>
+    <span>
+        &nbsp;= &#039;pdfacourier&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFAHELVETICA">PDF_FONT_PDFAHELVETICA</a>
+    <span>
+        &nbsp;= &#039;pdfahelvetica&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFATIMES">PDF_FONT_PDFATIMES</a>
+    <span>
+        &nbsp;= &#039;pdfatimes&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_TIMES">PDF_FONT_TIMES</a>
+    <span>
+        &nbsp;= &#039;times&#039;                            </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_A4">PDF_FORMAT_A4</a>
+    <span>
+        &nbsp;= &#039;A4&#039;                            </span>
+</dt>
+<dd>A4 Format: 8.27 x 11.69 in = 210 x 297 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_A4_LONG">PDF_FORMAT_A4_LONG</a>
+    <span>
+        &nbsp;= &#039;A4_LONG&#039;                            </span>
+</dt>
+<dd>A4_LONG Format: 8.27 x 13.70 in = 210 x 348 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_E4">PDF_FORMAT_E4</a>
+    <span>
+        &nbsp;= &#039;E4&#039;                            </span>
+</dt>
+<dd>E4 Format: 8.66 x 12.20 in = 220 x 310 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_F4">PDF_FORMAT_F4</a>
+    <span>
+        &nbsp;= &#039;F4&#039;                            </span>
+</dt>
+<dd>F4 Format: 8.27 x 12.99 in = 210 x 330 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_GOVERNMENTLEGAL">PDF_FORMAT_GOVERNMENTLEGAL</a>
+    <span>
+        &nbsp;= &#039;GOVERNMENTLEGAL&#039;                            </span>
+</dt>
+<dd>GOVERNMENTLEGAL Format: 8.50 x 13.00 in = 216 x 330 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_GOVERNMENTLETTER">PDF_FORMAT_GOVERNMENTLETTER</a>
+    <span>
+        &nbsp;= &#039;GOVERNMENTLETTER&#039;                            </span>
+</dt>
+<dd>GOVERNMENTLETTER Format: 8.00 x 10.50 in = 203 x 267 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_LEGAL">PDF_FORMAT_LEGAL</a>
+    <span>
+        &nbsp;= &#039;LEGAL&#039;                            </span>
+</dt>
+<dd>LEGAL Format: 8.50 x 14.00 in = 216 x 356 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_LETTER">PDF_FORMAT_LETTER</a>
+    <span>
+        &nbsp;= &#039;LETTER&#039;                            </span>
+</dt>
+<dd>LETTER Format: 8.50 x 11.00 in = 216 x 279 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_P4">PDF_FORMAT_P4</a>
+    <span>
+        &nbsp;= &#039;P4&#039;                            </span>
+</dt>
+<dd>P4 Format: 8.46 x 11.02 in = 215 x 280 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_RA4">PDF_FORMAT_RA4</a>
+    <span>
+        &nbsp;= &#039;RA4&#039;                            </span>
+</dt>
+<dd>RA4 Format: 8.46 x 12.01 in = 215 x 305 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_SRA4">PDF_FORMAT_SRA4</a>
+    <span>
+        &nbsp;= &#039;SRA4&#039;                            </span>
+</dt>
+<dd>SRA4 Format: 8.86 x 12.60 in = 225 x 320 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_SUPER_A4">PDF_FORMAT_SUPER_A4</a>
+    <span>
+        &nbsp;= &#039;SUPER_A4&#039;                            </span>
+</dt>
+<dd>SUPER_A4 Format: 8.94 x 14.02 in = 227 x 356 mm</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_AUTO">PDF_ORIENTATION_AUTO</a>
+    <span>
+        &nbsp;= &#039;&#039;                            </span>
+</dt>
+<dd>Automatic Orientation</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_LANDSCAPE">PDF_ORIENTATION_LANDSCAPE</a>
+    <span>
+        &nbsp;= &#039;L&#039;                            </span>
+</dt>
+<dd>Landscape Orientation</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_PORTRAIT">PDF_ORIENTATION_PORTRAIT</a>
+    <span>
+        &nbsp;= &#039;P&#039;                            </span>
+</dt>
+<dd>Portrait Orientation</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_CENTIMETER">PDF_UNIT_CENTIMETER</a>
+    <span>
+        &nbsp;= &#039;cm&#039;                            </span>
+</dt>
+<dd>Centimeter</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_INCH">PDF_UNIT_INCH</a>
+    <span>
+        &nbsp;= &#039;cm&#039;                            </span>
+</dt>
+<dd>Inch</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_MILLIMETER">PDF_UNIT_MILLIMETER</a>
+    <span>
+        &nbsp;= &#039;mm&#039;                            </span>
+</dt>
+<dd>Millimeter</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_POINT">PDF_UNIT_POINT</a>
+    <span>
+        &nbsp;= &#039;pt&#039;                            </span>
+</dt>
+<dd>Point</dd>
+
+    </dl>
+
+
+
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method___construct">__construct()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_addPage">addPage()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_display">display()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_download">download()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_save">save()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_setFont">setFont()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_writeHTML">writeHTML()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+
+    </dl>
+
+
+
+
+        
+    <section class="phpdocumentor-constants">
+        <h3 class="phpdocumentor-elements__header" id="constants">
+            Constants
+            <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_AEFURAT">
+        PDF_FONT_AEFURAT
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_AEFURAT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">110</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_AEFURAT</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;aefurat&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_DEJAVUSANS">
+        PDF_FONT_DEJAVUSANS
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSANS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">112</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_DEJAVUSANS</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;dejavusans&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_DEJAVUSANSMONO">
+        PDF_FONT_DEJAVUSANSMONO
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSANSMONO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">114</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_DEJAVUSANSMONO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;dejavusansmono&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_DEJAVUSERIF">
+        PDF_FONT_DEJAVUSERIF
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSERIF" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">116</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_DEJAVUSERIF</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;dejavuserif&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_FREEMONO">
+        PDF_FONT_FREEMONO
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREEMONO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">118</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_FREEMONO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;freemono&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_FREESANS">
+        PDF_FONT_FREESANS
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREESANS" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">120</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_FREESANS</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;freesans&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_FREESERIF">
+        PDF_FONT_FREESERIF
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREESERIF" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">122</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_FREESERIF</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;freeserif&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_HELVETICA">
+        PDF_FONT_HELVETICA
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_HELVETICA" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">124</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_HELVETICA</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;helvetica&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_PDFACOURIER">
+        PDF_FONT_PDFACOURIER
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFACOURIER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">126</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_PDFACOURIER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;pdfacourier&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_PDFAHELVETICA">
+        PDF_FONT_PDFAHELVETICA
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFAHELVETICA" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">128</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_PDFAHELVETICA</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;pdfahelvetica&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_PDFATIMES">
+        PDF_FONT_PDFATIMES
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFATIMES" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">130</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_PDFATIMES</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;pdfatimes&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FONT_TIMES">
+        PDF_FONT_TIMES
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_TIMES" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">132</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FONT_TIMES</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;times&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_A4">
+        PDF_FORMAT_A4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_A4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">15</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">A4 Format: 8.27 x 11.69 in = 210 x 297 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_A4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;A4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_A4_LONG">
+        PDF_FORMAT_A4_LONG
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_A4_LONG" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">40</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">A4_LONG Format: 8.27 x 13.70 in = 210 x 348 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_A4_LONG</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;A4_LONG&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_E4">
+        PDF_FORMAT_E4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_E4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">20</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">E4 Format: 8.66 x 12.20 in = 220 x 310 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_E4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;E4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_F4">
+        PDF_FORMAT_F4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_F4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">45</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">F4 Format: 8.27 x 12.99 in = 210 x 330 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_F4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;F4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_GOVERNMENTLEGAL">
+        PDF_FORMAT_GOVERNMENTLEGAL
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_GOVERNMENTLEGAL" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">70</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">GOVERNMENTLEGAL Format: 8.50 x 13.00 in = 216 x 330 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_GOVERNMENTLEGAL</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;GOVERNMENTLEGAL&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_GOVERNMENTLETTER">
+        PDF_FORMAT_GOVERNMENTLETTER
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_GOVERNMENTLETTER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">65</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">GOVERNMENTLETTER Format: 8.00 x 10.50 in = 203 x 267 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_GOVERNMENTLETTER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;GOVERNMENTLETTER&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_LEGAL">
+        PDF_FORMAT_LEGAL
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_LEGAL" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">60</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">LEGAL Format: 8.50 x 14.00 in = 216 x 356 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_LEGAL</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;LEGAL&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_LETTER">
+        PDF_FORMAT_LETTER
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_LETTER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">55</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">LETTER Format: 8.50 x 11.00 in = 216 x 279 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_LETTER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;LETTER&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_P4">
+        PDF_FORMAT_P4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_P4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">50</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">P4 Format: 8.46 x 11.02 in = 215 x 280 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_P4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;P4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_RA4">
+        PDF_FORMAT_RA4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_RA4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">25</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">RA4 Format: 8.46 x 12.01 in = 215 x 305 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_RA4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;RA4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_SRA4">
+        PDF_FORMAT_SRA4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_SRA4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">30</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">SRA4 Format: 8.86 x 12.60 in = 225 x 320 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_SRA4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;SRA4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_FORMAT_SUPER_A4">
+        PDF_FORMAT_SUPER_A4
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_SUPER_A4" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">35</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">SUPER_A4 Format: 8.94 x 14.02 in = 227 x 356 mm</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_FORMAT_SUPER_A4</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;SUPER_A4&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_ORIENTATION_AUTO">
+        PDF_ORIENTATION_AUTO
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_AUTO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">86</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Automatic Orientation</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_ORIENTATION_AUTO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_ORIENTATION_LANDSCAPE">
+        PDF_ORIENTATION_LANDSCAPE
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_LANDSCAPE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">81</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Landscape Orientation</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_ORIENTATION_LANDSCAPE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;L&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_ORIENTATION_PORTRAIT">
+        PDF_ORIENTATION_PORTRAIT
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_PORTRAIT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">76</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Portrait Orientation</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_ORIENTATION_PORTRAIT</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;P&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_UNIT_CENTIMETER">
+        PDF_UNIT_CENTIMETER
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_CENTIMETER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">102</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Centimeter</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_UNIT_CENTIMETER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;cm&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_UNIT_INCH">
+        PDF_UNIT_INCH
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_INCH" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">107</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Inch</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_UNIT_INCH</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;cm&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_UNIT_MILLIMETER">
+        PDF_UNIT_MILLIMETER
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_MILLIMETER" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">97</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Millimeter</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_UNIT_MILLIMETER</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;mm&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PDF_UNIT_POINT">
+        PDF_UNIT_POINT
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_POINT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">92</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Point</p>
+
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PDF_UNIT_POINT</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;pt&#039;</span>
+</code>
+
+
+    
+    
+    
+
+</article>
+            </section>
+
+        
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method___construct">
+        __construct()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method___construct" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">145</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$orientation</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$format</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$language</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;en&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$margin</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[7, 7, 7, 10]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$orientation</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$format</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$language</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;en&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$margin</span>
+                : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">[7, 7, 7, 10]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_addPage">
+        addPage()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_addPage" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">171</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">addPage</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_display">
+        display()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_display" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">191</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">display</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$outputName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$outputName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_display#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\HTML2PDF_exception">HTML2PDF_exception</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_download">
+        download()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_download" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">201</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">download</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$outputName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$outputName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_download#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\HTML2PDF_exception">HTML2PDF_exception</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_save">
+        save()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_save" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">181</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">save</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fileName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$fileName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_save#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\HTML2PDF_exception">HTML2PDF_exception</abbr></span>
+                                                            
+                                             
+                                    </dd>
+                                            </dl>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_setFont">
+        setFont()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_setFont" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">154</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">setFont</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fontName</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$fontName</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_writeHTML">
+        writeHTML()
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_writeHTML" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Services/Pdf/PdfBuilder.php"><a href="files/arkit-services-pdf-pdfbuilder.html"><abbr title="Arkit/Services/Pdf/PdfBuilder.php">PdfBuilder.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">163</span>
+
+    </aside>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">writeHTML</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$html</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$html</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                
+            </dd>
+            </dl>
+
+    
+
+    
+</article>
+            </section>
+
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/Arkit/Services/Pdf/PdfBuilder.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
+
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', src, true);
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+                            Prism.highlightElement(code);
+                            return;
+                        }
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
+                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
+                    }
+                    modal.classList.add("phpdocumentor-modal__open");
+
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
+                    });
+                });
+            });
+        })();
+    </script>
+
+    </article>
+                                </section>
+                <section class="phpdocumentor-on-this-page__sidebar">
+                                
+    <section class="phpdocumentor-on-this-page__content">
+        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+
+        <ul class="phpdocumentor-list -clean">
+            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                        <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#toc-constants">Constants</a></li>
+                                                                                <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#toc-methods">Methods</a></li>
+                                    </ul>
+            </li>
+                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_AEFURAT">PDF_FONT_AEFURAT</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSANS">PDF_FONT_DEJAVUSANS</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSANSMONO">PDF_FONT_DEJAVUSANSMONO</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_DEJAVUSERIF">PDF_FONT_DEJAVUSERIF</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREEMONO">PDF_FONT_FREEMONO</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREESANS">PDF_FONT_FREESANS</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_FREESERIF">PDF_FONT_FREESERIF</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_HELVETICA">PDF_FONT_HELVETICA</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFACOURIER">PDF_FONT_PDFACOURIER</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFAHELVETICA">PDF_FONT_PDFAHELVETICA</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_PDFATIMES">PDF_FONT_PDFATIMES</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FONT_TIMES">PDF_FONT_TIMES</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_A4">PDF_FORMAT_A4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_A4_LONG">PDF_FORMAT_A4_LONG</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_E4">PDF_FORMAT_E4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_F4">PDF_FORMAT_F4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_GOVERNMENTLEGAL">PDF_FORMAT_GOVERNMENTLEGAL</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_GOVERNMENTLETTER">PDF_FORMAT_GOVERNMENTLETTER</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_LEGAL">PDF_FORMAT_LEGAL</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_LETTER">PDF_FORMAT_LETTER</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_P4">PDF_FORMAT_P4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_RA4">PDF_FORMAT_RA4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_SRA4">PDF_FORMAT_SRA4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_FORMAT_SUPER_A4">PDF_FORMAT_SUPER_A4</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_AUTO">PDF_ORIENTATION_AUTO</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_LANDSCAPE">PDF_ORIENTATION_LANDSCAPE</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_ORIENTATION_PORTRAIT">PDF_ORIENTATION_PORTRAIT</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_CENTIMETER">PDF_UNIT_CENTIMETER</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_INCH">PDF_UNIT_INCH</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_MILLIMETER">PDF_UNIT_MILLIMETER</a></li>
+                                                    <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#constant_PDF_UNIT_POINT">PDF_UNIT_POINT</a></li>
+                                            </ul>
+                </li>
+            
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method___construct">__construct()</a></li>
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_addPage">addPage()</a></li>
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_display">display()</a></li>
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_download">download()</a></li>
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_save">save()</a></li>
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_setFont">setFont()</a></li>
+                                            <li><a href="classes/Arkit-Services-Pdf-PdfBuilder.html#method_writeHTML">writeHTML()</a></li>
+                                    </ul>
+            </li>
+                    </ul>
+    </section>
+
+                </section>
+                            </div>
+            <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
+    <section class="phpdocumentor-search-results__dialog">
+        <header class="phpdocumentor-search-results__header">
+            <h2 class="phpdocumentor-search-results__title">Search results</h2>
+            <button class="phpdocumentor-search-results__close"><i class="fas fa-times"></i></button>
+        </header>
+        <section class="phpdocumentor-search-results__body">
+            <ul class="phpdocumentor-search-results__entries"></ul>
+        </section>
+    </section>
+</section>
+        </div>
+        <a href="classes/Arkit-Services-Pdf-PdfBuilder.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+
+    </main>
+
+    <script>
+        cssVars({});
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/line-highlight/prism-line-highlight.min.js"></script>
+</body>
+</html>

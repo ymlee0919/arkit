@@ -6,8 +6,6 @@ namespace Arkit\Core\Config;
 /**
  * Environment-specific configuration handler.
  * Taken form https://github.com/vlucas/phpdotenv 
- * 
- * @package Arkit\Core\Config
  */
 class DotEnv implements \ArrayAccess
 {
