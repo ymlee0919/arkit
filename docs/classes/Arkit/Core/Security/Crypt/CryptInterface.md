@@ -2,7 +2,7 @@
 
 # CryptInterface
 
-
+Interface to define a cryptographic provider class
 
 
 
@@ -66,7 +66,7 @@ public getRandomString(int $length): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$length` | **int** |  |
+| `$length` | **int** | String length |
 
 
 
@@ -93,7 +93,7 @@ public smoothCrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** | String to encrypt |
+| `$data` | **string** | Data to encrypt |
 
 
 **Return Value:**
@@ -152,7 +152,7 @@ public smoothEncrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
 
 
@@ -183,7 +183,7 @@ public smoothDecrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
 
 
@@ -261,4 +261,4 @@ public strongDecrypt(string $data, string|null $key = null): string
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

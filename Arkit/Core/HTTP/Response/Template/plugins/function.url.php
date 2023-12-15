@@ -10,9 +10,9 @@
  *
  * Type:     function<br>
  * Name:     url<br>
- * Purpose:  Build the url given the id and parameters
+ * Purpose:  Build the url given the the id and parameters
  *
- * @author Yuriesky M�ndez Lee
+ * @author Yuriesky Méndez Lee
  *
  * @param array                    $params   parameters
  * @param Smarty_Internal_Template $template template object

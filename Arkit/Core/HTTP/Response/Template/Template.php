@@ -2,8 +2,16 @@
 
 namespace Arkit\Core\HTTP\Response\Template;
 
+/**
+ * Class to define a template. Smarty is used as template engine.
+ */
 class Template extends \Smarty
 {
+    /**
+     * Constructor of the class. Initialize the Smarty directories according Arkit structure.
+     *
+     * @param string $templateFolder Directory to load the template file
+     */
     public function __construct(string $templateFolder)
     {
         parent::__construct();

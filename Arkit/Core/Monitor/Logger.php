@@ -5,16 +5,43 @@ namespace Arkit\Core\Monitor;
 use Arkit\Core\HTTP\RequestInterface;
 use Arkit\Core\Monitor\Log\LogsHandlerInterface;
 
+/**
+ * Log level: Request
+ */
 const LOG_LEVEL_REQUEST = 'Request';
+
+/**
+ * Log level: Info
+ */
 const LOG_LEVEL_INFO = 'Info';
+
+/**
+ * Log level: Info
+ */
 const LOG_LEVEL_NOTICE = 'Notice';
+
+/**
+ * Log level: Warning
+ */
 const LOG_LEVEL_WARNING = 'Warning';
+
+/**
+ * Log level: Alert
+ */
 const LOG_LEVEL_ALERT = 'Alert';
+
+/**
+ * Log level: Debug
+ */
 const LOG_LEVEL_DEBUG = 'Debug';
+
+/**
+ * Log level: Error
+ */
 const LOG_LEVEL_ERROR = 'Error';
 
 /**
- * Class LogsManager
+ * Logs manager
  */
 final class Logger
 {
@@ -30,6 +57,8 @@ final class Logger
 
     /**
      * Constructor of the class
+     *
+     * @param array $config Configuration array
      */
     public function __construct(array &$config)
     {
@@ -61,6 +90,13 @@ final class Logger
         }
     }
 
+    /**
+     * Set logs handler to events types
+     *
+     * @param LogsHandlerInterface $handler LogsHandler
+     * @param array $logTypes List of type of events
+     * @return void
+     */
     public function setHandler(LogsHandlerInterface $handler, array $logTypes): void
     {
         $handler->init();
@@ -71,7 +107,9 @@ final class Logger
     }
 
     /**
-     * @param RequestInterface $request
+     * Log a request
+     * 
+     * @param RequestInterface $request Http client request
      * @return void
      */
     public function logRequest(RequestInterface &$request): void
@@ -81,9 +119,11 @@ final class Logger
     }
 
     /**
-     * @param string $eventType
-     * @param string $message
-     * @param array|null $context
+     * Log an event
+     * 
+     * @param string $eventType Event type
+     * @param string $message Message
+     * @param array|null $context Log context, usualy taken from debug_backtrace
      * @return bool
      */
     public function log(string $eventType, string $message, array $context = null): bool
@@ -111,8 +151,8 @@ final class Logger
     /**
      * Detailed debug information.
      *
-     * @param string $message
-     * @param array|null $context
+     * @param string $message Message
+     * @param array|null $context Log context, usualy taken from debug_backtrace
      * @return void
      */
     public function debug(string $message, array $context = null): void
@@ -123,8 +163,8 @@ final class Logger
     /**
      * Normal but significant events
      *
-     * @param string $info
-     * @param array|null $context
+     * @param string $info Message
+     * @param array|null $context Log context, usualy taken from debug_backtrace
      * @return void
      */
     public function info(string $info, array $context = null): void
@@ -135,8 +175,8 @@ final class Logger
     /**
      * Normal but significant events
      *
-     * @param string $notice
-     * @param array|null $context
+     * @param string $notice Notice text
+     * @param array|null $context Log context, usualy taken from debug_backtrace
      * @return void
      */
     public function notice(string $notice, array $context = null): void
@@ -147,8 +187,8 @@ final class Logger
     /**
      * Exceptional occurrences that are not errors
      *
-     * @param string $warning
-     * @param array|null $context
+     * @param string $warning Warning text
+     * @param array|null $context Log context, usualy taken from debug_backtrace
      * @return void
      */
     public function warning(string $warning, array $context = null): void
@@ -159,8 +199,8 @@ final class Logger
     /**
      * Action must be taken immediately
      *
-     * @param string $alert
-     * @param array|null $context
+     * @param string $alert Alert message 
+     * @param array|null $context Log context, usualy taken from debug_backtrace
      * @return void
      */
     public function alert(string $alert, array $context = null): void
@@ -171,11 +211,11 @@ final class Logger
     /**
      * Report an error of application performance
      *
-     * @param string $errorType
-     * @param string $message
-     * @param string $file
-     * @param int $line
-     * @param mixed $backtrace
+     * @param string $errorType Error type
+     * @param string $message Message
+     * @param string $file File where the error happend
+     * @param int $line Line number of the file
+     * @param mixed $backtrace Callstack
      * @return bool
      */
     public function error(string $errorType, string $message, string $file, int $line, mixed &$backtrace): bool

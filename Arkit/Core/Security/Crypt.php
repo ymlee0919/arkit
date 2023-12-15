@@ -27,7 +27,9 @@ class Crypt extends CryptInterface
     }
 
     /**
-     * @param array $config
+     * Initialize the class
+     * 
+     * @param array $config Configuration array. It should have two elements: ´default_key´ used for encryption and ´hash_algo´ as the algorithm name used to encrypt.
      * @return void
      */
     public function init(array &$config = []): void
@@ -40,6 +42,8 @@ class Crypt extends CryptInterface
     }
 
     /**
+     * Set a Cryptography algorimths provider
+     * 
      * @param CryptProviderInterface $cryptProvider
      * @return void
      */

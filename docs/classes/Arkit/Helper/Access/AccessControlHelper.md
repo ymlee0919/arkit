@@ -2,7 +2,7 @@
 
 # AccessControlHelper
 
-
+Helper for access control
 
 
 
@@ -16,7 +16,7 @@
 
 ### __construct
 
-
+Constructor of the class
 
 ```php
 public __construct(): mixed
@@ -37,7 +37,7 @@ public __construct(): mixed
 
 ### init
 
-
+Init the controller
 
 ```php
 public init(array $config): void
@@ -54,7 +54,7 @@ public init(array $config): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Array with roles_source and tasks_source files |
 
 
 
@@ -120,4 +120,4 @@ public checkRoutingAccess(string $routingId, string $roles): bool
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

@@ -16,7 +16,7 @@ Class to store flash values in session
 
 ### __construct
 
-
+Constructor of the class.
 
 ```php
 public __construct(string $url): mixed
@@ -60,8 +60,8 @@ public storeInputError(string $fieldName, string $error): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$fieldName` | **string** |  |
-| `$error` | **string** |  |
+| `$fieldName` | **string** | Field name that provoke the error |
+| `$error` | **string** | Error message |
 
 
 
@@ -88,7 +88,7 @@ public storeInputErrors(array $errorList): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errorList` | **array** |  |
+| `$errorList` | **array** | List of errors |
 
 
 
@@ -115,7 +115,7 @@ public storeSuccessMessage(string $message): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$message` | **string** |  |
+| `$message` | **string** | Message of success |
 
 
 
@@ -142,7 +142,7 @@ public storeWarning(string $warning): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$warning` | **string** |  |
+| `$warning` | **string** | Warning message |
 
 
 
@@ -169,8 +169,8 @@ public storeCustomError(string $errorType, string $error): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errorType` | **string** |  |
-| `$error` | **string** |  |
+| `$errorType` | **string** | Type of error |
+| `$error` | **string** | Error message |
 
 
 
@@ -197,8 +197,8 @@ public storeCustomValue(string $indexName, mixed $value): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$indexName` | **string** |  |
-| `$value` | **mixed** |  |
+| `$indexName` | **string** | Index |
+| `$value` | **mixed** | Value to store |
 
 
 
@@ -208,7 +208,7 @@ public storeCustomValue(string $indexName, mixed $value): void
 
 ### sendToResponse
 
-
+Send the stored values to the response
 
 ```php
 public sendToResponse(): void
@@ -229,4 +229,4 @@ public sendToResponse(): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

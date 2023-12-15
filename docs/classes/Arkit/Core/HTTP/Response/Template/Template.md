@@ -2,7 +2,7 @@
 
 # Template
 
-
+Class to define a template. Smarty is used as template engine.
 
 
 
@@ -17,7 +17,7 @@
 
 ### __construct
 
-
+Constructor of the class. Initialize the Smarty directories according Arkit structure.
 
 ```php
 public __construct(string $templateFolder): mixed
@@ -34,7 +34,7 @@ public __construct(string $templateFolder): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$templateFolder` | **string** |  |
+| `$templateFolder` | **string** | Directory to load the template file |
 
 
 
@@ -44,4 +44,4 @@ public __construct(string $templateFolder): mixed
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

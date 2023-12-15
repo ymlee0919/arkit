@@ -2,7 +2,7 @@
 
 # DatabasePerformanceException
 
-
+General class for any database performace exception
 
 
 
@@ -17,10 +17,10 @@
 
 ### __construct
 
-
+Constructor of the exception
 
 ```php
-public __construct(mixed $message, mixed $code): mixed
+public __construct(string $message, int $code): mixed
 ```
 
 
@@ -34,8 +34,8 @@ public __construct(mixed $message, mixed $code): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$message` | **mixed** |  |
-| `$code` | **mixed** |  |
+| `$message` | **string** | Exception message |
+| `$code` | **int** | (Optional) Error code |
 
 
 
@@ -45,10 +45,10 @@ public __construct(mixed $message, mixed $code): mixed
 
 ### __toString
 
-
+ToString method
 
 ```php
-public __toString(): mixed
+public __toString(): string
 ```
 
 
@@ -66,4 +66,4 @@ public __toString(): mixed
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

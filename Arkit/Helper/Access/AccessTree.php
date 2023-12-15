@@ -1,8 +1,9 @@
 <?php
 
 namespace Arkit\Helper\Access;
+
 /**
- *
+ * Internal class for access control using tree (Under construction)
  */
 class AccessTree
 {

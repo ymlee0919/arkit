@@ -3,7 +3,7 @@
 namespace Arkit\Core\Persistence\Cache;
 
 /**
- *
+ *Cache engine over Apc
  */
 class ApcCacheEngine implements CacheInterface
 {

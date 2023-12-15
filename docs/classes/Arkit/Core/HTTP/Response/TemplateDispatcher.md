@@ -2,7 +2,7 @@
 
 # TemplateDispatcher
 
-
+Dispatch the response using a template engine
 
 
 
@@ -286,4 +286,4 @@ public dispatch(?string $resource, ?array $arguments = null): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

@@ -366,11 +366,11 @@ final class App
 
         switch ($result)
         {
-            case Core\Control\Access\AccessControllerInterface::ACCESS_DENIED:
+            case Core\Control\Access\AccessResult::Denied:
                 self::$Response->throwAccessDenied();
                 break;
 
-            case Core\Control\Access\AccessControllerInterface::ACCESS_FORBIDDEN:
+            case Core\Control\Access\AccessResult::Forbbiden:
                 self::$Response->throwForbiddenAccess();
                 break;
         }

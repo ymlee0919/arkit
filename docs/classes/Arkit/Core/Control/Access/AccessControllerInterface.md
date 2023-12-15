@@ -9,23 +9,16 @@ All classes that handle access control must implement this interface.
 * Full name: `\Arkit\Core\Control\Access\AccessControllerInterface`
 
 
-## Constants
-
-| Constant | Visibility | Type | Value |
-|:---------|:-----------|:-----|:------|
-|`ACCESS_GRANTED`|public| |&#039;GRANTED&#039;|
-|`ACCESS_FORBIDDEN`|public| |&#039;FORBIDDEN&#039;|
-|`ACCESS_DENIED`|public| |&#039;DENIED&#039;|
 
 ## Methods
 
 
 ### checkAccess
 
-Evaluate the access tu the given routing callback
+Evaluate the access of the given routing handler
 
 ```php
-public checkAccess(\Arkit\Core\Control\Routing\RoutingHandler $handler): string
+public checkAccess(\Arkit\Core\Control\Routing\RoutingHandler $handler): \Arkit\Core\Control\Access\AccessResult
 ```
 
 
@@ -44,7 +37,7 @@ public checkAccess(\Arkit\Core\Control\Routing\RoutingHandler $handler): string
 
 **Return Value:**
 
-One of the defined constants
+Result access checking
 
 
 
@@ -53,4 +46,4 @@ One of the defined constants
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

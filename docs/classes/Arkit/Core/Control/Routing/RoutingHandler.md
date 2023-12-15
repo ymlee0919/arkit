@@ -2,7 +2,7 @@
 
 # RoutingHandler
 
-Class to encapsulate the callback for routing result
+Class to encapsulate the callback for routing result. Store the ruleId, handler and parameters
 
 
 
@@ -33,9 +33,9 @@ public __construct(string $ruleId, string $handler, array|null $parameters = nul
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$ruleId` | **string** |  |
-| `$handler` | **string** |  |
-| `$parameters` | **array&#124;null** |  |
+| `$ruleId` | **string** | Id of the rule |
+| `$handler` | **string** | Handler for the request |
+| `$parameters` | **array&#124;null** | (Optional) Parameters taken from the url |
 
 
 
@@ -45,7 +45,7 @@ public __construct(string $ruleId, string $handler, array|null $parameters = nul
 
 ### getRuleId
 
-
+Get the rule Id
 
 ```php
 public getRuleId(): string
@@ -66,7 +66,7 @@ public getRuleId(): string
 
 ### getHandler
 
-
+Get the function handler
 
 ```php
 public getHandler(): string
@@ -87,7 +87,7 @@ public getHandler(): string
 
 ### getParameters
 
-
+Get parameters taken from the url
 
 ```php
 public getParameters(): array|null
@@ -133,4 +133,4 @@ Indicate if have parameters
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

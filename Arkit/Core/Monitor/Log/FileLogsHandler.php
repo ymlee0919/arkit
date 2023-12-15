@@ -4,6 +4,9 @@ namespace Arkit\Core\Monitor\Log;
 
 use \Arkit\Core\HTTP\RequestInterface;
 
+/**
+ * Logs handler using files
+ */
 class FileLogsHandler implements LogsHandlerInterface
 {
     /**
@@ -19,7 +22,7 @@ class FileLogsHandler implements LogsHandlerInterface
     protected RequestInterface $request;
 
     /**
-     * @param $config
+     * @param $config Configuration
      */
     public function __construct(&$config)
     {
@@ -27,6 +30,11 @@ class FileLogsHandler implements LogsHandlerInterface
             $this->outputDirectory = $config['output_directory'];
     }
 
+    /**
+     * Initialize the logs handler
+     *
+     * @return void
+     */
     public function init(): void
     {
         // Return if directory is created
@@ -48,6 +56,8 @@ class FileLogsHandler implements LogsHandlerInterface
     }
 
     /**
+     * Write some content into a file
+     * 
      * @param string $content
      * @param string $filePath
      * @return bool

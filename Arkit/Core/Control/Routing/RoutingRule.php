@@ -1,6 +1,7 @@
 <?php
 
 namespace Arkit\Core\Control\Routing;
+
 /**
  * Class to encapsulate a rule of routing
  */
@@ -21,8 +22,9 @@ class RoutingRule
 
     /**
      * Build a Routing rule given an Id and an array with the information
-     * @param string $ruleId
-     * @param array $info
+     * 
+     * @param string $ruleId Id of the rule
+     * @param array $info Array with rule information, must contains the keys 'url', 'method', 'callback'. Optionals 'constraints' and 'allow'.
      * @return static
      */
     public static function fromArray(string $ruleId, array $info): self
@@ -32,7 +34,6 @@ class RoutingRule
             $info['url'],
             $info['method'],
             $info['callback'],
-            (isset($info['task'])) ? $info['task'] : null,
             (isset($info['constraints'])) ? $info['constraints'] : null,
             (isset($info['allow'])) ? $info['allow'] : null
         );
@@ -42,12 +43,11 @@ class RoutingRule
      * @param string $ruleId Rule ID
      * @param string $url General url format
      * @param string $method Method for request: 'GET', 'POST', etc.
-     * @param string $callback Callback to handle the request [Directory.directory..file/Class::function]
-     * @param ?string $task Task: For control access
+     * @param string $callback Callback to handle the request [Class::function]
      * @param array|null $constraints (Optional) Constraints for url parameters
      * @param array|null $allowedParameters (Optional) Optionals parameters for '*' ending url
      */
-    public function __construct(string $ruleId, string $url, string $method, string $callback, ?string $task = null, ?array $constraints = null, ?array $allowedParameters = null)
+    public function __construct(string $ruleId, string $url, string $method, string $callback, ?array $constraints = null, ?array $allowedParameters = null)
     {
         $this->ID = $ruleId;
 
@@ -56,9 +56,6 @@ class RoutingRule
             'Method' => $method,
             'Callback' => $callback
         ];
-
-        if (!is_null($task))
-            $this->info['Task'] = $task;
 
         if (is_array($constraints))
             $this->info['Constraints'] = $constraints;
@@ -78,6 +75,7 @@ class RoutingRule
 
     /**
      * Get the url format
+     * 
      * @return string
      */
     public function getUrl(): string
@@ -105,15 +103,6 @@ class RoutingRule
     }
 
     /**
-     * Get the task
-     * @return string|null
-     */
-    public function getTask(): ?string
-    {
-        return $this->info['Task'] ?? null;
-    }
-
-    /**
      * Get the constraints for url parameters.
      * If exists, return and associative array when the key is the name of the parameter
      * and the value is the regular expression to validate the parameter
@@ -128,6 +117,7 @@ class RoutingRule
      * Return the constraint for the given url parameter, it is a regular expression
      *
      * @param string $paramName Name of the parameter
+     * 
      * @return string|null
      */
     public function getConstraint(string $paramName): ?string

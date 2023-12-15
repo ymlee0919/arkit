@@ -3,7 +3,7 @@
 namespace Arkit\Helper\Files;
 
 /**
- * Class FilesManager
+ * Manage files as atomic operations. If something is wrong, just rollback.
  */
 class FilesManager
 {
@@ -17,7 +17,9 @@ class FilesManager
     private array $queue;
 
     /**
-     * @param string $filePath
+     * Get the file type
+     * 
+     * @param string $filePath Full file path
      * @return string
      */
     public static function fileType(string $filePath): string
@@ -26,7 +28,9 @@ class FilesManager
     }
 
     /**
-     * @param string $seed
+     * Generate a random file name given an seed
+     * 
+     * @param string $seed Seed
      * @return string
      */
     public static function generateRandomFileName(string $seed): string
@@ -35,7 +39,7 @@ class FilesManager
     }
 
     /**
-     *
+     * Constructor of the class. Initialize all internal variables.
      */
     public function __construct()
     {
@@ -75,7 +79,9 @@ class FilesManager
     }
 
     /**
-     * @param array $actions
+     * Execute all pending actions
+     * 
+     * @param array $actions Array of actions to execute
      * @return void
      */
     private function execute(array &$actions): void
@@ -98,7 +104,9 @@ class FilesManager
     }
 
     /**
+     * Commit all pending changes
      *
+     * @return void
      */
     public function commit(): void
     {
@@ -108,7 +116,9 @@ class FilesManager
     }
 
     /**
+     * Rollback all pending changes
      *
+     * @return void
      */
     public function rollback(): void
     {
@@ -118,10 +128,12 @@ class FilesManager
     }
 
     /**
-     * @param string $fileIndex
-     * @param string $destinationDirectory
-     * @param string|null $fileName
-     * @return bool|string
+     * Upload a file
+     * 
+     * @param string $fileIndex File index into $_FILE array
+     * @param string $destinationDirectory Destination directory
+     * @param string|null $fileName New file name. If not set, conserve the original
+     * @return bool|string Return the name of the file or false if any error.
      */
     public function uploadFile(string $fileIndex, string $destinationDirectory, string $fileName = null): bool|string
     {
@@ -139,9 +151,11 @@ class FilesManager
     }
 
     /**
-     * @param string $directory
-     * @param string $fileName
-     * @param bool $delay
+     * Delete a file
+     * 
+     * @param string $directory Directory path where the file is located
+     * @param string $fileName File name
+     * @param bool $delay Set false for delete at the moment, leave true for delete when commit.
      * @return bool
      */
     public function delete(string $directory, string $fileName, bool $delay = true): bool
@@ -161,10 +175,12 @@ class FilesManager
     }
 
     /**
-     * @param string $directory
-     * @param string $fileName
-     * @param string $newName
-     * @param bool $delay
+     * Rename a file
+     * 
+     * @param string $directory Directory path where the file is located
+     * @param string $fileName File name
+     * @param string $newName New file name
+     * @param bool $delay Set false for rename at the moment, leave true for rename when commit.
      * @return bool
      */
     public function rename(string $directory, string $fileName, string $newName, bool $delay = true): bool

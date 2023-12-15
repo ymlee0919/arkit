@@ -2,7 +2,7 @@
 
 # OpensslCryptProvider
 
-
+Cryptographic provider using Openssl algorithms
 
 
 
@@ -167,8 +167,8 @@ public oneWayStrongCrypt(string $data, ?string $key = null): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
-| `$key` | **?string** |  |
+| `$data` | **string** | Data to encrypt |
+| `$key` | **?string** | Internal key |
 
 
 
@@ -195,8 +195,12 @@ public twoWaysSmoothEncrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
+
+**Return Value:**
+
+Internal key
 
 
 
@@ -222,8 +226,12 @@ public twoWaysSmoothDecrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
+
+**Return Value:**
+
+Internal key
 
 
 
@@ -249,8 +257,8 @@ public twoWaysStrongEncrypt(string $data, string $key): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
-| `$key` | **string** |  |
+| `$data` | **string** | Data to encrypt |
+| `$key` | **string** | Internal key |
 
 
 
@@ -277,8 +285,8 @@ public twoWaysStrongDecrypt(string $data, string $key): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
-| `$key` | **string** |  |
+| `$data` | **string** | Data to decrypt |
+| `$key` | **string** | Internal key |
 
 
 
@@ -288,4 +296,4 @@ public twoWaysStrongDecrypt(string $data, string $key): string
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

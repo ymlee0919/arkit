@@ -2,7 +2,9 @@
 
 namespace Arkit\Core\Control\Routing;
 
-
+/**
+ * Interface for an url ruoter
+ */
 interface RouterInterface
 {
     /**
@@ -19,7 +21,7 @@ interface RouterInterface
      *
      * @param string $ruleId Rule Id
      * @param array $rule Array with routing information
-     * @returns void
+     * @return void
      */
     public function setRule(string $ruleId, array &$rule): void;
 
@@ -37,7 +39,7 @@ interface RouterInterface
      *      allow (optional): [List of get parameters allowed into the URL]
      *
      * @param array $rules
-     * @returns void
+     * @return void
      */
     public function setRules(array &$rules): void;
 
@@ -45,7 +47,7 @@ interface RouterInterface
     /**
      * Get a routing rule given the ruleId
      *
-     * @param string $ruleId
+     * @param string $ruleId Rule id
      * @return RoutingRule|null
      */
     public function getRule(string $ruleId): ?RoutingRule;
@@ -68,12 +70,12 @@ interface RouterInterface
      * Set sign for caching
      *
      * @param string $str
-     * @returns void
+     * @return void
      */
     public function setSign(string $str): void;
 
     /**
-     * Get sign for caching
+     * Get sign from cache
      *
      * @return string
      */

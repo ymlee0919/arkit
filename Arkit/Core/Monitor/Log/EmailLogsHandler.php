@@ -6,7 +6,7 @@ use \Arkit\Core\HTTP\RequestInterface;
 use \Arkit\Services\Email\EmailDispatcher;
 
 /**
- *
+ * Logs handler using email
  */
 class EmailLogsHandler implements LogsHandlerInterface
 {
@@ -26,7 +26,9 @@ class EmailLogsHandler implements LogsHandlerInterface
     private ?EmailDispatcher $dispatcher;
 
     /**
-     * @param array $config
+     * Constructor of the class
+     * 
+     * @param array $config Configuration
      */
     public function __construct(array &$config)
     {
@@ -39,7 +41,8 @@ class EmailLogsHandler implements LogsHandlerInterface
      */
     public function init(): void
     {
-        if (\Loader::import('EmailDispatcher', 'Services.Email.EmailDispatcher')) {
+        if (\Loader::import('EmailDispatcher', 'Services.Email.EmailDispatcher')) 
+        {
             $this->dispatcher = new EmailDispatcher();
             $this->dispatcher->connect(\Arkit\App::$config['email']);
         }

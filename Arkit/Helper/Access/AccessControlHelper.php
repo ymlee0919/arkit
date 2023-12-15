@@ -3,7 +3,7 @@
 namespace Arkit\Helper\Access;
 
 /**
- *
+ * Helper for access control
  */
 class AccessControlHelper
 {
@@ -13,7 +13,7 @@ class AccessControlHelper
     private AccessHash $tree;
 
     /**
-     *
+     * Constructor of the class
      */
     public function __construct()
     {
@@ -21,7 +21,9 @@ class AccessControlHelper
     }
 
     /**
-     * @param array $config
+     * Init the controller
+     * 
+     * @param array $config Array with roles_source and tasks_source files
      * @return void
      */
     public function init(array $config): void

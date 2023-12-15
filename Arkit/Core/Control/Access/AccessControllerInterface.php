@@ -12,25 +12,10 @@ interface AccessControllerInterface
 {
 
     /**
-     * Access granted
-     */
-    const ACCESS_GRANTED = 'GRANTED';
-
-    /**
-     * Access forbidden because insufficient privileges
-     */
-    const ACCESS_FORBIDDEN = 'FORBIDDEN';
-
-    /**
-     * Access denied because not registered
-     */
-    const ACCESS_DENIED = 'DENIED';
-
-    /**
-     * Evaluate the access tu the given routing callback
+     * Evaluate the access of the given routing handler
      *
      * @param RoutingHandler $handler
-     * @return string One of the defined constants
+     * @return AccessResult Result access checking
      */
-    public function checkAccess(RoutingHandler $handler): string;
+    public function checkAccess(RoutingHandler $handler): AccessResult;
 }

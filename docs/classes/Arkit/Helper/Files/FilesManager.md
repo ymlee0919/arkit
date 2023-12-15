@@ -2,7 +2,7 @@
 
 # FilesManager
 
-Class FilesManager
+Manage files as atomic operations. If something is wrong, just rollback.
 
 
 
@@ -16,7 +16,7 @@ Class FilesManager
 
 ### fileType
 
-
+Get the file type
 
 ```php
 public static fileType(string $filePath): string
@@ -33,7 +33,7 @@ public static fileType(string $filePath): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$filePath` | **string** |  |
+| `$filePath` | **string** | Full file path |
 
 
 
@@ -43,7 +43,7 @@ public static fileType(string $filePath): string
 
 ### generateRandomFileName
 
-
+Generate a random file name given an seed
 
 ```php
 public static generateRandomFileName(string $seed): string
@@ -60,7 +60,7 @@ public static generateRandomFileName(string $seed): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$seed` | **string** |  |
+| `$seed` | **string** | Seed |
 
 
 
@@ -70,7 +70,7 @@ public static generateRandomFileName(string $seed): string
 
 ### __construct
 
-
+Constructor of the class. Initialize all internal variables.
 
 ```php
 public __construct(): mixed
@@ -91,7 +91,7 @@ public __construct(): mixed
 
 ### commit
 
-
+Commit all pending changes
 
 ```php
 public commit(): void
@@ -112,7 +112,7 @@ public commit(): void
 
 ### rollback
 
-
+Rollback all pending changes
 
 ```php
 public rollback(): void
@@ -133,7 +133,7 @@ public rollback(): void
 
 ### uploadFile
 
-
+Upload a file
 
 ```php
 public uploadFile(string $fileIndex, string $destinationDirectory, string|null $fileName = null): bool|string
@@ -150,10 +150,14 @@ public uploadFile(string $fileIndex, string $destinationDirectory, string|null $
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$fileIndex` | **string** |  |
-| `$destinationDirectory` | **string** |  |
-| `$fileName` | **string&#124;null** |  |
+| `$fileIndex` | **string** | File index into $_FILE array |
+| `$destinationDirectory` | **string** | Destination directory |
+| `$fileName` | **string&#124;null** | New file name. If not set, conserve the original |
 
+
+**Return Value:**
+
+Return the name of the file or false if any error.
 
 
 
@@ -162,7 +166,7 @@ public uploadFile(string $fileIndex, string $destinationDirectory, string|null $
 
 ### delete
 
-
+Delete a file
 
 ```php
 public delete(string $directory, string $fileName, bool $delay = true): bool
@@ -179,9 +183,9 @@ public delete(string $directory, string $fileName, bool $delay = true): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$directory` | **string** |  |
-| `$fileName` | **string** |  |
-| `$delay` | **bool** |  |
+| `$directory` | **string** | Directory path where the file is located |
+| `$fileName` | **string** | File name |
+| `$delay` | **bool** | Set false for delete at the moment, leave true for delete when commit. |
 
 
 
@@ -191,7 +195,7 @@ public delete(string $directory, string $fileName, bool $delay = true): bool
 
 ### rename
 
-
+Rename a file
 
 ```php
 public rename(string $directory, string $fileName, string $newName, bool $delay = true): bool
@@ -208,10 +212,10 @@ public rename(string $directory, string $fileName, string $newName, bool $delay 
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$directory` | **string** |  |
-| `$fileName` | **string** |  |
-| `$newName` | **string** |  |
-| `$delay` | **bool** |  |
+| `$directory` | **string** | Directory path where the file is located |
+| `$fileName` | **string** | File name |
+| `$newName` | **string** | New file name |
+| `$delay` | **bool** | Set false for rename at the moment, leave true for rename when commit. |
 
 
 
@@ -221,4 +225,4 @@ public rename(string $directory, string $fileName, string $newName, bool $delay 
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

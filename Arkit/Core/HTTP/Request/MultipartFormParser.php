@@ -2,7 +2,10 @@
 
 namespace Arkit\Core\HTTP\Request;
 
-class MultipartFormParser extends BodyParserInterface
+/**
+ * Parser of request payload in MultipartForm format
+ */
+class MultipartFormParser extends PayloadParserInterface
 {
 
     /**

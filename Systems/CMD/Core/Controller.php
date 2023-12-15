@@ -37,7 +37,7 @@ class Controller extends \Arkit\Core\Base\Controller
         {
             \Arkit\App::loadInputValidator();
             \Arkit\App::$Request->setBodyParser(new UrlEncodedParser());
-            \Arkit\App::$Request->processBody();
+            \Arkit\App::$Request->processPayload();
         }
     }
 

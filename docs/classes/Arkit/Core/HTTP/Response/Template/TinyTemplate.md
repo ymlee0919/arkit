@@ -2,9 +2,9 @@
 
 # TinyTemplate
 
-Class TinyTemplate
+Tiny template engine. It only allow direct variables replacement.
 
-
+It can be used not only for html format.
 
 * Full name: `\Arkit\Core\HTTP\Response\Template\TinyTemplate`
 
@@ -16,7 +16,7 @@ Class TinyTemplate
 
 ### __construct
 
-
+Constructor of the class
 
 ```php
 public __construct(string $templateFolder): mixed
@@ -33,7 +33,7 @@ public __construct(string $templateFolder): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$templateFolder` | **string** |  |
+| `$templateFolder` | **string** | Absolute path of the location of the template. |
 
 
 
@@ -43,7 +43,7 @@ public __construct(string $templateFolder): mixed
 
 ### setDelimiters
 
-
+Change delimiters used into the template
 
 ```php
 public setDelimiters(string $left, string $right): void
@@ -60,8 +60,8 @@ public setDelimiters(string $left, string $right): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$left` | **string** |  |
-| `$right` | **string** |  |
+| `$left` | **string** | Left delimiter |
+| `$right` | **string** | Right delimiter |
 
 
 
@@ -71,7 +71,7 @@ public setDelimiters(string $left, string $right): void
 
 ### assign
 
-
+Assign a value to the template
 
 ```php
 public assign(string $fieldName, mixed $value, bool $encodeFirst = true, bool $toUtf8 = false): void
@@ -88,10 +88,10 @@ public assign(string $fieldName, mixed $value, bool $encodeFirst = true, bool $t
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$fieldName` | **string** |  |
-| `$value` | **mixed** |  |
-| `$encodeFirst` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$fieldName` | **string** | Name of the variable of the template |
+| `$value` | **mixed** | Assigned value |
+| `$encodeFirst` | **bool** | Encode to html entities before compile the template |
+| `$toUtf8` | **bool** | Encode to utf-8. Only works if $encodeFirst is true |
 
 
 
@@ -101,7 +101,7 @@ public assign(string $fieldName, mixed $value, bool $encodeFirst = true, bool $t
 
 ### fetch
 
-Compile a small template, generally used by emails
+Compile a small template
 
 ```php
 public fetch(string $sourceTpl): string
@@ -118,8 +118,12 @@ public fetch(string $sourceTpl): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$sourceTpl` | **string** |  |
+| `$sourceTpl` | **string** | Name of the template file |
 
+
+**Return Value:**
+
+Compiled template
 
 
 
@@ -128,4 +132,4 @@ public fetch(string $sourceTpl): string
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

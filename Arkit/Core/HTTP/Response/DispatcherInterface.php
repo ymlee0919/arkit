@@ -3,7 +3,7 @@
 namespace Arkit\Core\HTTP\Response;
 
 /**
- * Class for dispatch the payload response
+ * Interface to define a payload response dispatcher
  */
 interface DispatcherInterface
 {

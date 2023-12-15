@@ -3,7 +3,7 @@
 namespace Arkit\Services\Pdf;
 
 /**
- * Class for building a pdf from a web page
+ * Class for building a pdf from a web page (Under construction)
  */
 class PdfBuilder
 {

@@ -3,7 +3,7 @@
 namespace Arkit\Core\Persistence\Cache;
 
 /**
- * Interface for cache engine
+ * Interface to define a Cache engine
  */
 interface CacheInterface
 {
@@ -27,32 +27,37 @@ interface CacheInterface
 
     /**
      * Get a value under a key
-     * @param string $key
+     * 
+     * @param string $key Index
      * @return mixed
      */
     public function get(string $key): mixed;
 
     /**
      * Remove the value under a key
-     * @param string $key
+     * 
+     * @param string $key Index to remove
      * @return bool
      */
     public function remove(string $key): bool;
 
     /**
      * Remove all values
+     * 
      * @return bool
      */
     public function clean(): bool;
 
     /**
      * Return if is enabled after initialization
+     * 
      * @return bool
      */
     public function isEnabled(): bool;
 
     /**
      * Return the last error occurred
+     * 
      * @return string
      */
     public function getLastError(): string;

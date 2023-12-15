@@ -3,7 +3,7 @@
 namespace Arkit\Core\HTTP\Response;
 
 /**
- *
+ * Response dispatcher in Json format 
  */
 class JsonDispatcher implements DispatcherInterface
 {
@@ -37,7 +37,7 @@ class JsonDispatcher implements DispatcherInterface
 
 
     /**
-     *
+     * Constructor of the class. Initialize all internal fields
      */
     public function __construct()
     {

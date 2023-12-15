@@ -2,13 +2,17 @@
 
 # RedirectDispatcher
 
-
+Response dispatcher thru redirection. All previous values sent to the output are stored into a ViewFlashMemory.
 
 
 
 * Full name: `\Arkit\Core\HTTP\Response\RedirectDispatcher`
 * This class implements:
 [`\Arkit\Core\HTTP\Response\DispatcherInterface`](./DispatcherInterface.md)
+
+**See Also:**
+
+* \Arkit\Core\HTTP\Response\Arkit\Helper\View\ViewFlashMemory - 
 
 
 
@@ -259,4 +263,4 @@ public dispatch(?string $resource, ?array $arguments = null): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

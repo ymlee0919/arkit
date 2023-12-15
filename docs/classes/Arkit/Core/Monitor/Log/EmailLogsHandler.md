@@ -2,7 +2,7 @@
 
 # EmailLogsHandler
 
-
+Logs handler using email
 
 
 
@@ -18,7 +18,7 @@
 
 ### __construct
 
-
+Constructor of the class
 
 ```php
 public __construct(array& $config): mixed
@@ -35,7 +35,7 @@ public __construct(array& $config): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Configuration |
 
 
 
@@ -83,7 +83,7 @@ public registerRequest(\Arkit\Core\HTTP\RequestInterface& $request): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$request` | **\Arkit\Core\HTTP\RequestInterface** |  |
+| `$request` | **\Arkit\Core\HTTP\RequestInterface** | Request to be registered |
 
 
 
@@ -110,9 +110,9 @@ public registerLog(string $logType, string $message, ?array $context = null): bo
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$logType` | **string** |  |
-| `$message` | **string** |  |
-| `$context` | **?array** |  |
+| `$logType` | **string** | Log type |
+| `$message` | **string** | Message to register |
+| `$context` | **?array** | Callstack |
 
 
 
@@ -139,11 +139,11 @@ public registerError(string $errorType, string $message, string $file, int $line
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errorType` | **string** |  |
-| `$message` | **string** |  |
-| `$file` | **string** |  |
-| `$line` | **int** |  |
-| `$backtrace` | **mixed** |  |
+| `$errorType` | **string** | Type of error |
+| `$message` | **string** | Error message |
+| `$file` | **string** | File where the error occurred |
+| `$line` | **int** | Line where the error occurred |
+| `$backtrace` | **mixed** | Callstack |
 
 
 
@@ -153,4 +153,4 @@ public registerError(string $errorType, string $message, string $file, int $line
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

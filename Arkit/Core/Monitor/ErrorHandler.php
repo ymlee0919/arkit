@@ -3,7 +3,7 @@
 namespace Arkit\Core\Monitor;
 
 /**
- * Class Router
+ * Class to handle internar errors of the application
  */
 final class ErrorHandler
 {
@@ -38,7 +38,9 @@ final class ErrorHandler
 	];
 
     /**
-     *
+     * Start the error handler. Store the previous error_reporting handler. 
+     * It is initially called by \Arkit\App class.
+     * It can be called after stop handle error by this class.
      */
     public static function init() : void
     {
@@ -58,7 +60,7 @@ final class ErrorHandler
     }
 
     /**
-     * Stop current error handler
+     * Stop current error handler. Restore the previous error handler.
      */
     public static function stop() : void
     {
@@ -76,17 +78,26 @@ final class ErrorHandler
         
     }
 
+    /**
+     * Set a function that handle an Internal Server Error
+     *
+     * @param \Arkit\Core\Base\FunctionAddress $onError Function to handler an internal server error
+     * @return void
+     */
     public static function onInternalServerError(\Arkit\Core\Base\FunctionAddress $onError) : void
     {
         self::$onError = $onError;
     }
 
     /**
-     * @param int|string $type
-     * @param string $message
-     * @param string $file
-     * @param int $line
-     * @param mixed $trace
+     * Function to handle a Server Error
+     * 
+     * @param int|string $type Error type
+     * @param string $message Error message
+     * @param string $file File where the error occured
+     * @param int $line Line where the error occurred
+     * @param mixed $trace Callstack
+     * @return void
      */
     public static function handleServerError(int|string $type, string $message, string $file, int $line, mixed $trace) : void
 	{
@@ -120,6 +131,7 @@ final class ErrorHandler
 	}
 
     /**
+     * Handle an exception
      * @param \Exception|\Error $exception
      */
     public static function handleException(\Exception|\Error $exception) : void
@@ -177,7 +189,8 @@ final class ErrorHandler
 	}
 
     /**
-     *
+     * Display internal server error message. Show a default message when onInternalServerError was not set.
+     * @return void
      */
     public static function showInternalServerError() : void
     {
@@ -214,11 +227,14 @@ final class ErrorHandler
 }
 
 /**
- * @param int $type
- * @param string $message
- * @param string $file
- * @param int $line
- * @param mixed $context
+ * Function for handle a server error
+ * 
+ * @param int $type Error type
+ * @param string $message Error message
+ * @param string $file File where the error ocurred
+ * @param int $line Line where the error occurred
+ * @param mixed $context Callstack
+ * 
  * @return void
  */
 function handleServerError(int $type, string $message, string $file, int $line, mixed $context = null) : void
@@ -232,6 +248,8 @@ function handleServerError(int $type, string $message, string $file, int $line, 
 }
 
 /**
+ * Function for handle and exception
+ * 
  * @param \Exception|\Error|array $exception
  * @throws \Exception
  */

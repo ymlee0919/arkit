@@ -25,7 +25,7 @@ final class Router implements RouterInterface
     private string $sign = '';
 
     /**
-     *
+     * Constructor of the class
      */
     public function __construct()
     {
@@ -33,6 +33,8 @@ final class Router implements RouterInterface
     }
 
     /**
+     * Set sign for caching
+     * 
      * @param string $str
      * @return void
      */
@@ -42,6 +44,7 @@ final class Router implements RouterInterface
     }
 
     /**
+     * Get sign from caching
      * @return string
      */
     public function getSign(): string

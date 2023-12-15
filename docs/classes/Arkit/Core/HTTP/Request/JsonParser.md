@@ -2,12 +2,12 @@
 
 # JsonParser
 
-
+Parser of request payload in json format
 
 
 
 * Full name: `\Arkit\Core\HTTP\Request\JsonParser`
-* Parent class: [`\Arkit\Core\HTTP\Request\BodyParserInterface`](./BodyParserInterface.md)
+* Parent class: [`\Arkit\Core\HTTP\Request\PayloadParserInterface`](./PayloadParserInterface.md)
 
 
 
@@ -17,7 +17,7 @@
 
 ### parse
 
-
+Method to parse con content of the request payload
 
 ```php
 public parse(string $bodyContent): void
@@ -34,7 +34,7 @@ public parse(string $bodyContent): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$bodyContent` | **string** | Request body content |
+| `$bodyContent` | **string** | Request payload content |
 
 
 
@@ -96,7 +96,7 @@ public setHeaders(array $headers): void
 
 ### get
 
-
+Get a value given an index
 
 ```php
 public get(string $paramName): mixed
@@ -113,7 +113,7 @@ public get(string $paramName): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$paramName` | **string** |  |
+| `$paramName` | **string** | Index |
 
 
 
@@ -123,7 +123,7 @@ public get(string $paramName): mixed
 
 ### getAll
 
-
+Get all values of the request
 
 ```php
 public getAll(): array
@@ -144,7 +144,7 @@ public getAll(): array
 
 ### exists
 
-
+Validate if an index exists
 
 ```php
 public exists(string $paramsName): bool
@@ -161,7 +161,7 @@ public exists(string $paramsName): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$paramsName` | **string** |  |
+| `$paramsName` | **string** | Index |
 
 
 
@@ -171,7 +171,7 @@ public exists(string $paramsName): bool
 
 ### parse
 
-
+Method to parse con content of the request payload
 
 ```php
 public parse(string $bodyContent): void
@@ -188,7 +188,7 @@ public parse(string $bodyContent): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$bodyContent` | **string** | Request body content |
+| `$bodyContent` | **string** | Request payload content |
 
 
 
@@ -198,4 +198,4 @@ public parse(string $bodyContent): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

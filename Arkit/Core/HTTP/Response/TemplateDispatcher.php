@@ -5,7 +5,7 @@ namespace Arkit\Core\HTTP\Response;
 use Arkit\Core\HTTP\Response\Template\Template;
 
 /**
- *
+ * Dispatch the response using a template engine
  */
 class TemplateDispatcher implements DispatcherInterface
 {

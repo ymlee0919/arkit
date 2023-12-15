@@ -4,7 +4,7 @@ namespace Arkit\Core\Persistence\Cache;
 
 
 /**
- *
+ * Cache engine over Memcache
  */
 class MemcacheCacheEngine implements CacheInterface
 {

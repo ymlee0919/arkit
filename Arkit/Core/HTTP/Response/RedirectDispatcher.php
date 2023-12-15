@@ -2,6 +2,11 @@
 
 namespace Arkit\Core\HTTP\Response;
 
+/**
+ * Response dispatcher thru redirection. All previous values sent to the output are stored into a ViewFlashMemory.
+ * 
+ * @see Arkit\Helper\View\ViewFlashMemory
+ */
 class RedirectDispatcher implements DispatcherInterface
 {
 

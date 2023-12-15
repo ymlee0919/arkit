@@ -3,7 +3,7 @@
 namespace Arkit\Services\Email;
 
 /**
- *
+ * Email dispatcher (Under construction)
  */
 class EmailDispatcher
 {

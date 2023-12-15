@@ -2,7 +2,7 @@
 
 # DispatcherInterface
 
-Class for dispatch the payload response
+Interface to define a payload response dispatcher
 
 
 
@@ -235,4 +235,4 @@ public dispatch(?string $resource, array|null $arguments = null): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

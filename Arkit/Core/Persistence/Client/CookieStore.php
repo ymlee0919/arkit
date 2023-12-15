@@ -4,6 +4,9 @@ namespace Arkit\Core\Persistence\Client;
 
 use \Arkit\App;
 
+/**
+ * Store of cookies
+ */
 class CookieStore
 {
     /**
@@ -38,6 +41,12 @@ class CookieStore
         return new CookieStore($cookies);
     }
 
+    /**
+     * Create the store from the server request.
+     *
+     * @param string ...$skippingList List of cookies to skip
+     * @return self
+     */
     public static function fromServerRequest(string ...$skippingList): self
     {
         $cookies = [];
@@ -57,7 +66,9 @@ class CookieStore
     }
 
     /**
-     * @param Cookie[] $cookies
+     * Constructo of the class. Create the store given an array of Cookies
+     * 
+     * @param Cookie[] $cookies Cookies list (array)
      */
     public function __construct(?array $cookies = null)
     {
@@ -118,7 +129,7 @@ class CookieStore
      * Store a new cookie and return a new collection. The original collection
      * is left unchanged.
      *
-     * @param Cookie $cookie
+     * @param Cookie $cookie Cookie to insert
      * @return self
      */
     public function put(Cookie $cookie): self
@@ -135,7 +146,7 @@ class CookieStore
      * If you intend to delete a cookie *from the browser*, you must put an empty
      * value cookie with the same name to the store.
      *
-     * @param string $name
+     * @param string $name Cookie name
      * @return self
      */
     public function remove(string $name): self
@@ -156,7 +167,7 @@ class CookieStore
     /**
      * Set the value to empty and the expiration in the pass for deleting
      *
-     * @param string $name
+     * @param string $name Coockie name
      * @return self
      */
     public function removeFromBrowser(string $name): self
@@ -175,7 +186,7 @@ class CookieStore
     }
 
     /**
-     * Dispatches all cookies in store.
+     * Dispatches all cookies of the store.
      */
     public function dispatch(): void
     {
@@ -186,7 +197,7 @@ class CookieStore
     }
 
     /**
-     * Clears the cookie collection.
+     * Clears the cookies collection.
      */
     public function clear(): void
     {

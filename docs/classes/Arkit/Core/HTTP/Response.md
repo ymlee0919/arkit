@@ -2,7 +2,7 @@
 
 # Response
 
-Class Output
+Handle the response to the client
 
 
 
@@ -18,7 +18,7 @@ Class Output
 
 ### __construct
 
-Constructor of the class
+Constructor of the class. Initilize all internal fields
 
 ```php
 public __construct(): mixed
@@ -39,7 +39,7 @@ public __construct(): mixed
 
 ### init
 
-
+Initialize the object with the internal configuration.
 
 ```php
 public init(array& $config): void
@@ -56,7 +56,7 @@ public init(array& $config): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Internal configuration |
 
 
 
@@ -66,7 +66,7 @@ public init(array& $config): void
 
 ### setDispatcher
 
-
+Set a dispatcher to process the response to the client
 
 ```php
 public setDispatcher(\Arkit\Core\HTTP\Response\DispatcherInterface $dispatcher): void
@@ -83,7 +83,7 @@ public setDispatcher(\Arkit\Core\HTTP\Response\DispatcherInterface $dispatcher):
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$dispatcher` | **\Arkit\Core\HTTP\Response\DispatcherInterface** |  |
+| `$dispatcher` | **\Arkit\Core\HTTP\Response\DispatcherInterface** | Dispatchet that process the response |
 
 
 
@@ -93,7 +93,7 @@ public setDispatcher(\Arkit\Core\HTTP\Response\DispatcherInterface $dispatcher):
 
 ### setStatus
 
-Set response status
+Set http response status
 
 ```php
 public setStatus(int $status): $this
@@ -110,7 +110,7 @@ public setStatus(int $status): $this
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$status` | **int** |  |
+| `$status` | **int** | Header status |
 
 
 
@@ -120,7 +120,7 @@ public setStatus(int $status): $this
 
 ### setHeader
 
-
+Set/add a http response header
 
 ```php
 public setHeader(string $header, string|null $value = null): void
@@ -137,8 +137,8 @@ public setHeader(string $header, string|null $value = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$header` | **string** |  |
-| `$value` | **string&#124;null** |  |
+| `$header` | **string** | Header name |
+| `$value` | **string&#124;null** | Header value |
 
 
 
@@ -148,7 +148,7 @@ public setHeader(string $header, string|null $value = null): void
 
 ### onBeforeDisplay
 
-Set onBeforeDisplay event handler
+Set onBeforeDisplay event handler. This event will be thron just before return the response
 
 ```php
 public onBeforeDisplay(\Arkit\Core\Base\FunctionAddress $onBeforeDisplay): void
@@ -175,7 +175,7 @@ public onBeforeDisplay(\Arkit\Core\Base\FunctionAddress $onBeforeDisplay): void
 
 ### onNotFound
 
-Set onNotFound event handler
+Set onNotFound event handler.
 
 ```php
 public onNotFound(\Arkit\Core\Base\FunctionAddress $onNotFound): void
@@ -345,7 +345,7 @@ public throwInvalidRequest(): void
 
 ### toHtmlEntities
 
-Encode to html entities
+Encode an entry to html entities
 
 ```php
 public toHtmlEntities(string|array& $param, bool $utf8Encode = true): void
@@ -362,8 +362,8 @@ public toHtmlEntities(string|array& $param, bool $utf8Encode = true): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$param` | **string&#124;array** |  |
-| `$utf8Encode` | **bool** |  |
+| `$param` | **string&#124;array** | Entry to transform |
+| `$utf8Encode` | **bool** | Encode to utf-8 |
 
 
 
@@ -373,7 +373,7 @@ public toHtmlEntities(string|array& $param, bool $utf8Encode = true): void
 
 ### getCookies
 
-
+Get response the cookies list
 
 ```php
 public getCookies(): \Arkit\Core\Persistence\Client\CookieStore
@@ -394,7 +394,7 @@ public getCookies(): \Arkit\Core\Persistence\Client\CookieStore
 
 ### assignFromFile
 
-Assign a values to the template from a file
+Assign output values taken from a yaml file
 
 ```php
 public assignFromFile(string $field, string $filePath, bool $encodeFirst = true, bool $toUtf8 = false): self
@@ -411,10 +411,10 @@ public assignFromFile(string $field, string $filePath, bool $encodeFirst = true,
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$field` | **string** |  |
-| `$filePath` | **string** |  |
-| `$encodeFirst` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$field` | **string** | Output variable name. This variable will contains all values. |
+| `$filePath` | **string** | Absolute file path to read the values |
+| `$encodeFirst` | **bool** | Encode values to html entities |
+| `$toUtf8` | **bool** | Encode to utf-8. It works only if $encodeFirst is true. |
 
 
 
@@ -424,7 +424,7 @@ public assignFromFile(string $field, string $filePath, bool $encodeFirst = true,
 
 ### assign
 
-Assign a value to the template
+Assign a value to the output
 
 ```php
 public assign(string|array $field, mixed|null $value = null, bool $encodeFirst = true, bool $toUtf8 = false): self
@@ -441,10 +441,10 @@ public assign(string|array $field, mixed|null $value = null, bool $encodeFirst =
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$field` | **string&#124;array** |  |
-| `$value` | **mixed&#124;null** |  |
-| `$encodeFirst` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$field` | **string&#124;array** | Output variable name. This will be the name into the client side. |
+| `$value` | **mixed&#124;null** | Value to set |
+| `$encodeFirst` | **bool** | Encode values to html entities |
+| `$toUtf8` | **bool** | Encode to utf-8. It works only if $encodeFirst is true. |
 
 
 
@@ -454,7 +454,7 @@ public assign(string|array $field, mixed|null $value = null, bool $encodeFirst =
 
 ### inputError
 
-
+Send an input error to the output.
 
 ```php
 public inputError(string $fieldName, string $error, bool $encode = true, bool $toUtf8 = false): self
@@ -471,10 +471,10 @@ public inputError(string $fieldName, string $error, bool $encode = true, bool $t
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$fieldName` | **string** |  |
-| `$error` | **string** |  |
-| `$encode` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$fieldName` | **string** | Input field name that provoke the the error |
+| `$error` | **string** | Error message |
+| `$encode` | **bool** | Encode the error message to html entities |
+| `$toUtf8` | **bool** | Encode to utf-8. It works only if $encodeFirst is true. |
 
 
 
@@ -484,7 +484,7 @@ public inputError(string $fieldName, string $error, bool $encode = true, bool $t
 
 ### inputErrors
 
-
+Send some input errors to the output.
 
 ```php
 public inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): self
@@ -501,9 +501,9 @@ public inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): se
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errors` | **array** |  |
-| `$encode` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$errors` | **array** | Array of errors. Each key must be the name of the file that provoke the error. The associated value is taken as the error message. |
+| `$encode` | **bool** | Encode error messages to html entities |
+| `$toUtf8` | **bool** | Encode to utf-8. It works only if $encode is true. |
 
 
 
@@ -513,7 +513,7 @@ public inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): se
 
 ### error
 
-
+Send an error to the output.
 
 ```php
 public error(string $errorType, string $message, bool $encode = true, bool $toUtf8 = false): self
@@ -530,10 +530,10 @@ public error(string $errorType, string $message, bool $encode = true, bool $toUt
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errorType` | **string** |  |
-| `$message` | **string** |  |
-| `$encode` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$errorType` | **string** | Error type |
+| `$message` | **string** | Error message |
+| `$encode` | **bool** | Encode error message to html entities |
+| `$toUtf8` | **bool** | Encode the message to utf-8. It works only if $encode is true. |
 
 
 
@@ -543,7 +543,7 @@ public error(string $errorType, string $message, bool $encode = true, bool $toUt
 
 ### warning
 
-
+Send a warning to the output
 
 ```php
 public warning(string $message, bool $encode = true, bool $toUtf8 = false): self
@@ -560,9 +560,9 @@ public warning(string $message, bool $encode = true, bool $toUtf8 = false): self
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$message` | **string** |  |
-| `$encode` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$message` | **string** | Warning message |
+| `$encode` | **bool** | Encode warning message to html entities |
+| `$toUtf8` | **bool** | Encode the message to utf-8. It works only if $encode is true. |
 
 
 
@@ -572,7 +572,7 @@ public warning(string $message, bool $encode = true, bool $toUtf8 = false): self
 
 ### success
 
-
+Send a success message to the output
 
 ```php
 public success(string $message, bool $encode = true, bool $toUtf8 = false): self
@@ -589,9 +589,9 @@ public success(string $message, bool $encode = true, bool $toUtf8 = false): self
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$message` | **string** |  |
-| `$encode` | **bool** |  |
-| `$toUtf8` | **bool** |  |
+| `$message` | **string** | Message |
+| `$encode` | **bool** | Encode the message to html entities |
+| `$toUtf8` | **bool** | Encode the message to utf-8. It works only if $encode is true. |
 
 
 
@@ -601,10 +601,10 @@ public success(string $message, bool $encode = true, bool $toUtf8 = false): self
 
 ### dispatch
 
-
+Send the response to the client
 
 ```php
-public dispatch(?string $resource, array|null $arguments = null): void
+public dispatch(string|null $resource = null, array|null $arguments = null): void
 ```
 
 
@@ -618,8 +618,8 @@ public dispatch(?string $resource, array|null $arguments = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$resource` | **?string** |  |
-| `$arguments` | **array&#124;null** |  |
+| `$resource` | **string&#124;null** | Resource used by the dispacther |
+| `$arguments` | **array&#124;null** | Arguments used by the dispatcher |
 
 
 
@@ -629,7 +629,7 @@ public dispatch(?string $resource, array|null $arguments = null): void
 
 ### displayTemplate
 
-Display a template
+Display a template. Set a TemplateDispatcher as internal dispatcher.
 
 ```php
 public displayTemplate(string $template, string|null $cacheId = null): void
@@ -660,11 +660,15 @@ public displayTemplate(string $template, string|null $cacheId = null): void
 
 
 
+**See Also:**
+
+* \Arkit\Core\HTTP\Response\TemplateDispatcher - 
+
 ***
 
 ### redirectTo
 
-Redirect to the url build by router
+Redirect to the url build by router. Set a RedirectDispatcher as internal dispatcher.
 
 ```php
 public redirectTo(string $urlId, array|null $params = null): void
@@ -681,18 +685,22 @@ public redirectTo(string $urlId, array|null $params = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$urlId` | **string** |  |
-| `$params` | **array&#124;null** |  |
+| `$urlId` | **string** | Rule id of the current url router |
+| `$params` | **array&#124;null** | (optional) Parameters to build the url |
 
 
 
 
+
+**See Also:**
+
+* \Arkit\Core\HTTP\Response\RedirectDispatcher - 
 
 ***
 
 ### redirectToUrl
 
-Redirect to a given URL
+Redirect to a given URL. Set a RedirectDispatcher as internal dispatcher.
 
 ```php
 public redirectToUrl(string $url): void
@@ -709,17 +717,21 @@ public redirectToUrl(string $url): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$url` | **string** |  |
+| `$url` | **string** | Url to redirect |
 
 
 
 
+
+**See Also:**
+
+* \Arkit\Core\HTTP\Response\RedirectDispatcher - 
 
 ***
 
 ### toJSON
 
-Dispatch values in JSON format
+Dispatch values in JSON format. Set a JsonDispatcher as internal dispatcher.
 
 ```php
 public toJSON(): void
@@ -736,8 +748,12 @@ public toJSON(): void
 
 
 
+**See Also:**
+
+* \Arkit\Core\HTTP\Response\JsonDispatcher - 
+
 ***
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

@@ -33,8 +33,8 @@ public static fromArray(string $ruleId, array $info): static
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$ruleId` | **string** |  |
-| `$info` | **array** |  |
+| `$ruleId` | **string** | Id of the rule |
+| `$info` | **array** | Array with rule information, must contains the keys &#039;url&#039;, &#039;method&#039;, &#039;callback&#039;. Optionals &#039;constraints&#039; and &#039;allow&#039;. |
 
 
 
@@ -47,7 +47,7 @@ public static fromArray(string $ruleId, array $info): static
 
 
 ```php
-public __construct(string $ruleId, string $url, string $method, string $callback, ?string $task = null, array|null $constraints = null, array|null $allowedParameters = null): mixed
+public __construct(string $ruleId, string $url, string $method, string $callback, array|null $constraints = null, array|null $allowedParameters = null): mixed
 ```
 
 
@@ -64,8 +64,7 @@ public __construct(string $ruleId, string $url, string $method, string $callback
 | `$ruleId` | **string** | Rule ID |
 | `$url` | **string** | General url format |
 | `$method` | **string** | Method for request: &#039;GET&#039;, &#039;POST&#039;, etc. |
-| `$callback` | **string** | Callback to handle the request [Directory.directory..file/Class::function] |
-| `$task` | **?string** | Task: For control access |
+| `$callback` | **string** | Callback to handle the request [Class::function] |
 | `$constraints` | **array&#124;null** | (Optional) Constraints for url parameters |
 | `$allowedParameters` | **array&#124;null** | (Optional) Optionals parameters for &#039;*&#039; ending url |
 
@@ -159,27 +158,6 @@ public getCallback(): string
 
 ***
 
-### getTask
-
-Get the task
-
-```php
-public getTask(): string|null
-```
-
-
-
-
-
-
-
-
-
-
-
-
-***
-
 ### getConstraints
 
 Get the constraints for url parameters.
@@ -252,4 +230,4 @@ public getAllowedParameters(): array|null
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

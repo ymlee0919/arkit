@@ -3,7 +3,7 @@
 namespace Arkit\Core\Security\Crypt;
 
 /**
- *
+ * Cryptographic provider using Openssl algorithms
  */
 class OpensslCryptProvider implements CryptProviderInterface
 {

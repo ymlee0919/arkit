@@ -53,7 +53,7 @@ class Controller extends \Arkit\Core\Base\Controller
             // TODO: Implement or remove the comment
 
             // Process the body
-            \Arkit\App::$Request->processBody();
+            \Arkit\App::$Request->processPayload();
         }
 
         // Load the model

@@ -1,8 +1,9 @@
 <?PHP 
 
 namespace Arkit\Helper\Access;
+
 /**
- *
+ * Internal class for access control using hash
  */
 class AccessHash
 {

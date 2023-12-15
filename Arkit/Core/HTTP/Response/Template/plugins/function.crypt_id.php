@@ -6,11 +6,11 @@
  */
 
 /**
- * Smarty {url} function plugin
+ * Smarty {crypt_id} function plugin
  *
  * Type:     function<br>
- * Name:     url<br>
- * Purpose:  Build the url given the id and parameters
+ * Name:     crypt_id<br>
+ * Purpose:  Encrypt and id given a prefix
  *
  * @author Yuriesky Méndez Lee
  *

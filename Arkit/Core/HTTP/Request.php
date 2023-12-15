@@ -3,10 +3,10 @@
 namespace Arkit\Core\HTTP;
 
 use Arkit\Core\Persistence\Client\CookieStore;
-use Arkit\Core\HTTP\Request\BodyParserInterface;
+use Arkit\Core\HTTP\Request\PayloadParserInterface;
 
 /**
- * Class Request
+ * Client request handler
  */
 final class Request implements RequestInterface
 {
@@ -61,9 +61,9 @@ final class Request implements RequestInterface
 
     /**
      * Parser for the body
-     * @var BodyParserInterface|null
+     * @var PayloadParserInterface|null
      */
-    private $bodyParser;
+    private $payloadParser;
 
     /**
      *
@@ -97,12 +97,12 @@ final class Request implements RequestInterface
 
     /**
      * Set parser for the payload request
-     * @param BodyParserInterface $bodyParser
+     * @param PayloadParserInterface $payloadParser
      * @return void
      */
-    public function setBodyParser(BodyParserInterface $bodyParser) : void
+    public function setPayloadParser(PayloadParserInterface $payloadParser) : void
     {
-        $this->bodyParser = $bodyParser;
+        $this->payloadParser = $payloadParser;
     }
 
     /**
@@ -208,29 +208,31 @@ final class Request implements RequestInterface
     }
 
     /**
+     * Parse the payload according the request type or PayloadParser provided.
+     * 
      * @return void
      */
-    public function processBody(): void
+    public function processPayload(): void
     {
         // Parse the payload according the request type
-        if(is_null($this->bodyParser))
+        if(is_null($this->payloadParser))
         {
             // Set multipart/form as default
             $contentType = $this->getHeader('Content-Type') ?? 'multipart/form-data;';
             $contentType = strtolower(trim(explode(';', $contentType)[0]));
 
-            $this->bodyParser = match ($contentType) {
+            $this->payloadParser = match ($contentType) {
                 'application/json' => new \Arkit\Core\HTTP\Request\JsonParser(),
                 'application/x-www-form-urlencoded' => new \Arkit\Core\HTTP\Request\UrlEncodedParser(),
                 default => new \Arkit\Core\HTTP\Request\MultipartFormParser()
             };
 
-            $this->bodyParser->setHeaders(getallheaders());
+            $this->payloadParser->setHeaders(getallheaders());
         }
 
         $content = file_get_contents('php://input');
-        $this->bodyParser->parse($content);
-        $values = $this->bodyParser->getAll();
+        $this->payloadParser->parse($content);
+        $values = $this->payloadParser->getAll();
 
         $this->setPostValues($values);
         unset($values);

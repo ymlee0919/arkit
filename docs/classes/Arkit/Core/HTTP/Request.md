@@ -2,7 +2,7 @@
 
 # Request
 
-Class Request
+Client request handler
 
 
 
@@ -66,12 +66,12 @@ public init(array& $config): void
 
 ***
 
-### setBodyParser
+### setPayloadParser
 
 Set parser for the payload request
 
 ```php
-public setBodyParser(\Arkit\Core\HTTP\Request\BodyParserInterface $bodyParser): void
+public setPayloadParser(\Arkit\Core\HTTP\Request\PayloadParserInterface $payloadParser): void
 ```
 
 
@@ -85,7 +85,7 @@ public setBodyParser(\Arkit\Core\HTTP\Request\BodyParserInterface $bodyParser): 
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$bodyParser` | **\Arkit\Core\HTTP\Request\BodyParserInterface** |  |
+| `$payloadParser` | **\Arkit\Core\HTTP\Request\PayloadParserInterface** |  |
 
 
 
@@ -162,12 +162,12 @@ public validate(): bool
 
 ***
 
-### processBody
+### processPayload
 
-
+Parse the payload according the request type or PayloadParser provided.
 
 ```php
-public processBody(): void
+public processPayload(): void
 ```
 
 
@@ -627,4 +627,4 @@ public isSecure(): bool
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

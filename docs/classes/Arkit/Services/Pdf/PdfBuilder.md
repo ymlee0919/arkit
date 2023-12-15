@@ -2,7 +2,7 @@
 
 # PdfBuilder
 
-Class for building a pdf from a web page
+Class for building a pdf from a web page (Under construction)
 
 
 
@@ -252,4 +252,4 @@ public download(string $outputName): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

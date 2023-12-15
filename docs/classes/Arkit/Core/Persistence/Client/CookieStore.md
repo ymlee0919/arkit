@@ -2,7 +2,7 @@
 
 # CookieStore
 
-
+Store of cookies
 
 
 
@@ -60,7 +60,7 @@ public static fromCookieHeaders(string[] $headers): self
 
 ### fromServerRequest
 
-
+Create the store from the server request.
 
 ```php
 public static fromServerRequest(string $skippingList): self
@@ -77,7 +77,7 @@ public static fromServerRequest(string $skippingList): self
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$skippingList` | **string** |  |
+| `$skippingList` | **string** | List of cookies to skip |
 
 
 
@@ -87,7 +87,7 @@ public static fromServerRequest(string $skippingList): self
 
 ### __construct
 
-
+Constructo of the class. Create the store given an array of Cookies
 
 ```php
 public __construct(\Arkit\Core\Persistence\Client\Cookie[] $cookies = null): mixed
@@ -104,7 +104,7 @@ public __construct(\Arkit\Core\Persistence\Client\Cookie[] $cookies = null): mix
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$cookies` | **\Arkit\Core\Persistence\Client\Cookie[]** |  |
+| `$cookies` | **\Arkit\Core\Persistence\Client\Cookie[]** | Cookies list (array) |
 
 
 
@@ -187,7 +187,7 @@ public put(\Arkit\Core\Persistence\Client\Cookie $cookie): self
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$cookie` | **\Arkit\Core\Persistence\Client\Cookie** |  |
+| `$cookie` | **\Arkit\Core\Persistence\Client\Cookie** | Cookie to insert |
 
 
 
@@ -218,7 +218,7 @@ value cookie with the same name to the store.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$name` | **string** |  |
+| `$name` | **string** | Cookie name |
 
 
 
@@ -245,7 +245,7 @@ public removeFromBrowser(string $name): self
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$name` | **string** |  |
+| `$name` | **string** | Coockie name |
 
 
 
@@ -255,7 +255,7 @@ public removeFromBrowser(string $name): self
 
 ### dispatch
 
-Dispatches all cookies in store.
+Dispatches all cookies of the store.
 
 ```php
 public dispatch(): void
@@ -276,7 +276,7 @@ public dispatch(): void
 
 ### clear
 
-Clears the cookie collection.
+Clears the cookies collection.
 
 ```php
 public clear(): void
@@ -297,4 +297,4 @@ public clear(): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

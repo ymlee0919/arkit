@@ -3,7 +3,7 @@
 namespace Arkit\Core\Security\Crypt;
 
 /**
- *
+ * Interface to define a cryptographic provider class
  */
 abstract class CryptInterface
 {
@@ -22,7 +22,8 @@ abstract class CryptInterface
 
     /**
      * Generate a random string given the length
-     * @param int $length
+     * 
+     * @param int $length String length
      * @return string
      */
     public abstract function getRandomString(int $length): string;
@@ -30,7 +31,7 @@ abstract class CryptInterface
     /**
      * Make a smooth one way encryption
      *
-     * @param string $data String to encrypt
+     * @param string $data Data to encrypt
      * @return string String encrypted
      */
     public abstract function smoothCrypt(string $data): string;
@@ -47,7 +48,7 @@ abstract class CryptInterface
     /**
      * Make a smooth two ways encryption. You can get back the previous data using the smoothDecrypt function.
      *
-     * @param string $data
+     * @param string $data Data to encrypt
      * @return string
      *
      * @see smoothDecrypt
@@ -57,7 +58,7 @@ abstract class CryptInterface
     /**
      * Make a smooth two ways decryption. Get the data encrypted by smoothEncrypt
      *
-     * @param string $data
+     * @param string $data Data to encrypt
      * @return string
      *
      * @see smoothEncrypt

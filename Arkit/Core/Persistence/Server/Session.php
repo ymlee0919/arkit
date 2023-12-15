@@ -3,7 +3,7 @@
 namespace Arkit\Core\Persistence\Server;
 
 /**
- * Class Session
+ * Session variables manager. Implements the singleton pattern.
  */
 class Session implements \ArrayAccess
 {
@@ -46,6 +46,8 @@ class Session implements \ArrayAccess
     }
 
     /**
+     * Return the unique instance of the class
+     * 
      * @return Session
      */
     public static function getInstance(): Session
@@ -57,7 +59,10 @@ class Session implements \ArrayAccess
     }
 
     /**
-     * @param array $config
+     * Initialize internal variables
+     * 
+     * @param array $config Array of configurations
+     * 
      * @return void
      */
     public function init(array &$config): void
@@ -145,6 +150,8 @@ class Session implements \ArrayAccess
 
     /**
      * Star the session
+     * 
+     * @return void
      */
     public function start(): void
     {
@@ -216,6 +223,8 @@ class Session implements \ArrayAccess
     }
 
     /**
+     * Get internal crypted key for the current session.
+     * 
      * @return string
      */
     public function getCryptKey(): string
@@ -228,6 +237,7 @@ class Session implements \ArrayAccess
 
     /**
      * Get a session var given the key
+     * 
      * @param string $key
      * @return mixed
      */
@@ -242,6 +252,7 @@ class Session implements \ArrayAccess
 
     /**
      * Set a session var
+     * 
      * @param string $key Key to search for. The key ID is not allowed
      * @param mixed $value Value to store
      *
@@ -253,6 +264,7 @@ class Session implements \ArrayAccess
 
     /**
      * Remove a session var
+     * 
      * @param string $key Key var to remove
      */
     public function remove(string $key): void
@@ -285,7 +297,8 @@ class Session implements \ArrayAccess
 
     /**
      * Get a session value given the key and remove it
-     * @param string $key
+     * 
+     * @param string $key Session key to pop
      * @return mixed|null
      */
     public function pop(string $key): mixed
@@ -302,6 +315,8 @@ class Session implements \ArrayAccess
     }
 
     /**
+     * Regenerate the session
+     * 
      * @param bool $removeOld
      */
     public function regenerate(bool $removeOld = false): void
@@ -310,6 +325,11 @@ class Session implements \ArrayAccess
         session_regenerate_id($removeOld);
     }
 
+    /**
+     * Destroy the current session
+     *
+     * @return void
+     */
     public function destroy(): void
     {
         $sId = session_id();
@@ -329,7 +349,9 @@ class Session implements \ArrayAccess
 
 
     /**
-     * @param array $options
+     * Load some options
+     * 
+     * @param array $options Options of session_start function
      */
     public function load(array $options): void
     {
@@ -337,6 +359,8 @@ class Session implements \ArrayAccess
     }
 
     /**
+     * Return the current session Id
+     * 
      * @return string
      */
     public function id(): string
@@ -345,7 +369,9 @@ class Session implements \ArrayAccess
     }
 
     /**
-     * @param string $key
+     * Check if a session var is defined
+     * 
+     * @param string $key Index
      * @return bool
      */
     public function is_set(string $key): bool
@@ -354,7 +380,12 @@ class Session implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetExists method.
+     * This method is executed when using isset() or empty() on objects implementing ArrayAccess. 
+     *
+     * @param mixed $offset An offset to check for
+     * @return boolean
+     * 
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -363,7 +394,10 @@ class Session implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetGet method.
+     *
+     * @param mixed $offset Offset to retrieve
+     * @return mixed
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -376,7 +410,12 @@ class Session implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetSet method.
+     * Assign a value to the specified offset.
+     *
+     * @param mixed $offset The offset to assign the value to
+     * @param mixed $value The value to set
+     * @return void
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -385,7 +424,11 @@ class Session implements \ArrayAccess
     }
 
     /**
-     * @inheritDoc
+     * Override ArrayAccess::offsetUnset method.
+     * Unsets an offset
+     *
+     * @param mixed $offset The offset to unset
+     * @return void
      */
     public function offsetUnset(mixed $offset): void
     {

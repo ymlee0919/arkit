@@ -2,7 +2,10 @@
 
 namespace Arkit\Core\HTTP\Request;
 
-class UrlEncodedParser extends BodyParserInterface
+/**
+ * Parser of request payload in url enconded format. It is the default format.
+ */
+class UrlEncodedParser extends PayloadParserInterface
 {
 
     /**

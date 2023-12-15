@@ -2,7 +2,7 @@
 
 # RoutingTree
 
-Class RoutingTree, used by the current Router
+Class to handle routes, implemented as a tree.
 
 
 
@@ -18,7 +18,7 @@ Class RoutingTree, used by the current Router
 
 ### __construct
 
-Constructor of the class RouterTree
+Constructor of the class RoutingTree
 
 ```php
 public __construct(): mixed
@@ -39,7 +39,7 @@ public __construct(): mixed
 
 ### root
 
-
+Get a root node given a request method
 
 ```php
 public root(string $method): array|null
@@ -56,7 +56,7 @@ public root(string $method): array|null
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$method` | **string** |  |
+| `$method` | **string** | Request method |
 
 
 
@@ -66,7 +66,7 @@ public root(string $method): array|null
 
 ### addRoutingRule
 
-
+Add a routing rule
 
 ```php
 public addRoutingRule(string $method, string $id, string $urlRequest, null|array $constraints = null): void
@@ -83,10 +83,10 @@ public addRoutingRule(string $method, string $id, string $urlRequest, null|array
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$method` | **string** |  |
-| `$id` | **string** |  |
-| `$urlRequest` | **string** |  |
-| `$constraints` | **null&#124;array** |  |
+| `$method` | **string** | Http method |
+| `$id` | **string** | Rule id |
+| `$urlRequest` | **string** | Url |
+| `$constraints` | **null&#124;array** | (Optional) Constraints of url parameters |
 
 
 
@@ -96,7 +96,7 @@ public addRoutingRule(string $method, string $id, string $urlRequest, null|array
 
 ### getRoutingRules
 
-
+Get list of rules given a request
 
 ```php
 public getRoutingRules(string $method, string $urlRequest): array|null
@@ -113,9 +113,13 @@ public getRoutingRules(string $method, string $urlRequest): array|null
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$method` | **string** |  |
-| `$urlRequest` | **string** |  |
+| `$method` | **string** | Http request method |
+| `$urlRequest` | **string** | Url requested |
 
+
+**Return Value:**
+
+List of routing rules
 
 
 
@@ -124,4 +128,4 @@ public getRoutingRules(string $method, string $urlRequest): array|null
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

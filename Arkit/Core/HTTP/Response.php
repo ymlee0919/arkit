@@ -6,7 +6,7 @@ use Arkit\Core\Base\FunctionAddress;
 use Arkit\Core\Persistence\Client\CookieStore;
 
 /**
- * Class Output
+ * Handle the response to the client
  */
 final class Response
 {
@@ -86,7 +86,7 @@ final class Response
     private ?CookieStore $cookies;
 
     /**
-     * Constructor of the class
+     * Constructor of the class. Initilize all internal fields
      */
     public function __construct()
     {
@@ -106,7 +106,9 @@ final class Response
 
     //// INTERNAL ASSIGNMENT ------------------------------
     /**
-     * @param array $config
+     * Initialize the object with the internal configuration.
+     * 
+     * @param array $config Internal configuration
      * @return void
      */
     public function init(array &$config): void
@@ -125,7 +127,9 @@ final class Response
     }
 
     /**
-     * @param Response\DispatcherInterface $dispatcher
+     * Set a dispatcher to process the response to the client
+     * 
+     * @param Response\DispatcherInterface $dispatcher Dispatchet that process the response
      * @return void
      */
     public function setDispatcher(Response\DispatcherInterface $dispatcher) : void
@@ -135,9 +139,9 @@ final class Response
     }
 
     /**
-     * Set response status
+     * Set http response status
      *
-     * @param int $status
+     * @param int $status Header status
      * @return $this
      */
     public function setStatus(int $status) : self
@@ -147,8 +151,10 @@ final class Response
     }
 
     /**
-     * @param string $header
-     * @param string|null $value
+     * Set/add a http response header
+     * 
+     * @param string $header Header name
+     * @param string|null $value Header value
      * @return void
      */
     public function setHeader(string $header, ?string $value = null) : void
@@ -168,8 +174,9 @@ final class Response
     }
 
     //// EVENTS ----------------------------------------------
+
     /**
-     * Set onBeforeDisplay event handler
+     * Set onBeforeDisplay event handler. This event will be thron just before return the response
      *
      * @param FunctionAddress $onBeforeDisplay Function address to handle the event before dispatch the payload
      * @return void
@@ -194,7 +201,7 @@ final class Response
     }
 
     /**
-     * Set onNotFound event handler
+     * Set onNotFound event handler.
      *
      * @param FunctionAddress $onNotFound Function address to handle the event when request is not found
      * @return void
@@ -240,6 +247,7 @@ final class Response
 
     /**
      * Respond unauthorized error - 401 Response
+     * @return void
      */
     public function throwAccessDenied(): void
     {
@@ -272,6 +280,7 @@ final class Response
 
     /**
      * Respond forbidden error - 403 Response
+     * @return void
      */
     public function throwForbiddenAccess(): void
     {
@@ -293,6 +302,7 @@ final class Response
 
     /**
      * Throw internal 400 error because invalid domain
+     * @return void
      */
     public function throwInvalidRequest(): void
     {
@@ -302,10 +312,10 @@ final class Response
     }
 
     /**
-     * Encode to html entities
+     * Encode an entry to html entities
      *
-     * @param string|array $param
-     * @param bool $utf8Encode
+     * @param string|array $param Entry to transform
+     * @param bool $utf8Encode Encode to utf-8
      * @return void
      */
     public function toHtmlEntities(string|array &$param, bool $utf8Encode = true): void
@@ -330,6 +340,8 @@ final class Response
     }
 
     /**
+     * Get response the cookies list
+     * 
      * @return CookieStore
      */
     public function getCookies(): CookieStore
@@ -358,12 +370,14 @@ final class Response
 //    }
 
     //// OUTPUT ASSIGNMENT ------------------------------
+
     /**
-     * Assign a values to the template from a file
-     * @param string $field
-     * @param string $filePath
-     * @param bool $encodeFirst
-     * @param bool $toUtf8
+     * Assign output values taken from a yaml file
+     * 
+     * @param string $field Output variable name. This variable will contains all values.
+     * @param string $filePath Absolute file path to read the values
+     * @param bool $encodeFirst Encode values to html entities
+     * @param bool $toUtf8 Encode to utf-8. It works only if $encodeFirst is true.
      * @return self
      */
     public function assignFromFile(string $field, string $filePath, bool $encodeFirst = true, bool $toUtf8 = false): self
@@ -381,11 +395,12 @@ final class Response
     }
 
     /**
-     * Assign a value to the template
-     * @param string|array $field
-     * @param mixed|null $value
-     * @param bool $encodeFirst
-     * @param bool $toUtf8
+     * Assign a value to the output
+     * 
+     * @param string|array $field Output variable name. This will be the name into the client side.
+     * @param mixed|null $value Value to set
+     * @param bool $encodeFirst Encode values to html entities
+     * @param bool $toUtf8 Encode to utf-8. It works only if $encodeFirst is true.
      * @return self
      */
     public function assign(string|array $field, mixed $value = null, bool $encodeFirst = true, bool $toUtf8 = false): self
@@ -412,10 +427,12 @@ final class Response
     }
 
     /**
-     * @param string $fieldName
-     * @param string $error
-     * @param bool $encode
-     * @param bool $toUtf8
+     * Send an input error to the output. 
+     * 
+     * @param string $fieldName Input field name that provoke the the error
+     * @param string $error Error message 
+     * @param bool $encode Encode the error message to html entities
+     * @param bool $toUtf8 Encode to utf-8. It works only if $encodeFirst is true.
      * @return self
      */
     public function inputError(string $fieldName, string $error, bool $encode = true, bool $toUtf8 = false): self
@@ -432,9 +449,11 @@ final class Response
     }
 
     /**
-     * @param array $errors
-     * @param bool $encode
-     * @param bool $toUtf8
+     * Send some input errors to the output. 
+     * 
+     * @param array $errors Array of errors. Each key must be the name of the file that provoke the error. The associated value is taken as the error message.
+     * @param bool $encode Encode error messages to html entities
+     * @param bool $toUtf8 Encode to utf-8. It works only if $encode is true.
      * @return self
      */
     public function inputErrors(array $errors, bool $encode = true, bool $toUtf8 = false): self
@@ -451,10 +470,12 @@ final class Response
     }
 
     /**
-     * @param string $errorType
-     * @param string $message
-     * @param bool $encode
-     * @param bool $toUtf8
+     * Send an error to the output. 
+     * 
+     * @param string $errorType Error type
+     * @param string $message Error message
+     * @param bool $encode Encode error message to html entities
+     * @param bool $toUtf8 Encode the message to utf-8. It works only if $encode is true.
      * @return self
      */
     public function error(string $errorType, string $message, bool $encode = true, bool $toUtf8 = false): self
@@ -471,9 +492,10 @@ final class Response
     }
 
     /**
-     * @param string $message
-     * @param bool $encode
-     * @param bool $toUtf8
+     * Send a warning to the output
+     * @param string $message Warning message
+     * @param bool $encode Encode warning message to html entities
+     * @param bool $toUtf8 Encode the message to utf-8. It works only if $encode is true.
      * @return self
      */
     public function warning(string $message, bool $encode = true, bool $toUtf8 = false): self
@@ -490,9 +512,11 @@ final class Response
     }
 
     /**
-     * @param string $message
-     * @param bool $encode
-     * @param bool $toUtf8
+     * Send a success message to the output
+     * 
+     * @param string $message Message
+     * @param bool $encode Encode the message to html entities
+     * @param bool $toUtf8 Encode the message to utf-8. It works only if $encode is true.
      * @return self
      */
     public function success(string $message, bool $encode = true, bool $toUtf8 = false): self
@@ -510,6 +534,8 @@ final class Response
 
     //// DISPATCHING ------------------------------
     /**
+     * Fetch headers to the output
+     * 
      * @return void
      */
     private function fetchHeaders() : void
@@ -520,11 +546,13 @@ final class Response
     }
 
     /**
-     * @param ?string $resource
-     * @param array|null $arguments
+     * Send the response to the client
+     * 
+     * @param string|null $resource Resource used by the dispacther
+     * @param array|null $arguments Arguments used by the dispatcher
      * @return void
      */
-    public function dispatch(?string $resource, ?array $arguments = null) : void
+    public function dispatch(?string $resource = null, ?array $arguments = null) : void
     {
         // Call before display trigger
         $this->beforeDisplay();
@@ -578,7 +606,7 @@ final class Response
     }
 
     /**
-     * Display a template
+     * Display a template. Set a TemplateDispatcher as internal dispatcher.
      *
      * @param string $template Template name or full template name
      * <ul>
@@ -589,6 +617,7 @@ final class Response
      * @return void
      * @throws \SmartyException
      * @throws \Exception
+     * @see \Arkit\Core\HTTP\Response\TemplateDispatcher
      */
     public function displayTemplate(string $template, string $cacheId = null): void
     {
@@ -606,10 +635,11 @@ final class Response
     }
 
     /**
-     * Redirect to the url build by router
+     * Redirect to the url build by router. Set a RedirectDispatcher as internal dispatcher.
      *
-     * @param string $urlId
-     * @param array|null $params
+     * @param string $urlId Rule id of the current url router
+     * @param array|null $params (optional) Parameters to build the url
+     * @see \Arkit\Core\HTTP\Response\RedirectDispatcher
      */
     public function redirectTo(string $urlId, ?array $params = null): void
     {
@@ -621,9 +651,10 @@ final class Response
     }
 
     /**
-     * Redirect to a given URL
+     * Redirect to a given URL. Set a RedirectDispatcher as internal dispatcher.
      *
-     * @param string $url
+     * @param string $url Url to redirect
+     * @see \Arkit\Core\HTTP\Response\RedirectDispatcher
      */
     public function redirectToUrl(string $url): void
     {
@@ -632,9 +663,10 @@ final class Response
     }
 
     /**
-     * Dispatch values in JSON format
+     * Dispatch values in JSON format. Set a JsonDispatcher as internal dispatcher.
      *
      * @return void
+     * @see \Arkit\Core\HTTP\Response\JsonDispatcher
      */
     public function toJSON(): void
     {

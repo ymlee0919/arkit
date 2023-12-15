@@ -55,7 +55,7 @@ public __construct(): mixed
 
 ### init
 
-
+Initialize the class
 
 ```php
 public init(array& $config = []): void
@@ -72,7 +72,7 @@ public init(array& $config = []): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Configuration array. It should have two elements: ´default_key´ used for encryption and ´hash_algo´ as the algorithm name used to encrypt. |
 
 
 
@@ -82,7 +82,7 @@ public init(array& $config = []): void
 
 ### setCryptProvider
 
-
+Set a Cryptography algorimths provider
 
 ```php
 public setCryptProvider(\Arkit\Core\Security\Crypt\CryptProviderInterface $cryptProvider): void
@@ -126,7 +126,7 @@ public getRandomString(int $length): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$length` | **int** |  |
+| `$length` | **int** | String length |
 
 
 
@@ -153,7 +153,7 @@ public smoothCrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** | String to encrypt |
+| `$data` | **string** | Data to encrypt |
 
 
 **Return Value:**
@@ -212,7 +212,7 @@ public smoothEncrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
 
 
@@ -239,7 +239,7 @@ public smoothDecrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
 
 
@@ -326,7 +326,7 @@ public getRandomString(int $length): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$length` | **int** |  |
+| `$length` | **int** | String length |
 
 
 
@@ -353,7 +353,7 @@ public smoothCrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** | String to encrypt |
+| `$data` | **string** | Data to encrypt |
 
 
 **Return Value:**
@@ -412,7 +412,7 @@ public smoothEncrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
 
 
@@ -443,7 +443,7 @@ public smoothDecrypt(string $data): string
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$data` | **string** |  |
+| `$data` | **string** | Data to encrypt |
 
 
 
@@ -521,4 +521,4 @@ public strongDecrypt(string $data, string|null $key = null): string
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

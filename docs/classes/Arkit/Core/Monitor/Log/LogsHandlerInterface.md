@@ -2,7 +2,7 @@
 
 # LogsHandlerInterface
 
-
+Interface that must implement each log handler
 
 
 
@@ -53,7 +53,7 @@ public registerRequest(\Arkit\Core\HTTP\RequestInterface& $request): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$request` | **\Arkit\Core\HTTP\RequestInterface** |  |
+| `$request` | **\Arkit\Core\HTTP\RequestInterface** | Request to be registered |
 
 
 
@@ -80,9 +80,9 @@ public registerLog(string $logType, string $message, array|null $context = null)
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$logType` | **string** |  |
-| `$message` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$logType` | **string** | Log type |
+| `$message` | **string** | Message to register |
+| `$context` | **array&#124;null** | Callstack |
 
 
 
@@ -109,11 +109,11 @@ public registerError(string $errorType, string $message, string $file, int $line
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errorType` | **string** |  |
-| `$message` | **string** |  |
-| `$file` | **string** |  |
-| `$line` | **int** |  |
-| `$backtrace` | **mixed** |  |
+| `$errorType` | **string** | Type of error |
+| `$message` | **string** | Error message |
+| `$file` | **string** | File where the error occurred |
+| `$line` | **int** | Line where the error occurred |
+| `$backtrace` | **mixed** | Callstack |
 
 
 
@@ -123,4 +123,4 @@ public registerError(string $errorType, string $message, string $file, int $line
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

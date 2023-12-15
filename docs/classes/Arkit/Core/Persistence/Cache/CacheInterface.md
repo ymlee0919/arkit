@@ -2,7 +2,7 @@
 
 # CacheInterface
 
-Interface for cache engine
+Interface to define a Cache engine
 
 
 
@@ -88,7 +88,7 @@ public get(string $key): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$key` | **string** |  |
+| `$key` | **string** | Index |
 
 
 
@@ -115,7 +115,7 @@ public remove(string $key): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$key` | **string** |  |
+| `$key` | **string** | Index to remove |
 
 
 
@@ -188,4 +188,4 @@ public getLastError(): string
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

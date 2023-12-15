@@ -2,7 +2,7 @@
 
 # ErrorHandler
 
-Class Router
+Class to handle internar errors of the application
 
 
 
@@ -18,13 +18,14 @@ Class Router
 
 ### init
 
-
+Start the error handler. Store the previous error_reporting handler.
 
 ```php
 public static init(): void
 ```
 
-
+It is initially called by \Arkit\App class.
+It can be called after stop handle error by this class.
 
 * This method is **static**.
 
@@ -39,7 +40,7 @@ public static init(): void
 
 ### stop
 
-Stop current error handler
+Stop current error handler. Restore the previous error handler.
 
 ```php
 public static stop(): void
@@ -60,7 +61,7 @@ public static stop(): void
 
 ### onInternalServerError
 
-
+Set a function that handle an Internal Server Error
 
 ```php
 public static onInternalServerError(\Arkit\Core\Base\FunctionAddress $onError): void
@@ -77,7 +78,7 @@ public static onInternalServerError(\Arkit\Core\Base\FunctionAddress $onError): 
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$onError` | **\Arkit\Core\Base\FunctionAddress** |  |
+| `$onError` | **\Arkit\Core\Base\FunctionAddress** | Function to handler an internal server error |
 
 
 
@@ -87,7 +88,7 @@ public static onInternalServerError(\Arkit\Core\Base\FunctionAddress $onError): 
 
 ### handleServerError
 
-
+Function to handle a Server Error
 
 ```php
 public static handleServerError(int|string $type, string $message, string $file, int $line, mixed $trace): void
@@ -104,11 +105,11 @@ public static handleServerError(int|string $type, string $message, string $file,
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$type` | **int&#124;string** |  |
-| `$message` | **string** |  |
-| `$file` | **string** |  |
-| `$line` | **int** |  |
-| `$trace` | **mixed** |  |
+| `$type` | **int&#124;string** | Error type |
+| `$message` | **string** | Error message |
+| `$file` | **string** | File where the error occured |
+| `$line` | **int** | Line where the error occurred |
+| `$trace` | **mixed** | Callstack |
 
 
 
@@ -118,7 +119,7 @@ public static handleServerError(int|string $type, string $message, string $file,
 
 ### handleException
 
-
+Handle an exception
 
 ```php
 public static handleException(\Exception|\Error $exception): void
@@ -145,7 +146,7 @@ public static handleException(\Exception|\Error $exception): void
 
 ### showInternalServerError
 
-
+Display internal server error message. Show a default message when onInternalServerError was not set.
 
 ```php
 public static showInternalServerError(): void
@@ -166,4 +167,4 @@ public static showInternalServerError(): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

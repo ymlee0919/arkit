@@ -2,6 +2,9 @@
 
 namespace Arkit\Core\Persistence\Client;
 
+/**
+ * Cookie handler class
+ */
 class Cookie implements CookieInterface
 {
     /**

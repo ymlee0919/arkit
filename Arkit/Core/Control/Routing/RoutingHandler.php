@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\Control\Routing;
 /**
- * Class to encapsulate the callback for routing result
+ * Class to encapsulate the callback for routing result. Store the ruleId, handler and parameters
  */
 class RoutingHandler
 {
@@ -12,9 +12,9 @@ class RoutingHandler
     private array $info;
 
     /**
-     * @param string $ruleId
-     * @param string $handler
-     * @param array|null $parameters
+     * @param string $ruleId Id of the rule
+     * @param string $handler Handler for the request
+     * @param array|null $parameters (Optional) Parameters taken from the url
      */
     public function __construct(string $ruleId, string $handler, ?array $parameters = null)
     {
@@ -26,6 +26,8 @@ class RoutingHandler
     }
 
     /**
+     * Get the rule Id
+     * 
      * @return string
      */
     public function getRuleId(): string
@@ -34,6 +36,8 @@ class RoutingHandler
     }
 
     /**
+     * Get the function handler
+     * 
      * @return string
      */
     public function getHandler(): string
@@ -42,6 +46,7 @@ class RoutingHandler
     }
 
     /**
+     * Get parameters taken from the url
      * @return array|null
      */
     public function getParameters(): ?array

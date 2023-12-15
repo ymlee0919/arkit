@@ -2,6 +2,9 @@
 
 namespace Arkit\Services\Payment;
 
+/**
+ * Check out service (Under construction)
+ */
 class Checkout
 {
 

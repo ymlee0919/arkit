@@ -2,7 +2,7 @@
 
 # Session
 
-Class Session
+Session variables manager. Implements the singleton pattern.
 
 
 
@@ -18,7 +18,7 @@ Class Session
 
 ### getInstance
 
-
+Return the unique instance of the class
 
 ```php
 public static getInstance(): \Arkit\Core\Persistence\Server\Session
@@ -39,7 +39,7 @@ public static getInstance(): \Arkit\Core\Persistence\Server\Session
 
 ### init
 
-
+Initialize internal variables
 
 ```php
 public init(array& $config): void
@@ -56,7 +56,7 @@ public init(array& $config): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Array of configurations |
 
 
 
@@ -87,7 +87,7 @@ public start(): void
 
 ### getCryptKey
 
-
+Get internal crypted key for the current session.
 
 ```php
 public getCryptKey(): string
@@ -263,7 +263,7 @@ public pop(string $key): mixed|null
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$key` | **string** |  |
+| `$key` | **string** | Session key to pop |
 
 
 
@@ -273,7 +273,7 @@ public pop(string $key): mixed|null
 
 ### regenerate
 
-
+Regenerate the session
 
 ```php
 public regenerate(bool $removeOld = false): void
@@ -300,7 +300,7 @@ public regenerate(bool $removeOld = false): void
 
 ### destroy
 
-
+Destroy the current session
 
 ```php
 public destroy(): void
@@ -321,7 +321,7 @@ public destroy(): void
 
 ### load
 
-
+Load some options
 
 ```php
 public load(array $options): void
@@ -338,7 +338,7 @@ public load(array $options): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$options` | **array** |  |
+| `$options` | **array** | Options of session_start function |
 
 
 
@@ -348,7 +348,7 @@ public load(array $options): void
 
 ### id
 
-
+Return the current session Id
 
 ```php
 public id(): string
@@ -369,7 +369,7 @@ public id(): string
 
 ### is_set
 
-
+Check if a session var is defined
 
 ```php
 public is_set(string $key): bool
@@ -386,7 +386,7 @@ public is_set(string $key): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$key` | **string** |  |
+| `$key` | **string** | Index |
 
 
 
@@ -396,13 +396,13 @@ public is_set(string $key): bool
 
 ### offsetExists
 
-
+Override ArrayAccess::offsetExists method.
 
 ```php
 public offsetExists(mixed $offset): bool
 ```
 
-
+This method is executed when using isset() or empty() on objects implementing ArrayAccess.
 
 
 
@@ -413,7 +413,7 @@ public offsetExists(mixed $offset): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$offset` | **mixed** |  |
+| `$offset` | **mixed** | An offset to check for |
 
 
 
@@ -423,7 +423,7 @@ public offsetExists(mixed $offset): bool
 
 ### offsetGet
 
-
+Override ArrayAccess::offsetGet method.
 
 ```php
 public offsetGet(mixed $offset): mixed
@@ -440,7 +440,7 @@ public offsetGet(mixed $offset): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$offset` | **mixed** |  |
+| `$offset` | **mixed** | Offset to retrieve |
 
 
 
@@ -450,13 +450,13 @@ public offsetGet(mixed $offset): mixed
 
 ### offsetSet
 
-
+Override ArrayAccess::offsetSet method.
 
 ```php
 public offsetSet(mixed $offset, mixed $value): void
 ```
 
-
+Assign a value to the specified offset.
 
 
 
@@ -467,8 +467,8 @@ public offsetSet(mixed $offset, mixed $value): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$offset` | **mixed** |  |
-| `$value` | **mixed** |  |
+| `$offset` | **mixed** | The offset to assign the value to |
+| `$value` | **mixed** | The value to set |
 
 
 
@@ -478,13 +478,13 @@ public offsetSet(mixed $offset, mixed $value): void
 
 ### offsetUnset
 
-
+Override ArrayAccess::offsetUnset method.
 
 ```php
 public offsetUnset(mixed $offset): void
 ```
 
-
+Unsets an offset
 
 
 
@@ -495,7 +495,7 @@ public offsetUnset(mixed $offset): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$offset` | **mixed** |  |
+| `$offset` | **mixed** | The offset to unset |
 
 
 
@@ -505,4 +505,4 @@ public offsetUnset(mixed $offset): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

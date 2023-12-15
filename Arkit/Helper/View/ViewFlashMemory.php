@@ -13,6 +13,8 @@ class ViewFlashMemory
     private string $viewName;
 
     /**
+     * Constructor of the class. 
+     * 
      * @param string $url
      */
     public function __construct(string $url)
@@ -22,8 +24,9 @@ class ViewFlashMemory
 
     /**
      * Store an input error
-     * @param string $fieldName
-     * @param string $error
+     * 
+     * @param string $fieldName Field name that provoke the error
+     * @param string $error Error message
      * @return void
      */
     public function storeInputError(string $fieldName, string $error): void
@@ -42,7 +45,8 @@ class ViewFlashMemory
 
     /**
      * Store a list of input errors
-     * @param array $errorList
+     * 
+     * @param array $errorList List of errors
      * @return void
      */
     public function storeInputErrors(array $errorList): void
@@ -62,7 +66,8 @@ class ViewFlashMemory
 
     /**
      * Store the success message
-     * @param string $message
+     * 
+     * @param string $message Message of success
      * @return void
      */
     public function storeSuccessMessage(string $message): void
@@ -78,7 +83,9 @@ class ViewFlashMemory
 
     /**
      * Store the warning
-     * @param string $warning
+     * 
+     * @param string $warning Warning message
+     *  
      * @return void
      */
     public function storeWarning(string $warning): void
@@ -94,8 +101,9 @@ class ViewFlashMemory
 
     /**
      * Store other error types, for internals and others
-     * @param string $errorType
-     * @param string $error
+     * 
+     * @param string $errorType Type of error
+     * @param string $error Error message
      * @return void
      */
     public function storeCustomError(string $errorType, string $error): void
@@ -114,8 +122,9 @@ class ViewFlashMemory
 
     /**
      * Store custom values, useful for inserted form values
-     * @param string $indexName
-     * @param mixed $value
+     * 
+     * @param string $indexName Index
+     * @param mixed $value Value to store
      * @return void
      */
     public function storeCustomValue(string $indexName, mixed $value): void
@@ -133,6 +142,8 @@ class ViewFlashMemory
     }
 
     /**
+     * Send the stored values to the response
+     * 
      * @return void
      */
     public function sendToResponse(): void

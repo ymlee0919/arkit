@@ -2,7 +2,7 @@
 
 # Logger
 
-Class LogsManager
+Logs manager
 
 
 
@@ -35,7 +35,7 @@ public __construct(array& $config): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Configuration array |
 
 
 
@@ -66,7 +66,7 @@ public init(): void
 
 ### setHandler
 
-
+Set logs handler to events types
 
 ```php
 public setHandler(\Arkit\Core\Monitor\Log\LogsHandlerInterface $handler, array $logTypes): void
@@ -83,8 +83,8 @@ public setHandler(\Arkit\Core\Monitor\Log\LogsHandlerInterface $handler, array $
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$handler` | **\Arkit\Core\Monitor\Log\LogsHandlerInterface** |  |
-| `$logTypes` | **array** |  |
+| `$handler` | **\Arkit\Core\Monitor\Log\LogsHandlerInterface** | LogsHandler |
+| `$logTypes` | **array** | List of type of events |
 
 
 
@@ -94,7 +94,7 @@ public setHandler(\Arkit\Core\Monitor\Log\LogsHandlerInterface $handler, array $
 
 ### logRequest
 
-
+Log a request
 
 ```php
 public logRequest(\Arkit\Core\HTTP\RequestInterface& $request): void
@@ -111,7 +111,7 @@ public logRequest(\Arkit\Core\HTTP\RequestInterface& $request): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$request` | **\Arkit\Core\HTTP\RequestInterface** |  |
+| `$request` | **\Arkit\Core\HTTP\RequestInterface** | Http client request |
 
 
 
@@ -121,7 +121,7 @@ public logRequest(\Arkit\Core\HTTP\RequestInterface& $request): void
 
 ### log
 
-
+Log an event
 
 ```php
 public log(string $eventType, string $message, array|null $context = null): bool
@@ -138,9 +138,9 @@ public log(string $eventType, string $message, array|null $context = null): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$eventType` | **string** |  |
-| `$message` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$eventType` | **string** | Event type |
+| `$message` | **string** | Message |
+| `$context` | **array&#124;null** | Log context, usualy taken from debug_backtrace |
 
 
 
@@ -167,8 +167,8 @@ public debug(string $message, array|null $context = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$message` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$message` | **string** | Message |
+| `$context` | **array&#124;null** | Log context, usualy taken from debug_backtrace |
 
 
 
@@ -195,8 +195,8 @@ public info(string $info, array|null $context = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$info` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$info` | **string** | Message |
+| `$context` | **array&#124;null** | Log context, usualy taken from debug_backtrace |
 
 
 
@@ -223,8 +223,8 @@ public notice(string $notice, array|null $context = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$notice` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$notice` | **string** | Notice text |
+| `$context` | **array&#124;null** | Log context, usualy taken from debug_backtrace |
 
 
 
@@ -251,8 +251,8 @@ public warning(string $warning, array|null $context = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$warning` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$warning` | **string** | Warning text |
+| `$context` | **array&#124;null** | Log context, usualy taken from debug_backtrace |
 
 
 
@@ -279,8 +279,8 @@ public alert(string $alert, array|null $context = null): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$alert` | **string** |  |
-| `$context` | **array&#124;null** |  |
+| `$alert` | **string** | Alert message |
+| `$context` | **array&#124;null** | Log context, usualy taken from debug_backtrace |
 
 
 
@@ -307,11 +307,11 @@ public error(string $errorType, string $message, string $file, int $line, mixed&
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$errorType` | **string** |  |
-| `$message` | **string** |  |
-| `$file` | **string** |  |
-| `$line` | **int** |  |
-| `$backtrace` | **mixed** |  |
+| `$errorType` | **string** | Error type |
+| `$message` | **string** | Message |
+| `$file` | **string** | File where the error happend |
+| `$line` | **int** | Line number of the file |
+| `$backtrace` | **mixed** | Callstack |
 
 
 
@@ -321,4 +321,4 @@ public error(string $errorType, string $message, string $file, int $line, mixed&
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

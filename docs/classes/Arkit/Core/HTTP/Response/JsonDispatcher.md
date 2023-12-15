@@ -2,7 +2,7 @@
 
 # JsonDispatcher
 
-
+Response dispatcher in Json format
 
 
 
@@ -18,7 +18,7 @@
 
 ### __construct
 
-
+Constructor of the class. Initialize all internal fields
 
 ```php
 public __construct(): mixed
@@ -259,4 +259,4 @@ public dispatch(?string $resource, ?array $arguments = null): void
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

@@ -3,7 +3,7 @@
 namespace Arkit\Core\Persistence\Cache;
 
 /**
- *
+ * Cache engine over file
  */
 class FileCacheEngine implements CacheInterface
 {

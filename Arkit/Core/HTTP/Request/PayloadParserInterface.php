@@ -2,17 +2,21 @@
 namespace Arkit\Core\HTTP\Request;
 
 /**
- *
+ * Interface to define a class for parse the http request payload
  */
-abstract class BodyParserInterface
+abstract class PayloadParserInterface
 {
 
     /**
+     * Array of values
+     * 
      * @var array
      */
     protected array $values;
 
     /**
+     * Array of headers
+     * 
      * @var ?array
      */
     protected ?array $headers;
@@ -29,6 +33,7 @@ abstract class BodyParserInterface
 
     /**
      * Set request headers
+     * 
      * @param array $headers
      * @return void
      */
@@ -38,7 +43,10 @@ abstract class BodyParserInterface
     }
 
     /**
-     * @param string $paramName
+     * Get a value given an index
+     * 
+     * @param string $paramName Index
+     * 
      * @return mixed
      */
     public function get(string $paramName) : mixed
@@ -47,6 +55,8 @@ abstract class BodyParserInterface
     }
 
     /**
+     * Get all values of the request
+     * 
      * @return array
      */
     public function getAll() : array
@@ -55,7 +65,9 @@ abstract class BodyParserInterface
     }
 
     /**
-     * @param string $paramsName
+     * Validate if an index exists
+     * 
+     * @param string $paramsName Index
      * @return bool
      */
     public function exists(string $paramsName) : bool
@@ -64,7 +76,9 @@ abstract class BodyParserInterface
     }
 
     /**
-     * @param string $bodyContent Request body content
+     * Method to parse con content of the request payload
+     * 
+     * @param string $bodyContent Request payload content
      * @return void
      */
     public abstract function parse(string $bodyContent) : void;

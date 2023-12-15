@@ -2,7 +2,10 @@
 
 namespace Arkit\Core\HTTP\Request;
 
-class JsonParser extends BodyParserInterface
+/**
+ * Parser of request payload in json format
+ */
+class JsonParser extends PayloadParserInterface
 {
 
     /**

@@ -2,7 +2,7 @@
 
 # RequestInterface
 
-Class RequestInterface
+Interface to define a client request handler class
 
 
 
@@ -32,7 +32,7 @@ public init(array& $config): void
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$config` | **array** |  |
+| `$config` | **array** | Configuration array |
 
 
 
@@ -40,12 +40,12 @@ public init(array& $config): void
 
 ***
 
-### setBodyParser
+### setPayloadParser
 
 Set parser for the payload request
 
 ```php
-public setBodyParser(\Arkit\Core\HTTP\Request\BodyParserInterface $bodyParser): void
+public setPayloadParser(\Arkit\Core\HTTP\Request\PayloadParserInterface $payloadParser): void
 ```
 
 
@@ -59,7 +59,7 @@ public setBodyParser(\Arkit\Core\HTTP\Request\BodyParserInterface $bodyParser): 
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$bodyParser` | **\Arkit\Core\HTTP\Request\BodyParserInterface** |  |
+| `$payloadParser` | **\Arkit\Core\HTTP\Request\PayloadParserInterface** |  |
 
 
 
@@ -136,12 +136,12 @@ public validate(): bool
 
 ***
 
-### processBody
+### processPayload
 
-
+Process the body given a PayloadParser
 
 ```php
-public processBody(): void
+public processPayload(): void
 ```
 
 
@@ -531,7 +531,7 @@ public getRequestedProtocolAndDomain(): string
 
 ### isAJAX
 
-Test to see if a request contains the HTTP_X_REQUESTED_WITH header.
+Indicate if the request was made thru ajax
 
 ```php
 public isAJAX(): bool
@@ -574,4 +574,4 @@ public isSecure(): bool
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

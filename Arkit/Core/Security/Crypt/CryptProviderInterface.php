@@ -25,8 +25,8 @@ interface CryptProviderInterface
     /**
      * Make a strong one way encryption
      *
-     * @param string $data
-     * @param string|null $key
+     * @param string $data Data to encrypt
+     * @param string|null $key Internal key
      * @return string
      */
     public function oneWayStrongCrypt(string $data, ?string $key = null): string;
@@ -34,8 +34,8 @@ interface CryptProviderInterface
     /**
      * Make a smooth two ways encryption. You can get back the previous data using the twoWaySmoothDecrypt function.
      *
-     * @param string $data
-     * @return string
+     * @param string $data Data to encrypt
+     * @return string Internal key
      *
      * @see twoWaysSmoothDecrypt
      */
@@ -44,8 +44,8 @@ interface CryptProviderInterface
     /**
      * Make a smooth two ways decryption. Get the data encrypted by twoWaySmoothEncrypt
      *
-     * @param string $data
-     * @return string
+     * @param string $data Data to encrypt
+     * @return string Internal key
      *
      * @see twoWaysSmoothEncrypt
      */
@@ -53,8 +53,8 @@ interface CryptProviderInterface
 
     /**
      * Make a strong two ways encryption. You can get back the previous data using the twoWayStrongDecrypt function.
-     * @param string $data
-     * @param string $key
+     * @param string $data Data to encrypt
+     * @param string $key Internal key
      * @return string
      *
      * @see twoWaysStrongDecrypt
@@ -64,8 +64,8 @@ interface CryptProviderInterface
     /**
      * Make a smooth two ways decryption. Get the data encrypted by twoWayStrongEncrypt, using the same key
      *
-     * @param string $data
-     * @param string $key
+     * @param string $data Data to decrypt
+     * @param string $key Internal key
      * @return string
      *
      * @see twoWaysStrongEncrypt

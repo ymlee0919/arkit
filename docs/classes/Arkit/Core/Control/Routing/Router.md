@@ -20,7 +20,7 @@ Class Router
 
 ### __construct
 
-
+Constructor of the class
 
 ```php
 public __construct(): mixed
@@ -68,7 +68,7 @@ public setSign(string $str): void
 
 ### getSign
 
-Get sign for caching
+Get sign from caching
 
 ```php
 public getSign(): string
@@ -133,7 +133,7 @@ public getRule(string $ruleId): \Arkit\Core\Control\Routing\RoutingRule|null
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$ruleId` | **string** |  |
+| `$ruleId` | **string** | Rule id |
 
 
 
@@ -227,4 +227,4 @@ public buildUrl(string $ruleId, ?array $params = null): string
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

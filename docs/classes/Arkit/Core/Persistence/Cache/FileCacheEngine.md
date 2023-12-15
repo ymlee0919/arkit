@@ -2,7 +2,7 @@
 
 # FileCacheEngine
 
-
+Cache engine over file
 
 
 
@@ -112,7 +112,7 @@ public get(string $key): mixed
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$key` | **string** |  |
+| `$key` | **string** | Index |
 
 
 
@@ -139,7 +139,7 @@ public remove(string $key): bool
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `$key` | **string** |  |
+| `$key` | **string** | Index to remove |
 
 
 
@@ -212,4 +212,4 @@ public isEnabled(): bool
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

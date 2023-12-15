@@ -76,11 +76,11 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`DomainRouter`](./classes/Arkit/Core/Control/Routing/DomainRouter.md) | Class for route a domain|
+| [`DomainRouter`](./classes/Arkit/Core/Control/Routing/DomainRouter.md) | Router class for domain|
 | [`Router`](./classes/Arkit/Core/Control/Routing/Router.md) | Class Router|
-| [`RoutingHandler`](./classes/Arkit/Core/Control/Routing/RoutingHandler.md) | Class to encapsulate the callback for routing result|
+| [`RoutingHandler`](./classes/Arkit/Core/Control/Routing/RoutingHandler.md) | Class to encapsulate the callback for routing result. Store the ruleId, handler and parameters|
 | [`RoutingRule`](./classes/Arkit/Core/Control/Routing/RoutingRule.md) | Class to encapsulate a rule of routing|
-| [`RoutingTree`](./classes/Arkit/Core/Control/Routing/RoutingTree.md) | Class RoutingTree, used by the current Router|
+| [`RoutingTree`](./classes/Arkit/Core/Control/Routing/RoutingTree.md) | Class to handle routes, implemented as a tree.|
 
 
 
@@ -88,7 +88,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`RouterInterface`](./classes/Arkit/Core/Control/Routing/RouterInterface.md) | |
+| [`RouterInterface`](./classes/Arkit/Core/Control/Routing/RouterInterface.md) | Interface for an url ruoter|
 
 
 
@@ -98,8 +98,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`DatabasePerformanceException`](./classes/Arkit/Core/Exception/DatabasePerformanceException.md) | |
-| [`InvalidActionException`](./classes/Arkit/Core/Exception/InvalidActionException.md) | |
+| [`DatabasePerformanceException`](./classes/Arkit/Core/Exception/DatabasePerformanceException.md) | General class for any database performace exception|
+| [`InvalidActionException`](./classes/Arkit/Core/Exception/InvalidActionException.md) | General class for any invalid action exception|
 
 
 
@@ -161,8 +161,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`Request`](./classes/Arkit/Core/HTTP/Request.md) | Class Request|
-| [`Response`](./classes/Arkit/Core/HTTP/Response.md) | Class Output|
+| [`Request`](./classes/Arkit/Core/HTTP/Request.md) | Client request handler|
+| [`Response`](./classes/Arkit/Core/HTTP/Response.md) | Handle the response to the client|
 
 
 
@@ -170,7 +170,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`RequestInterface`](./classes/Arkit/Core/HTTP/RequestInterface.md) | Class RequestInterface|
+| [`RequestInterface`](./classes/Arkit/Core/HTTP/RequestInterface.md) | Interface to define a client request handler class|
 
 
 
@@ -180,10 +180,10 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`BodyParserInterface`](./classes/Arkit/Core/HTTP/Request/BodyParserInterface.md) | |
-| [`JsonParser`](./classes/Arkit/Core/HTTP/Request/JsonParser.md) | |
-| [`MultipartFormParser`](./classes/Arkit/Core/HTTP/Request/MultipartFormParser.md) | |
-| [`UrlEncodedParser`](./classes/Arkit/Core/HTTP/Request/UrlEncodedParser.md) | |
+| [`JsonParser`](./classes/Arkit/Core/HTTP/Request/JsonParser.md) | Parser of request payload in json format|
+| [`MultipartFormParser`](./classes/Arkit/Core/HTTP/Request/MultipartFormParser.md) | Parser of request payload in MultipartForm format|
+| [`PayloadParserInterface`](./classes/Arkit/Core/HTTP/Request/PayloadParserInterface.md) | Interface to define a class for parse the http request payload|
+| [`UrlEncodedParser`](./classes/Arkit/Core/HTTP/Request/UrlEncodedParser.md) | Parser of request payload in url enconded format. It is the default format.|
 
 
 
@@ -194,9 +194,9 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`JsonDispatcher`](./classes/Arkit/Core/HTTP/Response/JsonDispatcher.md) | |
-| [`RedirectDispatcher`](./classes/Arkit/Core/HTTP/Response/RedirectDispatcher.md) | |
-| [`TemplateDispatcher`](./classes/Arkit/Core/HTTP/Response/TemplateDispatcher.md) | |
+| [`JsonDispatcher`](./classes/Arkit/Core/HTTP/Response/JsonDispatcher.md) | Response dispatcher in Json format|
+| [`RedirectDispatcher`](./classes/Arkit/Core/HTTP/Response/RedirectDispatcher.md) | Response dispatcher thru redirection. All previous values sent to the output are stored into a ViewFlashMemory.|
+| [`TemplateDispatcher`](./classes/Arkit/Core/HTTP/Response/TemplateDispatcher.md) | Dispatch the response using a template engine|
 
 
 
@@ -204,7 +204,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`DispatcherInterface`](./classes/Arkit/Core/HTTP/Response/DispatcherInterface.md) | Class for dispatch the payload response|
+| [`DispatcherInterface`](./classes/Arkit/Core/HTTP/Response/DispatcherInterface.md) | Interface to define a payload response dispatcher|
 
 
 
@@ -214,8 +214,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`Template`](./classes/Arkit/Core/HTTP/Response/Template/Template.md) | |
-| [`TinyTemplate`](./classes/Arkit/Core/HTTP/Response/Template/TinyTemplate.md) | Class TinyTemplate|
+| [`Template`](./classes/Arkit/Core/HTTP/Response/Template/Template.md) | Class to define a template. Smarty is used as template engine.|
+| [`TinyTemplate`](./classes/Arkit/Core/HTTP/Response/Template/TinyTemplate.md) | Tiny template engine. It only allow direct variables replacement.|
 
 
 
@@ -226,8 +226,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`ErrorHandler`](./classes/Arkit/Core/Monitor/ErrorHandler.md) | Class Router|
-| [`Logger`](./classes/Arkit/Core/Monitor/Logger.md) | Class LogsManager|
+| [`ErrorHandler`](./classes/Arkit/Core/Monitor/ErrorHandler.md) | Class to handle internar errors of the application|
+| [`Logger`](./classes/Arkit/Core/Monitor/Logger.md) | Logs manager|
 
 
 
@@ -238,8 +238,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`EmailLogsHandler`](./classes/Arkit/Core/Monitor/Log/EmailLogsHandler.md) | |
-| [`FileLogsHandler`](./classes/Arkit/Core/Monitor/Log/FileLogsHandler.md) | |
+| [`EmailLogsHandler`](./classes/Arkit/Core/Monitor/Log/EmailLogsHandler.md) | Logs handler using email|
+| [`FileLogsHandler`](./classes/Arkit/Core/Monitor/Log/FileLogsHandler.md) | Logs handler using files|
 
 
 
@@ -247,7 +247,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`LogsHandlerInterface`](./classes/Arkit/Core/Monitor/Log/LogsHandlerInterface.md) | |
+| [`LogsHandlerInterface`](./classes/Arkit/Core/Monitor/Log/LogsHandlerInterface.md) | Interface that must implement each log handler|
 
 
 
@@ -257,10 +257,10 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`ApcCacheEngine`](./classes/Arkit/Core/Persistence/Cache/ApcCacheEngine.md) | |
-| [`FileCacheEngine`](./classes/Arkit/Core/Persistence/Cache/FileCacheEngine.md) | |
-| [`MemcacheCacheEngine`](./classes/Arkit/Core/Persistence/Cache/MemcacheCacheEngine.md) | |
-| [`MemcachedCacheEngine`](./classes/Arkit/Core/Persistence/Cache/MemcachedCacheEngine.md) | |
+| [`ApcCacheEngine`](./classes/Arkit/Core/Persistence/Cache/ApcCacheEngine.md) | Cache engine over Apc|
+| [`FileCacheEngine`](./classes/Arkit/Core/Persistence/Cache/FileCacheEngine.md) | Cache engine over file|
+| [`MemcacheCacheEngine`](./classes/Arkit/Core/Persistence/Cache/MemcacheCacheEngine.md) | Cache engine over Memcache|
+| [`MemcachedCacheEngine`](./classes/Arkit/Core/Persistence/Cache/MemcachedCacheEngine.md) | Cache Engine over Memcached|
 
 
 
@@ -268,7 +268,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`CacheInterface`](./classes/Arkit/Core/Persistence/Cache/CacheInterface.md) | Interface for cache engine|
+| [`CacheInterface`](./classes/Arkit/Core/Persistence/Cache/CacheInterface.md) | Interface to define a Cache engine|
 
 
 
@@ -278,8 +278,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`Cookie`](./classes/Arkit/Core/Persistence/Client/Cookie.md) | |
-| [`CookieStore`](./classes/Arkit/Core/Persistence/Client/CookieStore.md) | |
+| [`Cookie`](./classes/Arkit/Core/Persistence/Client/Cookie.md) | Cookie handler class|
+| [`CookieStore`](./classes/Arkit/Core/Persistence/Client/CookieStore.md) | Store of cookies|
 
 
 
@@ -300,7 +300,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Interface | Description |
 |-----------|-------------|
-| [`Model`](./classes/Arkit/Core/Persistence/Database/Model.md) | Abstraction for a core class for database connection|
+| [`Model`](./classes/Arkit/Core/Persistence/Database/Model.md) | Abstraction for a core class of database connection|
 
 
 
@@ -310,7 +310,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`Session`](./classes/Arkit/Core/Persistence/Server/Session.md) | Class Session|
+| [`Session`](./classes/Arkit/Core/Persistence/Server/Session.md) | Session variables manager. Implements the singleton pattern.|
 
 
 
@@ -332,8 +332,8 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`CryptInterface`](./classes/Arkit/Core/Security/Crypt/CryptInterface.md) | |
-| [`OpensslCryptProvider`](./classes/Arkit/Core/Security/Crypt/OpensslCryptProvider.md) | |
+| [`CryptInterface`](./classes/Arkit/Core/Security/Crypt/CryptInterface.md) | Interface to define a cryptographic provider class|
+| [`OpensslCryptProvider`](./classes/Arkit/Core/Security/Crypt/OpensslCryptProvider.md) | Cryptographic provider using Openssl algorithms|
 
 
 
@@ -351,9 +351,9 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`AccessControlHelper`](./classes/Arkit/Helper/Access/AccessControlHelper.md) | |
-| [`AccessHash`](./classes/Arkit/Helper/Access/AccessHash.md) | |
-| [`AccessTree`](./classes/Arkit/Helper/Access/AccessTree.md) | |
+| [`AccessControlHelper`](./classes/Arkit/Helper/Access/AccessControlHelper.md) | Helper for access control|
+| [`AccessHash`](./classes/Arkit/Helper/Access/AccessHash.md) | Internal class for access control using hash|
+| [`AccessTree`](./classes/Arkit/Helper/Access/AccessTree.md) | Internal class for access control using tree (Under construction)|
 
 
 
@@ -364,7 +364,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`FilesManager`](./classes/Arkit/Helper/Files/FilesManager.md) | Class FilesManager|
+| [`FilesManager`](./classes/Arkit/Helper/Files/FilesManager.md) | Manage files as atomic operations. If something is wrong, just rollback.|
 
 
 
@@ -386,7 +386,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`EmailDispatcher`](./classes/Arkit/Services/Email/EmailDispatcher.md) | |
+| [`EmailDispatcher`](./classes/Arkit/Services/Email/EmailDispatcher.md) | Email dispatcher (Under construction)|
 
 
 
@@ -397,7 +397,7 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`Checkout`](./classes/Arkit/Services/Payment/Checkout.md) | |
+| [`Checkout`](./classes/Arkit/Services/Payment/Checkout.md) | Check out service (Under construction)|
 
 
 
@@ -408,10 +408,10 @@ This is an automatically generated documentation for **Arkit API**.
 
 | Class | Description |
 |-------|-------------|
-| [`PdfBuilder`](./classes/Arkit/Services/Pdf/PdfBuilder.md) | Class for building a pdf from a web page|
+| [`PdfBuilder`](./classes/Arkit/Services/Pdf/PdfBuilder.md) | Class for building a pdf from a web page (Under construction)|
 
 
 
 
 ***
-> Automatically generated on 2023-12-13
+> Automatically generated on 2023-12-15

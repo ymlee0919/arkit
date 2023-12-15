@@ -2,6 +2,13 @@
 
 namespace Arkit\Core\Control\Routing;
 
+/**
+ * @ignore add literal to node
+ *
+ * @param array $node
+ * @param string $literal
+ * @return mixed
+ */
 function &_node_add_literal(&$node, $literal): mixed
 {
     if (!isset($node['literals'][$literal]))
@@ -9,6 +16,13 @@ function &_node_add_literal(&$node, $literal): mixed
     return $node['literals'][$literal];
 }
 
+/**
+ * @ignore add regex to node
+ *
+ * @param array $node
+ * @param string $regex
+ * @return mixed
+ */
 function &_node_add_regex(&$node, $regex): mixed
 {
     if (!isset($node['regexs'][$regex]))
@@ -17,27 +31,49 @@ function &_node_add_regex(&$node, $regex): mixed
     return $node['regexs'][$regex];
 }
 
+/**
+ * @ignore add rule to node
+ *
+ * @param array $node
+ * @param string $rule
+ * @return void
+ */
 function _node_add_rule(&$node, $rule): void
 {
     $node['rules'][] = $rule;
 }
 
-// Function to set precedence to rules
-function sortRules($rule1, $rule2)
+/**
+ * @ignore sort rules
+ *
+ * @param string $rule1
+ * @param string $rule2
+ * @return int
+ */
+function sortRules($rule1, $rule2): int
 {
     $asterPos1 = strpos($rule1, '*');
     $asterPos2 = strpos($rule2, '*');
     
-    if($asterPos1 === false && $asterPos2 === false)
+    if(false === $asterPos1 && false === $asterPos2)
         return 0;
     
-    if($asterPos1 === false && $asterPos2 !== false)
+    if(false === $asterPos1 && false !== $asterPos2)
         return -1;
     
-    if($asterPos1 !== false && $asterPos2 === false)
+    if(false !== $asterPos1 && false === $asterPos2)
         return 1;
+
+    return 0;
 }
 
+/**
+ * @ignore get a node given a key value
+ *
+ * @param array $node
+ * @param string $value
+ * @return mixed
+ */
 function _node_get(&$node, $value): mixed
 {
     if (isset($node['literals'][$value]))
@@ -50,6 +86,12 @@ function _node_get(&$node, $value): mixed
     return null;
 }
 
+/**
+ * @ignore get node rules
+ *
+ * @param array $node
+ * @return array
+ */
 function &_node_get_rules(&$node)
 {
     if (is_null($node['rules']))
@@ -59,7 +101,7 @@ function &_node_get_rules(&$node)
 }
 
 /**
- * Class RoutingTree, used by the current Router
+ * Class to handle routes, implemented as a tree.
  */
 final class RoutingTree
 {
@@ -70,7 +112,7 @@ final class RoutingTree
     private array $root;
 
     /**
-     * Constructor of the class RouterTree
+     * Constructor of the class RoutingTree
      */
     public function __construct()
     {
@@ -84,7 +126,9 @@ final class RoutingTree
 
 
     /**
-     * @param string $method
+     * Get a root node given a request method
+     * 
+     * @param string $method Request method
      * @return array|null
      */
     public function &root(string $method): ?array
@@ -99,10 +143,12 @@ final class RoutingTree
 
 
     /**
-     * @param string $method
-     * @param string $id
-     * @param string $urlRequest
-     * @param null|array $constraints
+     * Add a routing rule
+     * 
+     * @param string $method Http method
+     * @param string $id Rule id
+     * @param string $urlRequest Url
+     * @param null|array $constraints (Optional) Constraints of url parameters
      */
     public function addRoutingRule(string $method, string $id, string $urlRequest, array $constraints = null): void
     {
@@ -137,9 +183,11 @@ final class RoutingTree
 
 
     /**
-     * @param string $method
-     * @param string $urlRequest
-     * @return array|null
+     * Get list of rules given a request
+     * 
+     * @param string $method Http request method
+     * @param string $urlRequest Url requested
+     * @return array|null List of routing rules
      */
     public function getRoutingRules(string $method, string $urlRequest): ?array
     {
