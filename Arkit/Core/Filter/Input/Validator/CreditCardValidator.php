@@ -4,17 +4,6 @@ namespace Arkit\Core\Filter\Input\Validator;
 
 use \Arkit\Core\Filter\Input\FieldValidator;
 
-define('CARD_VISAELECTRON', 'visaelectron');
-define('CARD_MAESTRO', 'maestro');
-define('CARD_FORBRUGSFORENINGEN', 'forbrugsforeningen');
-define('CARD_DANKORT', 'dankort');
-define('CARD_VISA', 'visa');
-define('CARD_MASTERCARD', 'mastercard');
-define('CARD_AMEX', 'amex');
-define('CARD_DINERSCLUB', 'dinersclub');
-define('CARD_DISCOVER', 'discover');
-define('CARD_UNIONPAY', 'unionpay');
-define('CARD_JCB', 'jcb');
 
 class CreditCardValidator extends FieldValidator{
 
@@ -154,15 +143,15 @@ class CreditCardValidator extends FieldValidator{
     }
 
     /**
-     * @param string $type
+     * @param Card $type
      * @return $this
      */
-    public function is(string $type) : self
+    public function is(Card $type) : self
     {
         if(!$this->validField || !$this->checkValidEmpty() || $this->isEmpty())
             return $this;
 
-        $cardType = strtolower($type);
+        $cardType = strtolower($type->value);
         $cardType = str_replace(' ', '', $cardType);
 
         if(!isset(CreditCardValidator::$cards[$cardType]))

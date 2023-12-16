@@ -3,8 +3,11 @@
 namespace Arkit\Core\Filter;
 
 use \Arkit\Core\HTTP\RequestInterface;
+
 /**
- * Class FormValidator
+ * Input form validator.
+ * 
+ * Help to validate each form field sent from the client side.
  */
 class InputValidator
 {
@@ -170,6 +173,8 @@ class InputValidator
     }
 
     /**
+     * Generate the CRSF code
+     * 
      * @param ?string $formId - If formId is set, return the code. Otherwise, set into \Arkit\App::$store
      * @param ?string $fieldName - Field name to generate the hidden html field. If not set, get the default csrf field name
      * @param ?int $expire - Time in seconds of form expiration
@@ -196,6 +201,7 @@ class InputValidator
 
 
     /**
+     * Validate the CSRF code
      * @param string|null $formId
      * @param string|null $fieldName
      * @param bool $validateCookie
@@ -245,6 +251,7 @@ class InputValidator
 
     /**
      * Release the cookie sent with the form
+     * 
      * @param string|null $formId
      * @return void
      */
@@ -255,6 +262,7 @@ class InputValidator
     }
 
     /**
+     * Set form Id
      * @param string $formId
      * @return $this
      */
@@ -265,6 +273,8 @@ class InputValidator
     }
 
     /**
+     * Get the request for check it values
+     * 
      * @param RequestInterface &$request
      */
     public function checkValues(RequestInterface &$request) : void
@@ -285,6 +295,8 @@ class InputValidator
 	}
 
     /**
+     * Register a field validation error
+     * 
      * @param string $error
      * @param ?array $params
      * @return bool

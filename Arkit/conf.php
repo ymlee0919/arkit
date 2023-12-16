@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * Define the application run mode as Debug.
+ */
 define('DEBUG_MODE', 'DEBUG');
 
+/*
+ * Define the application run mode as Debug.
+ */
 define('TESTING_MODE', 'TESTING');
 
+/*
+ * Define the application run mode as Debug.
+ */
 define('RELEASE_MODE', 'RELEASE');
 
 //// Set a secure environment:

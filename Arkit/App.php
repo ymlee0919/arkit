@@ -5,8 +5,6 @@ use Arkit\Core\Config\DotEnv;
 
 /**
  * Application controller class. Implements the singleton pattern.
- * 
- * @package \Arkit
  */
 final class App
 {
@@ -199,10 +197,7 @@ final class App
      */
     private static function initRunMode()
     {
-        if(!defined('RUN_MODE'))
-            define('RUN_MODE', self::$Env['RUN_MODE'] ?? RELEASE_MODE);
-
-        switch(RUN_MODE)
+        switch(self::$Env['RUN_MODE'])
         {
             case RELEASE_MODE:
                 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);

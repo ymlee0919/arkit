@@ -127,12 +127,14 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">9</span>
+    <span class="phpdocumentor-element-found-in__line">12</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Class FormValidator</p>
+            <p class="phpdocumentor-summary">Input form validator.</p>
 
+    <section class="phpdocumentor-description"><p>Help to validate each form field sent from the client side.</p>
+</section>
 
 
 
@@ -177,12 +179,14 @@
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Get the request for check it values</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-InputValidator.html#method_generateCsrfCode">generateCsrfCode()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Generate the CRSF code</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-InputValidator.html#method_getError">getError()</a>
@@ -309,6 +313,7 @@
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Register a field validation error</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-InputValidator.html#method_releaseCsrfCookie">releaseCsrfCookie()</a>
@@ -340,6 +345,7 @@
     <span>
                                 &nbsp;: $this    </span>
 </dt>
+<dd>Set form Id</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-InputValidator.html#method_setLanguage">setLanguage()</a>
@@ -364,6 +370,7 @@
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Validate the CSRF code</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-InputValidator.html#method_validateFile">validateFile()</a>
@@ -400,7 +407,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">120</span>
+    <span class="phpdocumentor-element-found-in__line">123</span>
 
     </aside>
 
@@ -432,7 +439,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">403</span>
+    <span class="phpdocumentor-element-found-in__line">415</span>
 
     </aside>
 
@@ -477,11 +484,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">270</span>
+    <span class="phpdocumentor-element-found-in__line">280</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the request for check it values</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">checkValues</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Arkit-Core-HTTP-RequestInterface.html"><abbr title="\Arkit\Core\HTTP\RequestInterface">RequestInterface</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$request</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -518,11 +526,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">184</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Generate the CRSF code</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">generateCsrfCode</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formId</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fieldName</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$expire</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$setCookie</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
@@ -600,7 +609,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">337</span>
+    <span class="phpdocumentor-element-found-in__line">349</span>
 
     </aside>
 
@@ -645,7 +654,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">348</span>
+    <span class="phpdocumentor-element-found-in__line">360</span>
 
     </aside>
 
@@ -680,7 +689,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">155</span>
 
     </aside>
 
@@ -736,7 +745,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">552</span>
+    <span class="phpdocumentor-element-found-in__line">564</span>
 
     </aside>
 
@@ -786,7 +795,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">591</span>
+    <span class="phpdocumentor-element-found-in__line">603</span>
 
     </aside>
 
@@ -836,7 +845,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">696</span>
+    <span class="phpdocumentor-element-found-in__line">708</span>
 
     </aside>
 
@@ -881,7 +890,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">651</span>
+    <span class="phpdocumentor-element-found-in__line">663</span>
 
     </aside>
 
@@ -941,7 +950,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">633</span>
+    <span class="phpdocumentor-element-found-in__line">645</span>
 
     </aside>
 
@@ -1001,7 +1010,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">668</span>
+    <span class="phpdocumentor-element-found-in__line">680</span>
 
     </aside>
 
@@ -1051,7 +1060,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">526</span>
+    <span class="phpdocumentor-element-found-in__line">538</span>
 
     </aside>
 
@@ -1101,7 +1110,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">565</span>
+    <span class="phpdocumentor-element-found-in__line">577</span>
 
     </aside>
 
@@ -1151,7 +1160,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">539</span>
+    <span class="phpdocumentor-element-found-in__line">551</span>
 
     </aside>
 
@@ -1201,7 +1210,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">578</span>
+    <span class="phpdocumentor-element-found-in__line">590</span>
 
     </aside>
 
@@ -1251,7 +1260,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">413</span>
+    <span class="phpdocumentor-element-found-in__line">425</span>
 
     </aside>
 
@@ -1296,7 +1305,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">605</span>
+    <span class="phpdocumentor-element-found-in__line">617</span>
 
     </aside>
 
@@ -1346,7 +1355,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">619</span>
+    <span class="phpdocumentor-element-found-in__line">631</span>
 
     </aside>
 
@@ -1396,7 +1405,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">356</span>
+    <span class="phpdocumentor-element-found-in__line">368</span>
 
     </aside>
 
@@ -1431,7 +1440,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">432</span>
+    <span class="phpdocumentor-element-found-in__line">444</span>
 
     </aside>
 
@@ -1476,7 +1485,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">708</span>
+    <span class="phpdocumentor-element-found-in__line">720</span>
 
     </aside>
 
@@ -1538,7 +1547,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">318</span>
+    <span class="phpdocumentor-element-found-in__line">330</span>
 
     </aside>
 
@@ -1579,11 +1588,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">293</span>
+    <span class="phpdocumentor-element-found-in__line">305</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Register a field validation error</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">registerError</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$error</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -1646,7 +1656,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">251</span>
+    <span class="phpdocumentor-element-found-in__line">258</span>
 
     </aside>
 
@@ -1688,7 +1698,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">446</span>
+    <span class="phpdocumentor-element-found-in__line">458</span>
 
     </aside>
 
@@ -1733,7 +1743,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">456</span>
+    <span class="phpdocumentor-element-found-in__line">468</span>
 
     </aside>
 
@@ -1778,7 +1788,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">466</span>
+    <span class="phpdocumentor-element-found-in__line">478</span>
 
     </aside>
 
@@ -1823,11 +1833,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">261</span>
+    <span class="phpdocumentor-element-found-in__line">269</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set form Id</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">setId</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
@@ -1868,7 +1879,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">490</span>
+    <span class="phpdocumentor-element-found-in__line">502</span>
 
     </aside>
 
@@ -1928,7 +1939,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">477</span>
+    <span class="phpdocumentor-element-found-in__line">489</span>
 
     </aside>
 
@@ -1976,7 +1987,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">366</span>
+    <span class="phpdocumentor-element-found-in__line">378</span>
 
     </aside>
 
@@ -2028,11 +2039,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">204</span>
+    <span class="phpdocumentor-element-found-in__line">210</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Validate the CSRF code</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">validateCsrfCode</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$formId</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$fieldName</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$validateCookie</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">false</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -2087,7 +2099,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/InputValidator.php"><a href="files/arkit-core-filter-inputvalidator.html"><abbr title="Arkit/Core/Filter/InputValidator.php">InputValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">386</span>
+    <span class="phpdocumentor-element-found-in__line">398</span>
 
     </aside>
 

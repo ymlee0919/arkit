@@ -1,11 +1,6 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\RUN_MODE",
-            "name": "RUN_MODE",
-            "summary": "",
-            "url": "namespaces/default.html#constant_RUN_MODE"
-        },                {
             "fqsen": "\\Arkit\\App",
             "name": "App",
             "summary": "Application\u0020controller\u0020class.\u0020Implements\u0020the\u0020singleton\u0020pattern.",
@@ -691,60 +686,65 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Arkit-Core-Filter-Input-Validator-BoolValidator.html#method_isFalse"
         },                {
-            "fqsen": "\\CARD_VISAELECTRON",
-            "name": "CARD_VISAELECTRON",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_VISAELECTRON"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card",
+            "name": "Card",
+            "summary": "Credit\u0020\/\u0020Debit\u0020card\u0020types",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html"
         },                {
-            "fqsen": "\\CARD_MAESTRO",
-            "name": "CARD_MAESTRO",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_MAESTRO"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AVISAELECTRON",
+            "name": "VISAELECTRON",
+            "summary": "VisaElectro\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_VISAELECTRON"
         },                {
-            "fqsen": "\\CARD_FORBRUGSFORENINGEN",
-            "name": "CARD_FORBRUGSFORENINGEN",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_FORBRUGSFORENINGEN"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AMAESTRO",
+            "name": "MAESTRO",
+            "summary": "Maestro\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_MAESTRO"
         },                {
-            "fqsen": "\\CARD_DANKORT",
-            "name": "CARD_DANKORT",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_DANKORT"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AFORBRUGSFORENINGEN",
+            "name": "FORBRUGSFORENINGEN",
+            "summary": "Forbrugsforeningen\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_FORBRUGSFORENINGEN"
         },                {
-            "fqsen": "\\CARD_VISA",
-            "name": "CARD_VISA",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_VISA"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003ADANKORT",
+            "name": "DANKORT",
+            "summary": "Dankort\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_DANKORT"
         },                {
-            "fqsen": "\\CARD_MASTERCARD",
-            "name": "CARD_MASTERCARD",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_MASTERCARD"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AVISA",
+            "name": "VISA",
+            "summary": "Visa\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_VISA"
         },                {
-            "fqsen": "\\CARD_AMEX",
-            "name": "CARD_AMEX",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_AMEX"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AMASTERCARD",
+            "name": "MASTERCARD",
+            "summary": "MasterCard\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_MASTERCARD"
         },                {
-            "fqsen": "\\CARD_DINERSCLUB",
-            "name": "CARD_DINERSCLUB",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_DINERSCLUB"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AAMEX",
+            "name": "AMEX",
+            "summary": "American\u0020Express\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_AMEX"
         },                {
-            "fqsen": "\\CARD_DISCOVER",
-            "name": "CARD_DISCOVER",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_DISCOVER"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003ADINERSCLUB",
+            "name": "DINERSCLUB",
+            "summary": "DinersClub\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_DINERSCLUB"
         },                {
-            "fqsen": "\\CARD_UNIONPAY",
-            "name": "CARD_UNIONPAY",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_UNIONPAY"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003ADISCOVER",
+            "name": "DISCOVER",
+            "summary": "Discover\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_DISCOVER"
         },                {
-            "fqsen": "\\CARD_JCB",
-            "name": "CARD_JCB",
-            "summary": "",
-            "url": "namespaces/default.html#constant_CARD_JCB"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AUNIONPAY",
+            "name": "UNIONPAY",
+            "summary": "UnionPay\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_UNIONPAY"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\Card\u003A\u003AJCB",
+            "name": "JCB",
+            "summary": "JBC\u0020Card",
+            "url": "classes/Arkit-Core-Filter-Input-Validator-Card.html#enumcase_JCB"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\CreditCardValidator",
             "name": "CreditCardValidator",
@@ -1213,7 +1213,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator",
             "name": "InputValidator",
-            "summary": "Class\u0020FormValidator",
+            "summary": "Input\u0020form\u0020validator.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003A__construct\u0028\u0029",
@@ -1228,12 +1228,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AgenerateCsrfCode\u0028\u0029",
             "name": "generateCsrfCode",
-            "summary": "",
+            "summary": "Generate\u0020the\u0020CRSF\u0020code",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_generateCsrfCode"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AvalidateCsrfCode\u0028\u0029",
             "name": "validateCsrfCode",
-            "summary": "",
+            "summary": "Validate\u0020the\u0020CSRF\u0020code",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_validateCsrfCode"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AreleaseCsrfCookie\u0028\u0029",
@@ -1243,17 +1243,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetId\u0028\u0029",
             "name": "setId",
-            "summary": "",
+            "summary": "Set\u0020form\u0020Id",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_setId"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AcheckValues\u0028\u0029",
             "name": "checkValues",
-            "summary": "",
+            "summary": "Get\u0020the\u0020request\u0020for\u0020check\u0020it\u0020values",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_checkValues"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AregisterError\u0028\u0029",
             "name": "registerError",
-            "summary": "",
+            "summary": "Register\u0020a\u0020field\u0020validation\u0020error",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_registerError"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AregisterCustomError\u0028\u0029",
