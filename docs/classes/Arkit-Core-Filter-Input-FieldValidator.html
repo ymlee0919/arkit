@@ -134,7 +134,7 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">Class FieldValidator</p>
+            <p class="phpdocumentor-summary">Abstract class for each type of validator</p>
 
 
 
@@ -206,54 +206,63 @@
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Create the validator. It requiere a reference to the form input validator.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_check">check()</a>
     <span>
                                 &nbsp;: self    </span>
 </dt>
+<dd>Perform basic chek</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_checkValidEmpty">checkValidEmpty()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Indicate if the value is empty and can be empty</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_getValue">getValue()</a>
     <span>
                                 &nbsp;: mixed    </span>
 </dt>
+<dd>Get the value after validate. Return null if any validation error.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_isEmpty">isEmpty()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Define when a field is empty</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_isValid">isValid()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Indicate if the value is valid, after validate.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_notEmpty">notEmpty()</a>
     <span>
                                 &nbsp;: $this    </span>
 </dt>
+<dd>Validate the field is not empty.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_registerError">registerError()</a>
     <span>
                                 &nbsp;: $this    </span>
 </dt>
+<dd>Register an error associated to the current value.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Arkit-Core-Filter-Input-FieldValidator.html#method_set">set()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Set the value to validate</dd>
 
     </dl>
 
@@ -458,11 +467,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">46</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Create the validator. It requiere a reference to the form input validator.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type"><a href="classes/Arkit-Core-Filter-InputValidator.html"><abbr title="\Arkit\Core\Filter\InputValidator">InputValidator</abbr></a>&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$form</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -499,11 +509,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">65</span>
+    <span class="phpdocumentor-element-found-in__line">70</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Perform basic chek</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__abstract">abstract</span>                <span class="phpdocumentor-signature__name">check</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
@@ -534,11 +545,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">86</span>
+    <span class="phpdocumentor-element-found-in__line">99</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Indicate if the value is empty and can be empty</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">checkValidEmpty</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -569,11 +581,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">70</span>
+    <span class="phpdocumentor-element-found-in__line">76</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Get the value after validate. Return null if any validation error.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
     <span class="phpdocumentor-signature__abstract">abstract</span>                <span class="phpdocumentor-signature__name">getValue</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
@@ -600,11 +613,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">95</span>
+    <span class="phpdocumentor-element-found-in__line">113</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Define when a field is empty</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">isEmpty</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -635,11 +649,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">116</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Indicate if the value is valid, after validate.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">isValid</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
@@ -670,11 +685,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">103</span>
+    <span class="phpdocumentor-element-found-in__line">123</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Validate the field is not empty.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">notEmpty</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
@@ -705,11 +721,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">86</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Register an error associated to the current value.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">registerError</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$error</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">$this</span></code>
@@ -724,14 +741,18 @@
                 : <span class="phpdocumentor-signature__argument__return-type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Error message format</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$params</span>
                 : <span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;|null</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Perameters to build the message</p>
+</section>
+
             </dd>
             </dl>
 
@@ -772,11 +793,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="Arkit/Core/Filter/Input/FieldValidator.php"><a href="files/arkit-core-filter-input-fieldvalidator.html"><abbr title="Arkit/Core/Filter/Input/FieldValidator.php">FieldValidator.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">55</span>
+    <span class="phpdocumentor-element-found-in__line">59</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Set the value to validate</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">set</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$value</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -791,7 +813,9 @@
                 : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Value to validate</p>
+</section>
+
             </dd>
             </dl>
 

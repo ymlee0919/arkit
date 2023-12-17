@@ -501,109 +501,84 @@ Search.appendIndex(
             "summary": "ToString\u0020method",
             "url": "classes/Arkit-Core-Exception-InvalidActionException.html#method___toString"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler",
-            "name": "CSRFHandler",
-            "summary": "This\u0020class\u0020handle\u0020the\u0020CSRF\u0020token.",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception\\ExpiredCodeException",
+            "name": "ExpiredCodeException",
+            "summary": "This\u0020class\u0020handle\u0020the\u0020JWT\u0020token.",
+            "url": "classes/Arkit-Core-Filter-Input-Exception-ExpiredCodeException.html"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception\\ExpiredCodeException\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method___construct"
+            "url": "classes/Arkit-Core-Filter-Input-Exception-ExpiredCodeException.html#method___construct"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003Ainit\u0028\u0029",
-            "name": "init",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception\\ExpiredCodeException\u003A\u003A__toString\u0028\u0029",
+            "name": "__toString",
             "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method_init"
+            "url": "classes/Arkit-Core-Filter-Input-Exception-ExpiredCodeException.html#method___toString"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003AgenerateCode\u0028\u0029",
-            "name": "generateCode",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception\\InvalidCodeException",
+            "name": "InvalidCodeException",
+            "summary": "This\u0020class\u0020handle\u0020the\u0020JWT\u0020token.",
+            "url": "classes/Arkit-Core-Filter-Input-Exception-InvalidCodeException.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception\\InvalidCodeException\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
             "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method_generateCode"
+            "url": "classes/Arkit-Core-Filter-Input-Exception-InvalidCodeException.html#method___construct"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003AgenerateCookie\u0028\u0029",
-            "name": "generateCookie",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception\\InvalidCodeException\u003A\u003A__toString\u0028\u0029",
+            "name": "__toString",
             "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method_generateCookie"
-        },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003AvalidateCode\u0028\u0029",
-            "name": "validateCode",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method_validateCode"
-        },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003AvalidateCookie\u0028\u0029",
-            "name": "validateCookie",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method_validateCookie"
-        },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003AreleaseCookie\u0028\u0029",
-            "name": "releaseCookie",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#method_releaseCookie"
-        },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003ACSRF_VALIDATION_INVALID",
-            "name": "CSRF_VALIDATION_INVALID",
-            "summary": "For\u0020invalid\u0020CSRF\u0020code",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#constant_CSRF_VALIDATION_INVALID"
-        },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003ACSRF_VALIDATION_EXPIRED",
-            "name": "CSRF_VALIDATION_EXPIRED",
-            "summary": "For\u0020expired\u0020CSRF\u0020code",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#constant_CSRF_VALIDATION_EXPIRED"
-        },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\CSRFHandler\u003A\u003ACSRF_VALIDATION_SUCCESS",
-            "name": "CSRF_VALIDATION_SUCCESS",
-            "summary": "For\u0020valid\u0020code",
-            "url": "classes/Arkit-Core-Filter-Input-CSRFHandler.html#constant_CSRF_VALIDATION_SUCCESS"
+            "url": "classes/Arkit-Core-Filter-Input-Exception-InvalidCodeException.html#method___toString"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator",
             "name": "FieldValidator",
-            "summary": "Class\u0020FieldValidator",
+            "summary": "Abstract\u0020class\u0020for\u0020each\u0020type\u0020of\u0020validator",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Create\u0020the\u0020validator.\u0020It\u0020requiere\u0020a\u0020reference\u0020to\u0020the\u0020form\u0020input\u0020validator.",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method___construct"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003Aset\u0028\u0029",
             "name": "set",
-            "summary": "",
+            "summary": "Set\u0020the\u0020value\u0020to\u0020validate",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_set"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003AregisterError\u0028\u0029",
             "name": "registerError",
-            "summary": "",
+            "summary": "Register\u0020an\u0020error\u0020associated\u0020to\u0020the\u0020current\u0020value.",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_registerError"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003AcheckValidEmpty\u0028\u0029",
             "name": "checkValidEmpty",
-            "summary": "",
+            "summary": "Indicate\u0020if\u0020the\u0020value\u0020is\u0020empty\u0020and\u0020can\u0020be\u0020empty",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_checkValidEmpty"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003AisEmpty\u0028\u0029",
             "name": "isEmpty",
-            "summary": "",
+            "summary": "Define\u0020when\u0020a\u0020field\u0020is\u0020empty",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_isEmpty"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003AnotEmpty\u0028\u0029",
             "name": "notEmpty",
-            "summary": "",
+            "summary": "Validate\u0020the\u0020field\u0020is\u0020not\u0020empty.",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_notEmpty"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003AisValid\u0028\u0029",
             "name": "isValid",
-            "summary": "",
+            "summary": "Indicate\u0020if\u0020the\u0020value\u0020is\u0020valid,\u0020after\u0020validate.",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#method_isValid"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\FieldValidator\u003A\u003A\u0024value",
@@ -631,35 +606,90 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/Arkit-Core-Filter-Input-FieldValidator.html#property_allowEmpty"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\InputProtectorInterface",
-            "name": "InputProtectorInterface",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-InputProtectorInterface.html"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler",
+            "name": "CSRFHandler",
+            "summary": "This\u0020class\u0020handle\u0020the\u0020CSRF\u0020token.",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\InputProtectorInterface\u003A\u003Ainit\u0028\u0029",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020of\u0020the\u0020class",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method___construct"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003Ainit\u0028\u0029",
             "name": "init",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-InputProtectorInterface.html#method_init"
+            "summary": "Init\u0020the\u0020Csrf\u0020Handler",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method_init"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\InputProtectorInterface\u003A\u003AgenerateProtectionCode\u0028\u0029",
-            "name": "generateProtectionCode",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-InputProtectorInterface.html#method_generateProtectionCode"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003AgenerateCode\u0028\u0029",
+            "name": "generateCode",
+            "summary": "Generate\u0020a\u0020CSRF\u0020Code",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method_generateCode"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\InputProtectorInterface\u003A\u003AgenerateCookie\u0028\u0029",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003AgenerateCookie\u0028\u0029",
             "name": "generateCookie",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-InputProtectorInterface.html#method_generateCookie"
+            "summary": "Generate\u0020cookies\u0020associated\u0020to\u0020a\u0020given\u0020form\u0020Id",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method_generateCookie"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\InputProtectorInterface\u003A\u003AvalidateProtectionCode\u0028\u0029",
-            "name": "validateProtectionCode",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-InputProtectorInterface.html#method_validateProtectionCode"
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003AvalidateCode\u0028\u0029",
+            "name": "validateCode",
+            "summary": "Validate\u0020a\u0020CRSF\u0020code",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method_validateCode"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\Input\\InputProtectorInterface\u003A\u003AvalidateCookie\u0028\u0029",
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003AvalidateCookie\u0028\u0029",
             "name": "validateCookie",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-Input-InputProtectorInterface.html#method_validateCookie"
+            "summary": "Validate\u0020a\u0020cookie",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method_validateCookie"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003AreleaseCookie\u0028\u0029",
+            "name": "releaseCookie",
+            "summary": "Release\u0020cookie\u0020from\u0020navigator",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#method_releaseCookie"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003ACSRF_VALIDATION_INVALID",
+            "name": "CSRF_VALIDATION_INVALID",
+            "summary": "For\u0020invalid\u0020CSRF\u0020code",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#constant_CSRF_VALIDATION_INVALID"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003ACSRF_VALIDATION_EXPIRED",
+            "name": "CSRF_VALIDATION_EXPIRED",
+            "summary": "For\u0020expired\u0020CSRF\u0020code",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#constant_CSRF_VALIDATION_EXPIRED"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\CSRFHandler\u003A\u003ACSRF_VALIDATION_SUCCESS",
+            "name": "CSRF_VALIDATION_SUCCESS",
+            "summary": "For\u0020valid\u0020code",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-CSRFHandler.html#constant_CSRF_VALIDATION_SUCCESS"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\JWTHandler",
+            "name": "JWTHandler",
+            "summary": "This\u0020class\u0020handle\u0020the\u0020JWT\u0020token.",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-JWTHandler.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\JWTHandler\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020of\u0020the\u0020class",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-JWTHandler.html#method___construct"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\JWTHandler\u003A\u003Ainit\u0028\u0029",
+            "name": "init",
+            "summary": "Initialize\u0020the\u0020handler",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-JWTHandler.html#method_init"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\JWTHandler\u003A\u003AgenerateJWT\u0028\u0029",
+            "name": "generateJWT",
+            "summary": "Generate\u0020the\u0020JWT",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-JWTHandler.html#method_generateJWT"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\JWTHandler\u003A\u003AdecodeJWT\u0028\u0029",
+            "name": "decodeJWT",
+            "summary": "Decode\u0020the\u0020JWT",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-JWTHandler.html#method_decodeJWT"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection\\JWTHandler\u003A\u003Arelease\u0028\u0029",
+            "name": "release",
+            "summary": "Relase\u0020the\u0020JWT",
+            "url": "classes/Arkit-Core-Filter-Input-Protection-JWTHandler.html#method_release"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\BoolValidator",
             "name": "BoolValidator",
@@ -668,12 +698,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\BoolValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-BoolValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\BoolValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-BoolValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\BoolValidator\u003A\u003AisTrue\u0028\u0029",
@@ -748,12 +778,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\CreditCardValidator",
             "name": "CreditCardValidator",
-            "summary": "Class\u0020FieldValidator",
+            "summary": "Abstract\u0020class\u0020for\u0020each\u0020type\u0020of\u0020validator",
             "url": "classes/Arkit-Core-Filter-Input-Validator-CreditCardValidator.html"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\CreditCardValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-CreditCardValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\CreditCardValidator\u003A\u003Ais\u0028\u0029",
@@ -773,7 +803,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\CreditCardValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-CreditCardValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateTimeValidator",
@@ -788,12 +818,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateTimeValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-DateTimeValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateTimeValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-DateTimeValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateTimeValidator\u003A\u003AisBefore\u0028\u0029",
@@ -828,12 +858,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-DateValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-DateValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\DateValidator\u003A\u003AisBefore\u0028\u0029",
@@ -863,27 +893,27 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\FileValidator\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Create\u0020the\u0020validator.\u0020It\u0020requiere\u0020a\u0020reference\u0020to\u0020the\u0020form\u0020input\u0020validator.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-FileValidator.html#method___construct"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\FileValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-FileValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\FileValidator\u003A\u003AisEmpty\u0028\u0029",
             "name": "isEmpty",
-            "summary": "",
+            "summary": "Define\u0020when\u0020a\u0020field\u0020is\u0020empty",
             "url": "classes/Arkit-Core-Filter-Input-Validator-FileValidator.html#method_isEmpty"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\FileValidator\u003A\u003AnotEmpty\u0028\u0029",
             "name": "notEmpty",
-            "summary": "",
+            "summary": "Validate\u0020the\u0020field\u0020is\u0020not\u0020empty.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-FileValidator.html#method_notEmpty"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\FileValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-FileValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\FileValidator\u003A\u003AisRequired\u0028\u0029",
@@ -908,12 +938,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\InternetAddressValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-InternetAddressValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\InternetAddressValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-InternetAddressValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\InternetAddressValidator\u003A\u003AisIp\u0028\u0029",
@@ -958,12 +988,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\IntValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-IntValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\IntValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-IntValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\IntValidator\u003A\u003AgreaterThan\u0028\u0029",
@@ -1003,12 +1033,12 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\NumericValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-NumericValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\NumericValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-NumericValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\NumericValidator\u003A\u003AgreaterThan\u0028\u0029",
@@ -1043,22 +1073,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\PersonalDataValidator",
             "name": "PersonalDataValidator",
-            "summary": "Class\u0020FieldValidator",
+            "summary": "Abstract\u0020class\u0020for\u0020each\u0020type\u0020of\u0020validator",
             "url": "classes/Arkit-Core-Filter-Input-Validator-PersonalDataValidator.html"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\PersonalDataValidator\u003A\u003Aset\u0028\u0029",
             "name": "set",
-            "summary": "",
+            "summary": "Set\u0020the\u0020value\u0020to\u0020validate",
             "url": "classes/Arkit-Core-Filter-Input-Validator-PersonalDataValidator.html#method_set"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\PersonalDataValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-PersonalDataValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\PersonalDataValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-PersonalDataValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\PersonalDataValidator\u003A\u003AisEmail\u0028\u0029",
@@ -1103,17 +1133,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StringValidator\u003A\u003Aset\u0028\u0029",
             "name": "set",
-            "summary": "",
+            "summary": "Set\u0020the\u0020value\u0020to\u0020validate",
             "url": "classes/Arkit-Core-Filter-Input-Validator-StringValidator.html#method_set"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StringValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-StringValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StringValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-StringValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StringValidator\u003A\u003AwithLengthBetween\u0028\u0029",
@@ -1173,17 +1203,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StrNumberValidator\u003A\u003Aset\u0028\u0029",
             "name": "set",
-            "summary": "",
+            "summary": "Set\u0020the\u0020value\u0020to\u0020validate",
             "url": "classes/Arkit-Core-Filter-Input-Validator-StrNumberValidator.html#method_set"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StrNumberValidator\u003A\u003Acheck\u0028\u0029",
             "name": "check",
-            "summary": "",
+            "summary": "Perform\u0020basic\u0020chek",
             "url": "classes/Arkit-Core-Filter-Input-Validator-StrNumberValidator.html#method_check"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StrNumberValidator\u003A\u003AgetValue\u0028\u0029",
             "name": "getValue",
-            "summary": "",
+            "summary": "Get\u0020the\u0020value\u0020after\u0020validate.\u0020Return\u0020null\u0020if\u0020any\u0020validation\u0020error.",
             "url": "classes/Arkit-Core-Filter-Input-Validator-StrNumberValidator.html#method_getValue"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator\\StrNumberValidator\u003A\u003AisRoman\u0028\u0029",
@@ -1241,6 +1271,21 @@ Search.appendIndex(
             "summary": "Release\u0020the\u0020cookie\u0020sent\u0020with\u0020the\u0020form",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_releaseCsrfCookie"
         },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AcreateJWT\u0028\u0029",
+            "name": "createJWT",
+            "summary": "Create\u0020a\u0020JWT\u0020given\u0020a\u0020payload",
+            "url": "classes/Arkit-Core-Filter-InputValidator.html#method_createJWT"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AgetJWTPayload\u0028\u0029",
+            "name": "getJWTPayload",
+            "summary": "Return\u0020the\u0020payload\u0020form\u0020the\u0020JWT\u0020sent\u0020from\u0020the\u0020client",
+            "url": "classes/Arkit-Core-Filter-InputValidator.html#method_getJWTPayload"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AreleaseJWT\u0028\u0029",
+            "name": "releaseJWT",
+            "summary": "Release\u0020the\u0020JWT",
+            "url": "classes/Arkit-Core-Filter-InputValidator.html#method_releaseJWT"
+        },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetId\u0028\u0029",
             "name": "setId",
             "summary": "Set\u0020form\u0020Id",
@@ -1253,142 +1298,142 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AregisterError\u0028\u0029",
             "name": "registerError",
-            "summary": "Register\u0020a\u0020field\u0020validation\u0020error",
+            "summary": "Register\u0020the\u0020validation\u0020error\u0020associated\u0020to\u0020the\u0020current\u0020field",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_registerError"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AregisterCustomError\u0028\u0029",
             "name": "registerCustomError",
-            "summary": "",
+            "summary": "Register\u0020a\u0020custom\u0020error\u0020message\u0020associated\u0020to\u0020the\u0020current\u0020field",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_registerCustomError"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AgetError\u0028\u0029",
             "name": "getError",
-            "summary": "",
+            "summary": "Get\u0020the\u0020registered\u0020error\u0020associated\u0020to\u0020the\u0020given\u0020field",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_getError"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AgetErrors\u0028\u0029",
             "name": "getErrors",
-            "summary": "",
+            "summary": "Return\u0020an\u0020array\u0020with\u0020all\u0020errors.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_getErrors"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisValid\u0028\u0029",
             "name": "isValid",
-            "summary": "",
+            "summary": "Indicate\u0020if\u0020the\u0020hole\u0020form\u0020is\u0020valid",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isValid"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003Avalidate\u0028\u0029",
             "name": "validate",
-            "summary": "",
+            "summary": "Start\u0020field\u0020validation.\u0020Is\u0020taken\u0020as\u0020the\u0020current\u0020field.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_validate"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AvalidateFile\u0028\u0029",
             "name": "validateFile",
-            "summary": "",
+            "summary": "Validate\u0020a\u0020file\u0020send\u0020by\u0020POST",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_validateFile"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003Aalias\u0028\u0029",
             "name": "alias",
-            "summary": "",
+            "summary": "Set\u0020alias\u0020to\u0020the\u0020current\u0020field.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_alias"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisRequired\u0028\u0029",
             "name": "isRequired",
-            "summary": "",
+            "summary": "Validate\u0020that\u0020the\u0020current\u0020field\u0020is\u0020required.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isRequired"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AnotEmpty\u0028\u0029",
             "name": "notEmpty",
-            "summary": "",
+            "summary": "Validate\u0020that\u0020the\u0020current\u0020field\u0020is\u0020not\u0020empty",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_notEmpty"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetCustomError\u0028\u0029",
             "name": "setCustomError",
-            "summary": "",
+            "summary": "Set\u0020custom\u0020error\u0020to\u0020the\u0020current\u0020field",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_setCustomError"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetDateFormat\u0028\u0029",
             "name": "setDateFormat",
-            "summary": "",
+            "summary": "Stablish\u0020the\u0020default\u0020date\u0020format",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_setDateFormat"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetDateTimeFormat\u0028\u0029",
             "name": "setDateTimeFormat",
-            "summary": "",
+            "summary": "Stablish\u0020the\u0020default\u0020datetime\u0020formar",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_setDateTimeFormat"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AstoreErrorsInSession\u0028\u0029",
             "name": "storeErrorsInSession",
-            "summary": "",
+            "summary": "Store\u0020all\u0020error\u0020in\u0020session.\u0020It\u0020is\u0020used\u0020to\u0020reload\u0020a\u0020page\u0020and\u0020show\u0020the\u0020errors.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_storeErrorsInSession"
         },                {
-            "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetLanguage\u0028\u0029",
-            "name": "setLanguage",
-            "summary": "",
-            "url": "classes/Arkit-Core-Filter-InputValidator.html#method_setLanguage"
+            "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AsetLocale\u0028\u0029",
+            "name": "setLocale",
+            "summary": "Set\u0020locale\u0020for\u0020errors",
+            "url": "classes/Arkit-Core-Filter-InputValidator.html#method_setLocale"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisInteger\u0028\u0029",
             "name": "isInteger",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020an\u0020integer.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isInteger"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisNumeric\u0028\u0029",
             "name": "isNumeric",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020numeric.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isNumeric"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisBoolean\u0028\u0029",
             "name": "isBoolean",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020boolean.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isBoolean"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisInternetAddress\u0028\u0029",
             "name": "isInternetAddress",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020an\u0020internet\u0020address.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isInternetAddress"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisPersonalData\u0028\u0029",
             "name": "isPersonalData",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020some\u0020personal\u0020information\u0020like\u0020email,\u0020name,\u0020phone\u0020number,\u0020etc...\nReturn\u0020a\u0020personal\u0020information\u0020validator.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isPersonalData"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisCreditCard\u0028\u0029",
             "name": "isCreditCard",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020a\u0020valid\u0020debit\/credit\u0020card.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isCreditCard"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisString\u0028\u0029",
             "name": "isString",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020a\u0020valid\u0020string.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isString"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisStrNumber\u0028\u0029",
             "name": "isStrNumber",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020a\u0020valid\u0020string\u0020number\u0020\u0028Roman\u0020number,\u0020Octal,\u0020Hexadecimal,\u0020RGB,\u0020Binary\u0029\nReturn\u0020a\u0020string\u0020validator.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isStrNumber"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisDateTime\u0028\u0029",
             "name": "isDateTime",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020a\u0020valid\u0020date\u0020time.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isDateTime"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisDate\u0028\u0029",
             "name": "isDate",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020field\u0020value\u0020is\u0020a\u0020valid\u0020date.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isDate"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisFile\u0028\u0029",
             "name": "isFile",
-            "summary": "",
+            "summary": "Check\u0020if\u0020the\u0020current\u0020file\u0020is\u0020valid.",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isFile"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003AisCustom\u0028\u0029",
             "name": "isCustom",
-            "summary": "",
+            "summary": "Validate\u0020the\u0020current\u0020field\u0020with\u0020a\u0020custom\u0020validator",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_isCustom"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\InputValidator\u003A\u003Apurify\u0028\u0029",
             "name": "purify",
-            "summary": "",
+            "summary": "Purify\u0020an\u0020string\u0020from\u0020html\u0020dangerous\u0020tags",
             "url": "classes/Arkit-Core-Filter-InputValidator.html#method_purify"
         },                {
             "fqsen": "\\Arkit\\Core\\HTTP\\Request\\JsonParser",
@@ -3831,10 +3876,20 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/arkit-core-exception.html"
         },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Exception",
+            "name": "Exception",
+            "summary": "",
+            "url": "namespaces/arkit-core-filter-input-exception.html"
+        },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input",
             "name": "Input",
             "summary": "",
             "url": "namespaces/arkit-core-filter-input.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Filter\\Input\\Protection",
+            "name": "Protection",
+            "summary": "",
+            "url": "namespaces/arkit-core-filter-input-protection.html"
         },                {
             "fqsen": "\\Arkit\\Core\\Filter\\Input\\Validator",
             "name": "Validator",

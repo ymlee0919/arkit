@@ -37,9 +37,14 @@ class InputValidator
     private ?string $defaultCsrfFieldName;
 
     /**
-     * @var Input\CSRFHandler
+     * @var ?Input\Protection\CSRFHandler
      */
     private $csrfHandler;
+
+    /**
+     * @var ?Input\Protection\JWTHandler
+     */
+    private $jwtHandler;
 
     /**
      * @var ?Input\Validator\IntValidator
@@ -130,6 +135,7 @@ class InputValidator
         $this->current = null;
         $this->defaultCsrfFieldName = null;
         $this->csrfHandler = null;
+        $this->jwtHandler = null;
 
         $this->intValidator = null;
         $this->numericValidator = null;
@@ -157,7 +163,7 @@ class InputValidator
         $language = $config['language'] ?? 'en';
 
         // Load the hash errors
-        $lang_file = dirname(__FILE__) . '/Input/lang/' . $language . '.php';
+        $lang_file = dirname(__FILE__) . '/Input/locale/' . $language . '.php';
         if(!is_file($lang_file))
             throw new \Exception('Invalid language for from validator');
 
@@ -168,8 +174,11 @@ class InputValidator
         $this->datetime_format = $config['default_datetime_format'] ?? 'd-m-Y H:i:s';
         $this->defaultCsrfFieldName = $config['CSRF']['field_name'] ?? '_token_';
 
-        $this->csrfHandler = new Input\CSRFHandler();
+        $this->csrfHandler = new Input\Protection\CSRFHandler();
         $this->csrfHandler->init($config['CSRF']);
+
+        $this->jwtHandler = new Input\Protection\JWTHandler();
+        $this->jwtHandler->init($config['JWT']);
     }
 
     /**
@@ -215,25 +224,23 @@ class InputValidator
         $this->validate($fieldName);
 
         $token = \Arkit\App::$Request->getPostParam($fieldName);
-        if(is_null($token))
-        {
+        if (is_null($token)) {
             \Arkit\App::$Logs->warning('CSRF token not send');
             return $this->registerError('invalid_token');
         }
-        
-        $result = $this->csrfHandler->validateCode($formId, $token);
-        if($result != Input\CSRFHandler::CSRF_VALIDATION_SUCCESS)
-        {
-            switch ($result)
-            {
-                case Input\CSRFHandler::CSRF_VALIDATION_INVALID:
-                    \Arkit\App::$Logs->warning('Invalid CSRF token');
-                    return $this->registerError('invalid_token');
 
-                case Input\CSRFHandler::CSRF_VALIDATION_EXPIRED:
-                    \Arkit\App::$Logs->warning('Expired CSRF token');
-                    return $this->registerError('expired_token');
-            }
+        try {
+            $result = $this->csrfHandler->validateCode($formId, $token);
+        }
+        // Catch expired code 
+        catch (Input\Exception\ExpiredCodeException $ex) {
+            \Arkit\App::$Logs->warning('Expired CSRF token');
+            return $this->registerError('expired_token');
+        }
+        // Catch invalid code
+        catch (Input\Exception\InvalidCodeException $ex) {
+            \Arkit\App::$Logs->warning('Invalid CSRF token');
+            return $this->registerError('invalid_token');
         }
 
         if($validateCookie)
@@ -259,6 +266,37 @@ class InputValidator
     {
         $form = $formId ?? $this->formId;
         $this->csrfHandler->releaseCookie($form);
+    }
+
+    /**
+     * Create a JWT given a payload
+     *
+     * @param array $payload Payload
+     * @return string JWT
+     */
+    public function createJWT(array $payload): string
+    {
+        return $this->jwtHandler->generateJWT($payload);
+    }
+
+    /**
+     * Return the payload form the JWT sent from the client
+     *
+     * @return array|null Payloar or null on failure.
+     */
+    public function getJWTPayload(): ?array
+    {
+        return $this->jwtHandler->decodeJWT();
+    }
+
+    /**
+     * Release the JWT
+     *
+     * @return void
+     */
+    public function releaseJWT(): void
+    {
+        $this->jwtHandler->release();
     }
 
     /**
@@ -295,12 +333,14 @@ class InputValidator
 	}
 
     /**
-     * Register a field validation error
+     * Register the validation error associated to the current field
      * 
-     * @param string $error
-     * @param ?array $params
+     * @param string $error Error message format
+     * @param ?array $params Params to replace into format
      * @return bool
      * @throws \InvalidArgumentException
+     * 
+     * @example registerError("The field age must be between {min} and {max}", ['min' => 25, 'max' => 60]) will register the error: "The field age must be between 26 than 60"
      */
     public function registerError(string $error, ?array $params = null) : bool
     {
@@ -327,7 +367,13 @@ class InputValidator
         return false;
     }
 
-    public function registerCustomError($errorMessage)
+    /**
+     * Register a custom error message associated to the current field
+     *
+     * @param string $errorMessage
+     * @return bool
+     */
+    public function registerCustomError(string $errorMessage) : bool
     {
         if(!is_null($this->current['error']))
             $this->errors[$this->current['field']] = $this->current['error'];
@@ -343,7 +389,10 @@ class InputValidator
     }
 
     /**
-     * @param string $field
+     * Get the registered error associated to the given field
+     * 
+     * @param string $field Field name
+     * 
      * @return ?string
      */
     public function getError(string $field) : ?string
@@ -355,7 +404,9 @@ class InputValidator
     }
 
     /**
-     * @return array
+     * Return an array with all errors.
+     * 
+     * @return array Array when index are the field names and the values the error messages
      */
     public function getErrors() : array
     {
@@ -363,6 +414,7 @@ class InputValidator
     }
 
     /**
+     * Indicate if the hole form is valid
      * @return bool
      */
     public function isValid() : bool
@@ -371,8 +423,10 @@ class InputValidator
 	}
 
     /**
-     * @param string $field
-     * @param mixed $value
+     * Start field validation. Is taken as the current field.
+     * 
+     * @param string $field Field name to validate
+     * @param mixed $value (optional) Value of the field. If not set, get the POST value from the Request.
      * @return $this
      */
     public function validate(string $field, mixed $value = null) : self
@@ -392,7 +446,9 @@ class InputValidator
     }
 
     /**
-     * @param string $fileIndex
+     * Validate a file send by POST
+     * 
+     * @param string $fileIndex File index into $_FILE array
      * @return $this
      */
     public function validateFile(string $fileIndex) : self
@@ -409,7 +465,9 @@ class InputValidator
     }
 
     /**
-     * @param string $alias
+     * Set alias to the current field.
+     * 
+     * @param string $alias Field alias
      * @return $this
      */
     public function alias(string $alias) : self
@@ -419,7 +477,9 @@ class InputValidator
 	}
 
     /**
-     * @param ?string $errorMessage
+     * Validate that the current field is required.
+     * 
+     * @param ?string $errorMessage (Optional) Message registered when the field do not exists.
      * @return $this
      */
     public function isRequired(?string $errorMessage = null) : self
@@ -438,7 +498,9 @@ class InputValidator
 	}
 
     /**
-     * @param ?string $errorMessage
+     * Validate that the current field is not empty
+     * 
+     * @param ?string $errorMessage (Optional) Message registered when the field is empty.
      * @return $this
      */
     public function notEmpty(?string $errorMessage = null) : self
@@ -452,7 +514,9 @@ class InputValidator
 	}
 
     /**
-     * @param string $error
+     * Set custom error to the current field
+     * 
+     * @param string $error Error message
      * @return  $this
      */
     public function setCustomError(string $error) : self
@@ -462,7 +526,9 @@ class InputValidator
 	}
 
     /**
-     * @param string $format
+     * Stablish the default date format
+     * 
+     * @param string $format Date format
      * @return  $this
      */
     public function setDateFormat(string $format) : self
@@ -472,7 +538,8 @@ class InputValidator
     }
 
     /**
-     * @param string $format
+     * Stablish the default datetime formar
+     * @param string $format DateTime format
      * @return  $this
      */
     public function setDateTimeFormat(string $format) : self
@@ -483,8 +550,12 @@ class InputValidator
 
 
     /**
-     * @param string $sessionKey
-     * @param bool $asFlash
+     * Store all error in session. It is used to reload a page and show the errors.
+     * 
+     * @param string $sessionKey Session key
+     * @param bool $asFlash Set as flash session var
+     * 
+     * @see \Arkit\Core\Persistence\Server\Session
      */
     public function storeErrorsInSession(string $sessionKey = 'FROM_ERRORS', bool $asFlash = true) : void
     {
@@ -495,13 +566,23 @@ class InputValidator
 	}
 
     /**
-     * @param string $language
+     * Set locale for errors
+     * 
+     * @param string $locale Language of pre-defined error messages. Avaliable languages:
+     * <ul>
+     *      <li>en: English</li>
+     *      <li>es: Spanish</li>
+     *      <li>fr: French</li>
+     *      <li>ge: German</li>
+     *      <li>it: Italian</li>
+     *      <li>po: Portuguese</li>
+     * </ul>
      * @return  $this
      * @throws \Exception
      */
-    public function setLanguage(string $language) : self
+    public function setLocale(string $lacale) : self
     {
-        $lang_file = dirname(__FILE__) . '/lang/' . $language . '.php';
+        $lang_file = dirname(__FILE__) . '/locale/' . $lacale . '.php';
         if(!is_file($lang_file))
             throw new \Exception('Invalid language for from validator', 501);
 
@@ -532,7 +613,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\IntValidator
+     * Check if the current field value is an integer.
+     * Return an integer validator.
+     * 
+     * @return Input\Validator\IntValidator Validator of integers
      * @throws \Exception
      */
     public function isInteger() : Input\Validator\IntValidator
@@ -545,7 +629,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\NumericValidator
+     * Check if the current field value is numeric.
+     * Return a number validator.
+     * 
+     * @return Input\Validator\NumericValidator Validator of numbers
      * @throws \Exception
      */
     public function isNumeric() : Input\Validator\NumericValidator
@@ -558,7 +645,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\BoolValidator
+     * Check if the current field value is boolean.
+     * Return a boolen validator.
+     * 
+     * @return Input\Validator\BoolValidator Validator of boolean
      * @throws \Exception
      */
     public function isBoolean() : Input\Validator\BoolValidator
@@ -571,7 +661,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\InternetAddressValidator
+     * Check if the current field value is an internet address.
+     * Return an internet address validator.
+     * 
+     * @return Input\Validator\InternetAddressValidator Validator of internet address
      * @throws \Exception
      */
     public function isInternetAddress() : Input\Validator\InternetAddressValidator
@@ -584,7 +677,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\PersonalDataValidator
+     * Check if the current field value is some personal information like email, name, phone number, etc...
+     * Return a personal information validator.
+     * 
+     * @return Input\Validator\PersonalDataValidator Validator for personal data
      * @throws \Exception
      */
     public function isPersonalData() : Input\Validator\PersonalDataValidator
@@ -597,7 +693,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\CreditCardValidator
+     * Check if the current field value is a valid debit/credit card.
+     * Return a debit/credit card validator.
+     * 
+     * @return Input\Validator\CreditCardValidator Validator for credit card information
      * @throws \Exception
      */
     public function isCreditCard() : Input\Validator\CreditCardValidator
@@ -611,7 +710,10 @@ class InputValidator
 
 
     /**
-     * @return Input\Validator\StringValidator
+     * Check if the current field value is a valid string.
+     * Return a string validator.
+     * 
+     * @return Input\Validator\StringValidator Validator for string values
      * @throws \Exception
      */
     public function isString() : Input\Validator\StringValidator
@@ -625,7 +727,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\StrNumberValidator
+     * Check if the current field value is a valid string number (Roman number, Octal, Hexadecimal, RGB, Binary)
+     * Return a string validator.
+     * 
+     * @return Input\Validator\StrNumberValidator Validator for non decimal numbers
      * @throws \Exception
      */
     public function isStrNumber() : Input\Validator\StrNumberValidator
@@ -638,8 +743,11 @@ class InputValidator
     }
 
     /**
-     * @param string|null $format
-     * @return Input\Validator\DateTimeValidator
+     * Check if the current field value is a valid date time.
+     * Return a datetime validator.
+     * 
+     * @param string|null $format (Optional) Input date time format. If not set, the current date format is taken for validate. @see setDateTimeFormat.
+     * @return Input\Validator\DateTimeValidator Validator for date time
      * @throws \Exception
      */
     public function isDateTime(?string $format = null) : Input\Validator\DateTimeValidator
@@ -656,8 +764,11 @@ class InputValidator
     }
 
     /**
-     * @param string|null $format
-     * @return Input\Validator\DateValidator
+     * Check if the current field value is a valid date.
+     * Return a date validator.
+     * 
+     * @param string|null $format (Optional) Input date format. If not set, the current date format is taken for validate. @see setDateFormat.
+     * @return Input\Validator\DateValidator Validator for date
      * @throws \Exception
      */
     public function isDate(?string $format = null) : Input\Validator\DateValidator
@@ -674,7 +785,10 @@ class InputValidator
     }
 
     /**
-     * @return Input\Validator\FileValidator
+     * Check if the current file is valid.
+     * Return a file validator.
+     * 
+     * @return Input\Validator\FileValidator Validator for file.
      * @throws \Exception
      */
     public function isFile() : Input\Validator\FileValidator
@@ -705,6 +819,12 @@ class InputValidator
         return $this->fileValidator;
     }
 
+    /**
+     * Validate the current field with a custom validator
+     *
+     * @param Input\FieldValidator $fieldValidator Custom validator
+     * @return Input\FieldValidator Return the same validator
+     */
     public function isCustom(Input\FieldValidator $fieldValidator) : Input\FieldValidator
     {
         $this->checkAndValidate($fieldValidator);
@@ -713,6 +833,8 @@ class InputValidator
 
 
     /**
+     * Purify an string from html dangerous tags
+     * 
      * @param ?string $value Value to purify, null for the current value
      * @return string|$this
      * @throws \Exception

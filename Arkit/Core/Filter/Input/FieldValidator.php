@@ -5,7 +5,7 @@ namespace Arkit\Core\Filter\Input;
 use \Arkit\Core\Filter\InputValidator;
 
 /**
- * Class FieldValidator
+ * Abstract class for each type of validator
  */
 abstract class FieldValidator
 {
@@ -39,6 +39,8 @@ abstract class FieldValidator
 
 
     /**
+     * Create the validator. It requiere a reference to the form input validator.
+     * 
      * @param InputValidator $form
      */
     public function __construct(InputValidator &$form)
@@ -50,7 +52,9 @@ abstract class FieldValidator
     }
 
     /**
-     * @param mixed $value
+     * Set the value to validate
+     * 
+     * @param mixed $value Value to validate
      */
     public function set(mixed $value) : void
     {
@@ -60,18 +64,22 @@ abstract class FieldValidator
     }
 
     /**
+     * Perform basic chek
      * @return self
      */
     public abstract function check() : self;
 
     /**
+     * Get the value after validate. Return null if any validation error.
      * @return mixed
      */
     public abstract function getValue() : mixed;
 
     /**
-     * @param string $error
-     * @param array|null $params
+     * Register an error associated to the current value.
+     * 
+     * @param string $error Error message format
+     * @param array|null $params Perameters to build the message
      * @return $this
      * @throws \InvalidArgumentException
      */
@@ -83,6 +91,11 @@ abstract class FieldValidator
         return $this;
     }
 
+    /**
+     * Indicate if the value is empty and can be empty
+     *
+     * @return boolean
+     */
     public function checkValidEmpty() : bool
     {
         if($this->isEmpty())
@@ -92,12 +105,19 @@ abstract class FieldValidator
     }
 
 
+    /**
+     * Define when a field is empty
+     *
+     * @return boolean
+     */
     public function isEmpty() : bool
     {
         return (is_null($this->value) || strlen(strval($this->value)) == 0);
     }
 
     /**
+     * Validate the field is not empty.
+     * 
      * @return $this
      */
     public function notEmpty() : self
@@ -111,6 +131,7 @@ abstract class FieldValidator
     }
 
     /**
+     * Indicate if the value is valid, after validate.
      * @return bool
      */
     public function isValid() : bool

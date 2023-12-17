@@ -1,8 +1,10 @@
 <?php
 
-namespace Arkit\Core\Filter\Input;
+namespace Arkit\Core\Filter\Input\Protection;
 
 use \Arkit\App;
+use \Arkit\Core\Filter\Input\Exception;
+
 /**
  * This class handle the CSRF token.
  *  - Generate and validate a hidden input code given a Form ID and expiration time
@@ -16,10 +18,12 @@ class CSRFHandler
      * For invalid CSRF code
      */
     const CSRF_VALIDATION_INVALID = 'INVALID';
+
     /**
      * For expired CSRF code
      */
     const CSRF_VALIDATION_EXPIRED = 'EXPIRED';
+
     /**
      * For valid code
      */
@@ -41,7 +45,7 @@ class CSRFHandler
     private string $cookie_prefix;
 
     /**
-     *
+     * Constructor of the class
      */
     public function __construct()
     {
@@ -50,7 +54,10 @@ class CSRFHandler
     }
 
     /**
-     * @param array $config
+     * Init the Csrf Handler
+     * 
+     * @param array $config Configuration array
+     * 
      * @return void
      */
     public function init(array &$config): void
@@ -66,8 +73,10 @@ class CSRFHandler
     }
 
     /**
-     * @param string $formId
-     * @param int|null $expire
+     * Generate a CSRF Code
+     * 
+     * @param string $formId Form Id
+     * @param int|null $expire (Optional) Expiry time
      * @return string
      */
     public function generateCode(string $formId, ?int $expire = null) : string
@@ -77,6 +86,14 @@ class CSRFHandler
         return App::$Crypt->strongEncrypt($code, App::$Session['PRIVATE_KEY']);
     }
 
+    /**
+     * Generate cookies associated to a given form Id
+     *
+     * @param string $formId Form id
+     * @param integer|null $expire Expiry time
+     * @param string $path Cookie path
+     * @return void
+     */
     public function generateCookie(string $formId, ?int $expire = null, string $path = '/') : void
     {
         $cookieName  = $this->cookie_prefix . $this->getCryptFormName($formId);
@@ -90,27 +107,44 @@ class CSRFHandler
     }
 
     /**
-     * @param string $formId
-     * @param string $code
-     * @return string
+     * Validate a CRSF code
+     * 
+     * @param string $formId Form id
+     * @param string $code CSRF Code
+     * 
+     * @return bool True if validatio success
+     * 
+     * @throws Exception\InvalidCodeException
+     * @throws Exception\ExpiredCodeException
      */
     public function validateCode(string $formId, string $code) : string
     {
         $token = App::$Crypt->strongDecrypt($code, App::$Session['PRIVATE_KEY']);
         if(!$token)
-            return self::CSRF_VALIDATION_INVALID;
+            throw new Exception\InvalidCodeException('Invalid CSRF code');
 
         $parts = explode('|', $token);
         if(count($parts) != 3)
-            return self::CSRF_VALIDATION_INVALID;
+            throw new Exception\InvalidCodeException('Invalid CSRF code');
 
-        if(trim($parts[0]) != App::$Session['CSRF']) return self::CSRF_VALIDATION_INVALID;
-        if(intval($parts[1]) < $_SERVER['REQUEST_TIME'] ) return self::CSRF_VALIDATION_EXPIRED;
-        if(trim($parts[2]) != md5( $this->csrf_key .'['. $formId.']')) return self::CSRF_VALIDATION_INVALID;
+        if(trim($parts[0]) != App::$Session['CSRF']) 
+            throw new Exception\InvalidCodeException('Invalid CSRF code');
+
+        if(intval($parts[1]) < $_SERVER['REQUEST_TIME'] )
+            throw new Exception\ExpiredCodeException('CSRF code expired');
+
+        if(trim($parts[2]) != md5( $this->csrf_key .'['. $formId.']'))
+            throw new Exception\InvalidCodeException('Invalid CSRF code');
 
         return self::CSRF_VALIDATION_SUCCESS;
     }
 
+    /**
+     * Validate a cookie
+     *
+     * @param string $formId Form Id
+     * @return boolean Indicate if the cookie is valid or not
+     */
     public function validateCookie(string $formId) : bool
     {
         $cookieName  = $this->cookie_prefix . $this->getCryptFormName($formId);
@@ -126,6 +160,13 @@ class CSRFHandler
         return true;
     }
 
+    /**
+     * Release cookie from navigator
+     *
+     * @param string $formId Form id
+     * 
+     * @return void
+     */
     public function releaseCookie(string $formId) : void
     {
         $cookieName  = $this->cookie_prefix . $this->getCryptFormName($formId);
