@@ -1,6 +1,6 @@
 <?php
 
-namespace CMD\Core;
+namespace CMD\System\Core;
 
 use Arkit\Core\Control\Access\AccessControllerInterface;
 use Arkit\Core\HTTP\Request\UrlEncodedParser;
@@ -46,6 +46,6 @@ class Controller extends \Arkit\Core\Base\Controller
      */
     public function getAccessController(): AccessControllerInterface
     {
-        return new \CMD\Core\AccessController();
+        return new \CMD\System\Core\AccessController();
     }
 }

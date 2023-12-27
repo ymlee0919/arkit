@@ -81,7 +81,7 @@ final class Logger
             $handlerClass = $handler['name'] . 'LogsHandler';
             $fullClassName = 'Arkit\\Core\\Monitor\\Log\\' . $handlerClass;
             
-            if (\Loader::import($handlerClass, 'App.Core.Monitor.Log.' . $handlerClass)) {
+            if (\Loader::import($handlerClass, 'Arkit.Core.Monitor.Log.' . $handlerClass)) {
                 $logHandler = new $fullClassName($handler['config']);
                 $this->setHandler($logHandler, $handler['levels']);
             }

@@ -1,7 +1,7 @@
 <?php
 namespace CMD\Routes;
 
-class RoutesController extends \CMD\Core\Controller
+class RoutesController extends \CMD\System\Core\Controller
 {
     public function ManageRouter($system)
     {

@@ -162,10 +162,10 @@ final class App
         self::$ROOT_DIR = clean_file_address( dirname(__FILE__, 2) );
 
         // Init configuration
-        self::$config = Core\Config\YamlReader::ReadFile(self::$ROOT_DIR . '/App/Config/config.yaml');
+        self::$config = Core\Config\YamlReader::ReadFile(self::$ROOT_DIR . '/Arkit/Config/config.yaml');
 
         // Read environment vars
-        self::$Env = new DotEnv(self::$ROOT_DIR . '/App/Config');
+        self::$Env = new DotEnv(self::$ROOT_DIR . '/Arkit/Config');
         self::$Env->init();
         self::initRunMode();
 
@@ -273,7 +273,7 @@ final class App
         );
 
         // Route by domain
-        $domainConfig = self::readConfig(self::fullPath('App/Config/routing.yaml'));
+        $domainConfig = self::readConfig(self::fullPath('Arkit/Config/routing.yaml'));
         $domainRouter = new Core\Control\Routing\DomainRouter($domainConfig);
         $routerPath = $domainRouter->route($request);
         if(!$routerPath)

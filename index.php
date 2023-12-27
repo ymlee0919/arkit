@@ -1,13 +1,13 @@
 <?PHP
 //$time = microtime(true);
 
-require 'App/conf.php';
-require 'App/inc.php';
-require 'App/loader.php';
+require 'Arkit/conf.php';
+require 'Arkit/inc.php';
+require 'Arkit/loader.php';
 
 $loader = Loader::getInstance();
 $loader->register();
-$loader->addNamespace('Arkit', __DIR__ . '/App');
+$loader->addNamespace('Arkit', __DIR__ . '/Arkit');
 
 $clientRequest = new Arkit\Core\HTTP\Request();
 

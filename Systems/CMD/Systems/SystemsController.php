@@ -2,7 +2,7 @@
 
 namespace CMD\Systems;
 
-class SystemsController extends \CMD\Core\Controller
+class SystemsController extends \CMD\System\Core\Controller
 {
     public function ShowSystems()
     {

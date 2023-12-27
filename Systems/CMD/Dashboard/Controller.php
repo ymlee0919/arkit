@@ -1,7 +1,7 @@
 <?php
 namespace CMD\Dashboard;
 
-class Controller extends \CMD\Core\Controller
+class Controller extends \CMD\System\Core\Controller
 {
     public function Show() : void
     {

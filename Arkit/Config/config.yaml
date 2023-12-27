@@ -38,9 +38,9 @@ logs:
     2:
       name: Email
       config:
-        destination_email: ymlee0919@gmail.com;flpmireles@gmail.com
+        destination_email: ymlee0919.dev@gmail.com
         sender_account: no-reply@gardencruz.com
-      levels: [Error]
+      levels: []
 
 # CACHE ---------------------------------------
 cache:

@@ -1,7 +1,7 @@
 <?php
 namespace CMD\Models;
 
-class ModelsController extends \CMD\Core\Controller
+class ModelsController extends \CMD\System\Core\Controller
 {
     private string $modelsDir;
 

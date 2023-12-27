@@ -46,7 +46,7 @@ final class ErrorHandler
     {
         self::$prevErrorReporting = ini_get('error_reporting');
         
-        if(RUN_MODE != TESTING_MODE)
+        if(\Arkit\App::$Env['RUN_MODE'] != TESTING_MODE)
         {
             set_error_handler('Arkit\\Core\\Monitor\\handleServerError', self::$prevErrorReporting);
             set_exception_handler('Arkit\\Core\\Monitor\\handleException');
@@ -64,7 +64,7 @@ final class ErrorHandler
      */
     public static function stop() : void
     {
-        if(RUN_MODE != TESTING_MODE)
+        if(\Arkit\App::$Env['RUN_MODE'] != TESTING_MODE)
         {
 
         }
@@ -106,7 +106,7 @@ final class ErrorHandler
 
         \Arkit\App::$Logs->error($type, $message, $file, $line,$trace);
 
-		switch(RUN_MODE)
+		switch(\Arkit\App::$Env['RUN_MODE'])
 		{
 			case RELEASE_MODE:
 				self::stop();
@@ -140,7 +140,7 @@ final class ErrorHandler
 
         \Arkit\App::$Logs->error($exception::class, $exception->getMessage(), $exception->getFile(), $exception->getLine(), $trace);
 
-        switch(RUN_MODE)
+        switch(\Arkit\App::$Env['RUN_MODE'])
         {
             case RELEASE_MODE:
                 self::stop();

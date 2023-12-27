@@ -2,7 +2,7 @@
 
 namespace Arkit\Core\HTTP\Response;
 
-use Arkit\Core\HTTP\Response\Template\Template;
+use Arkit\Core\HTTP\Response\Template\TemplateInterface;
 
 /**
  * Dispatch the response using a template engine
@@ -11,9 +11,9 @@ class TemplateDispatcher implements DispatcherInterface
 {
     /**
      * Template engine
-     * @var Template
+     * @var TemplateInterface
      */
-    private Template $template;
+    private TemplateInterface $template;
 
     /**
      * Template directory
@@ -27,14 +27,14 @@ class TemplateDispatcher implements DispatcherInterface
             $folderTemplate = dirname($folderTemplate) . DIRECTORY_SEPARATOR . 'view';
         }
 
-        $this->template = new Template($folderTemplate);
+        $this->template = new Template\SmartyTemplate($folderTemplate);
     }
 
     /**
      * Return the template
-     * @return Template
+     * @return TemplateInterface
      */
-    public function getTemplate() : Template
+    public function getTemplate() : TemplateInterface
     {
         return $this->template;
     }
