@@ -28,8 +28,7 @@ class ModelsController extends \CMD\System\Core\Controller
 
         $response->assign('Models', $models);
 
-        $responseTpl = 'models.tpl';
-        $responseTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $responseTpl = './models/main.tpl';
         $response->displayTemplate($responseTpl);
     }
 
@@ -41,8 +40,7 @@ class ModelsController extends \CMD\System\Core\Controller
         \Arkit\App::loadInputValidator();
         \Arkit\App::$InputValidator->setId('NEW-MODEL')->generateCsrfCode();
 
-        $responseTpl = 'new.tpl';
-        $responseTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+        $responseTpl = './models/add.tpl';
         $response->displayTemplate($responseTpl);
     }
 

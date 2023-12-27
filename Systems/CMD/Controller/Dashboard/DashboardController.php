@@ -6,7 +6,6 @@ class DashboardController extends \CMD\System\Core\Controller
     public function Show() : void
     {
         $response = \Arkit\App::$Response;
-        $response->assign('extra', 'Welcome');
         
         // Read models
         $modelsDir = \Arkit\App::fullPath('/Model');
@@ -32,10 +31,9 @@ class DashboardController extends \CMD\System\Core\Controller
         $d->close();
 
         $response->assign('Systems', $systems);
-
-        $responseTpl = 'dashboard.tpl';
-        $outputTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
-        $response->displayTemplate($outputTpl);
+        
+        $responseTpl = './dashboard/main.tpl';
+        $response->displayTemplate($responseTpl);
     }
 
     public function GetFonts() : void

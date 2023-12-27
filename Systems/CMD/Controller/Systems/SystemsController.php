@@ -19,9 +19,8 @@ class SystemsController extends \CMD\System\Core\Controller
 
         $response->assign('Systems', $systems);
 
-        $responseTpl = 'systems.tpl';
-        $outputTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
-        $response->displayTemplate($outputTpl);
+        $responseTpl = './systems/main.tpl';
+        $response->displayTemplate($responseTpl);
     }
 
     public function NewSystem()
@@ -46,9 +45,8 @@ class SystemsController extends \CMD\System\Core\Controller
 
         $response->assign('Models', $models);
 
-        $responseTpl = 'new.tpl';
-        $outputTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
-        $response->displayTemplate($outputTpl);
+        $responseTpl = './systems/add.tpl';
+        $response->displayTemplate($responseTpl);
     }
 
     public function Add()

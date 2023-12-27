@@ -4,3 +4,6 @@ request:
   max_post_size: 2048
   max_post_param_name: 32
 
+# Response ----------------------------------
+response:
+  onBeforeDisplay: CMD\System\Events\ResponseEvents::onBeforeDisplay

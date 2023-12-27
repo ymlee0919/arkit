@@ -621,6 +621,9 @@ final class Response
      */
     public function displayTemplate(string $template, string $cacheId = null): void
     {
+        $this->setDispatcher(new Response\TemplateDispatcher(null));
+        $this->dispatch($template, (!empty($cacheId)) ? ['cache' => $cacheId] : null);
+        /*
         if(str_starts_with($template, 'extends:'))
         {
             $this->setDispatcher(new Response\TemplateDispatcher(null));
@@ -632,6 +635,7 @@ final class Response
             $this->setDispatcher(new Response\TemplateDispatcher(($tplPathInfo['dirname'] !== '.') ? $tplPathInfo['dirname'] : null));
             $this->dispatch($tplPathInfo['basename'], (!empty($cacheId)) ? ['cache' => $cacheId] : null);
         }
+        */
     }
 
     /**

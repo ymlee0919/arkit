@@ -14,9 +14,8 @@ class RoutesController extends \CMD\System\Core\Controller
         // Load the router information
 
         $response->assign('System', $system);
-        
-        $responseTpl = 'router.tpl';
-        $responseTpl = (\Arkit\App::$Request->isAJAX()) ? $responseTpl : "extends:{$this->baseTpl}|{$responseTpl}";
+
+        $responseTpl = './routes/main.tpl';
         $response->displayTemplate($responseTpl);
     }
 

@@ -1,3 +1,4 @@
+{{extends $baseTpl}}
 {{$session = 'systems'}}
 {{block name=content}}
     <ol class="breadcrumb">
@@ -42,19 +43,6 @@
     </div>
     <br><br>
     <script>
-        App.handler = {
-
-            init : function(){
-                $('main a[role="link"]').click((e)=>{
-                    e.preventDefault();
-                    let ref = $(e.currentTarget).attr('href');
-                    App.workingArea.load(ref);
-                });
-            },
-
-            release : function(){
-                $('main a[role="link"]').off('click');
-            }
-        };
+        {{include './main.js'}}
     </script>
 {{/block}}

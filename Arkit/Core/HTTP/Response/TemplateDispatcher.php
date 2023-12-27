@@ -23,8 +23,8 @@ class TemplateDispatcher implements DispatcherInterface
     {
         if(empty($folderTemplate))
         {
-            $folderTemplate = \Arkit\App::fullPath('/Systems/' . \Arkit\App::$store['CONTROLLER']);
-            $folderTemplate = dirname($folderTemplate) . DIRECTORY_SEPARATOR . 'view';
+            $folderTemplate = \Arkit\App::fullPath('/Systems/' . \Arkit\App::$store['SYSTEM']);
+            $folderTemplate = $folderTemplate . DIRECTORY_SEPARATOR . 'View';
         }
 
         $this->template = new Template\SmartyTemplate($folderTemplate);
