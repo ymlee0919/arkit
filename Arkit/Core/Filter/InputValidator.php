@@ -174,11 +174,17 @@ class InputValidator
         $this->datetime_format = $config['default_datetime_format'] ?? 'd-m-Y H:i:s';
         $this->defaultCsrfFieldName = $config['CSRF']['field_name'] ?? '_token_';
 
-        $this->csrfHandler = new Input\Protection\CSRFHandler();
-        $this->csrfHandler->init($config['CSRF']);
+        if(isset($config['CSRF']))
+        {
+            $this->csrfHandler = new Input\Protection\CSRFHandler();
+            $this->csrfHandler->init($config['CSRF']);
+        }
 
-        $this->jwtHandler = new Input\Protection\JWTHandler();
-        $this->jwtHandler->init($config['JWT']);
+        if(isset($config['JWT']))
+        {    
+            $this->jwtHandler = new Input\Protection\JWTHandler();
+            $this->jwtHandler->init($config['JWT']);
+        }
     }
 
     /**

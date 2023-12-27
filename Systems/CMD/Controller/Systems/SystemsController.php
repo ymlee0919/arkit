@@ -1,6 +1,6 @@
 <?php
 
-namespace CMD\Systems;
+namespace CMD\Controller\Systems;
 
 class SystemsController extends \CMD\System\Core\Controller
 {

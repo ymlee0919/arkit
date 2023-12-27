@@ -1,7 +1,7 @@
 <?php
-namespace CMD\Dashboard;
+namespace CMD\Controller\Dashboard;
 
-class Controller extends \CMD\System\Core\Controller
+class DashboardController extends \CMD\System\Core\Controller
 {
     public function Show() : void
     {
@@ -42,6 +42,6 @@ class Controller extends \CMD\System\Core\Controller
     {
         header('Content-Type: application/octet-stream');
         header('Cache-Control: private, must-revalidate, max-age=7200');
-        readfile(\Arkit\App::fullPath('Systems/cmd/_base/view/src/materialize/fonts/icons.woff2'));
+        readfile(\Arkit\App::fullPath('Systems/CMD/View/src/materialize/fonts/icons.woff2'));
     }
 } 

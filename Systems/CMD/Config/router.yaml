@@ -2,70 +2,70 @@
 
 cmd.dashboard:
   url: '/'
-  handler: 'CMD\Dashboard\Controller::Show'
+  handler: 'CMD\Controller\Dashboard\DashboardController::Show'
   method: 'GET'
 
 cmd.fonts:
   url: '/fonts/icons'
-  handler: 'CMD\Dashboard\Controller::GetFonts'
+  handler: 'CMD\Controller\Dashboard\DashboardController::GetFonts'
   method: 'GET'
 
 ## ----------- PACKAGES ------------------------------------
 cmd.systems:
   url: '/app-systems'
-  handler: 'CMD\Systems\SystemsController::ShowSystems'
+  handler: 'CMD\Controller\Systems\SystemsController::ShowSystems'
   method: 'GET'
 
 cmd.systems.new:
   url: '/app-systems/new'
-  handler: 'CMD\Systems\SystemsController::NewSystem'
+  handler: 'CMD\Controller\Systems\SystemsController::NewSystem'
   method: 'GET'
 
 cmd.systems.add:
   url: '/app-systems/add'
-  handler: 'CMD\Systems\SystemsController::Add'
+  handler: 'CMD\Controller\Systems\SystemsController::Add'
   method: 'POST'
 
 cmd.systems.del:
   url: '/app-systems/del'
-  handler: 'CMD\Systems\SystemsController::Del'
+  handler: 'CMD\Controller\Systems\SystemsController::Del'
   method: 'POST'
 
 ## ----------- MODELS ------------------------------------
 cmd.models:
   url: '/models'
-  handler: 'CMD\Models\ModelsController::ShowModels'
+  handler: 'CMD\Controller\Models\ModelsController::ShowModels'
   method: 'GET'
 
 cmd.models.new:
   url: '/models/new'
-  handler: 'CMD\Models\ModelsController::NewModel'
+  handler: 'CMD\Controller\Models\ModelsController::NewModel'
   method: 'GET'
 
 cmd.models.add:
   url: '/models/add'
-  handler: 'CMD\Models\ModelsController::Add'
+  handler: 'CMD\Controller\Models\ModelsController::Add'
   method: 'POST'
 
 cmd.models.del:
   url: '/models/del'
-  handler: 'CMD\Models\ModelsController::Del'
+  handler: 'CMD\Controller\Models\ModelsController::Del'
   method: 'POST'
 
 ## ----------- ROUTER ------------------------------------
 cmd.router:
   url: '/app-systems/routes?system={system}'
-  handler: 'CMD\Routes\RoutesController::ManageRouter'
+  handler: 'CMD\Controller\Routes\RoutesController::ManageRouter'
   method: 'GET'
 
 cmd.router.generate-all:
   url: '/app-systems/routes/generate-all'
-  handler: 'CMD\Routes\RoutesController::GenerateAll'
+  handler: 'CMD\Controller\Routes\RoutesController::GenerateAll'
   method: 'POST'
 
 cmd.router.generate-rule:
   url: '/app-systems/routes/generate-rule'
-  handler: 'CMD\Routes\RoutesController::GenerateRule'
+  handler: 'CMD\Controller\Routes\RoutesController::GenerateRule'
   method: 'POST'
 
 ## ----------- SAMPLES ------------------------------------

@@ -283,7 +283,7 @@ final class App
         self::$store['SYSTEM'] = explode('/', $routerPath)[0];
 
         // Load the system configuration
-        $configFile = self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . '/_config/config.yaml';
+        $configFile = self::$ROOT_DIR . '/Systems/' . self::$store['SYSTEM'] . '/Config/config.yaml';
         if(is_file($configFile))
         {
             $pkConfig = self::readConfig($configFile);

@@ -1,5 +1,5 @@
 <?php
-namespace CMD\Routes;
+namespace CMD\Controller\Routes;
 
 class RoutesController extends \CMD\System\Core\Controller
 {

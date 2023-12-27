@@ -1,4 +1,4 @@
 # ROUTING ------------------------------------
-cmd.arkit.com: 'CMD/_config/router.yaml'
+cmd.arkit.com: 'CMD/Config/router.yaml'
 
 # End of Routing

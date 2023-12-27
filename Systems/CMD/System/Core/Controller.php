@@ -16,7 +16,7 @@ class Controller extends \Arkit\Core\Base\Controller
     {
         \Arkit\App::startSession();
 
-        $this->baseTpl = \Arkit\App::fullPathFromSystem('/_base/view/base.tpl');
+        $this->baseTpl = \Arkit\App::fullPathFromSystem('/View/base.tpl');
     }
 
     /**
@@ -36,7 +36,7 @@ class Controller extends \Arkit\Core\Base\Controller
         if('GET' != strtoupper(\Arkit\App::$Request->getRequestMethod())  )
         {
             \Arkit\App::loadInputValidator();
-            \Arkit\App::$Request->setBodyParser(new UrlEncodedParser());
+            \Arkit\App::$Request->setPayloadParser(new UrlEncodedParser());
             \Arkit\App::$Request->processPayload();
         }
     }

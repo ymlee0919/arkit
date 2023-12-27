@@ -1,5 +1,5 @@
 <?php
-namespace CMD\Models;
+namespace CMD\Controller\Models;
 
 class ModelsController extends \CMD\System\Core\Controller
 {
