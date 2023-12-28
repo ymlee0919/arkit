@@ -1,6 +1,6 @@
 <?php
 
-namespace TheNameSpace;
+namespace TheNameSpace\Controller;
 
 class ClassName extends \SystemName\System\Core\Controller
 {

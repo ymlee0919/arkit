@@ -1,11 +1,11 @@
 {{extends $baseTpl}}
 {{$session = 'systems'}}
 {{block name=content}}
-    <ol class="breadcrumb">
-        <li class="root">Arkit v1.2</li>
-        <li><a role="link" href="{{url id='cmd.systems'}}">Systems</a></li>
-        <li class="active">New</li>
-    </ol>
+<ol class="breadcrumb">
+    <li class="root">Arkit v1.2</li>
+    <li><a role="link" href="{{url id='cmd.systems'}}">Systems</a></li>
+    <li class="active">New</li>
+</ol>
 
 <form id="main-form" method="post" action="{{url id='cmd.systems.add'}}">
     {{$CSRF_INPUT}}
