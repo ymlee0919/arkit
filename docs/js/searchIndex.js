@@ -1926,15 +1926,65 @@ Search.appendIndex(
             "summary": "Smarty\u0020\u007Burl\u007D\u0020function\u0020plugin",
             "url": "namespaces/default.html#function_smarty_function_url"
         },                {
-            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\Template",
-            "name": "Template",
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\SmartyTemplate",
+            "name": "SmartyTemplate",
             "summary": "Class\u0020to\u0020define\u0020a\u0020template.\u0020Smarty\u0020is\u0020used\u0020as\u0020template\u0020engine.",
-            "url": "classes/Arkit-Core-HTTP-Response-Template-Template.html"
+            "url": "classes/Arkit-Core-HTTP-Response-Template-SmartyTemplate.html"
         },                {
-            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\Template\u003A\u003A__construct\u0028\u0029",
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\SmartyTemplate\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
             "summary": "Constructor\u0020of\u0020the\u0020class.\u0020Initialize\u0020the\u0020Smarty\u0020directories\u0020according\u0020Arkit\u0020structure.",
-            "url": "classes/Arkit-Core-HTTP-Response-Template-Template.html#method___construct"
+            "url": "classes/Arkit-Core-HTTP-Response-Template-SmartyTemplate.html#method___construct"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\SmartyTemplate\u003A\u003Aassign\u0028\u0029",
+            "name": "assign",
+            "summary": "Assign\u0020a\u0020value\u0020to\u0020the\u0020template",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-SmartyTemplate.html#method_assign"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\SmartyTemplate\u003A\u003Adisplay\u0028\u0029",
+            "name": "display",
+            "summary": "Display\u0020the\u0020template\u0020and\u0020sent\u0020it\u0020as\u0020response",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-SmartyTemplate.html#method_display"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\SmartyTemplate\u003A\u003Afetch\u0028\u0029",
+            "name": "fetch",
+            "summary": "Fetch\u0020a\u0020template\u0020into\u0020string",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-SmartyTemplate.html#method_fetch"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\SmartyTemplate\u003A\u003AgetTemplateVars\u0028\u0029",
+            "name": "getTemplateVars",
+            "summary": "Get\u0020a\u0020template\u0020var\u0020already\u0020set\u0020to\u0020the\u0020template",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-SmartyTemplate.html#method_getTemplateVars"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TemplateInterface",
+            "name": "TemplateInterface",
+            "summary": "Class\u0020to\u0020define\u0020a\u0020generic\u0020template.\u0020Wrapper\u0020for\u0020each\u0020template\u0020engine.",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TemplateInterface.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TemplateInterface\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020of\u0020the\u0020class",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TemplateInterface.html#method___construct"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TemplateInterface\u003A\u003Aassign\u0028\u0029",
+            "name": "assign",
+            "summary": "Assign\u0020a\u0020value\u0020to\u0020the\u0020template",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TemplateInterface.html#method_assign"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TemplateInterface\u003A\u003Adisplay\u0028\u0029",
+            "name": "display",
+            "summary": "Display\u0020the\u0020template\u0020and\u0020sent\u0020it\u0020as\u0020response",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TemplateInterface.html#method_display"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TemplateInterface\u003A\u003Afetch\u0028\u0029",
+            "name": "fetch",
+            "summary": "Fetch\u0020a\u0020template\u0020into\u0020string",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TemplateInterface.html#method_fetch"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TemplateInterface\u003A\u003AgetTemplateVars\u0028\u0029",
+            "name": "getTemplateVars",
+            "summary": "Get\u0020a\u0020template\u0020var\u0020already\u0020set\u0020to\u0020the\u0020template",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TemplateInterface.html#method_getTemplateVars"
         },                {
             "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TinyTemplate",
             "name": "TinyTemplate",
@@ -1960,6 +2010,36 @@ Search.appendIndex(
             "name": "fetch",
             "summary": "Compile\u0020a\u0020small\u0020template",
             "url": "classes/Arkit-Core-HTTP-Response-Template-TinyTemplate.html#method_fetch"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TwigTemplate",
+            "name": "TwigTemplate",
+            "summary": "Class\u0020to\u0020define\u0020a\u0020template.\u0020Twig\u0020is\u0020used\u0020as\u0020template\u0020engine.",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TwigTemplate.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TwigTemplate\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020of\u0020the\u0020class",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TwigTemplate.html#method___construct"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TwigTemplate\u003A\u003Aassign\u0028\u0029",
+            "name": "assign",
+            "summary": "Assign\u0020a\u0020value\u0020to\u0020the\u0020template",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TwigTemplate.html#method_assign"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TwigTemplate\u003A\u003Adisplay\u0028\u0029",
+            "name": "display",
+            "summary": "Display\u0020the\u0020template\u0020and\u0020sent\u0020it\u0020as\u0020response",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TwigTemplate.html#method_display"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TwigTemplate\u003A\u003Afetch\u0028\u0029",
+            "name": "fetch",
+            "summary": "Fetch\u0020a\u0020template\u0020into\u0020string",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TwigTemplate.html#method_fetch"
+        },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\Template\\TwigTemplate\u003A\u003AgetTemplateVars\u0028\u0029",
+            "name": "getTemplateVars",
+            "summary": "Get\u0020a\u0020template\u0020var\u0020already\u0020set\u0020to\u0020the\u0020template",
+            "url": "classes/Arkit-Core-HTTP-Response-Template-TwigTemplate.html#method_getTemplateVars"
         },                {
             "fqsen": "\\Arkit\\Core\\HTTP\\Response\\TemplateDispatcher",
             "name": "TemplateDispatcher",
