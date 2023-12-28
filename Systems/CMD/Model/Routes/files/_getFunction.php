@@ -14,7 +14,7 @@ public function functionName($params) : void
         $response->assign('FieldName', $FieldValue);
 
         // Finally, display the template
-        $response->displayTemplate('sample.tpl');
+        $response->displayTemplate('template.tpl');
     }
 
     /// End of class
