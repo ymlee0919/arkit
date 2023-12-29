@@ -2096,6 +2096,11 @@ Search.appendIndex(
             "summary": "Dispatch\u0020the\u0020content\u0020to\u0020the\u0020payload",
             "url": "classes/Arkit-Core-HTTP-Response-TemplateDispatcher.html#method_dispatch"
         },                {
+            "fqsen": "\\Arkit\\Core\\HTTP\\Response\\TemplateDispatcher\u003A\u003AcacheAfterDisplay\u0028\u0029",
+            "name": "cacheAfterDisplay",
+            "summary": "",
+            "url": "classes/Arkit-Core-HTTP-Response-TemplateDispatcher.html#method_cacheAfterDisplay"
+        },                {
             "fqsen": "\\Arkit\\Core\\HTTP\\Response",
             "name": "Response",
             "summary": "Handle\u0020the\u0020response\u0020to\u0020the\u0020client",
@@ -3191,6 +3196,26 @@ Search.appendIndex(
             "summary": "Override\u0020ArrayAccess\u003A\u003AoffsetUnset\u0020method.",
             "url": "classes/Arkit-Core-Persistence-Server-Session.html#method_offsetUnset"
         },                {
+            "fqsen": "\\Arkit\\Core\\Persistence\\Statics\\StaticContent",
+            "name": "StaticContent",
+            "summary": "Simple\u0020manager\u0020for\u0020static\u0020html\u0020pages.",
+            "url": "classes/Arkit-Core-Persistence-Statics-StaticContent.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Persistence\\Statics\\StaticContent\u003A\u003AgetInstance\u0028\u0029",
+            "name": "getInstance",
+            "summary": "Get\u0020the\u0020unique\u0020instance\u0020of\u0020the\u0020class",
+            "url": "classes/Arkit-Core-Persistence-Statics-StaticContent.html#method_getInstance"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Persistence\\Statics\\StaticContent\u003A\u003AoutputToCache\u0028\u0029",
+            "name": "outputToCache",
+            "summary": "Send\u0020the\u0020current\u0020output\u0020to\u0020cache",
+            "url": "classes/Arkit-Core-Persistence-Statics-StaticContent.html#method_outputToCache"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Persistence\\Statics\\StaticContent\u003A\u003AcacheToOutput\u0028\u0029",
+            "name": "cacheToOutput",
+            "summary": "Send\u0020a\u0020cached\u0020response\u0020according\u0020the\u0020current\u0020request",
+            "url": "classes/Arkit-Core-Persistence-Statics-StaticContent.html#method_cacheToOutput"
+        },                {
             "fqsen": "\\Arkit\\Core\\Security\\Crypt\\CryptInterface",
             "name": "CryptInterface",
             "summary": "Interface\u0020to\u0020define\u0020a\u0020cryptographic\u0020provider\u0020class",
@@ -4035,6 +4060,11 @@ Search.appendIndex(
             "name": "Server",
             "summary": "",
             "url": "namespaces/arkit-core-persistence-server.html"
+        },                {
+            "fqsen": "\\Arkit\\Core\\Persistence\\Statics",
+            "name": "Statics",
+            "summary": "",
+            "url": "namespaces/arkit-core-persistence-statics.html"
         },                {
             "fqsen": "\\Arkit\\Core\\Security\\Crypt",
             "name": "Crypt",

@@ -613,16 +613,20 @@ final class Response
      *  <li>If set the template name, the folder is 'view' at same level of the current controller</li>
      *  <li>Provide full path for custom folder</li>
      * </ul>
-     * @param string|null $cacheId
+     * @param string|bool|null $cache Cache id or flag to indicate if cache as static content
      * @return void
      * @throws \SmartyException
      * @throws \Exception
      * @see \Arkit\Core\HTTP\Response\TemplateDispatcher
      */
-    public function displayTemplate(string $template, string $cacheId = null): void
+    public function displayTemplate(string $template, string|bool $cache = null): void
     {
-        $this->setDispatcher(new Response\TemplateDispatcher(null));
-        $this->dispatch($template, (!empty($cacheId)) ? ['cache' => $cacheId] : null);
+        $dispatcher = new Response\TemplateDispatcher(null);
+        if(true === $cache)
+            $dispatcher->cacheAfterDisplay();
+
+        $this->setDispatcher($dispatcher);
+        $this->dispatch($template, (!empty($cache) && is_string($cache)) ? ['cache' => $cache] : null);
         /*
         if(str_starts_with($template, 'extends:'))
         {
