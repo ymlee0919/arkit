@@ -16,6 +16,13 @@ class TemplateDispatcher implements DispatcherInterface
     private TemplateInterface $template;
 
     /**
+     * Flag to indicate if cache after display
+     *
+     * @var boolean
+     */
+    private bool $cache;
+
+    /**
      * Template directory
      * @param string|null $folderTemplate
      */
@@ -136,10 +143,18 @@ class TemplateDispatcher implements DispatcherInterface
                 $this->template->display($resource, $arguments['cache']);
             else
                 $this->template->display($resource);
+
+            if (!!$this->cache)
+                \Arkit\Core\Persistence\Statics\StaticContent::getInstance()->outputToCache();
         }
         catch (\Exception $ex)
         {
             @\Arkit\Core\Monitor\ErrorHandler::handleException($ex);
         }
+    }
+
+    public function cacheAfterDisplay()
+    {
+        $this->cache = true;
     }
 }

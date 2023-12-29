@@ -253,6 +253,11 @@ final class App
      */
     public function dispatch(Core\HTTP\RequestInterface &$request) : void
     {
+        // If implements static resources, try to send response from cache
+        if($request->getRequestMethod() == 'GET')
+            if(\Arkit\Core\Persistence\Statics\StaticContent::getInstance()->cacheToOutput())
+                return;
+
         // Load dependencies
         \Loader::getInstance()->loadDependencies();
 

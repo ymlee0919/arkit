@@ -4,6 +4,7 @@ namespace Arkit\Core\HTTP\Response\Template;
 
 /**
 * Class to define a template. Twig is used as template engine.
+* Note: Under construction
 */
 class TwigTemplate implements TemplateInterface
 {
