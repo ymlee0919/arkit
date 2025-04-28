@@ -1,3 +1,17 @@
+# Arkit
+
+[![PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue.svg)](https://www.php.net/releases/7_4_0.php)  
+[![Composer](https://img.shields.io/badge/Composer-required-brightgreen.svg)](https://getcomposer.org/)  
+[![Framework Type](https://img.shields.io/badge/Framework-Lightweight-informational.svg)](#)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20Windows-lightgrey.svg)](#)  
+[![Documentation](https://img.shields.io/badge/Docs-Available-brightgreen.svg)](https://ymlee0919.github.io/arkit/)
+
+> A lightweight and flexible PHP framework to build modular web applications sharing a unified business core.
+
+[Explore Documentation](https://ymlee0919.github.io/arkit/)  
+[View the Source Code](https://github.com/ymlee0919/arkit)
+
 # *What is Arkit?*
 
 Arkit is a platform for developing web applications in PHP. I do not consider it to be a framework since third-party libraries are used for its operation and it only has the basics to develop a web application.
@@ -9,6 +23,15 @@ It is also possible to have as many business models as you need, each business m
 
 It has been the work of several years trying to improve a generic tool to develop management applications on the web.
 
+## Key Features
+
+- **Multi-system Architecture:** Manage different applications from a common business core.
+- **Custom Routing:** Support for domain-based and URL-based routes.
+- **Built-in Caching:** Improve performance with cache support.
+- **Session Management:** Easy session handling across systems.
+- **Security Helpers:** Input validation, CSRF protection, and sanitization utilities.
+- **Database Handling:** Simplified database connections and queries.
+- **Composer Integration:** Manage third-party libraries easily.
 
 ## Basic structure
 
@@ -47,10 +70,41 @@ It has a coupled class system for:
 
 It proposes a way to organize and structure the code.
 
-
-
-
 You can see the [API Dococumentation](https://ymlee0919.github.io/arkit/ "API Documentation")
+
+## Installation & Setup
+
+### Requirements
+
+- PHP 7.4+
+- Composer
+- Web server (Apache, Nginx, etc.)
+
+### Quick Start
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/ymlee0919/arkit.git
+cd arkit
+```
+
+2. **Install Composer dependencies**
+
+```bash
+composer install
+```
+
+3. **Configure your web server**  
+   Set the **public** folder as your document root.
+
+4. **Create and configure your systems**
+   - Build your apps inside `/System`.
+   - Define your routes and controllers.
+
+<br>
+
+---
 
 <br>
 <br>
